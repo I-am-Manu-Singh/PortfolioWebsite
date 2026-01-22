@@ -8,7 +8,7 @@ const FloatingParticles: React.FC = () => {
         id: i,
         x: Math.random() * 100, // percentage
         y: Math.random() * 100, // percentage
-        size: Math.random() * 10 + 5,
+        size: Math.random() * 15 + 8,
         duration: Math.random() * 20 + 10,
         delay: Math.random() * 5
     }));
@@ -18,7 +18,7 @@ const FloatingParticles: React.FC = () => {
             {particles.map((p) => (
                 <motion.div
                     key={p.id}
-                    className="absolute bg-primary/10 rounded-full blur-xl"
+                    className="absolute bg-primary/30 rounded-full blur-xl"
                     style={{
                         width: p.size,
                         height: p.size,
@@ -28,7 +28,7 @@ const FloatingParticles: React.FC = () => {
                     animate={{
                         y: [0, -100, 0],
                         x: [0, 50, 0],
-                        opacity: [0.1, 0.3, 0.1],
+                        opacity: [0.3, 0.6, 0.3],
                         scale: [1, 1.5, 1],
                     }}
                     transition={{
