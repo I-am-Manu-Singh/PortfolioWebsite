@@ -14,7 +14,7 @@ const FloatingParticles: React.FC = () => {
     }));
 
     return (
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
             {particles.map((p) => (
                 <motion.div
                     key={p.id}
