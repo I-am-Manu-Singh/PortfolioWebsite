@@ -51,12 +51,14 @@ const Hero: React.FC = () => {
                             <Mail size={18} /> Contact Me
                         </motion.a>
                         <motion.a
-                            href="#projects"
-                            className="px-8 py-3 bg-primary text-white rounded-full font-mono hover:bg-primary-light transition-all shadow-lg shadow-primary/25"
+                            href="https://drive.google.com/file/d/1IlMIoxqCKINQq44ONK8rVXVBesvckNpM/view?usp=sharing"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-8 py-3 bg-primary text-white rounded-full font-mono hover:bg-primary-light transition-all shadow-lg shadow-primary/25 flex items-center gap-2"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            View Work
+                            View Resume <ExternalLink size={18} />
                         </motion.a>
                     </div>
 
