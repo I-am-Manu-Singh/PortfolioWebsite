@@ -1,8 +1,6 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import React from 'react';
-import { motion, Variants } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, ExternalLink, Code } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import ProfileImage from '../assets/profile.jpg';
