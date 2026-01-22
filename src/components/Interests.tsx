@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { Music, Mic, Guitar, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import DynamicYouTube from './DynamicYouTube';
-import CaricatureGuitar from '../assets/caricature_guitar.png';
-import CaricaturePiano from '../assets/caricature_piano.png';
+import CaricatureGuitar from '../assets/caricature_guitar_v3.png';
+import CaricaturePiano from '../assets/caricature_piano_v3.png';
 
 const Interests: React.FC = () => {
     return (
