@@ -125,7 +125,8 @@ export const resumeData = {
             links: [
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/RecipeAppInJava" }
             ],
-            tags: ["KMP", "Ktor", "CameraX", "AVFoundation", "MediaProjection"]
+            tags: ["KMP", "Ktor", "CameraX", "AVFoundation", "MediaProjection"],
+            videoId: "YC8S69lBrGs"
         },
         {
             name: "SudhahUtpadah App",
@@ -134,7 +135,8 @@ export const resumeData = {
                 { label: "Admin Repo", url: "https://github.com/I-am-Manu-Singh/SuddahUtpadahAdmin" },
                 { label: "User Repo", url: "https://github.com/I-am-Manu-Singh/SuddahUtpadahUser" }
             ],
-            tags: ["Android", "Room DB", "Jetpack Compose", "Firebase"]
+            tags: ["Android", "Room DB", "Jetpack Compose", "Firebase"],
+            videoId: "5IBl5NDd8Ys"
         },
         {
             name: "AnimeDekho",

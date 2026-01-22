@@ -33,6 +33,22 @@ const ProjectCard: React.FC<{ project: typeof resumeData.projects[0]; index: num
                 </div>
             </div>
 
+            {/* Video Preview */}
+            {project.videoId && (
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-4 border border-white/10 group-hover:border-primary/50 transition-colors">
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${project.videoId}`}
+                        title={project.name}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="absolute inset-0"
+                    ></iframe>
+                </div>
+            )}
+
             <h3 className="text-2xl font-bold mb-3 group-hover:text-primary-light transition-colors">{project.name}</h3>
             <p className="text-text-muted mb-6 flex-grow leading-relaxed">
                 {project.description}

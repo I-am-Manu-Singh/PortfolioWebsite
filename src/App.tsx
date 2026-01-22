@@ -15,15 +15,23 @@ import { AnimatePresence, motion } from 'framer-motion';
 function App() {
   const [activeTab, setActiveTab] = useState<'work' | 'personal'>('work');
 
+  // Dynamic Background/Theme based on Active Tab
+  const isPersonal = activeTab === 'personal';
+
   return (
-    <div className="App relative transition-colors duration-300 min-h-screen">
+    <div className={`App relative transition-colors duration-500 min-h-screen ${isPersonal ? 'theme-personal' : 'theme-work'}`}>
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       <ChatBot />
       <FloatingParticles />
 
-      {/* Background */}
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[-2] bg-dark dark:bg-dark light:bg-gray-50 transition-colors duration-300">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-dark to-dark opacity-50"></div>
+      {/* Background - Changes based on mode */}
+      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[-2] bg-dark transition-colors duration-500">
+        <div
+          className={`absolute top-0 left-0 w-full h-full opacity-50 transition-all duration-1000 ${isPersonal
+              ? 'bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-purple-500/20 via-dark to-dark'
+              : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-dark to-dark'
+            }`}
+        ></div>
       </div>
 
       <main className="pt-20"> {/* Padding for fixed navbar */}
