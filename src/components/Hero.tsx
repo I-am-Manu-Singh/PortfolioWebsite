@@ -75,10 +75,25 @@ const Hero: React.FC = () => {
                             >
                                 {profile.network === 'GitHub' && <Github size={24} />}
                                 {profile.network === 'LinkedIn' && <Linkedin size={24} />}
-                                {profile.network === 'LeetCode' && <ExternalLink size={24} />}
+                                {profile.network === 'LeetCode' && (
+                                    <img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png"
+                                        alt="LeetCode"
+                                        className="w-6 h-6 filter invert opacity-60 group-hover:opacity-100 transition-opacity" // Invert for dark mode
+                                    />
+                                )}
                             </motion.a>
                         ))}
                     </div>
+
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1, duration: 1 }}
+                        className="mt-8 text-sm text-text-muted/60 font-mono"
+                    >
+                        Resume Last Updated: {resumeData.basics.updatedAt}
+                    </motion.div>
                 </motion.div>
             </div>
 

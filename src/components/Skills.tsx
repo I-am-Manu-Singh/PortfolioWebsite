@@ -4,6 +4,41 @@ import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
 import { useInView } from 'react-intersection-observer';
 
+const getSkillIcon = (skill: string) => {
+    const iconMap: { [key: string]: string } = {
+        "Kotlin": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg",
+        "Java": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+        "TypeScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+        "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+        "XML": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xml/xml-original.svg", // Generic file icon or custom
+        "HTML/CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+        "SQL": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", // Using MySQL as generic SQL repr
+        "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+        "Go": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg",
+        "C-Lang": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
+        "Android Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
+        "Jetpack Compose": "https://developer.android.com/static/images/jetpack/compose-icon.svg",
+        "React Native": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+        "Git": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        "GitHub": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+        "Docker": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+        "Kubernetes": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg",
+        "AWS (Basic)": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+        "Jenkins": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg",
+        "Android Studio": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg",
+        "VS Code": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+        "Figma": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+    };
+
+    const url = iconMap[skill] || iconMap[skill.split(' ')[0]]; // Try exact match or first word
+
+    if (url) {
+        return <img src={url} alt={skill} className="w-5 h-5 mr-2" />;
+    }
+    return null;
+};
+
 const SkillCategory: React.FC<{ title: string; skills: string[]; delay: number }> = ({ title, skills, delay }) => {
     const [ref, inView] = useInView({
         triggerOnce: true,
@@ -23,9 +58,10 @@ const SkillCategory: React.FC<{ title: string; skills: string[]; delay: number }
                 {skills.map((skill, index) => (
                     <motion.span
                         key={index}
-                        className="px-4 py-2 bg-white/5 rounded-lg text-sm font-medium hover:bg-white/10 hover:text-secondary transition-colors cursor-default border border-white/5"
+                        className="px-4 py-2 bg-white/5 rounded-lg text-sm font-medium hover:bg-white/10 hover:text-secondary transition-colors cursor-default border border-white/5 flex items-center"
                         whileHover={{ scale: 1.05, y: -2 }}
                     >
+                        {getSkillIcon(skill)}
                         {skill}
                     </motion.span>
                 ))}
