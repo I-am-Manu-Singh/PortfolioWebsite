@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
+import DynamicMedium from './DynamicMedium';
 
 const CodingProfile: React.FC = () => {
     return (
@@ -103,6 +104,10 @@ const CodingProfile: React.FC = () => {
                         </a>
                     </div>
                 </motion.div>
+
+                {/* Medium Publications */}
+                <DynamicMedium username="@manu-singh" />
+
             </div>
         </section>
     );
