@@ -2,10 +2,10 @@
 export const resumeData = {
     basics: {
         name: "Manpreet Singh",
-        label: "Mobile & App Developer",
+        label: "SDE & Mobile App Developer | Android | React Native",
         email: "manpreetsinghkainth25@gmail.com",
         phone: "+917340007125",
-        summary: "A Mobile developer with hands-on experience building Android and cross-platform applications that balance clean architecture, performance, and great user experience. I enjoy solving real problems through structured code, thoughtful design, and practical engineering decisions.",
+        summary: "Looking for Roles in SDE & App Dev. Android-Mobile-App | KMP-CMM | DSA | 250+ solved on Leetcode & GFG | Full-Stack Developer. I enjoy solving real problems through structured code, thoughtful design, and practical engineering decisions.",
         profiles: [
             {
                 network: "LinkedIn",
@@ -25,54 +25,67 @@ export const resumeData = {
         ]
     },
     skills: {
-        languages: ["Kotlin", "Java", "TypeScript", "XML"],
-        android: ["CMP", "MVVM", "Clean Architecture", "Room", "Retrofit", "OkHttp", "Coroutines", "Flow", "Paging 3", "WorkManager", "Coil", "Hilt/Dagger", "Koin", "JNI", "ML Kit"],
-        reactNative: ["React Native CLI", "Expo", "TypeScript", "Redux Toolkit", "Reanimated", "Gesture Handler", "Firebase Auth", "Firestore", "FCM", "Expo Router", "Axios"],
-        tools: ["Git", "GitHub", "Android Studio", "VS Code", "Firebase Console", "Postman", "ADB"]
+        languages: ["Kotlin", "Java", "TypeScript", "JavaScript", "XML", "HTML/CSS", "SQL"],
+        android: ["Android Development", "Jetpack Compose", "XML Layouts", "MVVM", "Clean Architecture", "Room DB", "Retrofit", "Coroutines", "Flow", "WorkManager", "Hilt", "Dagger", "Koin", "JNI", "ML Kit", "Google Maps SDK"],
+        reactNative: ["React Native", "Expo", "Redux Toolkit", "Reanimated", "Gesture Handler", "React Navigation", "Axios", "JavaScript", "TypeScript"],
+        backendAndTools: ["Firebase (Auth, Firestore, FCM, Crashlytics)", "Sentry", "Git", "GitHub", "Postman", "Android Studio", "VS Code", "Figma", "Canva"],
+        computerScience: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networking", "Low-Level Design"]
     },
     experience: [
         {
-            company: "Vimovi Global Tech",
-            position: "App Developer",
-            startDate: "Mar 2025",
-            endDate: "Aug 2025",
+            company: "Signyn",
+            position: "Mobile Application Developer",
+            startDate: "Dec 2025",
+            endDate: "Present",
             highlights: [
+                "Working on a Chat App made for contractors for their work and progress updates.",
+                "Tech Stack: React Native"
+            ]
+        },
+        {
+            company: "Vimovi Global Tech",
+            position: "Mobile Developer (Internship)",
+            startDate: "Apr 2025",
+            endDate: "Jul 2025",
+            highlights: [
+                "Started working on a user Chat App.",
                 "Built a SaaS platform with Personal Chat, Squads, and Spaces using React Native with full end-to-end encryption.",
-                "Developed complete calendar workflows for creating, editing, and deleting events, reminders, and tasks.",
-                "Implemented real-time multi-user collaboration for chats, tasks, and events using Firebase and Firestore."
+                "Implemented real-time multi-user collaboration for chats, tasks, and events.",
+                "Tech Stack: React Native, JavaScript, TypeScript, Firebase, FCM"
+            ]
+        },
+        {
+            company: "Neat Roots",
+            position: "Android Developer (Internship)",
+            startDate: "Jan 2025",
+            endDate: "Mar 2025",
+            highlights: [
+                "Working on an app displaying information about Ukraine, its location, climate, weather, geography & culture.",
+                "Worked on 3 Freelancing Apps - Suddah Utpadah, Recipe App & Property Finder App during freelance period (Jun 2024 - Sep 2024).",
+                "Tech Stack: Google Maps, Location Based Services"
             ]
         },
         {
             company: "FreeMemory",
-            position: "Junior Android Developer",
-            startDate: "Oct 2024",
+            position: "Android Developer (Internship)",
+            startDate: "Sep 2024",
             endDate: "Dec 2024",
-            url: "https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting",
             highlights: [
-                "Implemented lossless image and file compression using Huffman, Deflate, and LZW, improving storage efficiency by 20–30%.",
-                "Integrated Firebase Crashlytics and Sentry, reducing user-reported crashes by >30%.",
-                "Built high-performance native compression flows using JNI + C to increase compression speed and reduce latency."
+                "Developed and implemented advanced compression features (Huffman, Deflate, LZW) from scratch.",
+                "Implemented Sentry & Firebase Crashlytics to manage error logging and crash reporting.",
+                "Built high-performance native compression flows using JNI + C.",
+                "Tech Stack: DEFLATE Algo, Huffman Coding, Sentry, Crashlytics, Coil, Firebase, Android Jetpack, JNI"
             ]
         },
         {
             company: "Pepcoding",
-            position: "Teaching Assistant & Internship",
-            startDate: "Nov 2021",
-            endDate: "Mar 2022",
-            url: "https://drive.google.com/file/d/1qHHruIn6jvwxYQePMhbm7gVEAp3OlGjT/view?usp=drive_link",
+            position: "Industrial Training & Learning (Trainee)",
+            startDate: "Sep 2021",
+            endDate: "Aug 2022",
             highlights: [
-                "Mentored 120+ students in Data Structures, Java, and Web Development.",
-                "Conducted doubt-solving sessions, detailed code reviews, and curated structured problem sets."
-            ]
-        },
-        {
-            company: "Olcademy",
-            position: "Android Developer Intern",
-            startDate: "Jan 2021",
-            endDate: "Apr 2021",
-            highlights: [
-                "Designed modern UI components using Figma, Canva, and Adobe XD aligned with product specifications.",
-                "Designed and prototyped 7+ interactive application interfaces for different client projects."
+                "Enrolled in a 1-year industrial training program focusing on advanced development skills and DSA.",
+                "Solved a wide range of Data Structures and Algorithms problems.",
+                "Built a strong foundation in software development principles (OOP, DBMS, OS, CN)."
             ]
         }
     ],
@@ -90,7 +103,7 @@ export const resumeData = {
             name: "MoonlightWebcam",
             description: "Cross-platform KMP remote webcam system with <60ms low-latency video/audio streaming. Features device discovery, manual camera controls, and desktop client.",
             links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/RecipeAppInJava" } // Note: URL in resume says RecipeAppInJava but title is MoonlightWebcam. I will trust the title.
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/RecipeAppInJava" }
             ],
             tags: ["KMP", "Ktor", "Streaming", "Low-latency"]
         },
@@ -107,12 +120,16 @@ export const resumeData = {
         {
             institution: "Shri Khushal Das University",
             degree: "Master of Computer Applications (MCA)",
-            gpa: "8.1"
+            gpa: "8.1",
+            years: "2022 - 2024",
+            activities: "Co-Hosted Android Mobile application Club."
         },
         {
-            institution: "Kalinga University",
+            institution: "Kalinga University, Raipur",
             degree: "Bachelor of Computer Applications (BCA)",
-            gpa: "7.5"
+            gpa: "7.5",
+            years: "2018 - 2021",
+            activities: "Participated in university's CS club as a Member. Helped in making presentations for the CS fest club."
         }
     ]
 };

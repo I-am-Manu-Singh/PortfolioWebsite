@@ -24,6 +24,16 @@ const Hero: React.FC = () => {
                         {resumeData.basics.name}
                         <span className="text-primary">.</span>
                     </h1>
+
+                    <div className="md:hidden mb-8">
+                        <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl shadow-primary/20">
+                            <img
+                                src="/src/assets/profile.jpg"
+                                alt={resumeData.basics.name}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    </div>
                     <h3 className="text-3xl md:text-5xl text-text-muted font-bold mb-8">
                         I build <span className="text-white">mobile experiences</span>.
                     </h3>

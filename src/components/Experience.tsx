@@ -4,7 +4,16 @@ import { motion } from 'framer-motion';
 import { Briefcase, Calendar, ChevronRight } from 'lucide-react';
 import { resumeData } from '../data/resume';
 
-const ExperienceItem: React.FC<{ job: typeof resumeData.experience[0]; index: number }> = ({ job, index }) => {
+const ExperienceItem: React.FC<{
+    job: {
+        company: string;
+        position: string;
+        startDate: string;
+        endDate: string;
+        highlights: string[];
+        url?: string
+    }; index: number
+}> = ({ job, index }) => {
     return (
         <motion.div
             initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}

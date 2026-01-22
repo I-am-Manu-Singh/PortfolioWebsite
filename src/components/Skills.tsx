@@ -48,11 +48,12 @@ const Skills: React.FC = () => {
                     Tech <span className="text-primary-light">Stack</span>
                 </motion.h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <SkillCategory title="Languages" skills={resumeData.skills.languages} delay={0.1} />
-                    <SkillCategory title="Android Development" skills={resumeData.skills.android} delay={0.2} />
+                    <SkillCategory title="Android" skills={resumeData.skills.android} delay={0.2} />
                     <SkillCategory title="React Native" skills={resumeData.skills.reactNative} delay={0.3} />
-                    <SkillCategory title="Tools & Platforms" skills={resumeData.skills.tools} delay={0.4} />
+                    <SkillCategory title="Backend & Tools" skills={resumeData.skills.backendAndTools} delay={0.4} />
+                    <SkillCategory title="Computer Science" skills={resumeData.skills.computerScience} delay={0.5} />
                 </div>
             </div>
         </section>
