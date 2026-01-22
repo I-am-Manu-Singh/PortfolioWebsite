@@ -3,7 +3,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, ExternalLink } from 'lucide-react';
 import { resumeData } from '../data/resume';
-import CaricatureProfessional from '../assets/caricature_professional_v3.png';
+import CaricatureProfessional from '../assets/caricature_professional_v4.png';
+import ProfileImage from '../assets/profile.jpg';
 
 const Hero: React.FC = () => {
     return (
