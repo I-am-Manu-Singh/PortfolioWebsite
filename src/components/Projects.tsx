@@ -65,24 +65,56 @@ const ProjectCard: React.FC<{ project: typeof resumeData.projects[0]; index: num
     );
 };
 
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.2
+        }
+    }
+};
+
+const cardVariants = {
+    hidden: { opacity: 0, y: 50, rotateX: -10 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        rotateX: 0,
+        transition: {
+            type: "spring",
+            damping: 20,
+            stiffness: 100
+        }
+    }
+};
+
 const Projects: React.FC = () => {
     return (
-        <section className="section bg-dark-card/30" id="projects">
+        <section className="section bg-dark-card/30 perspective-1000" id="projects">
             <div className="container">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="section-title"
+                    className="section-title text-glow"
                 >
-                    Selected <span className="text-primary-light">Projects</span>
+                    Selected <span className="gradient-text-animated">Projects</span>
                 </motion.h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <motion.div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                >
                     {resumeData.projects.map((project, index) => (
-                        <ProjectCard key={index} project={project} index={index} />
+                        <motion.div key={index} variants={cardVariants}>
+                            <ProjectCard project={project} index={index} />
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );

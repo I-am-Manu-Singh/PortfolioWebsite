@@ -1,18 +1,34 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import React from 'react';
+import { motion, Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, ExternalLink, Code } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import ProfileImage from '../assets/profile.jpg';
 
-const letterContainerVariants = {
-    hidden: { transition: { staggerChildren: 0.1 } },
-    visible: { transition: { staggerChildren: 0.1 } },
+const letterContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.5
+        }
+    }
 };
 
-const letterVariants = {
-    hidden: { opacity: 0, y: 50, rotateX: -90 },
-    visible: { opacity: 1, y: 0, rotateX: 0, transition: { type: "spring", damping: 12, stiffness: 200 } },
+const letterVariants: Variants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            type: "spring",
+            damping: 15,
+            stiffness: 200
+        }
+    }
 };
 
 const Hero: React.FC = () => {
