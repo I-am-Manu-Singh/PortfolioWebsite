@@ -10,15 +10,24 @@ interface Video {
     pubDate: string;
 }
 
-const DynamicYouTube: React.FC<{ channelId: string; title: string }> = ({ channelId, title }) => {
+const DynamicYouTube: React.FC<{ channelId?: string; playlistId?: string; title: string }> = ({ channelId, playlistId, title }) => {
     const [latestVideo, setLatestVideo] = useState<Video | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchVideos = async () => {
             try {
+                let rssUrl = '';
+                if (playlistId) {
+                    rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
+                } else if (channelId) {
+                    rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+                } else {
+                    return;
+                }
+
                 const response = await fetch(
-                    `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`
+                    `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`
                 );
                 const data = await response.json();
                 if (data.items && data.items.length > 0) {
@@ -38,7 +47,7 @@ const DynamicYouTube: React.FC<{ channelId: string; title: string }> = ({ channe
         };
 
         fetchVideos();
-    }, [channelId]);
+    }, [channelId, playlistId]);
 
     if (loading) return <div className="p-4 flex justify-center"><Loader className="animate-spin text-primary" /></div>;
     if (!latestVideo) return null;

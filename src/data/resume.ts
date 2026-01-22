@@ -5,6 +5,7 @@ export const resumeData = {
         label: "SDE & Mobile App Developer | Android | React Native",
         email: "manpreetsinghkainth25@gmail.com",
         phone: "+917340007125",
+        updatedAt: "January 2026",
         summary: "Looking for Roles in SDE & App Dev. Android-Mobile-App | KMP-CMM | DSA | 250+ solved on Leetcode & GFG | Full-Stack Developer. I enjoy solving real problems through structured code, thoughtful design, and practical engineering decisions.",
         profiles: [
             {
