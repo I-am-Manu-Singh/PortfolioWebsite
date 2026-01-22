@@ -82,7 +82,7 @@ const cardVariants = {
         y: 0,
         rotateX: 0,
         transition: {
-            type: "spring",
+            type: "spring" as const,
             damping: 20,
             stiffness: 100
         }
