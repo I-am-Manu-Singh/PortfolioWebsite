@@ -1,0 +1,82 @@
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Music, Mic, Guitar } from 'lucide-react';
+import { resumeData } from '../data/resume';
+
+const Interests: React.FC = () => {
+    return (
+        <section className="section bg-dark-card/30 relative overflow-hidden" id="interests">
+            {/* Background decoration */}
+            <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+
+            <div className="container relative z-10">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="section-title"
+                >
+                    Beyond the <span className="text-primary-light">Keyboard</span>
+                </motion.h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Music Section */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="glass-card p-8 border-l-4 border-l-secondary"
+                    >
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="p-3 bg-secondary/10 rounded-full text-secondary">
+                                <Music size={32} />
+                            </div>
+                            <h3 className="text-2xl font-bold">Music & Covers</h3>
+                        </div>
+                        <p className="text-text-muted text-lg mb-6 leading-relaxed">
+                            When I'm not debugging code, I'm jamming on my guitar or piano.
+                            Music is my creative escape—I play <strong>Acoustic & Electric Guitar</strong> and <strong>Piano</strong>,
+                            often recording covers for my YouTube channel.
+                        </p>
+
+                        <div className="flex gap-4">
+                            <a
+                                href={resumeData.youtube.channel}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors text-white"
+                            >
+                                <Mic size={18} /> Visit Music Channel
+                            </a>
+                        </div>
+                    </motion.div>
+
+                    {/* Visual/Image Placeholder or Icons Grid */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="flex flex-col justify-center items-center gap-8 p-8"
+                    >
+                        <div className="flex gap-8 text-primary-light/40">
+                            <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
+                                <Guitar size={80} strokeWidth={1} />
+                            </motion.div>
+                            <motion.div animate={{ y: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 0.5 }}>
+                                <Music size={60} strokeWidth={1} />
+                            </motion.div>
+                        </div>
+                        <p className="text-center text-text-muted italic max-w-sm">
+                            "Music gives a soul to the universe, wings to the mind, flight to the imagination and life to everything."
+                        </p>
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Interests;

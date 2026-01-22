@@ -226,5 +226,21 @@ export const resumeData = {
             years: "2018 - 2021",
             activities: "Participated in university's CS club as a Member."
         }
+    ],
+    youtube: {
+        channel: "https://www.youtube.com/channel/UCyC9lIwchCmfVTHbPsruOBA",
+        leetcodePlaylist: "https://www.youtube.com/playlist?list=PL3gkgbVoJUE01-P8SzOZa8SXFgTdJsaRq"
+    },
+    interests: [
+        {
+            name: "Music",
+            description: "I play Acoustic Guitar, Electric Guitar, and Piano.",
+            icon: "Music"
+        },
+        {
+            name: "Covers",
+            description: "I record and upload music covers to my YouTube channel.",
+            icon: "Mic"
+        }
     ]
 };
