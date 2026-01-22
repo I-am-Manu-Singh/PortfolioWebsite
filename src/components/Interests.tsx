@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Music, Mic, Guitar, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
-import { resumeData } from '../data/resume';
 import DynamicYouTube from './DynamicYouTube';
 import CaricatureGuitar from '../assets/caricature_guitar_v4.png';
 import CaricaturePiano from '../assets/caricature_piano_v4.png';
@@ -36,7 +35,7 @@ const Interests: React.FC = () => {
                     viewport={{ once: true }}
                     className="section-title"
                 >
-                    Beyond the <span className="text-primary-light">Keyboard</span>
+                    Life <span className="text-primary-light">Beyond Code</span>
                 </motion.h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
