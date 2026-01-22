@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Mic, Guitar } from 'lucide-react';
+import { Music, Mic, Guitar, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
 
 const Interests: React.FC = () => {
@@ -41,14 +40,23 @@ const Interests: React.FC = () => {
                             often recording covers for my YouTube channel.
                         </p>
 
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 flex-wrap">
                             <a
                                 href={resumeData.youtube.channel}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="inline-flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors text-white"
                             >
-                                <Mic size={18} /> Visit Music Channel
+                                <Mic size={18} /> Music Channel
+                            </a>
+                            {/* Instagram Button */}
+                            <a
+                                href="https://www.instagram.com/manu.singh_001/"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 rounded-full transition-opacity text-white border border-white/10 shadow-lg"
+                            >
+                                <Instagram size={18} /> Instagram
                             </a>
                         </div>
                     </motion.div>

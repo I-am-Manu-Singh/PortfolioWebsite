@@ -235,12 +235,14 @@ export const resumeData = {
         {
             name: "Music",
             description: "I play Acoustic Guitar, Electric Guitar, and Piano.",
-            icon: "Music"
+            icon: "Music",
+            link: "https://www.instagram.com/manu.singh_001/"
         },
         {
             name: "Covers",
             description: "I record and upload music covers to my YouTube channel.",
-            icon: "Mic"
+            icon: "Mic",
+            link: "https://www.youtube.com/channel/UCyC9lIwchCmfVTHbPsruOBA"
         }
     ]
 };
