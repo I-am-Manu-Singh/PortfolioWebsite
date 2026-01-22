@@ -16,6 +16,18 @@ const CodingProfile: React.FC = () => {
                     Coding <span className="text-primary-light">Profile</span>
                 </motion.h2>
 
+                <div className="flex justify-center mb-8">
+                    <motion.img
+                        src="/src/assets/caricature_teacher.png"
+                        alt="Teaching DSA"
+                        className="w-48 h-48 object-contain drop-shadow-lg"
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                    />
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* GitHub Stats */}
                     <motion.div

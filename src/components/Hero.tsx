@@ -25,10 +25,24 @@ const Hero: React.FC = () => {
                         <span className="text-primary">.</span>
                     </h1>
 
+                    {/* Desktop Caricature */}
+                    <motion.div
+                        className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 z-[-1] opacity-80"
+                        initial={{ x: 100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 0.8 }}
+                        transition={{ duration: 1 }}
+                    >
+                        <img
+                            src="/src/assets/caricature_professional.png"
+                            alt="Professional Manpreet"
+                            className="w-[500px] h-auto drop-shadow-2xl"
+                        />
+                    </motion.div>
+
                     <div className="md:hidden mb-8">
-                        <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl shadow-primary/20">
+                        <div className="relative w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl shadow-primary/20">
                             <img
-                                src="/src/assets/profile.jpg"
+                                src="/src/assets/caricature_professional.png"
                                 alt={resumeData.basics.name}
                                 className="w-full h-full object-cover"
                             />

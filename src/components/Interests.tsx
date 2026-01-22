@@ -2,10 +2,27 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Music, Mic, Guitar, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
+import DynamicYouTube from './DynamicYouTube';
 
 const Interests: React.FC = () => {
     return (
         <section className="section bg-dark-card/30 relative overflow-hidden" id="interests">
+            {/* Floating Caricatures */}
+            <motion.img
+                src="/src/assets/caricature_guitar.png"
+                alt="Guitarist"
+                className="absolute -left-10 md:left-10 top-20 w-32 md:w-48 opacity-20 md:opacity-100 pointer-events-none z-0"
+                animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.img
+                src="/src/assets/caricature_piano.png"
+                alt="Pianist"
+                className="absolute -right-10 md:right-10 bottom-20 w-32 md:w-48 opacity-20 md:opacity-100 pointer-events-none z-0"
+                animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            />
+
             {/* Background decoration */}
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
 
@@ -19,28 +36,33 @@ const Interests: React.FC = () => {
                     Beyond the <span className="text-primary-light">Keyboard</span>
                 </motion.h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     {/* Music Section */}
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="glass-card p-8 border-l-4 border-l-secondary"
+                        className="glass-card p-8 border-l-4 border-l-secondary flex flex-col justify-between backdrop-blur-md bg-dark/60"
                     >
-                        <div className="flex items-center gap-4 mb-6">
-                            <div className="p-3 bg-secondary/10 rounded-full text-secondary">
-                                <Music size={32} />
+                        <div>
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="p-3 bg-secondary/10 rounded-full text-secondary">
+                                    <Music size={32} />
+                                </div>
+                                <h3 className="text-2xl font-bold">Music & Covers</h3>
                             </div>
-                            <h3 className="text-2xl font-bold">Music & Covers</h3>
+                            <p className="text-text-muted text-lg mb-6 leading-relaxed">
+                                When I'm not debugging code, I'm jamming on my guitar or piano.
+                                Music is my creative escape—I play <strong>Acoustic & Electric Guitar</strong> and <strong>Piano</strong>,
+                                often recording covers for my YouTube channel.
+                            </p>
                         </div>
-                        <p className="text-text-muted text-lg mb-6 leading-relaxed">
-                            When I'm not debugging code, I'm jamming on my guitar or piano.
-                            Music is my creative escape—I play <strong>Acoustic & Electric Guitar</strong> and <strong>Piano</strong>,
-                            often recording covers for my YouTube channel.
-                        </p>
 
-                        <div className="flex gap-4 flex-wrap">
+                        {/* Dynamic YouTube Feed for Music */}
+                        <DynamicYouTube channelId="UCyC9lIwchCmfVTHbPsruOBA" title="My Latest Cover" />
+
+                        <div className="flex gap-4 flex-wrap mt-6">
                             <a
                                 href={resumeData.youtube.channel}
                                 target="_blank"
