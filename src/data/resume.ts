@@ -186,6 +186,13 @@ export const resumeData = {
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting" }
             ],
             tags: ["JNI", "C/C++", "Compression Algo"]
+        },
+        {
+            name: "Pregnancy Logger App",
+            description: "Android app for tracking pregnancy details. Assignment submission for Janitri. Features local data storage and clean UI.",
+            links: [],
+            tags: ["Android", "Assignment", "Mobile"],
+            videoId: "nud2Le5g58A"
         }
     ],
     certifications: [
