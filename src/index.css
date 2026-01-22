@@ -19,6 +19,16 @@
   --transition: all 0.3s ease;
 }
 
+[data-theme='light'] {
+  --color-primary: #0056b3;
+  --color-primary-light: #3399ff;
+  --color-secondary: #00b7ff;
+  --color-dark: #f0f2f5;
+  --color-dark-card: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-muted: #4a4a4a;
+}
+
 background-effect {
   position: absolute;
   top: 0;
