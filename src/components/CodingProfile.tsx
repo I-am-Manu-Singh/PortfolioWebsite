@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
 import DynamicMedium from './DynamicMedium';
 import DynamicYouTube from './DynamicYouTube';
+import CaricatureTeacher from '../assets/caricature_teacher.png';
 
 const CodingProfile: React.FC = () => {
     return (
@@ -20,7 +21,7 @@ const CodingProfile: React.FC = () => {
 
                 <div className="flex justify-center mb-8">
                     <motion.img
-                        src="/src/assets/caricature_teacher.png"
+                        src={CaricatureTeacher}
                         alt="Teaching DSA"
                         className="w-48 h-48 object-contain drop-shadow-lg"
                         initial={{ scale: 0 }}

@@ -3,20 +3,22 @@ import { motion } from 'framer-motion';
 import { Music, Mic, Guitar, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import DynamicYouTube from './DynamicYouTube';
+import CaricatureGuitar from '../assets/caricature_guitar.png';
+import CaricaturePiano from '../assets/caricature_piano.png';
 
 const Interests: React.FC = () => {
     return (
         <section className="section bg-dark-card/30 relative overflow-hidden" id="interests">
             {/* Floating Caricatures */}
             <motion.img
-                src="/src/assets/caricature_guitar.png"
+                src={CaricatureGuitar}
                 alt="Guitarist"
                 className="absolute -left-10 md:left-10 top-20 w-32 md:w-48 opacity-20 md:opacity-100 pointer-events-none z-0"
                 animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.img
-                src="/src/assets/caricature_piano.png"
+                src={CaricaturePiano}
                 alt="Pianist"
                 className="absolute -right-10 md:right-10 bottom-20 w-32 md:w-48 opacity-20 md:opacity-100 pointer-events-none z-0"
                 animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}

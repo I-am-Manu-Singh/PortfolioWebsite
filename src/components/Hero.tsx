@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, ExternalLink } from 'lucide-react';
 import { resumeData } from '../data/resume';
+import CaricatureProfessional from '../assets/caricature_professional.png';
 
 const Hero: React.FC = () => {
     return (
@@ -33,7 +34,7 @@ const Hero: React.FC = () => {
                         transition={{ duration: 1 }}
                     >
                         <img
-                            src="/src/assets/caricature_professional.png"
+                            src={CaricatureProfessional}
                             alt="Professional Manpreet"
                             className="w-[500px] h-auto drop-shadow-2xl"
                         />
@@ -42,7 +43,7 @@ const Hero: React.FC = () => {
                     <div className="md:hidden mb-8">
                         <div className="relative w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl shadow-primary/20">
                             <img
-                                src="/src/assets/caricature_professional.png"
+                                src={CaricatureProfessional}
                                 alt={resumeData.basics.name}
                                 className="w-full h-full object-cover"
                             />
