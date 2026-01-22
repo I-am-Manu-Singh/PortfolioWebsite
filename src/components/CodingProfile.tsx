@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
 import DynamicMedium from './DynamicMedium';
 import DynamicYouTube from './DynamicYouTube';
-import CaricatureTeacher from '../assets/caricature_teacher_v4.png';
+import CaricatureTeacher from '../assets/caricature_teacher.png';
 
 const CodingProfile: React.FC = () => {
     return (
