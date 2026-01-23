@@ -29,7 +29,7 @@ const CodingProfile: React.FC = () => {
                         <img
                             src={CaricatureTeacher}
                             alt="Teaching DSA"
-                            className="w-28 h-28 lg:w-36 lg:h-36 object-contain drop-shadow-2xl"
+                            className="w-28 h-28 lg:w-36 lg:h-36 object-cover drop-shadow-2xl rounded-2xl border-2 border-white/10 shadow-lg shadow-black/40"
                         />
                     </motion.div>
                 </div>

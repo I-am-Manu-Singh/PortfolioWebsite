@@ -4,6 +4,7 @@ import type { Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, Code, Eye } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import ProfileImage from '../assets/profile.jpg';
+import CaricaturePiano from '../assets/caricature_piano.png';
 import ResumePreview from './ResumePreview';
 
 const letterContainerVariants: Variants = {
@@ -52,6 +53,18 @@ const Hero: React.FC = () => {
                         visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
                     }}
                 >
+                    <motion.div
+                        className="absolute right-0 top-20 lg:right-10 lg:top-10 z-10 hidden md:block" // Increased z-index
+                        initial={{ opacity: 0, scale: 0.5, rotate: 10 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                    >
+                        <img
+                            src={CaricaturePiano}
+                            alt="Manpreet Caricature"
+                            className="w-48 h-48 lg:w-64 lg:h-64 object-cover drop-shadow-2xl rounded-3xl border-2 border-white/10 shadow-black/50"
+                        />
+                    </motion.div>
                     <motion.h2
                         className="text-secondary font-mono text-xl md:text-2xl mb-4"
                         initial={{ opacity: 0 }}

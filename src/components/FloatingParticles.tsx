@@ -18,7 +18,7 @@ const FloatingParticles: React.FC = () => {
             {particles.map((p) => (
                 <motion.div
                     key={p.id}
-                    className="absolute bg-primary/30 rounded-full blur-xl"
+                    className="absolute bg-primary/40 rounded-full blur-md"
                     style={{
                         width: p.size,
                         height: p.size,

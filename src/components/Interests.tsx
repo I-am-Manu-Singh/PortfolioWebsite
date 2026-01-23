@@ -82,6 +82,7 @@ const Interests: React.FC = () => {
                         <div className="flex items-center justify-between mb-8">
                             <h3 className="text-2xl font-bold flex items-center gap-2 text-white">
                                 <Instagram className="text-pink-500" /> Instagram Feed
+                                <a href="https://www.instagram.com/manu.singh_001/" target="_blank" className="ml-2 px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold rounded-full transition-colors">Follow</a>
                             </h3>
                             <a href="https://www.instagram.com/manu.singh_001/" target="_blank" className="text-sm text-primary hover:underline">View Profile</a>
                         </div>

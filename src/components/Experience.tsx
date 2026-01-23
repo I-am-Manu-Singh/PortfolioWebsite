@@ -131,7 +131,10 @@ const Experience: React.FC = () => {
                                     className="w-12 h-12 rounded-full border-2 border-primary"
                                 />
                                 <div>
-                                    <h4 className="font-bold text-white group-hover:text-primary transition-colors">Manpreet Singh</h4>
+                                    <div className="flex items-center gap-3">
+                                        <h4 className="font-bold text-white group-hover:text-primary transition-colors">Manpreet Singh</h4>
+                                        <div className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">Follow</div>
+                                    </div>
                                     <p className="text-xs text-text-muted mb-2">Android Developer | KMP | React Native</p>
                                     <p className="text-sm text-gray-300 line-clamp-3">
                                         Check out my latest updates, project showcases, and technical articles on LinkedIn. I regularly share insights about Android Development, Jetpack Compose, and Kotlin Multiplatform.

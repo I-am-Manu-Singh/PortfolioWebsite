@@ -15,6 +15,9 @@ const TechTutorials: React.FC = () => {
                 >
                     <span className="p-2 bg-red-600 rounded-lg text-white shadow-lg shadow-red-600/20"><Youtube size={32} /></span>
                     Tech <span className="text-primary-light">Tutorials</span> & Solutions
+                    <a href="https://www.youtube.com/channel/UCyC9lIwchCmfVTHbPsruOBA?sub_confirmation=1" target="_blank" className="ml-4 px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-full transition-colors flex items-center gap-2">
+                        <Youtube size={16} fill="white" /> Subscribe
+                    </a>
                 </motion.h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

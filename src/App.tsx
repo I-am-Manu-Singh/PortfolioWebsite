@@ -25,14 +25,15 @@ function App() {
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       <Analytics />
       <ChatBot />
-      <FloatingParticles />
+      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
+        {/* Layer 1: Particles */}
+        <FloatingParticles />
 
-      {/* Background - Changes based on mode */}
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[-2] bg-dark transition-colors duration-500">
+        {/* Layer 2: Gradient Overlay (with transparency) */}
         <div
-          className={`absolute top-0 left-0 w-full h-full opacity-80 transition-all duration-1000 ${isPersonal
-            ? 'bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-purple-500/40 via-dark/50 to-dark'
-            : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/30 via-dark/50 to-dark'
+          className={`absolute inset-0 transition-opacity duration-1000 z-[-1] opacity-70 ${isPersonal
+            ? 'bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-purple-500/30 via-transparent to-transparent'
+            : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent'
             }`}
         ></div>
       </div>
