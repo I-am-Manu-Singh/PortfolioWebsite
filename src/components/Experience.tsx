@@ -87,95 +87,99 @@ const Experience: React.FC = () => {
                     Work <span className="text-primary-light">Experience</span>
                 </motion.h2>
 
-            </div>
-
-            {/* LinkedIn Featured Section */}
-            <div className="mt-20 pt-10 border-t border-white/10">
-                <div className="flex items-center justify-between mb-8">
-                    <h3 className="text-2xl font-bold flex items-center gap-2 text-white">
-                        <span className="p-2 bg-[#0077b5] rounded-md text-white"><Briefcase size={20} /></span>
-                        LinkedIn Featured
-                    </h3>
-                    <a href="https://www.linkedin.com/in/manpreetsingh-android/" target="_blank" className="text-sm text-primary hover:underline">View Profile</a>
+                <div className="flex flex-col gap-8 md:gap-16 relative">
+                    {resumeData.experience.map((job, index) => (
+                        <ExperienceItem key={index} job={job} index={index} />
+                    ))}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <motion.a
-                        href="https://www.linkedin.com/in/manpreetsingh-android/"
-                        target="_blank"
-                        className="glass-card p-6 hover:bg-white/5 transition-all group"
-                        whileHover={{ y: -5 }}
-                    >
-                        <div className="flex items-start gap-4">
-                            <img
-                                src="https://media.licdn.com/dms/image/v2/D5603AQGjCltwOpw8Tw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1718261309867?e=1743033600&v=beta&t=M_eKaaDJKXGvP3BNyC0tbwbNYjWUAoN8DdXyD7TBw_o"
-                                alt="Profile"
-                                className="w-12 h-12 rounded-full border-2 border-primary"
-                            />
-                            <div>
-                                <h4 className="font-bold text-white group-hover:text-primary transition-colors">Manpreet Singh</h4>
-                                <p className="text-xs text-text-muted mb-2">Android Developer | KMP | React Native</p>
-                                <p className="text-sm text-gray-300 line-clamp-3">
-                                    Check out my latest updates, project showcases, and technical articles on LinkedIn. I regularly share insights about Android Development, Jetpack Compose, and Kotlin Multiplatform.
-                                </p>
-                            </div>
-                        </div>
-                    </motion.a>
-
-                    {/* Placeholder for a specific post or achievement */}
-                    <motion.div
-                        className="glass-card p-6 flex flex-col justify-center items-center text-center hover:bg-white/5 transition-all cursor-pointer"
-                        whileHover={{ scale: 1.02 }}
-                        onClick={() => window.open("https://www.linkedin.com/in/manpreetsingh-android/", "_blank")}
-                    >
-                        <div className="mb-3 p-3 bg-white/5 rounded-full">
-                            <Briefcase size={24} className="text-primary-light" />
-                        </div>
-                        <h4 className="font-bold text-white mb-1">Open for Opportunities</h4>
-                        <p className="text-sm text-text-muted">
-                            Connect with me to discuss potential collaborations or job roles.
-                        </p>
-                    </motion.div>
-                </div>
-
-                {/* Tech Tutorials & Solutions Section */}
+                {/* LinkedIn Featured Section */}
                 <div className="mt-20 pt-10 border-t border-white/10">
-                    <h3 className="text-2xl font-bold mb-8 flex items-center gap-2 text-white">
-                        <span className="p-2 bg-red-600 rounded-md text-white"><Youtube size={20} /></span>
-                        Tech Tutorials & Solutions
-                    </h3>
+                    <div className="flex items-center justify-between mb-8">
+                        <h3 className="text-2xl font-bold flex items-center gap-2 text-white">
+                            <span className="p-2 bg-[#0077b5] rounded-md text-white"><Briefcase size={20} /></span>
+                            LinkedIn Featured
+                        </h3>
+                        <a href="https://www.linkedin.com/in/manpreetsingh-android/" target="_blank" className="text-sm text-primary hover:underline">View Profile</a>
+                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* @ts-ignore */}
-                        {resumeData.techPlaylists?.map((playlist: any, index: number) => (
-                            <motion.div
-                                key={index}
-                                className="glass-card overflow-hidden group"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                            >
-                                <div className="relative w-full aspect-video">
-                                    <iframe
-                                        width="100%"
-                                        height="100%"
-                                        src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`}
-                                        title={playlist.title}
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                        className="absolute inset-0"
-                                    ></iframe>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <motion.a
+                            href="https://www.linkedin.com/in/manpreetsingh-android/"
+                            target="_blank"
+                            className="glass-card p-6 hover:bg-white/5 transition-all group"
+                            whileHover={{ y: -5 }}
+                        >
+                            <div className="flex items-start gap-4">
+                                <img
+                                    src="https://media.licdn.com/dms/image/v2/D5603AQGjCltwOpw8Tw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1718261309867?e=1743033600&v=beta&t=M_eKaaDJKXGvP3BNyC0tbwbNYjWUAoN8DdXyD7TBw_o"
+                                    alt="Profile"
+                                    className="w-12 h-12 rounded-full border-2 border-primary"
+                                />
+                                <div>
+                                    <h4 className="font-bold text-white group-hover:text-primary transition-colors">Manpreet Singh</h4>
+                                    <p className="text-xs text-text-muted mb-2">Android Developer | KMP | React Native</p>
+                                    <p className="text-sm text-gray-300 line-clamp-3">
+                                        Check out my latest updates, project showcases, and technical articles on LinkedIn. I regularly share insights about Android Development, Jetpack Compose, and Kotlin Multiplatform.
+                                    </p>
                                 </div>
-                                <div className="p-4 bg-white/5">
-                                    <h4 className="font-bold text-white group-hover:text-primary transition-colors">{playlist.title}</h4>
-                                </div>
-                            </motion.div>
-                        ))}
+                            </div>
+                        </motion.a>
+
+                        {/* Placeholder for a specific post or achievement */}
+                        <motion.div
+                            className="glass-card p-6 flex flex-col justify-center items-center text-center hover:bg-white/5 transition-all cursor-pointer"
+                            whileHover={{ scale: 1.02 }}
+                            onClick={() => window.open("https://www.linkedin.com/in/manpreetsingh-android/", "_blank")}
+                        >
+                            <div className="mb-3 p-3 bg-white/5 rounded-full">
+                                <Briefcase size={24} className="text-primary-light" />
+                            </div>
+                            <h4 className="font-bold text-white mb-1">Open for Opportunities</h4>
+                            <p className="text-sm text-text-muted">
+                                Connect with me to discuss potential collaborations or job roles.
+                            </p>
+                        </motion.div>
+                    </div>
+
+                    {/* Tech Tutorials & Solutions Section */}
+                    <div className="mt-20 pt-10 border-t border-white/10">
+                        <h3 className="text-2xl font-bold mb-8 flex items-center gap-2 text-white">
+                            <span className="p-2 bg-red-600 rounded-md text-white"><Youtube size={20} /></span>
+                            Tech Tutorials & Solutions
+                        </h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* @ts-ignore */}
+                            {resumeData.techPlaylists?.map((playlist: any, index: number) => (
+                                <motion.div
+                                    key={index}
+                                    className="glass-card overflow-hidden group"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.1 }}
+                                >
+                                    <div className="relative w-full aspect-video">
+                                        <iframe
+                                            width="100%"
+                                            height="100%"
+                                            src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`}
+                                            title={playlist.title}
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                            className="absolute inset-0"
+                                        ></iframe>
+                                    </div>
+                                    <div className="p-4 bg-white/5">
+                                        <h4 className="font-bold text-white group-hover:text-primary transition-colors">{playlist.title}</h4>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
         </section>
     );
 };
