@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Briefcase, Calendar, ChevronRight } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import CaricatureProfessional from '../assets/caricature_professional.png';
+import SectionBackground from './SectionBackground';
 
 const ExperienceItem: React.FC<{
     job: {
@@ -70,8 +71,9 @@ const ExperienceItem: React.FC<{
 
 const Experience: React.FC = () => {
     return (
-        <section className="section" id="experience">
-            <div className="container relative">
+        <section className="section bg-dark-card/30 relative overflow-hidden" id="experience">
+            <SectionBackground variant="experience" />
+            <div className="container relative z-10">
                 <div className="flex justify-center items-center mb-16 relative">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}

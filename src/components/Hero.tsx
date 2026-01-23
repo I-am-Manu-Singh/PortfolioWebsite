@@ -4,6 +4,7 @@ import type { Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, Code, Eye } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import ProfileImage from '../assets/profile.jpg';
+import SectionBackground from './SectionBackground';
 import ResumePreview from './ResumePreview';
 
 const letterContainerVariants: Variants = {
@@ -37,10 +38,7 @@ const Hero: React.FC = () => {
     return (
         <section className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0" id="hero">
             {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-                <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px] animate-pulse" />
-                <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-secondary/10 blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
-            </div>
+            <SectionBackground variant="hero" />
 
             <div className="container max-w-6xl mx-auto z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <motion.div

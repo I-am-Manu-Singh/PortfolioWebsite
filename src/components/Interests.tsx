@@ -4,107 +4,167 @@ import { Music, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import CaricatureGuitar from '../assets/caricature_guitar.png';
 import CaricaturePiano from '../assets/caricature_piano.png';
+import SectionBackground from './SectionBackground';
 
 const Interests: React.FC = () => {
     return (
-        <section className="section bg-dark-card/30 relative overflow-hidden" id="interests">
-            {/* Floating Caricatures */}
-            <motion.img
-                src={CaricatureGuitar}
-                alt="Guitarist"
-                className="absolute -left-10 md:left-10 top-20 w-32 md:w-48 opacity-40 md:opacity-80 pointer-events-none z-0 mix-blend-overlay md:mix-blend-normal"
-                animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.img
-                src={CaricaturePiano}
-                alt="Pianist"
-                className="absolute -right-10 md:right-10 bottom-20 w-32 md:w-48 opacity-40 md:opacity-80 pointer-events-none z-0 mix-blend-overlay md:mix-blend-normal"
-                animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            {/* Background decoration */}
-            <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+        <section className="section relative overflow-hidden" id="interests">
+            {/* Split backgrounds */}
+            <div className="absolute inset-x-0 top-0 h-2/3 overflow-hidden">
+                <SectionBackground variant="music" />
+            </div>
+            <div className="absolute inset-x-0 bottom-0 h-1/3 overflow-hidden">
+                <SectionBackground variant="instagram" />
+            </div>
 
             <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="section-title"
+                    className="section-title text-center mb-16"
                 >
                     Life <span className="text-primary-light">Beyond Code</span>
                 </motion.h2>
 
-                <div className="space-y-16">
-                    {/* Music Categories */}
-                    {/* @ts-ignore - interests structure changed */}
+                {/* Intro / Guitar */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="relative"
+                    >
+                        <h3 className="text-3xl font-bold mb-6 text-secondary font-mono">
+                            I pluck strings & <br /> <span className="text-white">create vibes.</span>
+                        </h3>
+                        <p className="text-text-muted text-lg leading-relaxed">
+                            Music is my escape and my fuel. Whether it's jamming on the guitar or finding the perfect melody on the piano, I love the creative freedom it provides.
+                        </p>
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                        className="flex justify-center"
+                    >
+                        <img
+                            src={CaricatureGuitar}
+                            alt="Guitarist"
+                            className="w-48 md:w-64 drop-shadow-2xl rounded-3xl border-2 border-white/10 p-2 bg-white/5 backdrop-blur-sm"
+                        />
+                    </motion.div>
+                </div>
+
+
+                <div className="space-y-24">
+                    {/* Music Categories & Piano */}
+                    {/* @ts-ignore - resumeData structure */}
                     {resumeData.interests.music.categories.map((category: any, idx: number) => (
-                        <div key={idx}>
-                            <h3 className="text-2xl font-bold mb-6 text-white border-l-4 border-primary pl-4">{category.title}</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {category.playlists.map((playlist: any, pIdx: number) => (
-                                    <motion.div
-                                        key={pIdx}
-                                        className="glass-card overflow-hidden group"
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: pIdx * 0.1 }}
-                                    >
-                                        <div className="relative w-full aspect-video">
-                                            <iframe
-                                                width="100%"
-                                                height="100%"
-                                                src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`}
-                                                title={playlist.title}
-                                                frameBorder="0"
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                allowFullScreen
-                                                className="absolute inset-0"
-                                            ></iframe>
-                                        </div>
-                                        <div className="p-4 bg-white/5 flex justify-between items-center">
-                                            <h4 className="font-bold text-white group-hover:text-primary transition-colors">{playlist.title}</h4>
-                                            <div className="p-2 bg-red-600 rounded-full">
-                                                <Music size={16} className="text-white" />
+                        <div key={idx} className="relative">
+                            <h3 className="text-2xl font-bold mb-8 text-white border-l-4 border-primary pl-4 flex items-center gap-3">
+                                {category.title}
+                                {category.title.toLowerCase().includes('piano') && <Music size={24} className="text-primary-light animate-bounce" />}
+                            </h3>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                                {/* Playlists */}
+                                <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {category.playlists.map((playlist: any, pIdx: number) => (
+                                        <motion.div
+                                            key={pIdx}
+                                            className="glass-card overflow-hidden group hover:border-primary/50 transition-colors"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ delay: pIdx * 0.1 }}
+                                        >
+                                            <div className="relative w-full aspect-video">
+                                                <iframe
+                                                    width="100%"
+                                                    height="100%"
+                                                    src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`}
+                                                    title={playlist.title}
+                                                    frameBorder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowFullScreen
+                                                    className="absolute inset-0"
+                                                ></iframe>
                                             </div>
-                                        </div>
-                                    </motion.div>
-                                ))}
+                                            <div className="p-4 bg-white/5 flex justify-between items-center">
+                                                <h4 className="font-bold text-white text-sm group-hover:text-primary transition-colors">{playlist.title}</h4>
+                                                <div className="p-1.5 bg-red-600 rounded-full">
+                                                    <Music size={14} className="text-white" />
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+
+                                {/* Piano Caricature (Only if it makes sense contextually, or just place it here as the 'music' sidekick) */}
+                                <motion.div
+                                    className="hidden lg:flex justify-center"
+                                    animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
+                                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                                >
+                                    <img
+                                        src={CaricaturePiano}
+                                        alt="Pianist"
+                                        className="w-56 drop-shadow-2xl rounded-3xl border-2 border-white/10 p-2 bg-white/5 backdrop-blur-sm"
+                                    />
+                                </motion.div>
                             </div>
                         </div>
                     ))}
 
                     {/* Instagram Section */}
-                    <div className="pt-10 border-t border-white/10">
-                        <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-2xl font-bold flex items-center gap-2 text-white">
-                                <Instagram className="text-pink-500" /> Instagram Feed
-                                <a href="https://www.instagram.com/manu.singh_001/" target="_blank" className="ml-2 px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold rounded-full transition-colors">Follow</a>
+                    <div className="pt-16 border-t border-white/10 relative">
+                        <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
+                            <h3 className="text-3xl font-bold flex items-center gap-3 text-white">
+                                <span className="p-2 bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 rounded-xl text-white shadow-lg"><Instagram /></span>
+                                Life in Frames
                             </h3>
-                            <a href="https://www.instagram.com/manu.singh_001/" target="_blank" className="text-sm text-primary hover:underline">View Profile</a>
+                            <a
+                                href="https://www.instagram.com/manu.singh_001/"
+                                target="_blank"
+                                className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all flex items-center gap-2 font-medium"
+                            >
+                                <Instagram size={18} /> @manu.singh_001
+                            </a>
                         </div>
 
-                        {/* Instagram Grid Mockup */}
+                        {/* Instagram Grid Mockup - made more visible */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {[1, 2, 3, 4].map((item) => (
-                                <a
+                            {[1, 2, 3, 4].map((item, i) => (
+                                <motion.a
                                     key={item}
                                     href="https://www.instagram.com/manu.singh_001/"
                                     target="_blank"
-                                    className="aspect-square bg-white/5 rounded-xl overflow-hidden relative group"
+                                    className="aspect-square bg-dark-card rounded-2xl overflow-hidden relative group border border-white/10 shadow-lg"
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.1 }}
+                                    whileHover={{ y: -5 }}
                                 >
-                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <Instagram className="text-white" />
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                                        <div className="text-center">
+                                            <Instagram className="text-white mx-auto mb-2" size={32} />
+                                            <span className="text-white font-bold text-sm">View Post</span>
+                                        </div>
                                     </div>
+                                    {/* Using placeholders that look like real photos */}
                                     <img
-                                        src={`https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80`}
+                                        src={`https://source.unsplash.com/random/400x400?concert,music,code,travel&sig=${item}`}
                                         alt="Instagram Post"
-                                        className="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-500"
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80';
+                                        }}
                                     />
-                                </a>
+                                </motion.a>
                             ))}
                         </div>
                     </div>

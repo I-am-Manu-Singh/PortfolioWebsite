@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
+import SectionBackground from './SectionBackground';
 
 
 const getSkillIcon = (skill: string) => {
@@ -32,11 +33,7 @@ const getSkillIcon = (skill: string) => {
     };
 
     const url = iconMap[skill] || iconMap[skill.split(' ')[0]]; // Try exact match or first word
-
-    if (url) {
-        return <img src={url} alt={skill} className="w-5 h-5 mr-2" />;
-    }
-    return null;
+    return url || '';
 };
 
 
@@ -44,8 +41,9 @@ const getSkillIcon = (skill: string) => {
 const Skills: React.FC = () => {
     // Flatten skills for a "cloud" view or keep categorized? Categorized is better for this resume.
     return (
-        <section className="section bg-dark-card/50 relative" id="skills">
-            <div className="container">
+        <section className="section bg-dark-card/50 relative overflow-hidden" id="skills">
+            <SectionBackground variant="skills" />
+            <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -68,7 +66,7 @@ const Skills: React.FC = () => {
                             transition={{ delay: index * 0.02 }}
                         >
                             <img
-                                src={getSkillIcon(skill)?.props.src}
+                                src={getSkillIcon(skill)}
                                 alt={skill}
                                 className="w-8 h-8 group-hover:scale-110 transition-transform duration-300 drop-shadow-md"
                             />

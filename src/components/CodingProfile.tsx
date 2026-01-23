@@ -3,12 +3,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
 import CaricatureTeacher from '../assets/caricature_teacher.png';
+import SectionBackground from './SectionBackground';
 
 const CodingProfile: React.FC = () => {
     return (
-        <section className="section" id="coding-profile">
-            <div className="container">
-                <div className="flex justify-center items-center mb-12 relative">
+        <section className="section relative overflow-hidden" id="coding-profile">
+            <SectionBackground variant="hero" />
+            <div className="container relative z-10">
+                <div className="flex justify-center items-center mb-12 relative z-10">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -23,12 +25,17 @@ const CodingProfile: React.FC = () => {
                         initial={{ scale: 0, rotate: 20 }}
                         whileInView={{ scale: 1, rotate: 10 }}
                         viewport={{ once: true }}
-                        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                        animate={{ y: [0, -15, 0], rotate: [10, 5, 10] }}
+                        transition={{
+                            scale: { type: "spring", stiffness: 260, damping: 20 },
+                            y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                            rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                        }}
                     >
                         <img
                             src={CaricatureTeacher}
                             alt="Teaching DSA"
-                            className="w-28 h-28 lg:w-36 lg:h-36 object-cover drop-shadow-2xl rounded-2xl border-2 border-white/10 shadow-lg shadow-black/40"
+                            className="w-32 h-32 lg:w-40 lg:h-40 object-cover drop-shadow-2xl rounded-3xl border-2 border-white/10 shadow-lg shadow-primary/20"
                         />
                     </motion.div>
                 </div>

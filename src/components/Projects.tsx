@@ -3,11 +3,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, Code } from 'lucide-react';
 import { resumeData } from '../data/resume';
+import SectionBackground from './SectionBackground';
 
 const Projects: React.FC = () => {
     return (
-        <section className="section bg-dark-card/30 perspective-1000" id="projects">
-            <div className="container">
+        <section className="section bg-dark-card/30 perspective-1000 relative overflow-hidden" id="projects">
+            <SectionBackground variant="default" />
+            <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
