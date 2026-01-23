@@ -26,7 +26,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         <motion.div
                             animate={{ rotate: 360, y: [0, -50, 0] }}
                             transition={floatTransition}
-                            className="absolute top-20 right-[10%] opacity-20 text-primary-light"
+                            className="absolute top-20 right-[10%] opacity-40 text-primary-light"
                         >
                             <Code size={120} />
                         </motion.div>
@@ -70,7 +70,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         <motion.div
                             animate={{ rotate: 360 }}
                             transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                            className="absolute -top-20 -right-20 opacity-10 text-secondary"
+                            className="absolute -top-20 -right-20 opacity-30 text-secondary"
                         >
                             <Cpu size={300} />
                         </motion.div>
@@ -117,7 +117,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         <motion.div
                             animate={{ y: [0, -30, 0] }}
                             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                            className="absolute top-20 left-[10%] opacity-10"
+                            className="absolute top-20 left-[10%] opacity-30 text-white"
                         >
                             <Globe size={150} />
                         </motion.div>

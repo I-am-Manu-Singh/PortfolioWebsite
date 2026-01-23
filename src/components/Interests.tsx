@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Music, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import CaricatureGuitar from '../assets/caricature_guitar.png';
-import CaricaturePiano from '../assets/caricature_piano.png';
 import SectionBackground from './SectionBackground';
 
 const Interests: React.FC = () => {
@@ -104,17 +103,7 @@ const Interests: React.FC = () => {
                                 </div>
 
                                 {/* Piano Caricature (Only if it makes sense contextually, or just place it here as the 'music' sidekick) */}
-                                <motion.div
-                                    className="hidden lg:flex justify-center"
-                                    animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
-                                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                                >
-                                    <img
-                                        src={CaricaturePiano}
-                                        alt="Pianist"
-                                        className="w-56 drop-shadow-2xl rounded-3xl border-2 border-white/10 p-2 bg-white/5 backdrop-blur-sm"
-                                    />
-                                </motion.div>
+                                {/* Piano moved to Tech Tutorials */}
                             </div>
                         </div>
                     ))}
