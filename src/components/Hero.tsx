@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
                     </motion.h2>
 
                     <motion.h1
-                        className="text-5xl md:text-8xl font-bold mb-6 tracking-tight flex flex-wrap"
+                        className="text-5xl md:text-7xl font-bold mb-6 tracking-tight flex flex-wrap"
                         variants={letterContainerVariants}
                     >
                         {nameLetters.map((letter, index) => (
@@ -144,7 +144,7 @@ const Hero: React.FC = () => {
                             <img
                                 src={ProfileImage}
                                 alt={resumeData.basics.name}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover object-top"
                             />
                         </motion.div>
                     </div>
