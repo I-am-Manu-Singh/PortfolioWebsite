@@ -20,8 +20,8 @@ const Projects: React.FC = () => {
                     Selected <span className="gradient-text-animated">Projects</span>
                 </motion.h2>
 
-                {/* Projects Caricature */}
-                <div className="hidden lg:block absolute left-4 top-20 z-0 opacity-50 pointer-events-none">
+                {/* Projects Caricature - Reduced Opacity */}
+                <div className="hidden lg:block absolute -left-10 top-20 z-0 opacity-30 pointer-events-none">
                     <motion.div
                         initial={{ x: -50, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}
@@ -32,7 +32,7 @@ const Projects: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_professional.png`}
                             alt="Professional Caricature"
-                            className="w-48 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                            className="w-56 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
                             animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
                             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
                             drag

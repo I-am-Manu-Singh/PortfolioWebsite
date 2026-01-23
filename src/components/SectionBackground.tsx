@@ -30,58 +30,76 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                     <div className="absolute inset-0 w-full h-full" onClick={handleHeroClick}>
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-dark to-dark" />
 
-                        {/* Interactive Scattered Code Blocks - Real App Dev & Git Commands */}
+                        {/* Interactive Scattered Code Blocks - Advanced App Dev & Tech */}
                         {[
-                            // Real Android/iOS/Git Snippets
-                            { text: 'LazyColumn { items(data) { ... } }', x: '10%', y: '15%', rot: -5 },
-                            { text: 'viewModelScope.launch { }', x: '70%', y: '10%', rot: 3 },
-                            { text: 'pod install', x: '5%', y: '40%', rot: 8 },
-                            { text: 'git commit -m "feat: init"', x: '80%', y: '25%', rot: -3 },
-                            { text: 'struct HomeView: View', x: '15%', y: '70%', rot: 6 },
-                            { text: 'Modifier.fillMaxSize()', x: '85%', y: '60%', rot: -4 },
-                            { text: '@Composable', x: '40%', y: '10%', rot: 5 },
-                            { text: 'suspend fun fetchData()', x: '50%', y: '85%', rot: -3 },
-                            { text: 'val nav = rememberNavController()', x: '35%', y: '50%', rot: 2 },
-                            { text: 'Retrofit.Builder().baseUrl()', x: '60%', y: '75%', rot: -6 },
-                            { text: 'var body: some View { }', x: '25%', y: '90%', rot: 4 },
-                            { text: 'git push origin main', x: '90%', y: '90%', rot: -8 },
-                            { text: 'RecyclerView.Adapter', x: '5%', y: '5%', rot: 15 },
-                            { text: 'ConstraintLayout', x: '45%', y: '30%', rot: 6 },
-                            { text: 'Image(painter = ...)', x: '55%', y: '20%', rot: -4 },
-                            { text: 'observer.observe(viewLifecycle) { }', x: '75%', y: '45%', rot: 3 },
-                            // Errors (still subtle but present)
-                            { text: 'NullPointerException', x: '20%', y: '20%', rot: -12, isError: true },
-                            { text: 'Build Failed', x: '90%', y: '50%', rot: 5, isError: true },
+                            // Android / Kotlin
+                            { text: 'suspendCancellableCoroutine { }', x: '10%', y: '15%', rot: -5 },
+                            { text: '@HiltViewModel class MainVM @Inject', x: '70%', y: '10%', rot: 3 },
+                            { text: 'Compose ViewCompositionStrategy', x: '5%', y: '40%', rot: 8 },
+                            { text: 'Flow<PagingData<User>>', x: '80%', y: '25%', rot: -3 },
+                            { text: 'sealed interface UIState', x: '15%', y: '70%', rot: 6 },
+                            { text: 'Modifier.testTag("Login")', x: '85%', y: '60%', rot: -4 },
+
+                            // iOS / Swift
+                            { text: 'AnyPublisher<Void, Error>', x: '40%', y: '10%', rot: 5 },
+                            { text: '@EnvironmentObject var user: User', x: '50%', y: '85%', rot: -3 },
+                            { text: 'actor DataManager { }', x: '35%', y: '50%', rot: 2 },
+                            { text: 'UICollectionViewDiffableDataSource', x: '60%', y: '75%', rot: -6 },
+                            { text: 'Task { try await fetch() }', x: '25%', y: '90%', rot: 4 },
+
+                            // DevOps / Git / General
+                            { text: 'git rebase -i HEAD~3', x: '90%', y: '90%', rot: -8 },
+                            { text: 'docker-compose up -d --build', x: '5%', y: '5%', rot: 15 },
+                            { text: 'kubectl get pods -n prod', x: '45%', y: '30%', rot: 6 },
+                            { text: 'gh pr create --web', x: '55%', y: '20%', rot: -4 },
+                            { text: 'bundle exec fastlane beta', x: '75%', y: '45%', rot: 3 },
+
+                            // Advanced Patterns
+                            { text: 'Clean Architecture', x: '20%', y: '35%', rot: -2 },
+                            { text: 'MVI Pattern', x: '85%', y: '15%', rot: 4 },
+                            { text: 'Dependency Injection', x: '10%', y: '60%', rot: -5 },
+                            { text: 'CI/CD Pipelines', x: '65%', y: '65%', rot: 2 },
+                            { text: 'Unit Testing', x: '30%', y: '80%', rot: -3 },
+
+                            // Errors & Debugging
+                            { text: 'Fatal Exception: NullPointer', x: '20%', y: '20%', rot: -12, isError: true },
+                            { text: 'SIGSEGV (11)', x: '90%', y: '50%', rot: 5, isError: true },
+                            { text: '401 Unauthorized', x: '40%', y: '40%', rot: 10, isError: true },
+                            { text: 'Gradle Sync Failed', x: '10%', y: '80%', rot: -5, isError: true },
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
-                                className={`absolute cursor-pointer px-2 py-1 bg-white/0 rounded-md font-mono text-xs md:text-sm select-none z-0 pointer-events-auto transition-colors duration-300 ${item.isError ? 'text-red-500/30 opacity-10 hover:text-red-500 hover:opacity-100' : 'text-primary/30 opacity-10 hover:text-primary hover:opacity-100'}`}
+                                className={`absolute cursor-pointer px-3 py-1.5 backdrop-blur-sm rounded-lg font-mono text-xs md:text-sm font-medium select-none z-0 pointer-events-auto transition-colors duration-300 border border-white/5 shadow-lg ${item.isError
+                                    ? 'text-red-400 bg-red-900/10 border-red-500/20 hover:text-red-300 hover:bg-red-900/30'
+                                    : 'text-primary-light bg-primary/5 hover:text-white hover:bg-primary/20'}`}
                                 style={{
                                     left: item.x,
                                     top: item.y,
+                                    opacity: 0.6 // Increased visibility as requested
                                 }}
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={clickPos ? {
-                                    x: (Math.random() - 0.5) * 500, // Disperse
-                                    y: (Math.random() - 0.5) * 500,
+                                    x: (Math.random() - 0.5) * 600, // Greater dispersion
+                                    y: (Math.random() - 0.5) * 600,
                                     opacity: 0,
                                     scale: 0.5
                                 } : {
-                                    opacity: 0.2, // increased base opacity but controlled via class
+                                    opacity: 0.5, // Base opacity higher
                                     scale: 1,
                                     rotate: item.rot,
-                                    x: [0, (Math.random() - 0.5) * 50, 0],
-                                    y: [0, (Math.random() - 0.5) * 50, 0]
+                                    x: [0, (Math.random() - 0.5) * 60, 0],
+                                    y: [0, (Math.random() - 0.5) * 60, 0]
                                 }}
                                 transition={clickPos ? {
                                     type: "spring",
                                     stiffness: 50,
                                     damping: 20
                                 } : {
-                                    duration: 15 + Math.random() * 10,
+                                    duration: 12 + Math.random() * 8, // Slightly faster
                                     repeat: Infinity,
                                     ease: "easeInOut"
                                 }}
+                                whileHover={{ scale: 1.2, zIndex: 50, opacity: 1 }}
                             >
                                 {item.text}
                             </motion.div>

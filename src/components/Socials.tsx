@@ -110,9 +110,9 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
                                                 className="absolute inset-0"
                                             ></iframe>
                                         </div>
-                                        <div className="p-4 bg-white/5 flex justify-between items-center">
-                                            <h4 className="font-bold text-white group-hover:text-primary transition-colors text-sm">{playlist.title}</h4>
-                                            <div className="p-2 bg-red-600 rounded-full scale-75">
+                                        <div className="p-4 bg-white/5 flex justify-between items-center whitespace-normal">
+                                            <h4 className="font-bold text-text group-hover:text-primary transition-colors text-sm line-clamp-2">{playlist.title}</h4>
+                                            <div className="p-2 bg-red-600 rounded-full scale-75 flex-shrink-0">
                                                 <Music size={16} className="text-white" />
                                             </div>
                                         </div>
