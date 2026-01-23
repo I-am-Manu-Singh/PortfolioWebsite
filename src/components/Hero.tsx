@@ -3,8 +3,8 @@ import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, Eye, Sparkles } from 'lucide-react';
 import { resumeData } from '../data/resume';
-import ProfileImage from '../assets/profile.jpg';
-import ProfileImagePersonal from '../assets/profile_personal.jpg';
+const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
+const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.jpg`;
 import SectionBackground from './SectionBackground';
 import ResumePreview from './ResumePreview';
 
