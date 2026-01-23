@@ -84,20 +84,23 @@ const Experience: React.FC = () => {
                         Work <span className="text-primary-light">Experience</span>
                     </motion.h2>
 
-                    {/* Professional Caricature */}
-                    <div className="absolute -right-4 top-0 lg:right-20 lg:-top-6 z-10 hidden md:block">
+                    {/* Professional Caricature with Glow */}
+                    <div className="absolute right-0 top-0 lg:right-10 lg:-top-16 z-0 hidden lg:block opacity-90 pointer-events-none">
                         <motion.div
-                            initial={{ scale: 0, rotate: -10 }}
-                            whileInView={{ scale: 1, rotate: 0 }}
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            whileInView={{ scale: 1, opacity: 1 }}
                             viewport={{ once: true }}
-                            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                            transition={{ duration: 0.8 }}
+                            className="relative"
                         >
+                            {/* Spotlight Glow matches Interests */}
+                            <div className="absolute inset-0 bg-white/10 blur-[80px] rounded-full transform scale-75" />
                             <motion.img
                                 src={CaricatureProfessional}
-                                alt="Professional"
-                                className="w-24 h-24 lg:w-32 lg:h-32 object-contain drop-shadow-xl"
-                                animate={{ y: [0, -10, 0], rotate: [0, -5, 0] }}
-                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                alt="Professional Manpreet"
+                                className="w-48 md:w-64 object-contain drop-shadow-2xl relative z-10"
+                                animate={{ y: [0, -15, 0], rotate: [0, 2, 0] }}
+                                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                             />
                         </motion.div>
                     </div>
