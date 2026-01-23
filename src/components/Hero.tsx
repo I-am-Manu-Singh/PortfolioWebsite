@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown, Eye, Bug } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Eye } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.png`;
@@ -41,16 +41,9 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [visitCount, setVisitCount] = useState<number | null>(null);
 
-    interface Target {
-        id: number;
-        x: number;
-        y: number;
-    }
-
-    // Shooting Game State
+    // Complex Particle Shooter Game State
     const [score, setScore] = useState(0);
-    const [targets, setTargets] = useState<Target[]>([]);
-    const [gameActive, setGameActive] = useState(true);
+    const [shatteredIndices, setShatteredIndices] = useState<Set<number>>(new Set());
     const textControls = useAnimation();
 
     const triggerUnlock = async () => {
@@ -62,35 +55,21 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
         setActiveTab('personal');
     };
 
-    const handleTargetClick = (id: number) => {
-        setTargets(prev => prev.filter(t => t.id !== id));
-        setScore(prev => {
-            const newScore = Math.min(prev + 10, 100);
-            if (newScore === 100) {
-                setGameActive(false);
-                setTimeout(triggerUnlock, 1000);
-            }
-            return newScore;
-        });
+    const handleShardClick = (index: number) => {
+        if (shatteredIndices.has(index)) return;
+
+        const newSet = new Set(shatteredIndices);
+        newSet.add(index);
+        setShatteredIndices(newSet);
+
+        // Calculate score based on percentage cleared (Total: 144 shards)
+        const newScore = Math.floor((newSet.size / 144) * 100);
+        setScore(newScore);
+
+        if (newSet.size >= 144) {
+            setTimeout(triggerUnlock, 500);
+        }
     };
-
-    // Game Loop - Spawn targets
-    React.useEffect(() => {
-        if (!gameActive || score >= 100) return;
-
-        const interval = setInterval(() => {
-            if (targets.length < 5) {
-                const newTarget = {
-                    id: Date.now(),
-                    x: (Math.random() - 0.5) * 200, // Random X offset
-                    y: (Math.random() - 0.5) * 200  // Random Y offset
-                };
-                setTargets(prev => [...prev, newTarget]);
-            }
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [gameActive, score, targets.length]);
 
     React.useEffect(() => {
         // Simple visit counter using countapi.xyz
@@ -202,103 +181,121 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                     </div>
                 </motion.div>
 
-                {/* Profile Image with Floating Target Game */}
+                {/* Profile Image with Complex Particle Shooter Game */}
                 <motion.div
                     className="order-1 md:order-2 flex justify-center perspective-1000 relative z-20"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <div className="relative w-64 h-64 md:w-80 md:h-80 cursor-pointer group">
-                        {/* Score Card */}
-                        {gameActive && (
+                    <div className="relative w-full max-w-sm md:max-w-md mx-auto aspect-square md:aspect-auto cursor-crosshair group perspective-1000">
+                        {/* Score Card / Encryption Status */}
+                        {score < 100 && (
                             <motion.div
                                 initial={{ opacity: 0, y: -20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="absolute -top-12 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
+                                className="absolute -top-16 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
                             >
-                                <div className="px-4 py-1 bg-black/80 backdrop-blur-md border border-red-500/50 rounded-full text-red-500 font-mono font-bold text-sm shadow-[0_0_15px_rgba(239,68,68,0.5)]">
-                                    SYSTEM BREACH: {score}%
+                                <div className="px-5 py-2 bg-black/80 backdrop-blur-xl border border-primary/50 rounded-full flex items-center gap-3 shadow-[0_0_25px_rgba(14,165,233,0.4)]">
+                                    <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                    <span className="text-primary font-mono font-bold text-xs tracking-wider">
+                                        ENCRYPTION LVS: {100 - score}%
+                                    </span>
                                 </div>
-                                <div className="w-48 h-1 bg-gray-800 rounded-full mt-2 overflow-hidden">
+                                {/* Glitchy Progress Bar */}
+                                <div className="w-56 h-1 bg-gray-900/50 rounded-full mt-2 overflow-hidden relative">
                                     <motion.div
-                                        className="h-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]"
+                                        className="h-full bg-gradient-to-r from-primary via-blue-400 to-primary shadow-[0_0_15px_rgba(14,165,233,0.8)] relative"
                                         initial={{ width: 0 }}
                                         animate={{ width: `${score}%` }}
-                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                    />
+                                        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                                    >
+                                        <div className="absolute inset-0 bg-white/20 w-full h-full animate-pulse" />
+                                    </motion.div>
                                 </div>
                             </motion.div>
                         )}
 
-                        {/* Background Reveal (Personal Image) */}
-                        <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-black">
-                            <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
-                                <span className="text-secondary font-mono font-bold text-center px-4 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity">
-                                    ACCESS GRANTED<br />WELCOME
-                                </span>
-                            </div>
+                        {/* Underlay: Personal Profile (Visible through holes) */}
+                        <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-black transform-gpu transition-all duration-700">
                             <img
                                 src={ProfileImagePersonal}
                                 alt="Personal Profile"
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700"
                             />
-                        </div>
-
-                        {/* Foreground (Work Image) - Fades out on win */}
-                        <motion.div
-                            className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl z-20"
-                            animate={score >= 100 ? { opacity: 0, scale: 1.1, filter: "blur(10px)" } : { opacity: 1, scale: 1, filter: "blur(0px)" }}
-                            transition={{ duration: 0.8 }}
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                            <img
-                                src={ProfileImage}
-                                alt="Work Profile"
-                                className="w-full h-full object-cover"
-                            />
-
-                            {/* Scanning Line Effect */}
-                            <motion.div
-                                className="absolute inset-0 w-full h-1 bg-primary/50 shadow-[0_0_15px_rgba(14,165,233,0.8)] z-20"
-                                animate={{ top: ["0%", "100%", "0%"] }}
-                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            />
-                        </motion.div>
-
-                        {/* Floating Targets */}
-                        <div className="absolute inset-0 z-30 pointer-events-none">
-                            {targets.map((target) => (
+                            <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
                                 <motion.div
-                                    key={target.id}
-                                    className="absolute cursor-crosshair pointer-events-auto"
-                                    initial={{ scale: 0, opacity: 0 }}
-                                    animate={{
-                                        scale: 1,
-                                        opacity: 1,
-                                        x: target.x,
-                                        y: target.y
-                                    }}
-                                    exit={{ scale: 0, opacity: 0 }}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleTargetClick(target.id);
-                                    }}
-                                    whileHover={{ scale: 1.2 }}
-                                    whileTap={{ scale: 0.9 }}
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={score === 100 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                                    className="text-center"
                                 >
-                                    <div className="relative">
-                                        <div className="absolute inset-0 bg-red-500/30 blur-md rounded-full animate-pulse" />
-                                        <Bug className="text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]" size={24} />
+                                    <div className="text-secondary font-mono font-bold text-2xl mb-2 tracking-widest drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]">
+                                        ACCESS GRANTED
+                                    </div>
+                                    <div className="text-xs text-secondary/70 font-mono tracking-widest">
+                                        IDENTITY VERIFIED
                                     </div>
                                 </motion.div>
-                            ))}
+                            </div>
+                        </div>
+
+                        {/* Overlay: Work Profile Swirling Shards (12x12 Grid = 144 shards) */}
+                        <div className="absolute inset-0 w-full h-full grid grid-cols-12 grid-rows-12 z-20">
+                            {[...Array(144)].map((_, i) => {
+                                const row = Math.floor(i / 12);
+                                const col = i % 12;
+                                const isShattered = shatteredIndices.has(i);
+
+                                return (
+                                    <motion.div
+                                        key={i}
+                                        className="w-full h-full bg-no-repeat relative transform-gpu"
+                                        style={{
+                                            backgroundImage: `url(${ProfileImage})`,
+                                            backgroundSize: '1200% 1200%',
+                                            backgroundPosition: `${col * 9.09}% ${row * 9.09}%`,
+                                            backfaceVisibility: 'hidden',
+                                        }}
+                                        initial={{ opacity: 1, scale: 1 }}
+                                        animate={isShattered ? {
+                                            opacity: 0,
+                                            scale: 0,
+                                            z: 500, // Fly towards screen when broken
+                                            rotateX: (Math.random() - 0.5) * 720,
+                                            rotateY: (Math.random() - 0.5) * 720,
+                                            x: (Math.random() - 0.5) * 300,
+                                            y: (Math.random() - 0.5) * 300
+                                        } : {
+                                            opacity: 1,
+                                            z: 0,
+                                            // Chaotic "Swirl" Idle Animation
+                                            x: [0, (Math.random() - 0.5) * 15, (Math.random() - 0.5) * 15, 0],
+                                            y: [0, (Math.random() - 0.5) * 15, (Math.random() - 0.5) * 15, 0],
+                                            rotate: [0, (Math.random() - 0.5) * 10, -(Math.random() - 0.5) * 10, 0],
+                                            scale: [1, 1.05, 0.95, 1]
+                                        }}
+                                        transition={isShattered ? { duration: 0.6, ease: "circOut" } : {
+                                            duration: 4 + Math.random() * 4,
+                                            repeat: Infinity,
+                                            ease: "easeInOut",
+                                            delay: Math.random() * -5 // Random start time
+                                        }}
+                                        onMouseEnter={() => handleShardClick(i)}
+                                        onClick={() => handleShardClick(i)}
+                                    >
+                                        {/* Highlight/Glitch effect on hover */}
+                                        <div className="absolute inset-0 bg-primary/20 opacity-0 hover:opacity-100 transition-opacity duration-75 border-[0.5px] border-primary/30" />
+                                    </motion.div>
+                                );
+                            })}
                         </div>
 
                         {/* Start Hint */}
                         {score === 0 && (
-                            <div className="absolute -bottom-12 left-0 right-0 text-center text-xs font-mono text-primary animate-bounce pointer-events-none z-40">
-                                NEUTRALIZE THREATS TO UNLOCK
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-50 w-full">
+                                <span className="inline-block px-4 py-2 bg-black/60 backdrop-blur-sm rounded-lg border border-primary/30 text-xs font-mono text-primary animate-pulse">
+                                    HOVER TO DECRYPT
+                                </span>
                             </div>
                         )}
                     </div>
