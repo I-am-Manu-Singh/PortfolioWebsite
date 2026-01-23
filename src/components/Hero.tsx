@@ -34,6 +34,16 @@ const letterVariants: Variants = {
 const Hero: React.FC = () => {
     const nameLetters = resumeData.basics.name.split("");
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [visitCount, setVisitCount] = useState<number | null>(null);
+
+    React.useEffect(() => {
+        // Simple visit counter using countapi.xyz
+        // Using a unique key for this portfolio
+        fetch('https://api.countapi.xyz/hit/manpreet-portfolio-v1/visits')
+            .then(res => res.json())
+            .then(data => setVisitCount(data.value))
+            .catch(err => console.error("CountAPI error:", err));
+    }, []);
 
     return (
         <section className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0" id="hero">
@@ -103,6 +113,17 @@ const Hero: React.FC = () => {
                         >
                             Preview Resume <Eye size={18} />
                         </motion.button>
+
+                        {visitCount && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="flex items-center gap-2 px-4 py-3 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-text-muted cursor-help"
+                                title="Total Portfolio Visits"
+                            >
+                                <Eye size={14} /> {visitCount.toLocaleString()} Visits
+                            </motion.div>
+                        )}
                     </div>
 
                     <div className="mt-12 flex gap-6">

@@ -164,7 +164,12 @@ const Interests: React.FC = () => {
                                     </div>
                                     {/* Using placeholders that look like real photos */}
                                     <img
-                                        src={`https://source.unsplash.com/random/400x400?concert,music,code,travel&sig=${item}`}
+                                        src={[
+                                            'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80', // Music/Concert
+                                            'https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=400&q=80', // Urban/Code
+                                            'https://images.unsplash.com/photo-1510915362694-bdd4e626bcd4?w=400&q=80', // Piano/Vibe
+                                            'https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&q=80'  // Lifestyle
+                                        ][i % 4]}
                                         alt="Instagram Post"
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                         onError={(e) => {

@@ -135,22 +135,24 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
             case 'projects':
                 return (
                     <>
-                        <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:60px_60px]" />
-                        <motion.div
-                            animate={{ rotate: 180 }}
-                            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                            className="absolute top-[15%] left-[10%] opacity-20 text-white"
-                        >
-                            <Folder size={100} />
-                        </motion.div>
-                        <motion.div
-                            animate={{ rotate: -180 }}
-                            transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                            className="absolute bottom-[20%] right-[10%] opacity-20 text-primary"
-                        >
-                            <Layout size={120} />
-                        </motion.div>
-                        {[...Array(6)].map((_, i) => (
+                        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px]" />
+                        {/* Git Graph Simulation */}
+                        {[...Array(5)].map((_, i) => (
+                            <motion.div
+                                key={`git-${i}`}
+                                className="absolute top-0 bottom-0 w-1 bg-white/5"
+                                style={{ left: `${20 + i * 15}%` }}
+                            >
+                                {/* Commits nodes */}
+                                <motion.div
+                                    className="w-4 h-4 rounded-full bg-primary/40 absolute -left-1.5"
+                                    animate={{ y: ['0%', '100%'], opacity: [0, 1, 0] }}
+                                    transition={{ duration: 5 + i, repeat: Infinity, ease: "linear", delay: i }}
+                                />
+                            </motion.div>
+                        ))}
+                        {/* Floating Folders/Files */}
+                        {[...Array(8)].map((_, i) => (
                             <motion.div
                                 key={i}
                                 className="absolute text-secondary/20"
@@ -159,98 +161,127 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                                     top: `${Math.random() * 90}%`
                                 }}
                                 animate={{
-                                    y: [0, -40, 0],
-                                    rotate: [0, 20, 0]
+                                    y: [0, -60, 0],
+                                    rotate: [0, 15, 0],
+                                    opacity: [0.1, 0.4, 0.1]
                                 }}
-                                transition={{ duration: 15, repeat: Infinity, delay: i * 2 }}
+                                transition={{ duration: 12, repeat: Infinity, delay: i * 2 }}
                             >
-                                <GitBranch size={40 + Math.random() * 30} />
+                                <Folder size={40 + Math.random() * 40} />
                             </motion.div>
                         ))}
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                            className="absolute top-[10%] right-[5%] opacity-10 text-white"
+                        >
+                            <GitBranch size={200} />
+                        </motion.div>
                     </>
                 );
 
             case 'skills':
                 return (
                     <>
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                            className="absolute top-[5%] right-[-5%] opacity-25 text-secondary"
-                        >
-                            <Cpu size={250} />
-                        </motion.div>
-                        <motion.div
-                            animate={{ rotate: -180 }}
-                            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                            className="absolute bottom-[10%] left-[-5%] opacity-20 text-primary"
-                        >
-                            <Database size={200} />
-                        </motion.div>
-                        {/* More Tech Symbols */}
-                        {[...Array(10)].map((_, i) => (
+                        {/* Circuit Board Lines */}
+                        <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
+                            <pattern id="circuit" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                                <path d="M10,10 L90,10 M10,10 L10,90 M50,50 L90,50" stroke="currentColor" strokeWidth="2" fill="none" />
+                                <circle cx="10" cy="10" r="3" fill="currentColor" />
+                                <circle cx="90" cy="50" r="3" fill="currentColor" />
+                            </pattern>
+                            <rect width="100%" height="100%" fill="url(#circuit)" />
+                        </svg>
+
+                        {/* Pulsing Server Racks */}
+                        {[...Array(4)].map((_, i) => (
                             <motion.div
-                                key={i}
-                                className="absolute text-white/10"
-                                style={{
-                                    left: `${Math.random() * 100}%`,
-                                    top: `${Math.random() * 100}%`
-                                }}
-                                animate={{ opacity: [0.1, 0.4, 0.1] }}
-                                transition={{ duration: 4, repeat: Infinity, delay: i }}
+                                key={`server-${i}`}
+                                className="absolute bottom-0 w-24 h-64 bg-white/5 rounded-t-lg border-x border-t border-white/10 backdrop-blur-sm"
+                                style={{ left: `${15 + i * 20}%` }}
+                                initial={{ y: 100 }}
+                                whileInView={{ y: 0 }}
+                                viewport={{ once: true }}
                             >
-                                <Hash size={24} />
+                                {/* Blinking Lights */}
+                                {[...Array(5)].map((_, j) => (
+                                    <motion.div
+                                        key={j}
+                                        className="w-1.5 h-1.5 rounded-full bg-green-500 mx-auto mt-4"
+                                        animate={{ opacity: [0.2, 1, 0.2] }}
+                                        transition={{ duration: 0.5, repeat: Infinity, delay: Math.random() }}
+                                    />
+                                ))}
                             </motion.div>
                         ))}
+
+                        <motion.div
+                            animate={{ rotate: -360 }}
+                            transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                            className="absolute top-[15%] left-[5%] opacity-20 text-blue-500"
+                        >
+                            <Cpu size={180} />
+                        </motion.div>
+                        <motion.div
+                            animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.3, 0.1] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px]"
+                        />
                     </>
                 );
+
             case 'experience':
                 return (
                     <>
-                        {/* Full height timeline-like visuals */}
-                        <div className="absolute left-[10%] top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-                        <div className="absolute right-[10%] top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent" />
+                        {/* Dynamic Timeline Path */}
+                        <svg className="absolute inset-0 w-full h-full opacity-20">
+                            <motion.path
+                                d="M 100 0 Q 300 200 100 400 T 100 800"
+                                fill="transparent"
+                                stroke="url(#experience-gradient)"
+                                strokeWidth="3"
+                                strokeDasharray="10 10"
+                                animate={{ strokeDashoffset: [0, -100] }}
+                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                            />
+                            <defs>
+                                <linearGradient id="experience-gradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#fff" />
+                                    <stop offset="100%" stopColor="#3b82f6" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
 
+                        {/* Floating Globes/Cities */}
                         <motion.div
-                            animate={{ y: [0, -50, 0] }}
-                            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                            className="absolute top-[20%] right-[15%] opacity-20 text-white"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+                            className="absolute top-[20%] right-[10%] opacity-10 text-white"
                         >
-                            <Globe size={180} />
+                            <Globe size={300} strokeWidth={1} />
                         </motion.div>
-                        <motion.div
-                            animate={{ y: [0, 50, 0] }}
-                            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-                            className="absolute bottom-[20%] left-[15%] opacity-20 text-primary-light"
-                        >
-                            <BriefcaseIcon size={140} />
-                        </motion.div>
-                    </>
-                );
 
-            case 'writing':
-                return (
-                    <>
-                        <motion.div
-                            animate={{ rotate: [0, 10, 0], y: [0, -20, 0] }}
-                            transition={{ duration: 8, repeat: Infinity }}
-                            className="absolute top-[10%] left-[5%] opacity-20 text-white"
-                        >
-                            <FileText size={120} />
-                        </motion.div>
+                        {/* Briefcases floating up */}
                         {[...Array(5)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute text-primary/20"
+                                className="absolute text-primary-light/30"
                                 style={{
-                                    right: `${Math.random() * 40}%`,
-                                    top: `${Math.random() * 90}%`
+                                    left: `${Math.random() * 80 + 10}%`,
+                                    bottom: '-10%'
                                 }}
-                                animate={{ x: [0, -30, 0], opacity: [0.1, 0.4, 0.1] }}
-                                transition={{ duration: 10 + i, repeat: Infinity }}
+                                animate={{
+                                    y: -1000,
+                                    opacity: [0, 0.5, 0],
+                                    rotate: Math.random() * 30 - 15
+                                }}
+                                transition={{
+                                    duration: 15 + Math.random() * 10,
+                                    repeat: Infinity,
+                                    delay: i * 3
+                                }}
                             >
-                                <div className="w-32 h-2 bg-white/20 rounded-full mb-2" />
-                                <div className="w-24 h-2 bg-white/10 rounded-full" />
+                                <BriefcaseIcon size={40 + Math.random() * 20} />
                             </motion.div>
                         ))}
                     </>
@@ -259,25 +290,27 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
             case 'community':
                 return (
                     <>
-                        <motion.div
-                            animate={{ scale: [1, 1.1, 1] }}
-                            transition={{ duration: 5, repeat: Infinity }}
-                            className="absolute top-[15%] right-[20%] opacity-20 text-yellow-400"
-                        >
-                            <Star size={100} />
-                        </motion.div>
-                        {[...Array(12)].map((_, i) => (
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_0,rgba(0,0,0,0)_70%)]" />
+                        {/* Connecting Nodes Network */}
+                        {[...Array(15)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute text-white/10"
+                                className="absolute bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md"
                                 style={{
-                                    left: `${Math.random() * 100}%`,
-                                    top: `${Math.random() * 100}%`
+                                    width: Math.random() * 40 + 30,
+                                    height: Math.random() * 40 + 30,
+                                    left: `${Math.random() * 90}%`,
+                                    top: `${Math.random() * 90}%`
                                 }}
-                                animate={{ y: -50, opacity: [0, 1, 0] }}
-                                transition={{ duration: 8 + Math.random() * 5, repeat: Infinity, delay: Math.random() * 5 }}
+                                animate={{
+                                    scale: [1, 1.2, 1],
+                                    opacity: [0.3, 0.6, 0.3],
+                                    x: [0, Math.random() * 30, 0],
+                                    y: [0, Math.random() * 30, 0]
+                                }}
+                                transition={{ duration: 5 + Math.random() * 5, repeat: Infinity }}
                             >
-                                {i % 2 === 0 ? <Users size={30} /> : <MessageCircle size={24} />}
+                                {i % 3 === 0 ? <Users size={16} className="text-white/50" /> : <MessageCircle size={16} className="text-primary/50" />}
                             </motion.div>
                         ))}
                     </>
@@ -286,41 +319,48 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
             case 'music':
                 return (
                     <>
-                        <motion.div
-                            animate={{ rotate: [0, 10, 0], y: [0, -20, 0] }}
-                            transition={{ duration: 5, repeat: Infinity }}
-                            className="absolute top-[10%] left-[10%] opacity-30 text-pink-500"
-                        >
-                            <Music size={120} />
-                        </motion.div>
-                        <motion.div
-                            animate={{ rotate: [0, -10, 0], y: [0, 20, 0] }}
-                            transition={{ duration: 7, repeat: Infinity }}
-                            className="absolute bottom-[20%] right-[10%] opacity-20 text-purple-500"
-                        >
-                            <Music size={150} />
-                        </motion.div>
-                        {/* Distributed Notes */}
-                        {[...Array(15)].map((_, i) => (
+                        {/* Audio Waveform Visualization */}
+                        <div className="absolute bottom-0 left-0 right-0 flex justify-center items-end h-1/2 opacity-20 gap-1 md:gap-3 px-10">
+                            {[...Array(20)].map((_, i) => (
+                                <motion.div
+                                    key={i}
+                                    className="w-4 md:w-8 bg-gradient-to-t from-pink-500 to-purple-500 rounded-t-lg"
+                                    animate={{
+                                        height: ['10%', `${Math.random() * 60 + 20}%`, '10%']
+                                    }}
+                                    transition={{
+                                        duration: 0.8,
+                                        repeat: Infinity,
+                                        repeatType: "reverse",
+                                        delay: i * 0.05,
+                                        ease: "easeInOut"
+                                    }}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Floating Notes */}
+                        {[...Array(8)].map((_, i) => (
                             <motion.div
                                 key={i}
                                 className="absolute text-pink-500/30"
                                 style={{
                                     left: `${Math.random() * 100}%`,
-                                    top: `${Math.random() * 100}%`
+                                    bottom: '0%'
                                 }}
                                 animate={{
-                                    y: -150,
+                                    y: -800,
+                                    x: Math.sin(i) * 100,
                                     opacity: [0, 0.8, 0],
-                                    x: Math.sin(i) * 30
+                                    rotate: [0, 360]
                                 }}
                                 transition={{
-                                    duration: 5 + Math.random() * 5,
+                                    duration: 10 + Math.random() * 5,
                                     repeat: Infinity,
-                                    delay: Math.random() * 5
+                                    delay: i * 2
                                 }}
                             >
-                                <Music size={20 + Math.random() * 20} />
+                                <Music size={40 + Math.random() * 30} />
                             </motion.div>
                         ))}
                     </>

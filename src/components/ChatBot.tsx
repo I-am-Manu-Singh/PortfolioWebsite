@@ -38,18 +38,24 @@ const ChatBot: React.FC = () => {
         let response = "I'm not sure about that. Try asking about my skills, projects, or contact info!";
 
         if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
-            response = `Manpreet is proficient in ${resumeData.skills.languages.slice(0, 3).join(', ')}, ${resumeData.skills.android.slice(0, 2).join(', ')}, and ${resumeData.skills.reactNative[0]}. He also knows ${resumeData.skills.backendAndTools.join(', ')}.`;
-        } else if (q.includes('project') || q.includes('work') || q.includes('build')) {
-            const projects = resumeData.projects.map(p => p.name).join(', ');
-            response = `He has built several impressive projects including ${projects}. Check out the Projects section for details!`;
-        } else if (q.includes('contact') || q.includes('email') || q.includes('reach')) {
-            response = `You can reach him at ${resumeData.basics.email} or connect on LinkedIn: ${resumeData.basics.profiles[0].url}`;
-        } else if (q.includes('experience') || q.includes('job')) {
-            response = `He is currently at ${resumeData.experience[0].company} as a ${resumeData.experience[0].position}. Previously he interned at ${resumeData.experience[1].company}.`;
-        } else if (q.includes('hello') || q.includes('hi')) {
-            response = "Hello! tailored to help you know more about Manpreet. What would you like to know?";
-        } else if (q.includes('music') || q.includes('hobby')) {
-            response = "Manpreet loves music! He plays guitar and piano. Check out his Interests section.";
+            response = `Manpreet is proficient in ${resumeData.skills.languages.slice(0, 3).join(', ')}, ${resumeData.skills.android.slice(0, 2).join(', ')}, and ${resumeData.skills.reactNative[0]}. He also knows ${resumeData.skills.backendAndTools.slice(0, 4).join(', ')}.`;
+        } else if (q.includes('project') || q.includes('work') || q.includes('build') || q.includes('portfolio')) {
+            const projects = resumeData.projects.slice(0, 3).map(p => p.name).join(', ');
+            response = `He has built impressive projects like ${projects} and many more. Check the Projects section!`;
+        } else if (q.includes('contact') || q.includes('email') || q.includes('reach') || q.includes('hire')) {
+            response = `You can reach him at ${resumeData.basics.email} or connect on LinkedIn. He is open to opportunities!`;
+        } else if (q.includes('experience') || q.includes('job') || q.includes('company')) {
+            response = `He is currently at ${resumeData.experience[0].company} as a ${resumeData.experience[0].position}.`;
+        } else if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
+            response = "Hello! I am Manpreet's digital assistant. I can tell you about his Android capability, React Native work, or his music interests!";
+        } else if (q.includes('music') || q.includes('hobby') || q.includes('guitar') || q.includes('interest')) {
+            response = "Manpreet is a musician at heart! He plays guitar and piano. You can see his covers in the Interests section.";
+        } else if (q.includes('location') || q.includes('where')) {
+            response = "Manpreet is based in India, open to remote and global opportunities.";
+        } else if (q.includes('do you know') || q.includes('who is')) {
+            response = "I am an AI assistant trained on Manpreet's resume data. He is a passionate Mobile Developer.";
+        } else {
+            response = "I can tell you about Manpreet's Skills, Projects, Experience, or Music. Try asking 'What skills does he have?'";
         }
 
         setMessages(prev => [...prev, { id: Date.now().toString(), type: 'bot', text: response }]);

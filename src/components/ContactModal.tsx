@@ -16,12 +16,36 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         message: ''
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Construct mailto link
+
+        // 1. Try to send via Formspree if ID is present (User needs to add their ID)
+        // Change 'YOUR_FORMSPREE_ID' to your actual Formspree ID
+        const FORMSPREE_ID = '';
+
+        if (FORMSPREE_ID) {
+            try {
+                const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                if (response.ok) {
+                    alert('Message sent successfully!');
+                    onClose();
+                    return;
+                }
+            } catch (error) {
+                console.error("Formspree error:", error);
+            }
+        }
+
+        // 2. Fallback to Mailto
+        // Note: This opens the user's email client. This is the only way for a static site without a backend service.
         const subject = `Portfolio Contact from ${formData.name}`;
         const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
         window.location.href = `mailto:manpreetsinghkainth25@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        alert("This will open your default email client to send the message.");
         onClose();
     };
 
