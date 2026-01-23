@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Music, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
-import CaricaturePiano from '../assets/caricature_piano.png';
-import CaricatureGuitar from '../assets/caricature_guitar.png';
+// import CaricaturePiano from '../assets/caricature_piano.png';
+// import CaricatureGuitar from '../assets/caricature_guitar.png';
 
 import SectionBackground from './SectionBackground';
 
@@ -93,7 +93,7 @@ const Interests: React.FC = () => {
                                         >
                                             <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
                                             <img
-                                                src={CaricaturePiano}
+                                                src={`${import.meta.env.BASE_URL}caricature_piano.png`}
                                                 alt="Pianist"
                                                 className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform"
                                             />
@@ -111,7 +111,7 @@ const Interests: React.FC = () => {
                                         >
                                             <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
                                             <img
-                                                src={CaricatureGuitar}
+                                                src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
                                                 alt="Guitarist"
                                                 className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform"
                                             />

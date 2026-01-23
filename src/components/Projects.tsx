@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Github, ExternalLink, Code, Folder } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import SectionBackground from './SectionBackground';
-import CaricatureCoding from '../assets/caricature_coding_profile.png';
+// import CaricatureCoding from '../assets/caricature_coding_profile.png';
 
 const Projects: React.FC = () => {
     return (
@@ -30,7 +30,7 @@ const Projects: React.FC = () => {
                     >
                         <div className="absolute inset-0 bg-primary/10 blur-[50px] rounded-full" />
                         <motion.img
-                            src={CaricatureCoding}
+                            src={`${import.meta.env.BASE_URL}caricature_coding_profile.png`}
                             alt="Coding Projects"
                             className="w-48 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform"
                             animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}

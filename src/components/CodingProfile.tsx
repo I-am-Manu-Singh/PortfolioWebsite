@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
 
 import SectionBackground from './SectionBackground';
-import CaricatureCoding from '../assets/caricature_coding_profile.png';
+// import CaricatureCoding from '../assets/caricature_coding_profile.png';
 
 const CodingProfile: React.FC = () => {
     return (
@@ -31,7 +31,7 @@ const CodingProfile: React.FC = () => {
                     >
                         <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
                         <motion.img
-                            src={CaricatureCoding}
+                            src={`${import.meta.env.BASE_URL}caricature_coding_profile.png`}
                             alt="Coding"
                             className="w-40 md:w-56 object-contain drop-shadow-2xl relative z-10 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform"
                             animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}

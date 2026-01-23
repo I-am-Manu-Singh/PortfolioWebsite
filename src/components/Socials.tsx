@@ -29,7 +29,7 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
             {/* Floating Caricatures - Adjusted to not dangle over content */}
             {/* Floating Caricatures - More visible and interactive */}
             <motion.img
-                src="/caricature_guitar.png"
+                src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
                 alt="Guitarist"
                 className="absolute -left-10 md:left-4 top-20 w-40 md:w-56 opacity-90 z-10 hover:scale-110 transition-transform cursor-pointer"
                 animate={{ y: [0, -15, 0], rotate: [0, 3, 0] }}
@@ -38,7 +38,7 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
                 dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
             />
             <motion.img
-                src="/caricature_piano.png"
+                src={`${import.meta.env.BASE_URL}caricature_piano.png`}
                 alt="Pianist"
                 className="absolute -right-10 md:right-4 bottom-20 w-40 md:w-56 opacity-90 z-10 hover:scale-110 transition-transform cursor-pointer"
                 animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}

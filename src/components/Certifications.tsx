@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { Award, Calendar } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import SectionBackground from './SectionBackground';
-import CaricaturePublications from '../assets/caricature_publications.png';
-import CaricatureLicenses from '../assets/caricature_licenses.png';
+// import CaricaturePublications from '../assets/caricature_publications.png';
+// import CaricatureLicenses from '../assets/caricature_licenses.png';
 
 const Certifications: React.FC = () => {
     return (
@@ -29,7 +29,7 @@ const Certifications: React.FC = () => {
                         viewport={{ once: true }}
                     >
                         <motion.img
-                            src={CaricaturePublications}
+                            src={`${import.meta.env.BASE_URL}caricature_publications.png`}
                             alt="Publications"
                             className="w-48 object-contain drop-shadow-xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-105 transition-transform"
                             animate={{ y: [0, -15, 0] }}
@@ -47,7 +47,7 @@ const Certifications: React.FC = () => {
                         viewport={{ once: true }}
                     >
                         <motion.img
-                            src={CaricatureLicenses}
+                            src={`${import.meta.env.BASE_URL}caricature_licenses.png`}
                             alt="Licenses"
                             className="w-40 object-contain drop-shadow-xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-105 transition-transform"
                             animate={{ y: [0, 15, 0], rotate: [0, 5, 0] }}
