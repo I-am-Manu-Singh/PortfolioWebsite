@@ -20,30 +20,50 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
             case 'hero':
                 return (
                     <>
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-dark to-dark" />
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-dark to-dark" />
 
-                        {/* Interactive Scattered Code Blocks */}
+                        {/* Interactive Scattered Code Blocks - App Dev & Git Focused */}
                         {[
-                            { text: '<Developer />', x: '10%', y: '20%', rot: -10 },
-                            { text: 'git push --force', x: '80%', y: '15%', rot: 15 },
-                            { text: 'npm run dev', x: '60%', y: '60%', rot: -5 },
-                            { text: 'while(alive) { code() }', x: '15%', y: '70%', rot: 5 },
-                            { text: '404 Brain Not Found', x: '30%', y: '40%', rot: -15, color: 'text-red-400' },
-                            { text: 'import { Physics } from "life"', x: '70%', y: '30%', rot: 10 },
-                            { text: 'Console.log("Coffee");', x: '85%', y: '80%', rot: -20 },
-                            { text: 'return "Success";', x: '5%', y: '50%', rot: 15, color: 'text-green-400' }
+                            // Git Commands
+                            { text: 'git commit -m "feat: new feature"', x: '10%', y: '15%', rot: -10 },
+                            { text: 'git push origin main', x: '80%', y: '10%', rot: 15 },
+                            { text: 'git merge --no-ff', x: '5%', y: '40%', rot: 5 },
+                            { text: 'git rebase -i HEAD~3', x: '90%', y: '30%', rot: -5 },
+                            { text: 'git checkout -b fix/bug', x: '20%', y: '70%', rot: 10 },
+                            { text: 'git stash pop', x: '85%', y: '60%', rot: -10 },
+                            { text: 'git cherry-pick <hash>', x: '15%', y: '85%', rot: 5 },
+                            { text: 'git reset --soft', x: '75%', y: '80%', rot: -5 },
+
+                            // App Dev / Mobile / React Native / Build
+                            { text: 'pod install', x: '60%', y: '20%', rot: -8 },
+                            { text: './gradlew clean build', x: '30%', y: '25%', rot: 8 },
+                            { text: 'npm run android', x: '70%', y: '50%', rot: -5 },
+                            { text: 'npx react-native run-ios', x: '15%', y: '55%', rot: 12 },
+                            { text: 'Xcode Build Succeeded', x: '85%', y: '45%', rot: -15, color: 'text-green-500/50' },
+                            { text: 'Gradle Build Failed', x: '10%', y: '30%', rot: 5, color: 'text-red-500/50' },
+
+                            // Code Concepts
+                            { text: '@Composable', x: '40%', y: '10%', rot: 5 },
+                            { text: 'useEffect(() => {}, [])', x: '50%', y: '85%', rot: -3 },
+                            { text: '<View style={styles.container}>', x: '35%', y: '60%', rot: 8 },
+                            { text: 'const [state, setState]', x: '65%', y: '70%', rot: -6 },
+                            { text: 'AsyncStorage.getItem()', x: '25%', y: '90%', rot: 4 },
+                            { text: 'Navigation.navigate("Home")', x: '90%', y: '90%', rot: -8 },
+                            { text: 'interface Props {}', x: '5%', y: '5%', rot: 15 },
+                            { text: 'return <App />', x: '95%', y: '5%', rot: -15 },
+                            { text: 'FlatList data={data}', x: '45%', y: '40%', rot: 6 },
+                            { text: 'Dimensions.get("window")', x: '55%', y: '15%', rot: -4 },
+
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
-                                className={`absolute cursor-grab active:cursor-grabbing px-4 py-2 bg-dark-card/50 backdrop-blur-md border border-white/10 rounded-lg font-mono text-sm md:text-base ${item.color || 'text-primary-light'} shadow-xl select-none z-0`}
+                                className={`absolute cursor-grab active:cursor-grabbing px-3 py-1.5 bg-white/5 backdrop-blur-[2px] border border-white/5 rounded-md font-mono text-xs md:text-sm ${item.color || 'text-primary/20'} select-none z-0 pointer-events-auto hover:bg-white/10 hover:text-primary/60 hover:border-primary/20 hover:scale-110 active:scale-95 transition-colors`}
                                 style={{ left: item.x, top: item.y }}
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1, rotate: item.rot }}
                                 drag
-                                dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
-                                whileHover={{ scale: 1.1, zIndex: 10 }}
-                                whileTap={{ scale: 0.95 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
+                                transition={{ type: "spring", stiffness: 200, damping: 20, delay: i * 0.05 }}
                             >
                                 {item.text}
                             </motion.div>
