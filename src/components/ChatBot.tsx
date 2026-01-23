@@ -38,7 +38,7 @@ const ChatBot: React.FC = () => {
         let response = "I'm not sure about that. Try asking about my skills, projects, or contact info!";
 
         if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
-            response = `Manpreet is proficient in ${resumeData.skills.languages.slice(0, 3).join(', ')}, ${resumeData.skills.android.slice(0, 2).join(', ')}, and ${resumeData.skills.reactNative[0]}. He also knows ${resumeData.skills.backendAndTools.slice(0, 4).join(', ')}.`;
+            response = `Manpreet is proficient in ${resumeData.skills.languages.slice(0, 3).join(', ')}, ${resumeData.skills.android.slice(0, 2).join(', ')}, and ${resumeData.skills.reactNative[0]}. He also knows ${resumeData.skills.tools.slice(0, 4).join(', ')}.`;
         } else if (q.includes('project') || q.includes('work') || q.includes('build') || q.includes('portfolio')) {
             const projects = resumeData.projects.slice(0, 3).map(p => p.name).join(', ');
             response = `He has built impressive projects like ${projects} and many more. Check the Projects section!`;

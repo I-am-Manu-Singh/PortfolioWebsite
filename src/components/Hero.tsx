@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown, Eye, Sparkles } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Eye } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.png`;
