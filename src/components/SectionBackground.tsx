@@ -70,16 +70,17 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                                     opacity: 0.2, // increased base opacity but controlled via class
                                     scale: 1,
                                     rotate: item.rot,
-                                    x: 0,
-                                    y: [0, -15, 0] // Floating animation
+                                    x: [0, (Math.random() - 0.5) * 50, 0],
+                                    y: [0, (Math.random() - 0.5) * 50, 0]
                                 }}
                                 transition={clickPos ? {
                                     type: "spring",
                                     stiffness: 50,
                                     damping: 20
                                 } : {
-                                    y: { duration: 3 + Math.random() * 2, repeat: Infinity, ease: "easeInOut" },
-                                    default: { duration: 0.5 }
+                                    duration: 15 + Math.random() * 10,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
                                 }}
                             >
                                 {item.text}
@@ -186,14 +187,16 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                                     fontSize: Math.random() > 0.7 ? '1.5rem' : '0.9rem'
                                 }}
                                 animate={{
-                                    y: [0, -20, 0],
+                                    x: [0, (Math.random() - 0.5) * 100, 0],
+                                    y: [0, (Math.random() - 0.5) * 100, 0],
                                     opacity: [0.1, 0.4, 0.1],
                                     scale: [1, 1.1, 1]
                                 }}
                                 transition={{
-                                    duration: 5 + Math.random() * 5,
+                                    duration: 10 + Math.random() * 10,
                                     repeat: Infinity,
-                                    delay: i * 0.2
+                                    delay: i * 0.2,
+                                    ease: "easeInOut"
                                 }}
                             >
                                 {text}
