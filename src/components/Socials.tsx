@@ -55,7 +55,7 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
                             {/* Caricature Placement Logic */}
                             {category.title.toLowerCase().includes('guitar') && (
                                 <motion.div
-                                    className="hidden lg:block absolute -right-4 top-0 z-10 cursor-pointer"
+                                    className="hidden lg:block absolute -right-4 top-0 z-0 cursor-pointer pointer-events-auto"
                                     animate={{ y: [0, -15, 0], rotate: [0, 3, 0] }}
                                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                                     drag
@@ -72,7 +72,7 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
 
                             {category.title.toLowerCase().includes('piano') && (
                                 <motion.div
-                                    className="hidden lg:block absolute -right-4 top-0 z-10 cursor-pointer"
+                                    className="hidden lg:block absolute -right-4 top-0 z-0 cursor-pointer pointer-events-auto"
                                     animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}
                                     transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
                                     drag

@@ -21,7 +21,8 @@
   --transition: all 0.3s ease;
   --glass-bg: rgba(15, 16, 32, 0.7);
   /* Tinted glass */
-  --glass-border: rgba(255, 255, 255, 0.08);
+  /* Gradient Backgrounds */
+  --bg-gradient: linear-gradient(180deg, #050510 0%, #0d0e25 50%, #050510 100%);
 }
 
 [data-theme='light'] {
@@ -35,6 +36,9 @@
   --color-text-muted: #4b5563;
   --glass-bg: rgba(255, 255, 255, 0.85);
   --glass-border: rgba(0, 0, 0, 0.08);
+
+  /* Light Mode Gradient */
+  --bg-gradient: linear-gradient(180deg, #f8fafc 0%, #e0f2fe 50%, #f0f9ff 100%);
 }
 
 /* Force dark text on generic elements in light mode */
@@ -73,7 +77,8 @@ html {
 
 body {
   font-family: var(--font-main);
-  background-color: var(--color-dark);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--color-text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
