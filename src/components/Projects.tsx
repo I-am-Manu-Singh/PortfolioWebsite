@@ -8,7 +8,7 @@ import SectionBackground from './SectionBackground';
 const Projects: React.FC = () => {
     return (
         <section className="section bg-dark-card/30 perspective-1000 relative overflow-hidden" id="projects">
-            <SectionBackground variant="projects" />
+            <SectionBackground variant="default" />
             <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
@@ -20,7 +20,7 @@ const Projects: React.FC = () => {
                 </motion.h2>
 
                 <motion.div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
