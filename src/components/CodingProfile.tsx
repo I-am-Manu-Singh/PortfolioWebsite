@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
 
 import SectionBackground from './SectionBackground';
+import CaricatureCoding from '../assets/caricature_coding_profile.png';
 
 const CodingProfile: React.FC = () => {
     return (
@@ -30,7 +31,7 @@ const CodingProfile: React.FC = () => {
                     >
                         <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
                         <motion.img
-                            src="/caricature_coding_profile.png"
+                            src={CaricatureCoding}
                             alt="Coding"
                             className="w-40 md:w-56 object-contain drop-shadow-2xl relative z-10 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform"
                             animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
@@ -76,7 +77,7 @@ const CodingProfile: React.FC = () => {
                         className="glass-card p-6 flex flex-col items-center"
                     >
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-[#FFA116]">
-                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/LeetCode_Logo_1.png" alt="LeetCode" className="w-6 h-6 object-contain" />
                             LeetCode Stats
                         </h3>
                         <div className="w-full flex justify-center">

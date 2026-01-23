@@ -258,19 +258,19 @@ export const resumeData = {
                     ]
                 },
                 {
-                    title: "Guitar & Vocals",
+                    title: "Guitar Sessions",
                     playlists: [
-                        { title: "Western Vocal + Guitar", id: "PL3gkgbVoJUE1U3g7v8dQWJX_xfJOLY_sM" },
+                        { title: "Bollywood Electric Guitar", id: "PL3gkgbVoJUE05gqKg2WhscZdE5DkrTL3-" },
                         { title: "Punjabi Vocal + Guitar", id: "PL3gkgbVoJUE1tDaChNK1LkhyHTwtOrP78" },
-                        { title: "Acoustic & Bollywood Vocal", id: "PL3gkgbVoJUE2UwiCtpeOksjqDXbdBgO_5" },
-                        { title: "Bollywood Electric Guitar", id: "PL3gkgbVoJUE05gqKg2WhscZdE5DkrTL3-" }
+                        { title: "Western Vocal + Guitar", id: "PL3gkgbVoJUE1U3g7v8dQWJX_xfJOLY_sM" }
                     ]
                 },
                 {
-                    title: "Live & Classical",
+                    title: "Singing & Vocals",
                     playlists: [
-                        { title: "Live Performances", id: "PL3gkgbVoJUE3zAKHCjq3traur22GZFJKo" },
-                        { title: "Classical & Sufi Vocals", id: "PL3gkgbVoJUE1EYUoXKCS7lx5-o3Go2rx9" }
+                        { title: "Classical & Sufi Vocals", id: "PL3gkgbVoJUE1EYUoXKCS7lx5-o3Go2rx9" },
+                        { title: "Acoustic & Bollywood Vocal", id: "PL3gkgbVoJUE2UwiCtpeOksjqDXbdBgO_5" },
+                        { title: "Vocal Performances", id: "PL3gkgbVoJUE2vGVsyASrPnYvX4wEWgYYd" }
                     ]
                 }
             ]

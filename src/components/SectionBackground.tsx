@@ -12,6 +12,13 @@ interface SectionBackgroundProps {
 }
 
 const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'default', className = '' }) => {
+    // Hero Click Ripple Logic
+    const [clickPos, setClickPos] = React.useState<{ x: number, y: number } | null>(null);
+
+    const handleHeroClick = (e: React.MouseEvent) => {
+        setClickPos({ x: e.clientX, y: e.clientY });
+        setTimeout(() => setClickPos(null), 1000); // Reset for repeated clicks
+    };
     // Common float animation settings
 
 
@@ -20,66 +27,62 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
         switch (variant) {
             case 'hero':
                 return (
-                    <>
+                    <div className="absolute inset-0 w-full h-full" onClick={handleHeroClick}>
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-dark to-dark" />
 
-                        {/* Interactive Scattered Code Blocks - App Dev & Git Focused */}
+                        {/* Interactive Scattered Code Blocks - App Dev & Errors Only */}
                         {[
-                            // Git Commands
-                            { text: 'git commit -m "feat: new feature"', x: '10%', y: '15%', rot: -10 },
-                            { text: 'git push origin main', x: '80%', y: '10%', rot: 15 },
-                            { text: 'git merge --no-ff', x: '5%', y: '40%', rot: 5 },
-                            { text: 'git rebase -i HEAD~3', x: '90%', y: '30%', rot: -5 },
-                            { text: 'git checkout -b fix/bug', x: '20%', y: '70%', rot: 10 },
-                            { text: 'git stash pop', x: '85%', y: '60%', rot: -10 },
-                            { text: 'git cherry-pick <hash>', x: '15%', y: '85%', rot: 5 },
-                            { text: 'git reset --soft', x: '75%', y: '80%', rot: -5 },
+                            // Errors (5% opacity)
+                            { text: 'NullPointerException', x: '10%', y: '15%', rot: -10, isError: true },
+                            { text: 'ANR detected', x: '80%', y: '10%', rot: 15, isError: true },
+                            { text: 'Gradle Sync Failed', x: '5%', y: '40%', rot: 5, isError: true },
+                            { text: 'Build Failed', x: '90%', y: '30%', rot: -5, isError: true },
+                            { text: 'ActivityNotFoundException', x: '20%', y: '70%', rot: 10, isError: true },
+                            { text: 'Unresolved Reference', x: '85%', y: '60%', rot: -10, isError: true },
 
-                            // App Dev / Mobile / React Native / Build
-                            { text: 'pod install', x: '60%', y: '20%', rot: -8 },
-                            { text: './gradlew clean build', x: '30%', y: '25%', rot: 8 },
-                            { text: 'npm run android', x: '70%', y: '50%', rot: -5 },
-                            { text: 'npx react-native run-ios', x: '15%', y: '55%', rot: 12 },
-                            { text: 'Xcode Build Succeeded', x: '85%', y: '45%', rot: -15, color: 'text-green-500/50' },
-                            { text: 'Gradle Build Failed', x: '10%', y: '30%', rot: 5, color: 'text-red-500/50' },
-
-                            // Code Concepts
+                            // App Dev Terms (Still subtle)
                             { text: '@Composable', x: '40%', y: '10%', rot: 5 },
-                            { text: 'useEffect(() => {}, [])', x: '50%', y: '85%', rot: -3 },
-                            { text: '<View style={styles.container}>', x: '35%', y: '60%', rot: 8 },
-                            { text: 'const [state, setState]', x: '65%', y: '70%', rot: -6 },
-                            { text: 'AsyncStorage.getItem()', x: '25%', y: '90%', rot: 4 },
-                            { text: 'Navigation.navigate("Home")', x: '90%', y: '90%', rot: -8 },
-                            { text: 'interface Props {}', x: '5%', y: '5%', rot: 15 },
-                            { text: 'return <App />', x: '95%', y: '5%', rot: -15 },
-                            { text: 'FlatList data={data}', x: '45%', y: '40%', rot: 6 },
-                            { text: 'Dimensions.get("window")', x: '55%', y: '15%', rot: -4 },
-
-                            // Android / Kotlin Specific
-                            { text: 'AndroidManifest.xml', x: '5%', y: '25%', rot: -5 },
-                            { text: 'suspend fun fetchData()', x: '45%', y: '75%', rot: 3 },
-                            { text: 'class MainActivity : ComponentActivity()', x: '10%', y: '90%', rot: -2 },
-                            { text: 'viewModelScope.launch {}', x: '60%', y: '35%', rot: 8 },
-                            { text: '<RecyclerView />', x: '80%', y: '65%', rot: -6 },
-                            { text: 'val context = LocalContext.current', x: '25%', y: '45%', rot: 4 },
-                            { text: 'Intent(this, DetailActivity::class.java)', x: '70%', y: '80%', rot: -3 },
-                            { text: 'NavHost(navController)', x: '90%', y: '20%', rot: 7 },
-                            { text: 'by remember { mutableStateOf() }', x: '35%', y: '15%', rot: -4 },
+                            { text: 'suspend fun', x: '50%', y: '85%', rot: -3 },
+                            { text: '<Manifest>', x: '35%', y: '60%', rot: 8 },
+                            { text: 'ViewModel', x: '65%', y: '70%', rot: -6 },
+                            { text: 'CoroutineScope', x: '25%', y: '90%', rot: 4 },
+                            { text: 'NavController', x: '90%', y: '90%', rot: -8 },
+                            { text: 'RecyclerView', x: '5%', y: '5%', rot: 15 },
+                            { text: 'Retrofit.Builder', x: '95%', y: '5%', rot: -15 },
+                            { text: 'RoomDatabase', x: '45%', y: '40%', rot: 6 },
+                            { text: 'LiveData', x: '55%', y: '15%', rot: -4 },
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
-                                className={`absolute cursor-grab active:cursor-grabbing px-3 py-1.5 bg-white/3 backdrop-blur-[1px] border border-white/5 rounded-md font-mono text-xs md:text-sm ${item.color || 'text-primary/10'} select-none z-0 pointer-events-auto hover:bg-white/10 hover:text-primary/40 hover:border-primary/20 hover:scale-110 active:scale-95 transition-colors`}
-                                style={{ left: item.x, top: item.y }}
+                                className={`absolute cursor-pointer px-2 py-1 bg-white/0 rounded-md font-mono text-xs md:text-sm select-none z-0 pointer-events-auto transition-colors duration-300 ${item.isError ? 'text-red-500/5 hover:text-red-500/20' : 'text-primary/5 hover:text-primary/20'}`}
+                                style={{
+                                    left: item.x,
+                                    top: item.y,
+                                }}
                                 initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1, rotate: item.rot }}
-                                drag
-                                dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-                                transition={{ type: "spring", stiffness: 200, damping: 20, delay: i * 0.05 }}
+                                animate={clickPos ? {
+                                    x: (Math.random() - 0.5) * 500, // Disperse
+                                    y: (Math.random() - 0.5) * 500,
+                                    opacity: 0,
+                                    scale: 0.5
+                                } : {
+                                    opacity: 1,
+                                    scale: 1,
+                                    rotate: item.rot,
+                                    x: 0,
+                                    y: 0
+                                }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: clickPos ? 50 : 200,
+                                    damping: 20,
+                                    delay: clickPos ? 0 : i * 0.05
+                                }}
                             >
                                 {item.text}
                             </motion.div>
                         ))}
-                    </>
+                    </div>
                 );
 
 
@@ -161,50 +164,32 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                 return (
                     <>
                         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_0%,rgba(0,255,0,0.05)_50%,rgba(0,0,0,0)_100%)] opacity-20" />
-                        {/* Binary Rain & Brackets */}
-                        {[...Array(20)].map((_, i) => (
+
+                        {/* DSA Visuals - Graphs, Trees, Arrays */}
+                        {[...Array(15)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute font-mono text-primary/20 font-bold text-sm md:text-xl select-none"
-                                style={{
-                                    left: `${i * 5}%`,
-                                    top: -20
-                                }}
-                                animate={{
-                                    y: ['0vh', '100vh'],
-                                    opacity: [0, 1, 0]
-                                }}
-                                transition={{
-                                    duration: 10 + Math.random() * 10,
-                                    repeat: Infinity,
-                                    delay: Math.random() * 5,
-                                    ease: "linear"
-                                }}
-                            >
-                                {Math.random() > 0.5 ? '1' : '0'}
-                            </motion.div>
-                        ))}
-                        {/* Floating Syntax Symbols */}
-                        {['{ }', '< />', '[]', '//', '&&', '||', '=>', 'func'].map((symbol, i) => (
-                            <motion.div
-                                key={`sym-${i}`}
-                                className="absolute text-primary/10 font-mono font-bold text-2xl md:text-4xl"
+                                className="absolute text-primary/10"
                                 style={{
                                     left: `${Math.random() * 90}%`,
                                     top: `${Math.random() * 90}%`
                                 }}
                                 animate={{
-                                    scale: [1, 1.2, 1],
-                                    opacity: [0.1, 0.4, 0.1],
-                                    rotate: [0, 10, -10, 0]
+                                    y: [0, -20, 0],
+                                    opacity: [0.1, 0.3, 0.1],
+                                    scale: [1, 1.1, 1]
                                 }}
                                 transition={{
                                     duration: 5 + Math.random() * 5,
                                     repeat: Infinity,
-                                    delay: i
+                                    delay: i * 0.5
                                 }}
                             >
-                                {symbol}
+                                {/* Random DSA shapes */}
+                                {i % 4 === 0 && <span className="font-mono font-bold text-2xl">O(log n)</span>}
+                                {i % 4 === 1 && <GitBranch size={40} className="opacity-50" />} {/* Graph/Tree proxy */}
+                                {i % 4 === 2 && <span className="font-mono text-xl">{'{}'}</span>}
+                                {i % 4 === 3 && <div className="flex gap-1"><div className="w-2 h-2 border border-primary/50" /><div className="w-2 h-2 border border-primary/50" /><div className="w-2 h-2 border border-primary/50" /></div>} {/* Array */}
                             </motion.div>
                         ))}
                     </>
@@ -448,29 +433,54 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
             case 'instagram':
                 return (
                     <>
-                        <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/10 via-pink-500/10 to-purple-500/10 mix-blend-screen" />
-                        {/* Floating Instagram & Heart Icons */}
-                        {[...Array(12)].map((_, i) => (
+                        {/* Animated Mesh Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-purple-900/20 via-black to-orange-900/20" />
+
+                        {/* Interactive Floating Orbs */}
+                        {[...Array(8)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className={i % 2 === 0 ? "absolute text-pink-500/20" : "absolute text-red-500/20"}
+                                className="absolute rounded-full blur-[80px]"
                                 style={{
-                                    left: `${Math.random() * 90}%`,
-                                    top: `${Math.random() * 80}%`
+                                    width: Math.random() * 300 + 100,
+                                    height: Math.random() * 300 + 100,
+                                    background: i % 2 === 0 ? 'rgba(139, 92, 246, 0.1)' : 'rgba(236, 72, 153, 0.1)', // Purple/Pink
+                                    left: `${Math.random() * 100}%`,
+                                    top: `${Math.random() * 100}%`
                                 }}
                                 animate={{
-                                    scale: [1, 1.5, 1],
-                                    rotate: [0, i % 2 === 0 ? 360 : -360, 0],
-                                    opacity: [0.2, 0.6, 0.2],
-                                    y: [0, -30, 0]
+                                    x: [0, 100, 0],
+                                    y: [0, 100, 0],
+                                    scale: [1, 1.2, 1]
                                 }}
                                 transition={{
-                                    duration: 10 + Math.random() * 10,
+                                    duration: 20 + Math.random() * 10,
                                     repeat: Infinity,
-                                    delay: Math.random() * 5
+                                    ease: "easeInOut"
+                                }}
+                            />
+                        ))}
+
+                        {/* Floating Camera Icons */}
+                        {[...Array(6)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                className={`absolute ${i % 2 === 0 ? 'text-white/5' : 'text-primary/10'}`}
+                                style={{
+                                    left: `${Math.random() * 90}%`,
+                                    top: `${Math.random() * 90}%`
+                                }}
+                                animate={{
+                                    y: [0, -40, 0],
+                                    rotate: [0, 10, 0]
+                                }}
+                                transition={{
+                                    duration: 10 + Math.random() * 5,
+                                    repeat: Infinity,
+                                    delay: i * 2
                                 }}
                             >
-                                {i % 2 === 0 ? <Instagram size={30 + Math.random() * 30} /> : <Heart size={20 + Math.random() * 20} fill="currentColor" />}
+                                <Instagram size={40 + Math.random() * 40} />
                             </motion.div>
                         ))}
                     </>

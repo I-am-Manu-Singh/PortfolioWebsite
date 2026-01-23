@@ -2,11 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, BookOpen } from 'lucide-react';
 import DynamicMedium from './DynamicMedium';
+import SectionBackground from './SectionBackground';
 
 const FeaturedContent: React.FC = () => {
     return (
-        <section className="section" id="featured">
-            <div className="container">
+        <section className="section relative overflow-hidden" id="featured">
+            <SectionBackground variant="writing" />
+            <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}

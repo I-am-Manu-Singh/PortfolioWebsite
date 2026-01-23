@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Music, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
+import CaricaturePiano from '../assets/caricature_piano.png';
+import CaricatureGuitar from '../assets/caricature_guitar.png';
 
 import SectionBackground from './SectionBackground';
 
@@ -78,9 +80,9 @@ const Interests: React.FC = () => {
                                 </div>
 
                                 {/* Caricatures Placement (Right Column) */}
-                                <div className="hidden lg:flex flex-col gap-8 justify-center items-center h-full">
-                                    {/* Show Piano Caricature if category key matches or on first item */}
-                                    {idx === 0 && (
+                                <div className="hidden lg:flex flex-col gap-8 justify-center items-center h-full pointer-events-none">
+                                    {/* Piano Caricature */}
+                                    {category.title.toLowerCase().includes('piano') && (
                                         <motion.div
                                             className="relative"
                                             initial={{ x: 50, opacity: 0 }}
@@ -90,11 +92,15 @@ const Interests: React.FC = () => {
                                             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                                         >
                                             <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
-                                            <img src="/caricature_piano.png" alt="Pianist" className="w-56 drop-shadow-2xl relative z-10" />
+                                            <img
+                                                src={CaricaturePiano}
+                                                alt="Pianist"
+                                                className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform"
+                                            />
                                         </motion.div>
                                     )}
-                                    {/* Show Guitar Caricature on second item if exists, or just below piano */}
-                                    {idx === 1 && (
+                                    {/* Guitar Caricature */}
+                                    {category.title.toLowerCase().includes('guitar') && (
                                         <motion.div
                                             className="relative"
                                             initial={{ x: 50, opacity: 0 }}
@@ -104,7 +110,11 @@ const Interests: React.FC = () => {
                                             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                                         >
                                             <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
-                                            <img src="/caricature_guitar.png" alt="Guitarist" className="w-56 drop-shadow-2xl relative z-10" />
+                                            <img
+                                                src={CaricatureGuitar}
+                                                alt="Guitarist"
+                                                className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform"
+                                            />
                                         </motion.div>
                                     )}
                                 </div>
