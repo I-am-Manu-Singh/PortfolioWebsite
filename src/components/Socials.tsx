@@ -52,15 +52,53 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
                     <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="relative w-64 md:w-72 rounded-3xl overflow-hidden border-4 border-white/20 shadow-2xl mb-8 z-10 bg-dark/50 backdrop-blur-sm"
+                        className="relative w-64 md:w-72 rounded-3xl overflow-hidden border-4 border-white/20 shadow-2xl mb-8 z-10 bg-dark/50 backdrop-blur-sm group cursor-pointer"
+                        whileHover={{ scale: 1.02 }}
                     >
+                        {/* Glitch Layers - Red Channel */}
+                        <motion.img
+                            src={`${import.meta.env.BASE_URL}profile_person.png`}
+                            alt="Glitch Red"
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 mix-blend-screen filter hue-rotate-90 pointer-events-none"
+                            variants={{
+                                hover: {
+                                    opacity: [0, 0.8, 0],
+                                    x: [-3, 3, -1, 0, 2],
+                                    y: [2, -2, 0, 1, -1],
+                                    scale: [1, 1.02, 1]
+                                }
+                            }}
+                            transition={{ duration: 0.2, repeat: Infinity, repeatType: "mirror" }}
+                        />
+
+                        {/* Glitch Layers - Blue Channel */}
+                        <motion.img
+                            src={`${import.meta.env.BASE_URL}profile_person.png`}
+                            alt="Glitch Blue"
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 mix-blend-screen filter hue-rotate-180 pointer-events-none"
+                            variants={{
+                                hover: {
+                                    opacity: [0, 0.8, 0],
+                                    x: [3, -3, 1, 0, -2],
+                                    y: [-2, 2, 0, -1, 1],
+                                    scale: [1, 1.01, 1]
+                                }
+                            }}
+                            transition={{ duration: 0.2, repeat: Infinity, repeatType: "mirror", delay: 0.05 }}
+                        />
+
+                        {/* Main Image */}
                         <img
                             src={`${import.meta.env.BASE_URL}profile_person.png`}
                             alt="Personal Profile"
-                            className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
+                            className="relative w-full h-auto object-cover transition-transform duration-700 z-10"
                         />
+
+                        {/* Scanline Overlay */}
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20 mix-blend-overlay"></div>
+
                         {/* Glossy Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none z-30"></div>
                     </motion.div>
 
                     {/* Fun Status Badge */}
