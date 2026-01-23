@@ -53,7 +53,7 @@ const Testimonials: React.FC = () => {
 
     return (
         <section className="section relative overflow-hidden" id="testimonials">
-            <SectionBackground variant="default" />
+            <SectionBackground variant="community" />
             <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}

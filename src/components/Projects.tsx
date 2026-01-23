@@ -8,7 +8,7 @@ import SectionBackground from './SectionBackground';
 const Projects: React.FC = () => {
     return (
         <section className="section bg-dark-card/30 perspective-1000 relative overflow-hidden" id="projects">
-            <SectionBackground variant="default" />
+            <SectionBackground variant="projects" />
             <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}

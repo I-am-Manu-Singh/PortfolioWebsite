@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Youtube } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import SectionBackground from './SectionBackground';
-import CaricaturePiano from '../assets/caricature_piano.png';
 
 const TechTutorials: React.FC = () => {
     return (
@@ -20,21 +19,7 @@ const TechTutorials: React.FC = () => {
                     Tech <span className="text-primary-light">Tutorials</span>
                 </motion.h2>
 
-                {/* Piano Caricature moved here - "Youtube Area" */}
-                <motion.div
-                    className="absolute right-0 top-0 lg:right-20 lg:top-20 z-10 hidden lg:block opacity-90"
-                    initial={{ x: 50, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    viewport={{ once: true }}
-                    animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
-                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                >
-                    <img
-                        src={CaricaturePiano}
-                        alt="Pianist"
-                        className="w-40 xl:w-56 drop-shadow-2xl rounded-3xl border-2 border-white/10 p-2 bg-white/5 backdrop-blur-sm"
-                    />
-                </motion.div>
+                {/* Piano moved back to Interests */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 relative z-10">
                     {/* @ts-ignore */}

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Music, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import CaricatureGuitar from '../assets/caricature_guitar.png';
+import CaricaturePiano from '../assets/caricature_piano.png';
 import SectionBackground from './SectionBackground';
 
 const Interests: React.FC = () => {
@@ -10,10 +11,10 @@ const Interests: React.FC = () => {
         <section className="section relative overflow-hidden" id="interests">
             {/* Split backgrounds */}
             <div className="absolute inset-x-0 top-0 h-2/3 overflow-hidden">
-                <SectionBackground variant="music" />
+                <SectionBackground variant="music" className="h-full" />
             </div>
             <div className="absolute inset-x-0 bottom-0 h-1/3 overflow-hidden">
-                <SectionBackground variant="instagram" />
+                <SectionBackground variant="instagram" className="h-full" />
             </div>
 
             <div className="container relative z-10">
@@ -52,7 +53,7 @@ const Interests: React.FC = () => {
                         <img
                             src={CaricatureGuitar}
                             alt="Guitarist"
-                            className="w-48 md:w-64 drop-shadow-2xl rounded-3xl border-2 border-white/10 p-2 bg-white/5 backdrop-blur-sm"
+                            className="w-48 md:w-64 drop-shadow-2xl filter hover:brightness-110 transition-all"
                         />
                     </motion.div>
                 </div>
@@ -102,8 +103,21 @@ const Interests: React.FC = () => {
                                     ))}
                                 </div>
 
-                                {/* Piano Caricature (Only if it makes sense contextually, or just place it here as the 'music' sidekick) */}
-                                {/* Piano moved to Tech Tutorials */}
+                                {/* Piano Caricature */}
+                                <motion.div
+                                    className="hidden lg:flex justify-center"
+                                    initial={{ x: 50, opacity: 0 }}
+                                    whileInView={{ x: 0, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
+                                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                                >
+                                    <img
+                                        src={CaricaturePiano}
+                                        alt="Pianist"
+                                        className="w-56 drop-shadow-2xl filter hover:brightness-110 transition-all"
+                                    />
+                                </motion.div>
                             </div>
                         </div>
                     ))}
