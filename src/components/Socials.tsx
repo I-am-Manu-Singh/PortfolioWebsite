@@ -35,38 +35,43 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
 
             <div className="container relative z-20 pt-24">
-                 {/* Personal Profile Header - Fun & Complex */}
-                 <div className="flex flex-col items-center mb-16 relative">
+                {/* Personal Profile Header - Full Body & Visualizer */}
+                <div className="flex flex-col items-center mb-16 relative">
+                    {/* Music Visualizer Effect */}
+                    <div className="flex items-end gap-1 mb-4 h-12">
+                        {[...Array(12)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                className="w-2 bg-primary rounded-t-full"
+                                animate={{ height: [10, 30 + Math.random() * 20, 10] }}
+                                transition={{ duration: 0.5 + Math.random() * 0.5, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                        ))}
+                    </div>
+
                     <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
+                        initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl mb-6 z-10 bg-dark"
+                        className="relative w-64 md:w-72 rounded-3xl overflow-hidden border-4 border-white/20 shadow-2xl mb-8 z-10 bg-dark/50 backdrop-blur-sm"
                     >
                         <img
                             src={`${import.meta.env.BASE_URL}profile_person.png`}
                             alt="Personal Profile"
-                            className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                            className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
                         />
-                         {/* Fun Overlay/Filter on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-overlay pointer-events-none"></div>
+                        {/* Glossy Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none"></div>
                     </motion.div>
 
                     {/* Fun Status Badge */}
-                    <motion.div 
+                    <motion.div
                         initial={{ scale: 0, rotate: -20 }}
                         animate={{ scale: 1, rotate: 10 }}
-                        className="absolute top-10 right-[calc(50%-140px)] bg-yellow-400 text-black font-bold px-3 py-1 rounded-full text-sm shadow-lg z-20 transform rotate-12"
+                        className="absolute top-20 right-10 md:right-[calc(50%-180px)] bg-yellow-400 text-black font-bold px-4 py-2 rounded-full text-sm shadow-lg z-20 transform rotate-12"
                     >
                         Vibing 🎧
                     </motion.div>
-                     <motion.div 
-                        initial={{ scale: 0, rotate: 20 }}
-                        animate={{ scale: 1, rotate: -10 }}
-                        className="absolute bottom-20 left-[calc(50%-140px)] bg-green-500 text-white font-bold px-3 py-1 rounded-full text-sm shadow-lg z-20 transform -rotate-12"
-                    >
-                        Explorer 🌍
-                    </motion.div>
-                    
+
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -77,48 +82,45 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
                     </motion.h2>
                 </div>
 
-                <div className="space-y-16">
+                <div className="space-y-24">
                     {/* Music Categories */}
-                    {/* Music Categories */}
-                    {/* @ts-ignore - interests structure changed */}
+                    {/* @ts-ignore */}
                     {resumeData.interests.music.categories.map((category: any, idx: number) => (
-                        <div key={idx} className="relative mb-16">
-                            <h3 className="text-2xl font-bold mb-6 text-white border-l-4 border-primary pl-4">{category.title}</h3>
+                        <div key={idx} className="relative mb-16 px-4 md:px-0">
+                            <div className="flex items-center justify-between mb-8 relative">
+                                <h3 className="text-3xl font-bold text-white border-l-8 border-primary pl-6 py-2 bg-gradient-to-r from-primary/10 to-transparent rounded-r-xl w-full max-w-2xl">
+                                    {category.title}
+                                </h3>
 
-                            {/* Caricature Placement Logic */}
-                            {category.title.toLowerCase().includes('guitar') && (
-                                <motion.div
-                                    className="hidden lg:block absolute -right-4 top-0 z-0 cursor-pointer pointer-events-auto"
-                                    animate={{ y: [0, -15, 0], rotate: [0, 3, 0] }}
-                                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                                    drag
-                                    dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-                                >
-                                    <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
-                                    <img
+                                {/* Caricature Placement - Near Title */}
+                                {category.title.toLowerCase().includes('guitar') && (
+                                    <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
                                         alt="Guitarist"
-                                        className="w-56 opacity-90 hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                                        className="absolute right-0 -top-10 w-32 md:w-48 object-contain drop-shadow-xl z-20 opacity-90 hidden sm:block"
+                                        animate={{ rotate: [0, 5, 0] }}
+                                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                                     />
-                                </motion.div>
-                            )}
-
-                            {category.title.toLowerCase().includes('piano') && (
-                                <motion.div
-                                    className="hidden lg:block absolute -right-4 top-0 z-0 cursor-pointer pointer-events-auto"
-                                    animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}
-                                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                                    drag
-                                    dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-                                >
-                                    <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
-                                    <img
+                                )}
+                                {category.title.toLowerCase().includes('piano') && (
+                                    <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_piano.png`}
                                         alt="Pianist"
-                                        className="w-56 opacity-90 hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                                        className="absolute right-0 -top-12 w-32 md:w-56 object-contain drop-shadow-xl z-20 opacity-90 hidden sm:block"
+                                        animate={{ rotate: [0, -3, 0] }}
+                                        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
                                     />
-                                </motion.div>
-                            )}
+                                )}
+                                {(category.title.toLowerCase().includes('singing') || category.title.toLowerCase().includes('vocal')) && (
+                                    <motion.img
+                                        src={`${import.meta.env.BASE_URL}caricature_singing.png`}
+                                        alt="Singer"
+                                        className="absolute right-0 -top-10 w-32 md:w-48 object-contain drop-shadow-xl z-20 opacity-90 hidden sm:block"
+                                        animate={{ y: [0, -5, 0] }}
+                                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                    />
+                                )}
+                            </div>
 
                             {/* Changed to 3 columns for smaller thumbnails */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pr-0 lg:pr-48">

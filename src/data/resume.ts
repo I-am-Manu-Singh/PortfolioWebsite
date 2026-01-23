@@ -26,12 +26,12 @@ export const resumeData = {
         ]
     },
     skills: {
-        languages: ["Kotlin", "Java", "Swift", "TypeScript", "JavaScript", "SQL"],
+        languages: ["Kotlin", "Java", "TypeScript", "MySQL"],
         android: ["Android Development", "Jetpack Compose", "XML Layouts", "MVVM", "Clean Architecture", "Room DB", "Retrofit", "Coroutines", "Flow", "WorkManager", "Hilt"],
         ios: ["iOS Development", "SwiftUI", "UIKit", "Xcode", "CocoaPods"],
         multiplatform: ["Kotlin Multiplatform (KMP)", "Compose Multiplatform", "Ktor"],
         reactNative: ["React Native", "Expo", "Redux Toolkit", "Reanimated", "React Navigation"],
-        backendAndTools: ["Firebase", "Supabase", "Git", "GitHub", "Sanity CMS", "Postman", "Figma", "AWS (Basic)"],
+        backendAndTools: ["Firebase", "Supabase", "Git", "GitHub", "Postman", "Figma", "AWS (Basic)"],
         computerScience: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networking"]
     },
     experience: [

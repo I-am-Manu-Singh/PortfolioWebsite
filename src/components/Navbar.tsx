@@ -7,9 +7,11 @@ import { useTheme } from '../context/ThemeContext';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 import ContactModal from './ContactModal';
 
-interface NavbarProps { }
+interface NavbarProps {
+    activeTab?: 'work' | 'personal';
+}
 
-const Navbar: React.FC<NavbarProps> = () => {
+const Navbar: React.FC<NavbarProps> = ({ activeTab = 'work' }) => {
     const { theme, toggleTheme } = useTheme();
     const [isContactOpen, setIsContactOpen] = useState(false);
 
@@ -28,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             <img src={ProfileImage} alt="Manpreet Singh" className="w-full h-full object-cover object-top" />
                         </div>
                         <h1 className="hidden md:block text-lg font-bold text-text tracking-tight">
-                            Manpreet Singh <span className="text-primary">Portfolio</span>
+                            Manpreet Singh <span className="text-primary">{activeTab === 'personal' ? 'Personal Portfolio' : 'Work Portfolio'}</span>
                         </h1>
                     </div>
 
@@ -38,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setIsContactOpen(true)}
-                            className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/20 rounded-full text-sm font-medium transition-all text-primary hover:text-primary-light backdrop-blur-sm"
+                            className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/40 rounded-full text-sm font-medium transition-all text-primary hover:text-primary-light backdrop-blur-sm shadow-sm"
                         >
                             <MessageCircle size={16} />
                             <span>Contact Me</span>

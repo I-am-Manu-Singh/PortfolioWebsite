@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div className={`App relative transition-colors duration-500 min-h-screen ${isPersonal ? 'theme-personal' : 'theme-work'}`}>
-      <Navbar />
+      <Navbar activeTab={activeTab} />
       <Analytics />
       <ChatBot />
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
