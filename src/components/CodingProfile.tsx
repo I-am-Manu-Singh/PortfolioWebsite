@@ -20,24 +20,22 @@ const CodingProfile: React.FC = () => {
                         Coding <span className="text-primary-light">Profile</span>
                     </motion.h2>
 
-                    <motion.div
-                        className="absolute -right-4 -top-8 lg:right-40 lg:-top-10 z-10 hidden md:block"
-                        initial={{ scale: 0, rotate: 20 }}
-                        whileInView={{ scale: 1, rotate: 10 }}
-                        viewport={{ once: true }}
-                        animate={{ y: [0, -15, 0], rotate: [10, 5, 10] }}
-                        transition={{
-                            scale: { type: "spring", stiffness: 260, damping: 20 },
-                            y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                            rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-                        }}
-                    >
-                        <img
-                            src={CaricatureTeacher}
-                            alt="Teaching DSA"
-                            className="w-32 h-32 lg:w-40 lg:h-40 object-cover drop-shadow-2xl rounded-3xl border-2 border-white/10 shadow-lg shadow-primary/20"
-                        />
-                    </motion.div>
+                    <div className="absolute -right-4 -top-8 lg:right-40 lg:-top-10 z-10 hidden md:block">
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            whileInView={{ scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                        >
+                            <motion.img
+                                src={CaricatureTeacher}
+                                alt="Teaching DSA"
+                                className="w-32 h-32 lg:w-40 lg:h-40 object-cover drop-shadow-2xl rounded-3xl border-2 border-white/10 shadow-lg shadow-primary/20"
+                                animate={{ y: [0, -15, 0], rotate: [10, 5, 10] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                        </motion.div>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

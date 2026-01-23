@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, Users, CheckCircle, Award } from 'lucide-react';
 import { resumeData } from '../data/resume';
+import SectionBackground from './SectionBackground';
 
 const StatCard: React.FC<{ label: string; value: string | number; icon: React.ReactNode; delay: number }> = ({ label, value, icon, delay }) => (
     <motion.div
@@ -9,7 +10,7 @@ const StatCard: React.FC<{ label: string; value: string | number; icon: React.Re
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay }}
-        className="glass-card p-6 flex flex-col items-center justify-center text-center"
+        className="glass-card p-6 flex flex-col items-center justify-center text-center relative z-10"
     >
         <div className="p-3 bg-white/5 rounded-full mb-4 text-primary-light">
             {icon}
@@ -25,7 +26,7 @@ const TestimonialCard: React.FC<{ testimonial: any; index: number }> = ({ testim
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: index * 0.1 }}
-        className="glass-card p-6 relative"
+        className="glass-card p-6 relative z-10"
     >
         <div className="absolute -top-4 left-6 p-2 bg-dark-card border border-white/10 rounded-full text-secondary">
             <Award size={24} />
@@ -51,8 +52,9 @@ const Testimonials: React.FC = () => {
     const reviews = resumeData.testimonials || [];
 
     return (
-        <section className="section" id="testimonials">
-            <div className="container">
+        <section className="section relative overflow-hidden" id="testimonials">
+            <SectionBackground variant="default" />
+            <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}

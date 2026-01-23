@@ -85,19 +85,22 @@ const Experience: React.FC = () => {
                     </motion.h2>
 
                     {/* Professional Caricature */}
-                    <motion.div
-                        className="absolute -right-4 top-0 lg:right-20 lg:-top-6 z-10 hidden md:block"
-                        initial={{ scale: 0, rotate: -10 }}
-                        whileInView={{ scale: 1, rotate: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                    >
-                        <img
-                            src={CaricatureProfessional}
-                            alt="Professional"
-                            className="w-24 h-24 lg:w-32 lg:h-32 object-contain drop-shadow-xl hover:scale-110 transition-transform"
-                        />
-                    </motion.div>
+                    <div className="absolute -right-4 top-0 lg:right-20 lg:-top-6 z-10 hidden md:block">
+                        <motion.div
+                            initial={{ scale: 0, rotate: -10 }}
+                            whileInView={{ scale: 1, rotate: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                        >
+                            <motion.img
+                                src={CaricatureProfessional}
+                                alt="Professional"
+                                className="w-24 h-24 lg:w-32 lg:h-32 object-contain drop-shadow-xl"
+                                animate={{ y: [0, -10, 0], rotate: [0, -5, 0] }}
+                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                        </motion.div>
+                    </div>
                 </div>
 
                 <div className="flex flex-col gap-8 md:gap-10 relative">

@@ -134,16 +134,22 @@ const Hero: React.FC = () => {
                     <div className="relative w-64 h-64 md:w-96 md:h-96">
                         <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse"></div>
                         <motion.div
-                            className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl glass-card"
-                            whileHover={{ scale: 1.02, rotate: 2 }}
-                            transition={{ duration: 0.3 }}
+                            className="relative w-full h-full"
+                            animate={{ y: [0, -20, 0], rotate: [0, 2, 0] }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-overlay z-10"></div>
-                            <img
-                                src={ProfileImage}
-                                alt={resumeData.basics.name}
-                                className="w-full h-full object-cover object-top"
-                            />
+                            <motion.div
+                                className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl glass-card"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-overlay z-10"></div>
+                                <img
+                                    src={ProfileImage}
+                                    alt={resumeData.basics.name}
+                                    className="w-full h-full object-cover object-top"
+                                />
+                            </motion.div>
                         </motion.div>
                     </div>
                 </motion.div>
