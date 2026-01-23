@@ -29,35 +29,7 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
             {/* Floating Caricatures - Adjusted to not dangle over content */}
             {/* Floating Caricatures - More visible and interactive */}
             {/* Floating Caricatures - More visible and interactive */}
-            <motion.div
-                className="absolute -left-10 md:left-4 top-20 z-10 cursor-pointer"
-                animate={{ y: [0, -15, 0], rotate: [0, 3, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                drag
-                dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-            >
-                <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
-                <img
-                    src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
-                    alt="Guitarist"
-                    className="w-40 md:w-56 opacity-90 hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
-                />
-            </motion.div>
-
-            <motion.div
-                className="absolute -right-10 md:right-4 bottom-20 z-10 cursor-pointer"
-                animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                drag
-                dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-            >
-                <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
-                <img
-                    src={`${import.meta.env.BASE_URL}caricature_piano.png`}
-                    alt="Pianist"
-                    className="w-40 md:w-56 opacity-90 hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
-                />
-            </motion.div>
+            {/* Caricatures moved inside sections for better placement */}
 
             {/* Background decoration */}
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
@@ -74,12 +46,49 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
 
                 <div className="space-y-16">
                     {/* Music Categories */}
+                    {/* Music Categories */}
                     {/* @ts-ignore - interests structure changed */}
                     {resumeData.interests.music.categories.map((category: any, idx: number) => (
-                        <div key={idx}>
+                        <div key={idx} className="relative mb-16">
                             <h3 className="text-2xl font-bold mb-6 text-white border-l-4 border-primary pl-4">{category.title}</h3>
+
+                            {/* Caricature Placement Logic */}
+                            {category.title.toLowerCase().includes('guitar') && (
+                                <motion.div
+                                    className="hidden lg:block absolute -right-4 top-0 z-10 cursor-pointer"
+                                    animate={{ y: [0, -15, 0], rotate: [0, 3, 0] }}
+                                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                                    drag
+                                    dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
+                                >
+                                    <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
+                                    <img
+                                        src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
+                                        alt="Guitarist"
+                                        className="w-56 opacity-90 hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                                    />
+                                </motion.div>
+                            )}
+
+                            {category.title.toLowerCase().includes('piano') && (
+                                <motion.div
+                                    className="hidden lg:block absolute -right-4 top-0 z-10 cursor-pointer"
+                                    animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}
+                                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                                    drag
+                                    dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
+                                >
+                                    <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
+                                    <img
+                                        src={`${import.meta.env.BASE_URL}caricature_piano.png`}
+                                        alt="Pianist"
+                                        className="w-56 opacity-90 hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                                    />
+                                </motion.div>
+                            )}
+
                             {/* Changed to 3 columns for smaller thumbnails */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pr-0 lg:pr-48">
                                 {category.playlists.map((playlist: any, pIdx: number) => (
                                     <motion.div
                                         key={pIdx}

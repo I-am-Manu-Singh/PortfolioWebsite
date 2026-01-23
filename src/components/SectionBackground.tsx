@@ -223,6 +223,63 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                     </>
                 );
 
+            case 'writing':
+                return (
+                    <>
+                        {/* Writing/Blog Theme: Floating Lines & Particles */}
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.05)_0,rgba(0,0,0,0)_60%)]" />
+
+                        {/* Abstract Document Shapes */}
+                        {[...Array(6)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                className="absolute bg-white/5 backdrop-blur-sm p-4 rounded-lg border border-white/5"
+                                style={{
+                                    left: `${Math.random() * 90}%`,
+                                    top: `${Math.random() * 90}%`
+                                }}
+                                animate={{
+                                    y: [0, -30, 0],
+                                    rotate: [0, 5, 0],
+                                    opacity: [0.1, 0.4, 0.1]
+                                }}
+                                transition={{
+                                    duration: 8 + Math.random() * 5,
+                                    repeat: Infinity,
+                                    delay: i * 2
+                                }}
+                            >
+                                <div className="w-16 h-2 bg-primary/20 rounded-full mb-2" />
+                                <div className="w-12 h-2 bg-white/10 rounded-full mb-2" />
+                                <div className="w-8 h-2 bg-white/10 rounded-full" />
+                            </motion.div>
+                        ))}
+
+                        {/* Floating Particles */}
+                        {[...Array(20)].map((_, i) => (
+                            <motion.div
+                                key={`p-${i}`}
+                                className="absolute rounded-full bg-primary/20"
+                                style={{
+                                    width: Math.random() * 4 + 2,
+                                    height: Math.random() * 4 + 2,
+                                    left: `${Math.random() * 100}%`,
+                                    top: `${Math.random() * 100}%`
+                                }}
+                                animate={{
+                                    y: -100,
+                                    opacity: [0, 0.5, 0]
+                                }}
+                                transition={{
+                                    duration: 10 + Math.random() * 10,
+                                    repeat: Infinity,
+                                    delay: Math.random() * 5
+                                }}
+                            />
+                        ))}
+                    </>
+                );
+
             case 'projects':
                 return (
                     <>
