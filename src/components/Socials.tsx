@@ -1,14 +1,30 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Instagram } from 'lucide-react';
+import { Music, Instagram, ArrowLeft } from 'lucide-react';
 import { resumeData } from '../data/resume';
 
 
 import SectionBackground from './SectionBackground';
-const Socials: React.FC = () => {
+
+interface SocialsProps {
+    onBack?: () => void;
+}
+
+const Socials: React.FC<SocialsProps> = ({ onBack }) => {
     return (
-        <section className="section bg-dark-card/30 relative overflow-hidden" id="socials">
+        <section className="section bg-dark-card/30 relative overflow-hidden flex flex-col" id="socials">
+            {/* Back Button */}
+            <div className="absolute top-24 left-4 z-50 lg:left-8">
+                <button
+                    onClick={onBack}
+                    className="flex items-center gap-2 text-white/70 hover:text-white transition-all bg-black/20 hover:bg-primary/20 px-4 py-2 rounded-full backdrop-blur-md border border-white/10"
+                >
+                    <ArrowLeft size={18} />
+                    <span className="font-medium">Back to Work</span>
+                </button>
+            </div>
+
             <SectionBackground variant="music" />
             {/* Floating Caricatures - Adjusted to not dangle over content */}
             {/* Floating Caricatures - More visible and interactive */}

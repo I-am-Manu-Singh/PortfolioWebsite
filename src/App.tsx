@@ -67,7 +67,7 @@ function App() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <Socials />
+              <Socials onBack={() => setActiveTab('work')} />
               {/* Future: Photo Gallery, Blog, etc. */}
             </motion.div>
           )}

@@ -54,7 +54,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
-                                className={`absolute cursor-pointer px-2 py-1 bg-white/0 rounded-md font-mono text-xs md:text-sm select-none z-0 pointer-events-auto transition-colors duration-300 ${item.isError ? 'text-red-500/5 hover:text-red-500/20' : 'text-primary/5 hover:text-primary/20'}`}
+                                className={`absolute cursor-pointer px-2 py-1 bg-white/0 rounded-md font-mono text-xs md:text-sm select-none z-0 pointer-events-auto transition-colors duration-300 ${item.isError ? 'text-red-500/20 opacity-5 hover:text-red-500 hover:opacity-100' : 'text-primary/20 opacity-5 hover:text-primary hover:opacity-100'}`}
                                 style={{
                                     left: item.x,
                                     top: item.y,
@@ -66,17 +66,19 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                                     opacity: 0,
                                     scale: 0.5
                                 } : {
-                                    opacity: 1,
+                                    opacity: 0.2, // increased base opacity slightly but controlled via class
                                     scale: 1,
                                     rotate: item.rot,
                                     x: 0,
-                                    y: 0
+                                    y: [0, -15, 0] // Floating animation
                                 }}
-                                transition={{
+                                transition={clickPos ? {
                                     type: "spring",
-                                    stiffness: clickPos ? 50 : 200,
-                                    damping: 20,
-                                    delay: clickPos ? 0 : i * 0.05
+                                    stiffness: 50,
+                                    damping: 20
+                                } : {
+                                    y: { duration: 3 + Math.random() * 2, repeat: Infinity, ease: "easeInOut" },
+                                    default: { duration: 0.5 }
                                 }}
                             >
                                 {item.text}
@@ -494,7 +496,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
     };
 
     return (
-        <div className={`absolute inset-0 pointer-events-none overflow-hidden z-0 ${className}`}>
+        <div className={`absolute inset-0 overflow-hidden z-0 ${variant === 'hero' ? 'pointer-events-auto' : 'pointer-events-none'} ${className}`}>
             {renderVariant()}
         </div>
     );
