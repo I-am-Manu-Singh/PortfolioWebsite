@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Moon, MessageCircle } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import ProfileImage from '../assets/profile.jpg';
+const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 import ContactModal from './ContactModal';
 
 interface NavbarProps { }
