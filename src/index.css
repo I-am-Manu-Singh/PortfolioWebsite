@@ -17,6 +17,8 @@
   --font-main: 'Outfit', sans-serif;
   --font-mono: 'Space Grotesk', monospace;
   --transition: all 0.3s ease;
+  --glass-bg: rgba(18, 18, 18, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 [data-theme='light'] {
@@ -27,6 +29,9 @@
   --color-dark-card: #ffffff;
   --color-text: #1a1a1a;
   --color-text-muted: #4a4a4a;
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  /* Lighter bg for light mode */
+  --glass-border: rgba(0, 0, 0, 0.1);
 }
 
 background-effect {
@@ -86,10 +91,11 @@ ul {
 }
 
 .glass-card {
-  background: rgba(18, 18, 18, 0.6);
+  /* Glass card background - dynamic based on theme */
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }

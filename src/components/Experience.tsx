@@ -108,7 +108,7 @@ const Experience: React.FC = () => {
                     </motion.div>
                 </div>
 
-                <div className="flex flex-col gap-8 md:gap-16 relative">
+                <div className="flex flex-col gap-8 md:gap-10 relative">
                     {resumeData.experience.map((job, index) => (
                         <ExperienceItem key={index} job={job} index={index} />
                     ))}

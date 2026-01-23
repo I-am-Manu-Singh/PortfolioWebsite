@@ -4,9 +4,10 @@ import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
 import CodingProfile from './components/CodingProfile';
-import Socials from './components/Socials';
 import Certifications from './components/Certifications';
-import Contact from './components/Contact';
+import TechTutorials from './components/TechTutorials';
+import Socials from './components/Socials';
+import Analytics from './components/Analytics';
 import ChatBot from './components/ChatBot';
 import FloatingParticles from './components/FloatingParticles';
 import Navbar from './components/Navbar';
@@ -21,6 +22,7 @@ function App() {
   return (
     <div className={`App relative transition-colors duration-500 min-h-screen ${isPersonal ? 'theme-personal' : 'theme-work'}`}>
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Analytics />
       <ChatBot />
       <FloatingParticles />
 
@@ -47,10 +49,10 @@ function App() {
               <Hero />
               <Skills />
               <Experience />
-              <Projects />
               <CodingProfile />
+              <Projects />
               <Certifications />
-              <Contact />
+              <TechTutorials />
             </motion.div>
           ) : (
             <motion.div
@@ -62,7 +64,6 @@ function App() {
             >
               <Socials />
               {/* Future: Photo Gallery, Blog, etc. */}
-              <Contact />
             </motion.div>
           )}
         </AnimatePresence>

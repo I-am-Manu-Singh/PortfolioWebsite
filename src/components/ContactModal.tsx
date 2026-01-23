@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Mail, User, MessageSquare } from 'lucide-react';
+import { Mail, X, Send, Phone, User, MessageSquare } from 'lucide-react';
+import { logContactClick } from './Analytics';
 
 interface ContactModalProps {
     isOpen: boolean;
@@ -22,6 +23,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
         window.location.href = `mailto:manpreetsinghkainth25@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         onClose();
+    };
+
+    // Helper wrapper for contact click
+    const handleContactClick = () => {
+        logContactClick();
     };
 
     return (
@@ -52,7 +58,19 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                         </button>
 
                         <h2 className="text-2xl font-bold text-white mb-2">Get in Touch</h2>
-                        <p className="text-text-muted mb-6 text-sm">Fill out the form below to send me an email.</p>
+                        <p className="text-text-muted mb-4 text-sm">Have a question or want to work together?</p>
+
+                        {/* Direct Contact Info */}
+                        <div className="flex flex-col gap-2 mb-6 p-4 bg-white/5 rounded-lg border border-white/10">
+                            <div className="flex items-center gap-3 text-sm text-text-muted">
+                                <Mail size={16} className="text-primary" />
+                                <a href="mailto:manpreetsinghkainth25@gmail.com" onClick={handleContactClick} className="hover:text-white transition-colors">manpreetsinghkainth25@gmail.com</a>
+                            </div>
+                            <div className="flex items-center gap-3 text-sm text-text-muted">
+                                <Phone size={16} className="text-secondary" />
+                                <a href="tel:+917340007125" onClick={handleContactClick} className="hover:text-white transition-colors">+91 7340007125</a>
+                            </div>
+                        </div>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-1">

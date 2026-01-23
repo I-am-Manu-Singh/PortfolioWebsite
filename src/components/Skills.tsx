@@ -51,10 +51,10 @@ const SkillCategory: React.FC<{ title: string; skills: string[]; delay: number }
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay }}
-            className="glass-card p-6"
+            className="glass-card p-4"
         >
-            <h3 className="text-xl font-bold mb-6 text-primary-light border-b border-white/10 pb-2">{title}</h3>
-            <div className="flex flex-wrap gap-3">
+            <h3 className="text-lg font-bold mb-4 text-primary-light border-b border-white/10 pb-2">{title}</h3>
+            <div className="flex flex-wrap gap-2">
                 {skills.map((skill, index) => (
                     <motion.span
                         key={index}

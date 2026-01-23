@@ -11,7 +11,7 @@ const ProjectCard: React.FC<{ project: typeof resumeData.projects[0]; index: num
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="glass-card p-8 flex flex-col h-full group hover:border-primary/30 transition-colors"
+            className="glass-card p-5 flex flex-col h-full group hover:border-primary/30 transition-colors"
         >
             <div className="flex justify-between items-start mb-6">
                 <div className="p-3 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
