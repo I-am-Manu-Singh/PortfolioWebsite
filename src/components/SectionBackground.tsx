@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code, Music, Cpu, Instagram, Terminal, Database, Globe, Folder, FileText, Users, Star, MessageCircle, Hash, Layout, GitBranch } from 'lucide-react';
+import { Music, Cpu, Instagram, Database, Globe, Folder, FileText, Users, Star, MessageCircle, Hash, Layout, GitBranch, Zap, Smartphone } from 'lucide-react';
 
 type BackgroundVariant = 'hero' | 'skills' | 'experience' | 'music' | 'instagram' | 'projects' | 'writing' | 'community' | 'default';
 
@@ -11,55 +11,124 @@ interface SectionBackgroundProps {
 
 const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'default', className = '' }) => {
     // Common float animation settings
-    const randomDuration = () => Math.random() * 10 + 10;
-    const randomDelay = () => Math.random() * 5;
+
 
     const renderVariant = () => {
         switch (variant) {
             case 'hero':
                 return (
                     <>
-                        <motion.div
-                            animate={{ rotate: 360, y: [0, -50, 0] }}
-                            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                            className="absolute top-[10%] right-[5%] opacity-30 text-primary-light"
-                        >
-                            <Code size={140} />
-                        </motion.div>
-                        <motion.div
-                            animate={{ rotate: -360, x: [0, 50, 0] }}
-                            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                            className="absolute bottom-[20%] left-[5%] opacity-20 text-secondary"
-                        >
-                            <Terminal size={120} />
-                        </motion.div>
-                        <motion.div
-                            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }}
-                            transition={{ duration: 8, repeat: Infinity }}
-                            className="absolute top-1/3 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px]"
-                        />
-                        {[...Array(8)].map((_, i) => (
+                        {/* 1. Scrolling Code Streams (Left & Right) */}
+                        <div className="absolute inset-0 overflow-hidden opacity-20">
+                            {[...Array(6)].map((_, i) => (
+                                <motion.div
+                                    key={`code-col-${i}`}
+                                    className="absolute top-0 text-xs md:text-sm font-mono text-primary-light/60 whitespace-nowrap"
+                                    style={{
+                                        left: `${10 + i * 15}%`,
+                                        opacity: 0.3
+                                    }}
+                                    animate={{
+                                        y: ['-100%', '100%'],
+                                        opacity: [0, 1, 0]
+                                    }}
+                                    transition={{
+                                        duration: 8 + Math.random() * 5,
+                                        repeat: Infinity,
+                                        ease: "linear",
+                                        delay: i * 1.5
+                                    }}
+                                >
+                                    {['fun onCreate() {', '@Composable', 'Modifier.fillMaxSize()', 'val viewModel: MainViewModel', 'checkState(true)', 'gradlew build', 'installDebug'][i % 7]}
+                                    <br /><br />
+                                    {['setContent {', 'Surface(color = Bg)', 'NavHost(navController)', 'hiltViewModel()', 'rememberCoroutineScope()', 'LaunchedEffect(Unit)', 'Log.d("TAG", "Boot")'][i % 7]}
+                                    <br /><br />
+                                    {['return UIState', 'lazyColumn {', 'items(items) {', 'Card(elevation = 4.dp)', 'Text(text = "Hello")', 'Image(painter = paint)', 'Button(onClick = {})'][i % 7]}
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {/* 2. "App Creation" Wireframes (Center/Right) */}
+                        {/* Abstract Phone Frames assembling */}
+                        {[...Array(3)].map((_, i) => (
                             <motion.div
-                                key={i}
-                                className="absolute text-primary/30 font-mono font-bold"
+                                key={`phone-${i}`}
+                                className="absolute border-2 border-secondary/30 rounded-3xl bg-dark-card/10 backdrop-blur-sm"
                                 style={{
-                                    left: `${Math.random() * 90}%`,
-                                    top: `${Math.random() * 90}%`,
-                                    fontSize: `${Math.random() * 20 + 14}px`
+                                    width: '180px',
+                                    height: '320px',
+                                    right: `${10 + i * 5}%`,
+                                    top: `${20 + i * 10}%`,
+                                    zIndex: 0
                                 }}
+                                initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{
-                                    y: [0, Math.random() * -60, 0],
-                                    opacity: [0.1, 0.5, 0.1]
+                                    opacity: [0, 0.6, 0],
+                                    scale: [0.8, 1, 0.9],
+                                    y: [20, 0, -20]
                                 }}
                                 transition={{
-                                    duration: randomDuration(),
+                                    duration: 10,
                                     repeat: Infinity,
-                                    delay: randomDelay()
+                                    delay: i * 3,
+                                    ease: "easeInOut"
                                 }}
                             >
-                                {['{ }', '< />', 'const', 'func', 'var', 'let', 'if', 'return'][i % 8]}
+                                {/* UI Elements inside the "Phone" */}
+                                <motion.div
+                                    className="h-4 w-3/4 bg-primary/20 m-4 rounded"
+                                    animate={{ width: ["0%", "75%"] }}
+                                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 8, delay: i * 3 + 1 }}
+                                />
+                                <div className="grid grid-cols-2 gap-2 p-4 pt-0">
+                                    {[...Array(4)].map((_, j) => (
+                                        <motion.div
+                                            key={j}
+                                            className="h-16 bg-secondary/10 rounded-lg"
+                                            initial={{ opacity: 0, scale: 0 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: i * 3 + 2 + (j * 0.2), duration: 0.5, repeat: Infinity, repeatDelay: 9.5 }}
+                                        />
+                                    ))}
+                                </div>
+                                {/* Floating "Success" Badge */}
+                                <motion.div
+                                    className="absolute bottom-4 right-4 text-green-400"
+                                    initial={{ opacity: 0, scale: 0 }}
+                                    animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 1] }}
+                                    transition={{ delay: i * 3 + 4, duration: 2, repeat: Infinity, repeatDelay: 8 }}
+                                >
+                                    <Zap size={24} fill="currentColor" />
+                                </motion.div>
                             </motion.div>
                         ))}
+
+                        {/* 3. Floating Android/Tech Icons connected by lines */}
+                        <motion.div
+                            animate={{ rotate: 360, y: [0, -30, 0] }}
+                            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                            className="absolute top-[15%] right-[25%] opacity-30 text-green-500"
+                        >
+                            <Smartphone size={100} />
+                        </motion.div>
+
+                        {/* Connecting Lines (Simulating Logic) */}
+                        <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
+                            <motion.path
+                                d="M 200 100 Q 400 300 600 200 T 1000 400"
+                                fill="transparent"
+                                stroke="url(#gradient-line)"
+                                strokeWidth="2"
+                                animate={{ pathLength: [0, 1, 0], opacity: [0, 0.5, 0] }}
+                                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                            />
+                            <defs>
+                                <linearGradient id="gradient-line" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0%" stopColor="#3b82f6" />
+                                    <stop offset="100%" stopColor="#10b981" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
                     </>
                 );
 
