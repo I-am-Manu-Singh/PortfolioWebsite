@@ -40,6 +40,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
     const nameLetters = resumeData.basics.name.split("");
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [visitCount, setVisitCount] = useState<number | null>(null);
+    const [isHovered, setIsHovered] = useState(false);
 
     // Long Press Logic
     const [isPressing, setIsPressing] = useState(false);
@@ -197,89 +198,91 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                     </div>
                 </motion.div>
 
-                {/* Profile Image with Motion & Long Press Interaction */}
+                {/* Profile Image with Motion & Matrix Shatter */}
                 <motion.div
-                    className="order-1 md:order-2 flex justify-center perspective-1000 relative group"
-                    initial={{ opacity: 0, scale: 0.8, rotateY: -30 }}
-                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    className="order-1 md:order-2 flex justify-center perspective-1000 relative z-20"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1 }}
                 >
                     <div
-                        className="relative w-64 h-64 md:w-96 md:h-96 cursor-pointer"
+                        className="relative w-64 h-64 md:w-80 md:h-80 cursor-pointer"
                         onMouseDown={handlePressStart}
                         onMouseUp={handlePressEnd}
-                        onMouseLeave={handlePressEnd}
+                        onMouseLeave={() => {
+                            handlePressEnd();
+                            setIsHovered(false);
+                        }}
+                        onMouseEnter={() => setIsHovered(true)}
                         onTouchStart={handlePressStart}
                         onTouchEnd={handlePressEnd}
                     >
-                        {/* Tooltip Hint */}
-                        <motion.div
-                            className="absolute -top-12 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 text-xs font-mono text-white flex items-center gap-2 whitespace-nowrap z-50 pointer-events-none"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 2, duration: 0.5 }}
-                        >
-                            <Sparkles size={12} className="text-secondary" />
-                            Long press to reveal...
-                        </motion.div>
+                        {/* Shards Container - The Work Image */}
+                        <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 w-full h-full pointer-events-none z-20">
+                            {[...Array(100)].map((_, i) => {
+                                const row = Math.floor(i / 10);
+                                const col = i % 10;
+                                return (
+                                    <motion.div
+                                        key={i}
+                                        className="w-full h-full"
+                                        style={{
+                                            backgroundImage: `url(${ProfileImage})`,
+                                            backgroundSize: '1000% 1000%', // 10x grid
+                                            backgroundPosition: `${col * 11.1}% ${row * 11.1}%`,
+                                            imageRendering: 'pixelated'
+                                        }}
+                                        initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                                        animate={isHovered ? {
+                                            x: (Math.random() - 0.5) * 300,
+                                            y: (Math.random() - 0.5) * 300,
+                                            z: (Math.random() - 0.5) * 200,
+                                            rotateX: Math.random() * 360,
+                                            rotateY: Math.random() * 360,
+                                            scale: Math.random() * 0.5 + 0.2,
+                                            opacity: 0.8
+                                        } : {
+                                            x: 0, y: 0, z: 0,
+                                            rotateX: 0, rotateY: 0,
+                                            scale: 1,
+                                            opacity: 1
+                                        }}
+                                        transition={{ duration: 0.8, ease: "anticipate" }}
+                                    />
+                                );
+                            })}
+                        </div>
 
-                        {/* Progress Ring / Aura */}
+                        {/* Background Reveal (Personal Image) - Visible through cracks */}
+                        <div className={`absolute inset-0 w-full h-full rounded-2xl overflow-hidden transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+                            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-10 flex items-center justify-center">
+                                <span className="text-secondary font-mono font-bold text-center px-4 animate-pulse">
+                                    INITIALIZING<br />PROTOCOL...
+                                </span>
+                            </div>
+                            <img
+                                src={ProfileImagePersonal}
+                                alt="Secret"
+                                className="w-full h-full object-cover opacity-50 grayscale"
+                            />
+                        </div>
+
+                        {/* Press Progress Overlay */}
                         {isPressing && (
-                            <div className="absolute inset-[-20px] rounded-full border-4 border-secondary/50 border-t-secondary animate-spin z-0 pointer-events-none"
-                                style={{ animationDuration: '1s' }} />
+                            <div className="absolute inset-[-10%] z-0">
+                                <svg className="w-full h-full rotate-[-90deg]">
+                                    <circle
+                                        cx="50%" cy="50%" r="48%"
+                                        stroke="var(--color-secondary)"
+                                        strokeWidth="4"
+                                        fill="none"
+                                        strokeDasharray="300"
+                                        strokeDashoffset={300 - (progress * 3)}
+                                        className="transition-all duration-75 ease-linear"
+                                    />
+                                </svg>
+                            </div>
                         )}
-
-                        {/* Glitch/Shake Effect wrapper */}
-                        <motion.div
-                            animate={isPressing ? {
-                                x: [0, -2, 2, -2, 2, 0],
-                                filter: ["hue-rotate(0deg)", "hue-rotate(90deg)", "hue-rotate(0deg)"]
-                            } : {}}
-                            transition={{ duration: 0.2, repeat: Infinity }}
-                            className="w-full h-full relative"
-                        >
-                            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse"></div>
-                            <motion.div
-                                className="relative w-full h-full"
-                                animate={{ y: [0, -20, 0], rotate: [0, 2, 0] }}
-                                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                            >
-                                <motion.div
-                                    className={`relative w-full h-full rounded-2xl overflow-hidden border-2 shadow-2xl glass-card transition-colors duration-300 ${isPressing ? 'border-secondary' : 'border-white/10'}`}
-                                    whileHover={{ scale: 1.05 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-overlay z-10"></div>
-
-                                    {/* Work Avatar */}
-                                    <motion.img
-                                        src={ProfileImage}
-                                        alt={resumeData.basics.name}
-                                        className="w-full h-full object-contain object-bottom absolute inset-0 transition-opacity duration-300"
-                                        style={{ opacity: isPressing ? 0 : 1 }}
-                                    />
-
-                                    {/* Personal Avatar (Hidden until press) */}
-                                    <motion.img
-                                        src={ProfileImagePersonal}
-                                        alt="Personal Side"
-                                        className="w-full h-full object-cover object-top absolute inset-0 transition-opacity duration-300"
-                                        style={{ opacity: isPressing ? 1 : 0 }}
-                                    />
-
-                                    {/* Fill-up Animation Overlay - Bottom Up */}
-                                    {isPressing && (
-                                        <div className="absolute bottom-0 left-0 w-full bg-secondary/60 backdrop-blur-[2px] z-20 transition-all duration-75 ease-linear flex items-center justify-center overflow-hidden border-t border-white/20"
-                                            style={{ height: `${progress}%` }}>
-                                            {/* Animated Text inside the fill */}
-                                            <span className="text-white font-bold text-4xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
-                                                {Math.round(progress)}%
-                                            </span>
-                                        </div>
-                                    )}
-                                </motion.div>
-                            </motion.div>
-                        </motion.div>
                     </div>
                 </motion.div>
             </div>
