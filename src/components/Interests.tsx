@@ -27,53 +27,26 @@ const Interests: React.FC = () => {
                     Life <span className="text-primary-light">Beyond Code</span>
                 </motion.h2>
 
-                {/* Intro / Guitar */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="relative"
-                    >
-                        <h3 className="text-3xl font-bold mb-6 text-secondary font-mono">
-                            I pluck strings & <br /> <span className="text-white">create vibes.</span>
-                        </h3>
-                        <p className="text-text-muted text-lg leading-relaxed">
-                            Music is my escape and my fuel. Whether it's jamming on the guitar or finding the perfect melody on the piano, I love the creative freedom it provides.
-                        </p>
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                        className="flex justify-center relative"
-                    >
-                        {/* Spotlight Glow */}
-                        <div className="absolute inset-0 bg-white/20 blur-[80px] rounded-full transform scale-75" />
-                        <img
-                            src={CaricatureGuitar}
-                            alt="Guitarist"
-                            className="w-48 md:w-64 drop-shadow-2xl relative z-10 filter hover:brightness-110 transition-all"
-                        />
-                    </motion.div>
+                <div className="mb-12 text-center max-w-2xl mx-auto">
+                    <p className="text-text-muted text-lg leading-relaxed">
+                        Music is my escape and my fuel. whether it's jamming on the guitar or finding the perfect melody on the piano, I love the creative freedom it provides.
+                    </p>
                 </div>
 
 
-                <div className="space-y-24">
-                    {/* Music Categories & Piano */}
+                <div className="space-y-12">
+                    {/* Music Categories & Caricatures */}
                     {/* @ts-ignore - resumeData structure */}
                     {resumeData.interests.music.categories.map((category: any, idx: number) => (
-                        <div key={idx} className="relative">
-                            <h3 className="text-2xl font-bold mb-8 text-white border-l-4 border-primary pl-4 flex items-center gap-3">
+                        <div key={idx} className="relative mb-8">
+                            <h3 className="text-2xl font-bold mb-6 text-white border-l-4 border-primary pl-4 flex items-center gap-3">
                                 {category.title}
-                                {category.title.toLowerCase().includes('piano') && <Music size={24} className="text-primary-light animate-bounce" />}
+                                {(category.title.toLowerCase().includes('piano') || category.title.toLowerCase().includes('guitar')) && <Music size={24} className="text-primary-light" />}
                             </h3>
 
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                                 {/* Playlists */}
-                                <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {category.playlists.map((playlist: any, pIdx: number) => (
                                         <motion.div
                                             key={pIdx}
@@ -95,36 +68,53 @@ const Interests: React.FC = () => {
                                                     className="absolute inset-0"
                                                 ></iframe>
                                             </div>
-                                            <div className="p-4 bg-white/5 flex justify-between items-center">
-                                                <h4 className="font-bold text-white text-sm group-hover:text-primary transition-colors">{playlist.title}</h4>
+                                            <div className="p-3 bg-white/5 flex justify-between items-center">
+                                                <h4 className="font-bold text-white text-xs group-hover:text-primary transition-colors truncate">{playlist.title}</h4>
                                                 <div className="p-1.5 bg-red-600 rounded-full">
-                                                    <Music size={14} className="text-white" />
+                                                    <Music size={12} className="text-white" />
                                                 </div>
                                             </div>
                                         </motion.div>
                                     ))}
                                 </div>
 
-                                {/* Piano Caricature */}
-                                <motion.div
-                                    className="hidden lg:flex justify-center relative"
-                                    initial={{ x: 50, opacity: 0 }}
-                                    whileInView={{ x: 0, opacity: 1 }}
-                                    viewport={{ once: true }}
-                                    animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
-                                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                                >
-                                    {/* Spotlight Glow */}
-                                    <div className="absolute inset-0 bg-white/20 blur-[80px] rounded-full transform scale-75" />
-                                    <img
-                                        src={CaricaturePiano}
-                                        alt="Pianist"
-                                        className="w-56 drop-shadow-2xl relative z-10 filter hover:brightness-110 transition-all"
-                                    />
-                                </motion.div>
+                                {/* Caricatures Placement (Right Column) */}
+                                <div className="hidden lg:flex flex-col gap-8 justify-center items-center h-full">
+                                    {/* Show Piano Caricature if category key matches or on first item */}
+                                    {idx === 0 && (
+                                        <motion.div
+                                            className="relative"
+                                            initial={{ x: 50, opacity: 0 }}
+                                            whileInView={{ x: 0, opacity: 1 }}
+                                            viewport={{ once: true }}
+                                            animate={{ y: [0, 10, 0] }}
+                                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                        >
+                                            <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
+                                            <img src={CaricaturePiano} alt="Pianist" className="w-56 drop-shadow-2xl relative z-10" />
+                                        </motion.div>
+                                    )}
+                                    {/* Show Guitar Caricature on second item if exists, or just below piano */}
+                                    {idx === 1 && (
+                                        <motion.div
+                                            className="relative"
+                                            initial={{ x: 50, opacity: 0 }}
+                                            whileInView={{ x: 0, opacity: 1 }}
+                                            viewport={{ once: true }}
+                                            animate={{ y: [0, -10, 0] }}
+                                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                                        >
+                                            <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
+                                            <img src={CaricatureGuitar} alt="Guitarist" className="w-56 drop-shadow-2xl relative z-10" />
+                                        </motion.div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     ))}
+
+                    {/* Spacer to visually separate YouTube/Music from Instagram */}
+                    <div className="h-12"></div>
 
                     {/* Instagram Section */}
                     <div className="pt-16 border-t border-white/10 relative">
