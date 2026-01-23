@@ -38,73 +38,76 @@ const Interests: React.FC = () => {
                     Life <span className="text-primary-light">Beyond Code</span>
                 </motion.h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    {/* Music Section */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="glass-card p-8 border-l-4 border-l-secondary flex flex-col justify-between backdrop-blur-md bg-dark/60"
-                    >
-                        <div>
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="p-3 bg-secondary/10 rounded-full text-secondary">
-                                    <Music size={32} />
-                                </div>
-                                <h3 className="text-2xl font-bold">Music & Covers</h3>
+                <div className="space-y-16">
+                    {/* Music Categories */}
+                    {/* @ts-ignore - interests structure changed */}
+                    {resumeData.interests.music.categories.map((category: any, idx: number) => (
+                        <div key={idx}>
+                            <h3 className="text-2xl font-bold mb-6 text-white border-l-4 border-primary pl-4">{category.title}</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {category.playlists.map((playlist: any, pIdx: number) => (
+                                    <motion.div
+                                        key={pIdx}
+                                        className="glass-card overflow-hidden group"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: pIdx * 0.1 }}
+                                    >
+                                        <div className="relative w-full aspect-video">
+                                            <iframe
+                                                width="100%"
+                                                height="100%"
+                                                src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`}
+                                                title={playlist.title}
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                                className="absolute inset-0"
+                                            ></iframe>
+                                        </div>
+                                        <div className="p-4 bg-white/5 flex justify-between items-center">
+                                            <h4 className="font-bold text-white group-hover:text-primary transition-colors">{playlist.title}</h4>
+                                            <div className="p-2 bg-red-600 rounded-full">
+                                                <Music size={16} className="text-white" />
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
                             </div>
-                            <p className="text-text-muted text-lg mb-6 leading-relaxed">
-                                When I'm not debugging code, I'm jamming on my guitar or piano.
-                                Music is my creative escape—I play <strong>Acoustic & Electric Guitar</strong> and <strong>Piano</strong>,
-                                often recording covers for my YouTube channel.
-                            </p>
+                        </div>
+                    ))}
+
+                    {/* Instagram Section */}
+                    <div className="pt-10 border-t border-white/10">
+                        <div className="flex items-center justify-between mb-8">
+                            <h3 className="text-2xl font-bold flex items-center gap-2 text-white">
+                                <Instagram className="text-pink-500" /> Instagram Feed
+                            </h3>
+                            <a href="https://www.instagram.com/manu.singh_001/" target="_blank" className="text-sm text-primary hover:underline">View Profile</a>
                         </div>
 
-                        {/* Dynamic YouTube Feed for Music */}
-                        <DynamicYouTube channelId="UCyC9lIwchCmfVTHbPsruOBA" title="My Latest Cover" />
-
-                        <div className="flex gap-4 flex-wrap mt-6">
-                            <a
-                                href={resumeData.youtube.channel}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-colors text-white"
-                            >
-                                <Mic size={18} /> Music Channel
-                            </a>
-                            {/* Instagram Button */}
-                            <a
-                                href="https://www.instagram.com/manu.singh_001/"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 rounded-full transition-opacity text-white border border-white/10 shadow-lg"
-                            >
-                                <Instagram size={18} /> Instagram
-                            </a>
+                        {/* Instagram Grid Mockup */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {[1, 2, 3, 4].map((item) => (
+                                <a
+                                    key={item}
+                                    href="https://www.instagram.com/manu.singh_001/"
+                                    target="_blank"
+                                    className="aspect-square bg-white/5 rounded-xl overflow-hidden relative group"
+                                >
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Instagram className="text-white" />
+                                    </div>
+                                    <img
+                                        src={`https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80`}
+                                        alt="Instagram Post"
+                                        className="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                </a>
+                            ))}
                         </div>
-                    </motion.div>
-
-                    {/* Visual/Image Placeholder or Icons Grid */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="flex flex-col justify-center items-center gap-8 p-8"
-                    >
-                        <div className="flex gap-8 text-primary-light/40">
-                            <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
-                                <Guitar size={80} strokeWidth={1} />
-                            </motion.div>
-                            <motion.div animate={{ y: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 0.5 }}>
-                                <Music size={60} strokeWidth={1} />
-                            </motion.div>
-                        </div>
-                        <p className="text-center text-text-muted italic max-w-sm">
-                            "Music gives a soul to the universe, wings to the mind, flight to the imagination and life to everything."
-                        </p>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

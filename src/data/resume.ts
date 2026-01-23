@@ -241,18 +241,39 @@ export const resumeData = {
         channel: "https://www.youtube.com/channel/UCyC9lIwchCmfVTHbPsruOBA",
         leetcodePlaylist: "https://www.youtube.com/playlist?list=PL3gkgbVoJUE01-P8SzOZa8SXFgTdJsaRq"
     },
-    interests: [
-        {
-            name: "Music",
-            description: "I play Acoustic Guitar, Electric Guitar, and Piano.",
-            icon: "Music",
-            link: "https://www.instagram.com/manu.singh_001/"
-        },
-        {
-            name: "Covers",
-            description: "I record and upload music covers to my YouTube channel.",
-            icon: "Mic",
-            link: "https://www.youtube.com/channel/UCyC9lIwchCmfVTHbPsruOBA"
+    interests: {
+        music: {
+            title: "Music Portfolio",
+            description: "A collection of my musical journey across piano, guitar, and vocals.",
+            categories: [
+                {
+                    title: "Piano Covers",
+                    playlists: [
+                        { title: "Western Hollywood Piano", id: "PL3gkgbVoJUE0gLQLM8q4hJefXhrrrre9g" },
+                        { title: "Bollywood Piano", id: "PL3gkgbVoJUE3chqzwYgEoSq9NZUuLlMRK" }
+                    ]
+                },
+                {
+                    title: "Guitar & Vocals",
+                    playlists: [
+                        { title: "Western Vocal + Guitar", id: "PL3gkgbVoJUE1U3g7v8dQWJX_xfJOLY_sM" },
+                        { title: "Punjabi Vocal + Guitar", id: "PL3gkgbVoJUE1tDaChNK1LkhyHTwtOrP78" },
+                        { title: "Acoustic & Bollywood Vocal", id: "PL3gkgbVoJUE2UwiCtpeOksjqDXbdBgO_5" },
+                        { title: "Bollywood Electric Guitar", id: "PL3gkgbVoJUE05gqKg2WhscZdE5DkrTL3-" }
+                    ]
+                },
+                {
+                    title: "Live & Classical",
+                    playlists: [
+                        { title: "Live Performances", id: "PL3gkgbVoJUE3zAKHCjq3traur22GZFJKo" },
+                        { title: "Classical & Sufi Vocals", id: "PL3gkgbVoJUE1EYUoXKCS7lx5-o3Go2rx9" }
+                    ]
+                }
+            ]
         }
+    },
+    techPlaylists: [
+        { title: "LeetCode Solutions", id: "PL3gkgbVoJUE01-P8SzOZa8SXFgTdJsaRq" },
+        { title: "App Dev Tutorials", id: "PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6" }
     ]
 };
