@@ -34,15 +34,48 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
             {/* Background decoration */}
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
 
-            <div className="container relative z-10">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="section-title"
-                >
-                    Socials <span className="text-primary-light">& Interests</span>
-                </motion.h2>
+            <div className="container relative z-20 pt-24">
+                 {/* Personal Profile Header - Fun & Complex */}
+                 <div className="flex flex-col items-center mb-16 relative">
+                    <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl mb-6 z-10 bg-dark"
+                    >
+                        <img
+                            src={`${import.meta.env.BASE_URL}profile_person.png`}
+                            alt="Personal Profile"
+                            className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                        />
+                         {/* Fun Overlay/Filter on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-overlay pointer-events-none"></div>
+                    </motion.div>
+
+                    {/* Fun Status Badge */}
+                    <motion.div 
+                        initial={{ scale: 0, rotate: -20 }}
+                        animate={{ scale: 1, rotate: 10 }}
+                        className="absolute top-10 right-[calc(50%-140px)] bg-yellow-400 text-black font-bold px-3 py-1 rounded-full text-sm shadow-lg z-20 transform rotate-12"
+                    >
+                        Vibing 🎧
+                    </motion.div>
+                     <motion.div 
+                        initial={{ scale: 0, rotate: 20 }}
+                        animate={{ scale: 1, rotate: -10 }}
+                        className="absolute bottom-20 left-[calc(50%-140px)] bg-green-500 text-white font-bold px-3 py-1 rounded-full text-sm shadow-lg z-20 transform -rotate-12"
+                    >
+                        Explorer 🌍
+                    </motion.div>
+                    
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="section-title text-center"
+                    >
+                        Socials <span className="text-primary-light">& Interests</span>
+                    </motion.h2>
+                </div>
 
                 <div className="space-y-16">
                     {/* Music Categories */}
