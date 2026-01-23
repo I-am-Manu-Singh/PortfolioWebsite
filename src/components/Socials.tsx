@@ -3,26 +3,32 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Music, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
-import CaricatureGuitar from '../assets/caricature_guitar.png';
-import CaricaturePiano from '../assets/caricature_piano.png';
 
+
+import SectionBackground from './SectionBackground';
 const Socials: React.FC = () => {
     return (
         <section className="section bg-dark-card/30 relative overflow-hidden" id="socials">
+            <SectionBackground variant="music" />
             {/* Floating Caricatures - Adjusted to not dangle over content */}
+            {/* Floating Caricatures - More visible and interactive */}
             <motion.img
-                src={CaricatureGuitar}
+                src="/caricature_guitar.png"
                 alt="Guitarist"
-                className="absolute -left-16 md:left-0 top-10 w-40 md:w-56 opacity-10 pointer-events-none z-0"
+                className="absolute -left-10 md:left-4 top-20 w-40 md:w-56 opacity-90 z-10 hover:scale-110 transition-transform cursor-pointer"
                 animate={{ y: [0, -15, 0], rotate: [0, 3, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                drag
+                dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
             />
             <motion.img
-                src={CaricaturePiano}
+                src="/caricature_piano.png"
                 alt="Pianist"
-                className="absolute -right-16 md:right-0 bottom-10 w-40 md:w-56 opacity-10 pointer-events-none z-0"
+                className="absolute -right-10 md:right-4 bottom-20 w-40 md:w-56 opacity-90 z-10 hover:scale-110 transition-transform cursor-pointer"
                 animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                drag
+                dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
             />
 
             {/* Background decoration */}
@@ -90,10 +96,15 @@ const Socials: React.FC = () => {
 
                         {/* Instagram Grid Mockup - Linking to Profile */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {[1, 2, 3, 4].map((item) => (
+                            {[
+                                { link: 'https://www.instagram.com/manu.singh_001/p/DT0RPOzknGX/', img: 'https://images.unsplash.com/photo-1607799275518-d58726b1e670?w=400&q=80', caption: 'Code Life' }, // Android/Code
+                                { link: 'https://www.instagram.com/manu.singh_001/p/DTSDRz8kuYm/', img: 'https://images.unsplash.com/photo-1552422535-c45813c61732?w=400&q=80', caption: 'Music Vibes' }, // Piano/Music
+                                { link: 'https://www.instagram.com/manu.singh_001/', img: 'https://images.unsplash.com/photo-1525609004556-c3f538e3bd33?w=400&q=80', caption: 'Travel' }, // Car/Travel
+                                { link: 'https://www.instagram.com/manu.singh_001/', img: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80', caption: 'Lifestyle' }  // Lifestyle
+                            ].map((item, i) => (
                                 <a
-                                    key={item}
-                                    href="https://www.instagram.com/manu.singh_001/"
+                                    key={i}
+                                    href={item.link}
                                     target="_blank"
                                     className="aspect-square bg-white/5 rounded-xl overflow-hidden relative group"
                                 >
@@ -103,10 +114,9 @@ const Socials: React.FC = () => {
                                             <span>Follow</span>
                                         </div>
                                     </div>
-                                    {/* Using placeholders or maybe previous images if available. For now using generic attractive placeholders */}
                                     <img
-                                        src={`https://images.unsplash.com/photo-${item === 1 ? '1511379938547-c1f69419868d' : item === 2 ? '1514320291840-2e0a962a2b43' : item === 3 ? '1506157788536-d241597402dc' : '1507838153419-f4d3656c5253'}?w=400&q=80`}
-                                        alt="Instagram Post"
+                                        src={item.img}
+                                        alt={item.caption}
                                         className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
                                     />
                                 </a>

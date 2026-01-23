@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Cpu, Instagram, Globe, Folder, Users, MessageCircle, GitBranch } from 'lucide-react';
+import { Music, Cpu, Instagram, Globe, Folder, Users, MessageCircle, GitBranch, Heart } from 'lucide-react';
 
 
 type BackgroundVariant = 'hero' | 'skills' | 'experience' | 'music' | 'instagram' | 'projects' | 'writing' | 'community' | 'certifications' | 'tutorials' | 'coding' | 'default';
@@ -13,6 +13,7 @@ interface SectionBackgroundProps {
 
 const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'default', className = '' }) => {
     // Common float animation settings
+
 
 
     const renderVariant = () => {
@@ -105,19 +106,76 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
             case 'tutorials':
                 return (
                     <>
-                        {/* Play buttons floating */}
-                        {[...Array(6)].map((_, i) => (
+                        {/* Play buttons floating - made more visible */}
+                        {[...Array(8)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute text-red-500/20"
+                                className="absolute text-red-500/30"
                                 style={{
                                     left: `${Math.random() * 90}%`,
                                     top: `${Math.random() * 90}%`
                                 }}
-                                animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.5, 0.2] }}
-                                transition={{ duration: 3, repeat: Infinity, delay: i }}
+                                animate={{
+                                    scale: [1, 1.3, 1],
+                                    opacity: [0.3, 0.7, 0.3],
+                                    y: [0, -20, 0]
+                                }}
+                                transition={{ duration: 4 + Math.random(), repeat: Infinity, delay: i * 0.5 }}
                             >
-                                <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-current border-b-[10px] border-b-transparent ml-1" />
+                                <div className="w-0 h-0 border-t-[15px] border-t-transparent border-l-[25px] border-l-current border-b-[15px] border-b-transparent ml-1 filter drop-shadow-lg" />
+                            </motion.div>
+                        ))}
+                    </>
+                );
+
+            case 'coding':
+                return (
+                    <>
+                        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_0%,rgba(0,255,0,0.05)_50%,rgba(0,0,0,0)_100%)] opacity-20" />
+                        {/* Binary Rain & Brackets */}
+                        {[...Array(20)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                className="absolute font-mono text-primary/20 font-bold text-sm md:text-xl select-none"
+                                style={{
+                                    left: `${i * 5}%`,
+                                    top: -20
+                                }}
+                                animate={{
+                                    y: ['0vh', '100vh'],
+                                    opacity: [0, 1, 0]
+                                }}
+                                transition={{
+                                    duration: 10 + Math.random() * 10,
+                                    repeat: Infinity,
+                                    delay: Math.random() * 5,
+                                    ease: "linear"
+                                }}
+                            >
+                                {Math.random() > 0.5 ? '1' : '0'}
+                            </motion.div>
+                        ))}
+                        {/* Floating Syntax Symbols */}
+                        {['{ }', '< />', '[]', '//', '&&', '||', '=>', 'func'].map((symbol, i) => (
+                            <motion.div
+                                key={`sym-${i}`}
+                                className="absolute text-primary/10 font-mono font-bold text-2xl md:text-4xl"
+                                style={{
+                                    left: `${Math.random() * 90}%`,
+                                    top: `${Math.random() * 90}%`
+                                }}
+                                animate={{
+                                    scale: [1, 1.2, 1],
+                                    opacity: [0.1, 0.4, 0.1],
+                                    rotate: [0, 10, -10, 0]
+                                }}
+                                transition={{
+                                    duration: 5 + Math.random() * 5,
+                                    repeat: Infinity,
+                                    delay: i
+                                }}
+                            >
+                                {symbol}
                             </motion.div>
                         ))}
                     </>
@@ -310,17 +368,17 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
             case 'music':
                 return (
                     <>
-                        {/* Audio Waveform Visualization */}
-                        <div className="absolute bottom-0 left-0 right-0 flex justify-center items-end h-1/2 opacity-20 gap-1 md:gap-3 px-10">
-                            {[...Array(20)].map((_, i) => (
+                        {/* Audio Waveform Visualization - Enhanced */}
+                        <div className="absolute bottom-0 left-0 right-0 flex justify-center items-end h-3/4 opacity-10 gap-2 md:gap-4 px-10 pointer-events-none">
+                            {[...Array(15)].map((_, i) => (
                                 <motion.div
                                     key={i}
-                                    className="w-4 md:w-8 bg-gradient-to-t from-pink-500 to-purple-500 rounded-t-lg"
+                                    className="w-8 md:w-16 bg-gradient-to-t from-pink-600 via-purple-600 to-transparent rounded-t-xl"
                                     animate={{
-                                        height: ['10%', `${Math.random() * 60 + 20}%`, '10%']
+                                        height: ['10%', `${Math.random() * 50 + 30}%`, '10%']
                                     }}
                                     transition={{
-                                        duration: 0.8,
+                                        duration: 0.6,
                                         repeat: Infinity,
                                         repeatType: "reverse",
                                         delay: i * 0.05,
@@ -330,28 +388,28 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                             ))}
                         </div>
 
-                        {/* Floating Notes */}
-                        {[...Array(8)].map((_, i) => (
+                        {/* Floating Notes - More visible */}
+                        {[...Array(10)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute text-pink-500/30"
+                                className="absolute text-pink-500/20"
                                 style={{
                                     left: `${Math.random() * 100}%`,
-                                    bottom: '0%'
+                                    bottom: '-20%'
                                 }}
                                 animate={{
                                     y: -800,
-                                    x: Math.sin(i) * 100,
-                                    opacity: [0, 0.8, 0],
+                                    x: Math.sin(i) * 50,
+                                    opacity: [0, 0.6, 0],
                                     rotate: [0, 360]
                                 }}
                                 transition={{
-                                    duration: 10 + Math.random() * 5,
+                                    duration: 15 + Math.random() * 10,
                                     repeat: Infinity,
-                                    delay: i * 2
+                                    delay: i * 1.5
                                 }}
                             >
-                                <Music size={40 + Math.random() * 30} />
+                                <Music size={60 + Math.random() * 40} />
                             </motion.div>
                         ))}
                     </>
@@ -361,26 +419,28 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                 return (
                     <>
                         <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/10 via-pink-500/10 to-purple-500/10 mix-blend-screen" />
-                        {[...Array(8)].map((_, i) => (
+                        {/* Floating Instagram & Heart Icons */}
+                        {[...Array(12)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute text-white/10"
+                                className={i % 2 === 0 ? "absolute text-pink-500/20" : "absolute text-red-500/20"}
                                 style={{
                                     left: `${Math.random() * 90}%`,
                                     top: `${Math.random() * 80}%`
                                 }}
                                 animate={{
-                                    scale: [1, 1.2, 1],
-                                    rotate: [0, 360, 0],
-                                    opacity: [0.1, 0.3, 0.1]
+                                    scale: [1, 1.5, 1],
+                                    rotate: [0, i % 2 === 0 ? 360 : -360, 0],
+                                    opacity: [0.2, 0.6, 0.2],
+                                    y: [0, -30, 0]
                                 }}
                                 transition={{
-                                    duration: 15 + Math.random() * 10,
+                                    duration: 10 + Math.random() * 10,
                                     repeat: Infinity,
                                     delay: Math.random() * 5
                                 }}
                             >
-                                <Instagram size={40 + Math.random() * 40} />
+                                {i % 2 === 0 ? <Instagram size={30 + Math.random() * 30} /> : <Heart size={20 + Math.random() * 20} fill="currentColor" />}
                             </motion.div>
                         ))}
                     </>

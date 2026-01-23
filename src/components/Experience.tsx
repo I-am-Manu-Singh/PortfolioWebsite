@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Calendar, ChevronRight } from 'lucide-react';
 import { resumeData } from '../data/resume';
-import CaricatureProfessional from '../assets/caricature_professional.png';
+
 import SectionBackground from './SectionBackground';
 
 const ExperienceItem: React.FC<{
@@ -96,7 +96,7 @@ const Experience: React.FC = () => {
                             {/* Spotlight Glow matches Interests */}
                             <div className="absolute inset-0 bg-white/10 blur-[80px] rounded-full transform scale-75" />
                             <motion.img
-                                src={CaricatureProfessional}
+                                src="/caricature_professional.png"
                                 alt="Professional Manpreet"
                                 className="w-48 md:w-64 object-contain drop-shadow-2xl relative z-10 rounded-3xl border-4 border-white/20 cursor-grab active:cursor-grabbing"
                                 animate={{ y: [0, -15, 0], rotate: [0, 2, 0] }}

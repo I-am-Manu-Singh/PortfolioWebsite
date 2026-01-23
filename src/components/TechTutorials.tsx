@@ -19,6 +19,28 @@ const TechTutorials: React.FC = () => {
                     Tech <span className="text-primary-light">Tutorials</span>
                 </motion.h2>
 
+                {/* Teacher Caricature - Added here */}
+                <div className="absolute right-0 top-0 lg:right-10 lg:-top-16 z-0 hidden lg:block pointer-events-none">
+                    <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                        className="relative"
+                    >
+                        <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
+                        <motion.img
+                            src="/caricature_teacher.png"
+                            alt="Teaching Tech"
+                            className="w-40 h-40 lg:w-48 lg:h-48 object-contain drop-shadow-2xl relative z-10 hover:scale-110 transition-transform cursor-pointer pointer-events-auto"
+                            animate={{ y: [0, -10, 0], rotate: [5, 0, 5] }}
+                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                            drag
+                            dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
+                        />
+                    </motion.div>
+                </div>
+
                 {/* Piano moved back to Interests */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 relative z-10">

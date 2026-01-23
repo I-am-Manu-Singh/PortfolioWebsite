@@ -2,8 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Music, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
-import CaricatureGuitar from '../assets/caricature_guitar.png';
-import CaricaturePiano from '../assets/caricature_piano.png';
+
 import SectionBackground from './SectionBackground';
 
 const Interests: React.FC = () => {
@@ -13,7 +12,7 @@ const Interests: React.FC = () => {
             <div className="absolute inset-x-0 top-0 h-2/3 overflow-hidden">
                 <SectionBackground variant="music" className="h-full" />
             </div>
-            <div className="absolute inset-x-0 bottom-0 h-1/2 overflow-hidden">
+            <div className="absolute inset-x-0 bottom-0 h-2/3 overflow-hidden pointer-events-none">
                 <SectionBackground variant="instagram" className="h-full" />
             </div>
 
@@ -91,7 +90,7 @@ const Interests: React.FC = () => {
                                             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                                         >
                                             <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
-                                            <img src={CaricaturePiano} alt="Pianist" className="w-56 drop-shadow-2xl relative z-10" />
+                                            <img src="/caricature_piano.png" alt="Pianist" className="w-56 drop-shadow-2xl relative z-10" />
                                         </motion.div>
                                     )}
                                     {/* Show Guitar Caricature on second item if exists, or just below piano */}
@@ -105,7 +104,7 @@ const Interests: React.FC = () => {
                                             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                                         >
                                             <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
-                                            <img src={CaricatureGuitar} alt="Guitarist" className="w-56 drop-shadow-2xl relative z-10" />
+                                            <img src="/caricature_guitar.png" alt="Guitarist" className="w-56 drop-shadow-2xl relative z-10" />
                                         </motion.div>
                                     )}
                                 </div>
@@ -134,10 +133,15 @@ const Interests: React.FC = () => {
 
                         {/* Instagram Grid Mockup - made more visible */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {[1, 2, 3, 4].map((item, i) => (
+                            {[
+                                { link: 'https://www.instagram.com/manu.singh_001/p/DT0RPOzknGX/', img: 'https://images.unsplash.com/photo-1607799275518-d58726b1e670?w=400&q=80', caption: 'Code Life' }, // Android/Code
+                                { link: 'https://www.instagram.com/manu.singh_001/p/DTSDRz8kuYm/', img: 'https://images.unsplash.com/photo-1552422535-c45813c61732?w=400&q=80', caption: 'Music Vibes' }, // Piano/Music
+                                { link: 'https://www.instagram.com/manu.singh_001/', img: 'https://images.unsplash.com/photo-1525609004556-c3f538e3bd33?w=400&q=80', caption: 'Travel' }, // Car/Travel
+                                { link: 'https://www.instagram.com/manu.singh_001/', img: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80', caption: 'Lifestyle' }  // Lifestyle
+                            ].map((item, i) => (
                                 <motion.a
-                                    key={item}
-                                    href="https://www.instagram.com/manu.singh_001/"
+                                    key={i}
+                                    href={item.link}
                                     target="_blank"
                                     className="aspect-square bg-dark-card rounded-2xl overflow-hidden relative group border border-white/10 shadow-lg"
                                     initial={{ opacity: 0, scale: 0.9 }}
@@ -152,19 +156,10 @@ const Interests: React.FC = () => {
                                             <span className="text-white font-bold text-sm">View Post</span>
                                         </div>
                                     </div>
-                                    {/* Using placeholders that look like real photos */}
                                     <img
-                                        src={[
-                                            'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80', // Music/Concert
-                                            'https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=400&q=80', // Urban/Code
-                                            'https://images.unsplash.com/photo-1510915362694-bdd4e626bcd4?w=400&q=80', // Piano/Vibe
-                                            'https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&q=80'  // Lifestyle
-                                        ][i % 4]}
-                                        alt="Instagram Post"
+                                        src={item.img}
+                                        alt={item.caption}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80';
-                                        }}
                                     />
                                 </motion.a>
                             ))}
