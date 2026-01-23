@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown, Eye } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Eye, Bug } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.png`;
@@ -41,8 +41,16 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [visitCount, setVisitCount] = useState<number | null>(null);
 
-    // Shatter Game State
-    const [shatteredIndices, setShatteredIndices] = useState<Set<number>>(new Set());
+    interface Target {
+        id: number;
+        x: number;
+        y: number;
+    }
+
+    // Shooting Game State
+    const [score, setScore] = useState(0);
+    const [targets, setTargets] = useState<Target[]>([]);
+    const [gameActive, setGameActive] = useState(true);
     const textControls = useAnimation();
 
     const triggerUnlock = async () => {
@@ -54,18 +62,35 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
         setActiveTab('personal');
     };
 
-    const handleShardClick = (index: number) => {
-        if (shatteredIndices.has(index)) return;
-
-        const newSet = new Set(shatteredIndices);
-        newSet.add(index);
-        setShatteredIndices(newSet);
-
-        // Check if enough shards are broken to unlock (e.g., > 60%)
-        if (newSet.size > 60) {
-            triggerUnlock();
-        }
+    const handleTargetClick = (id: number) => {
+        setTargets(prev => prev.filter(t => t.id !== id));
+        setScore(prev => {
+            const newScore = Math.min(prev + 10, 100);
+            if (newScore === 100) {
+                setGameActive(false);
+                setTimeout(triggerUnlock, 1000);
+            }
+            return newScore;
+        });
     };
+
+    // Game Loop - Spawn targets
+    React.useEffect(() => {
+        if (!gameActive || score >= 100) return;
+
+        const interval = setInterval(() => {
+            if (targets.length < 5) {
+                const newTarget = {
+                    id: Date.now(),
+                    x: (Math.random() - 0.5) * 200, // Random X offset
+                    y: (Math.random() - 0.5) * 200  // Random Y offset
+                };
+                setTargets(prev => [...prev, newTarget]);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [gameActive, score, targets.length]);
 
     React.useEffect(() => {
         // Simple visit counter using countapi.xyz
@@ -177,7 +202,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                     </div>
                 </motion.div>
 
-                {/* Profile Image with Shatter Game */}
+                {/* Profile Image with Floating Target Game */}
                 <motion.div
                     className="order-1 md:order-2 flex justify-center perspective-1000 relative z-20"
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -185,11 +210,32 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                     transition={{ duration: 1 }}
                 >
                     <div className="relative w-64 h-64 md:w-80 md:h-80 cursor-pointer group">
+                        {/* Score Card */}
+                        {gameActive && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="absolute -top-12 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
+                            >
+                                <div className="px-4 py-1 bg-black/80 backdrop-blur-md border border-red-500/50 rounded-full text-red-500 font-mono font-bold text-sm shadow-[0_0_15px_rgba(239,68,68,0.5)]">
+                                    SYSTEM BREACH: {score}%
+                                </div>
+                                <div className="w-48 h-1 bg-gray-800 rounded-full mt-2 overflow-hidden">
+                                    <motion.div
+                                        className="h-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]"
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${score}%` }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                    />
+                                </div>
+                            </motion.div>
+                        )}
+
                         {/* Background Reveal (Personal Image) */}
                         <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-black">
                             <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
                                 <span className="text-secondary font-mono font-bold text-center px-4 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity">
-                                    SYSTEM BREACH<br />DETECTED...
+                                    ACCESS GRANTED<br />WELCOME
                                 </span>
                             </div>
                             <img
@@ -199,44 +245,60 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                             />
                         </div>
 
-                        {/* Shatter Grid */}
-                        <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 w-full h-full z-20">
-                            {[...Array(100)].map((_, i) => {
-                                const row = Math.floor(i / 10);
-                                const col = i % 10;
-                                const isShattered = shatteredIndices.has(i);
+                        {/* Foreground (Work Image) - Fades out on win */}
+                        <motion.div
+                            className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl z-20"
+                            animate={score >= 100 ? { opacity: 0, scale: 1.1, filter: "blur(10px)" } : { opacity: 1, scale: 1, filter: "blur(0px)" }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
+                            <img
+                                src={ProfileImage}
+                                alt="Work Profile"
+                                className="w-full h-full object-cover"
+                            />
 
-                                return (
-                                    <motion.div
-                                        key={i}
-                                        className="w-full h-full bg-no-repeat"
-                                        style={{
-                                            backgroundImage: `url(${ProfileImage})`,
-                                            backgroundSize: '1000% 1000%',
-                                            backgroundPosition: `${col * 11.111}% ${row * 11.111}%`,
-                                        }}
-                                        initial={{ x: 0, y: 0, opacity: 1, scale: 1, rotate: 0 }}
-                                        animate={isShattered ? {
-                                            x: (Math.random() - 0.5) * 500,
-                                            y: (Math.random() - 0.5) * 500,
-                                            opacity: 0,
-                                            scale: 0,
-                                            rotate: Math.random() * 720
-                                        } : {
-                                            x: 0, y: 0, opacity: 1, scale: 1, rotate: 0
-                                        }}
-                                        transition={{ duration: 0.8, ease: "easeIn" }}
-                                        onClick={() => handleShardClick(i)}
-                                        whileHover={{ scale: 0.9, opacity: 0.8 }}
-                                    />
-                                );
-                            })}
+                            {/* Scanning Line Effect */}
+                            <motion.div
+                                className="absolute inset-0 w-full h-1 bg-primary/50 shadow-[0_0_15px_rgba(14,165,233,0.8)] z-20"
+                                animate={{ top: ["0%", "100%", "0%"] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                            />
+                        </motion.div>
+
+                        {/* Floating Targets */}
+                        <div className="absolute inset-0 z-30 pointer-events-none">
+                            {targets.map((target) => (
+                                <motion.div
+                                    key={target.id}
+                                    className="absolute cursor-crosshair pointer-events-auto"
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{
+                                        scale: 1,
+                                        opacity: 1,
+                                        x: target.x,
+                                        y: target.y
+                                    }}
+                                    exit={{ scale: 0, opacity: 0 }}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleTargetClick(target.id);
+                                    }}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.9 }}
+                                >
+                                    <div className="relative">
+                                        <div className="absolute inset-0 bg-red-500/30 blur-md rounded-full animate-pulse" />
+                                        <Bug className="text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]" size={24} />
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
 
-                        {/* Floating Pieces Hints (if none shattered yet) */}
-                        {shatteredIndices.size === 0 && (
-                            <div className="absolute -bottom-12 left-0 right-0 text-center text-xs font-mono text-primary animate-bounce pointer-events-none">
-                                CLICK TO BREAK THE FIREWALL
+                        {/* Start Hint */}
+                        {score === 0 && (
+                            <div className="absolute -bottom-12 left-0 right-0 text-center text-xs font-mono text-primary animate-bounce pointer-events-none z-40">
+                                NEUTRALIZE THREATS TO UNLOCK
                             </div>
                         )}
                     </div>
