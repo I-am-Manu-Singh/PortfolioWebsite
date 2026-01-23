@@ -176,7 +176,10 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                             'p_queue.pop()', 'root.left', '>> 1', 'arr.map()',
                             '&&', '||', '=>', '===', '!=', '0xFF',
                             'backtrack()', 'start..end', 'async await',
-                            'memo = {}', '<T>'
+                            'memo = {}', '<T>', 'dfs(u)', 'bfs(start)',
+                            'graph[u].push(v)', 'priority_queue<int>', 'segment_tree',
+                            'trie->next', 'heapify', 'union_find', 'bitmask',
+                            'dp[n][m]', 'MOD = 1e9+7', 'fast_io', 'binary_search'
                         ].map((text, i) => (
                             <motion.div
                                 key={i}
