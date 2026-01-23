@@ -1,123 +1,143 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Instagram, ArrowLeft } from 'lucide-react';
+import { Music, Instagram, Users } from 'lucide-react';
 import { resumeData } from '../data/resume';
 
 
 import SectionBackground from './SectionBackground';
 
 interface SocialsProps {
-    onBack?: () => void;
 }
 
-const Socials: React.FC<SocialsProps> = ({ onBack }) => {
+const Socials: React.FC<SocialsProps> = () => {
     return (
         <section className="section bg-dark-card/30 relative overflow-hidden flex flex-col" id="socials">
-            {/* Back Button */}
-            <div className="absolute top-20 left-4 z-50 lg:left-8">
-                <button
-                    onClick={onBack}
-                    className="flex items-center gap-2 text-white/70 hover:text-white transition-all bg-black/20 hover:bg-primary/20 px-4 py-2 rounded-full backdrop-blur-md border border-white/10"
-                >
-                    <ArrowLeft size={18} />
-                    <span className="font-medium">Back to Work</span>
-                </button>
-            </div>
 
             <SectionBackground variant="music" />
-            {/* Floating Caricatures - Adjusted to not dangle over content */}
-            {/* Floating Caricatures - More visible and interactive */}
-            {/* Floating Caricatures - More visible and interactive */}
-            {/* Caricatures moved inside sections for better placement */}
 
             {/* Background decoration */}
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
 
-            <div className="container relative z-20 pt-24">
-                {/* Personal Profile Header - Full Body & Visualizer */}
-                <div className="flex flex-col items-center mb-16 relative">
-                    {/* Music Visualizer Effect */}
-                    <div className="flex items-end gap-1 mb-4 h-12">
-                        {[...Array(12)].map((_, i) => (
+            <div className="container relative z-20 pt-10 md:pt-12">
+                {/* Personal Profile Header - Redesigned Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12 items-center">
+
+                    {/* Left Column: Text & Stats */}
+                    <div className="order-2 lg:order-1 flex flex-col items-start text-left space-y-6">
+                        <div className="relative">
                             <motion.div
-                                key={i}
-                                className="w-2 bg-primary rounded-t-full"
-                                animate={{ height: [10, 30 + Math.random() * 20, 10] }}
-                                transition={{ duration: 0.5 + Math.random() * 0.5, repeat: Infinity, ease: "easeInOut" }}
-                            />
-                        ))}
+                                initial={{ scale: 0, rotate: -20 }}
+                                animate={{ scale: 1, rotate: 0 }}
+                                className="absolute -top-10 -left-6 bg-yellow-400 text-black font-bold px-4 py-1 rounded-full text-sm shadow-lg z-20 transform -rotate-12"
+                            >
+                                Vibing 🎧
+                            </motion.div>
+                            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-2">
+                                Socials <span className="text-primary-light">& Interests</span>
+                            </h2>
+                            <p className="text-xl text-white/60 max-w-lg leading-relaxed">
+                                Beyond the code, I'm a musician, traveler, and tech enthusiast.
+                                Exploring the world one beat at a time.
+                            </p>
+                        </div>
+
+                        {/* Social Stats Buttons */}
+                        <div className="flex flex-wrap gap-4 w-full">
+                            {/* YouTube */}
+                            <a href={resumeData.youtube.channel} target="_blank" className="flex-1 min-w-[140px] bg-red-600/10 border border-red-500/30 hover:bg-red-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
+                                <div className="p-2 bg-red-600 text-white rounded-full group-hover:scale-110 transition-transform">
+                                    <Music size={20} />
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-xl font-bold text-white group-hover:text-red-400">Subscribe</div>
+                                    <div className="text-xs text-white/50">My YouTube Channel</div>
+                                </div>
+                            </a>
+
+                            {/* LinkedIn */}
+                            <a href={resumeData.basics.profiles.find(p => p.network === "LinkedIn")?.url} target="_blank" className="flex-1 min-w-[140px] bg-blue-600/10 border border-blue-500/30 hover:bg-blue-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
+                                <div className="p-2 bg-blue-600 text-white rounded-full group-hover:scale-110 transition-transform">
+                                    <Users size={20} />
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-xl font-bold text-white group-hover:text-blue-400">Connect</div>
+                                    <div className="text-xs text-white/50">LinkedIn Profile</div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
 
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="relative w-64 md:w-72 rounded-3xl overflow-hidden border-4 border-white/20 shadow-2xl mb-8 z-10 bg-dark/50 backdrop-blur-sm group cursor-pointer"
-                        whileHover={{ scale: 1.02 }}
-                    >
-                        {/* Glitch Layers - Red Channel */}
-                        <motion.img
-                            src={`${import.meta.env.BASE_URL}profile_person.png`}
-                            alt="Glitch Red"
-                            className="absolute inset-0 w-full h-full object-cover opacity-0 mix-blend-screen filter hue-rotate-90 pointer-events-none"
-                            variants={{
-                                hover: {
-                                    opacity: [0, 0.8, 0],
-                                    x: [-3, 3, -1, 0, 2],
-                                    y: [2, -2, 0, 1, -1],
-                                    scale: [1, 1.02, 1]
-                                }
-                            }}
-                            transition={{ duration: 0.2, repeat: Infinity, repeatType: "mirror" }}
-                        />
+                    {/* Right Column: Profile Image (Full Body) */}
+                    <div className="order-1 lg:order-2 flex flex-col items-center justify-center relative">
+                        {/* Music Visualizer Effect Above Image */}
+                        <div className="flex items-end gap-1 mb-2 h-8 absolute -top-10 left-1/2 transform -translate-x-1/2">
+                            {[...Array(12)].map((_, i) => (
+                                <motion.div
+                                    key={i}
+                                    className="w-1.5 bg-primary rounded-t-full"
+                                    animate={{ height: [5, 20 + Math.random() * 15, 5] }}
+                                    transition={{ duration: 0.4 + Math.random() * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                                />
+                            ))}
+                        </div>
 
-                        {/* Glitch Layers - Blue Channel */}
-                        <motion.img
-                            src={`${import.meta.env.BASE_URL}profile_person.png`}
-                            alt="Glitch Blue"
-                            className="absolute inset-0 w-full h-full object-cover opacity-0 mix-blend-screen filter hue-rotate-180 pointer-events-none"
-                            variants={{
-                                hover: {
-                                    opacity: [0, 0.8, 0],
-                                    x: [3, -3, 1, 0, -2],
-                                    y: [-2, 2, 0, -1, 1],
-                                    scale: [1, 1.01, 1]
-                                }
-                            }}
-                            transition={{ duration: 0.2, repeat: Infinity, repeatType: "mirror", delay: 0.05 }}
-                        />
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="relative w-full max-w-[300px] h-auto aspect-[9/16] rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl z-10 bg-dark/50 backdrop-blur-sm group cursor-pointer"
+                            whileHover={{ scale: 1.02 }}
+                        >
+                            {/* Glitch Layers - Red Channel */}
+                            <motion.img
+                                src={`${import.meta.env.BASE_URL}profile_person.png`}
+                                alt="Glitch Red"
+                                className="absolute inset-0 w-full h-full object-cover opacity-0 mix-blend-screen filter hue-rotate-90 pointer-events-none"
+                                variants={{
+                                    hover: {
+                                        opacity: [0, 0.8, 0],
+                                        x: [-3, 3, -1, 0, 2],
+                                        y: [2, -2, 0, 1, -1],
+                                        scale: [1, 1.02, 1]
+                                    }
+                                }}
+                                transition={{ duration: 0.2, repeat: Infinity, repeatType: "mirror" }}
+                            />
 
-                        {/* Main Image */}
-                        <img
-                            src={`${import.meta.env.BASE_URL}profile_person.png`}
-                            alt="Personal Profile"
-                            className="relative w-full h-auto object-cover transition-transform duration-700 z-10"
-                        />
+                            {/* Glitch Layers - Blue Channel */}
+                            <motion.img
+                                src={`${import.meta.env.BASE_URL}profile_person.png`}
+                                alt="Glitch Blue"
+                                className="absolute inset-0 w-full h-full object-cover opacity-0 mix-blend-screen filter hue-rotate-180 pointer-events-none"
+                                variants={{
+                                    hover: {
+                                        opacity: [0, 0.8, 0],
+                                        x: [3, -3, 1, 0, -2],
+                                        y: [-2, 2, 0, -1, 1],
+                                        scale: [1, 1.01, 1]
+                                    }
+                                }}
+                                transition={{ duration: 0.2, repeat: Infinity, repeatType: "mirror", delay: 0.05 }}
+                            />
 
-                        {/* Scanline Overlay */}
-                        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20 mix-blend-overlay"></div>
+                            {/* Main Image - Removed aspect-square, using aspect-[9/16] wrapper */}
+                            <img
+                                src={`${import.meta.env.BASE_URL}profile_person.png`}
+                                alt="Personal Profile"
+                                className="relative w-full h-full object-cover transition-transform duration-700 z-10"
+                                onError={(e) => {
+                                    // Fallback to Work Profile if Personal fails
+                                    (e.target as HTMLImageElement).src = `${import.meta.env.BASE_URL}profile.jpg`;
+                                }}
+                            />
 
-                        {/* Glossy Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none z-30"></div>
-                    </motion.div>
+                            {/* Scanline Overlay */}
+                            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-20 mix-blend-overlay"></div>
 
-                    {/* Fun Status Badge */}
-                    <motion.div
-                        initial={{ scale: 0, rotate: -20 }}
-                        animate={{ scale: 1, rotate: 10 }}
-                        className="absolute top-20 right-10 md:right-[calc(50%-180px)] bg-yellow-400 text-black font-bold px-4 py-2 rounded-full text-sm shadow-lg z-20 transform rotate-12"
-                    >
-                        Vibing 🎧
-                    </motion.div>
-
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="section-title text-center"
-                    >
-                        Socials <span className="text-primary-light">& Interests</span>
-                    </motion.h2>
+                            {/* Glossy Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none z-30"></div>
+                        </motion.div>
+                    </div>
                 </div>
 
                 <div className="space-y-24">
@@ -135,27 +155,30 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
                                         alt="Guitarist"
-                                        className="absolute right-0 -top-10 w-32 md:w-48 object-contain drop-shadow-xl z-20 opacity-90 hidden sm:block"
+                                        className="absolute right-0 -top-10 w-32 md:w-48 object-contain drop-shadow-xl z-20 opacity-30 hidden sm:block pointer-events-none"
                                         animate={{ rotate: [0, 5, 0] }}
                                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                                        onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
                                     />
                                 )}
                                 {category.title.toLowerCase().includes('piano') && (
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_piano.png`}
                                         alt="Pianist"
-                                        className="absolute right-0 -top-12 w-32 md:w-56 object-contain drop-shadow-xl z-20 opacity-90 hidden sm:block"
+                                        className="absolute right-0 -top-12 w-32 md:w-56 object-contain drop-shadow-xl z-20 opacity-30 hidden sm:block pointer-events-none"
                                         animate={{ rotate: [0, -3, 0] }}
                                         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                                        onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
                                     />
                                 )}
                                 {(category.title.toLowerCase().includes('singing') || category.title.toLowerCase().includes('vocal')) && (
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_singing.png`}
                                         alt="Singer"
-                                        className="absolute right-0 -top-10 w-32 md:w-48 object-contain drop-shadow-xl z-20 opacity-90 hidden sm:block"
+                                        className="absolute right-0 -top-10 w-32 md:w-48 object-contain drop-shadow-xl z-20 opacity-30 hidden sm:block pointer-events-none"
                                         animate={{ y: [0, -5, 0] }}
                                         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                        onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
                                     />
                                 )}
                             </div>

@@ -31,79 +31,86 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-dark to-dark" />
 
                         {/* Interactive Scattered Code Blocks - Advanced App Dev & Tech */}
+                        {/* Interactive Scattered Code Blocks - Advanced App Dev & Tech */}
                         {[
-                            // Android / Kotlin
-                            { text: 'suspendCancellableCoroutine { }', x: '10%', y: '15%', rot: -5 },
-                            { text: '@HiltViewModel class MainVM @Inject', x: '70%', y: '10%', rot: 3 },
-                            { text: 'Compose ViewCompositionStrategy', x: '5%', y: '40%', rot: 8 },
-                            { text: 'Flow<PagingData<User>>', x: '80%', y: '25%', rot: -3 },
-                            { text: 'sealed interface UIState', x: '15%', y: '70%', rot: 6 },
-                            { text: 'Modifier.testTag("Login")', x: '85%', y: '60%', rot: -4 },
+                            // Android / Kotlin - Blue/Cyber
+                            { text: 'suspendCancellableCoroutine', x: '10%', y: '15%', rot: -5, type: 'kotlin' },
+                            { text: '@HiltViewModel', x: '70%', y: '10%', rot: 3, type: 'kotlin' },
+                            { text: 'Compose ViewCompositionStrategy', x: '5%', y: '40%', rot: 8, type: 'kotlin' },
+                            { text: 'Flow<PagingData<User>>', x: '80%', y: '25%', rot: -3, type: 'kotlin' },
+                            { text: 'sealed interface UIState', x: '15%', y: '70%', rot: 6, type: 'kotlin' },
+                            { text: 'Modifier.testTag("Login")', x: '85%', y: '60%', rot: -4, type: 'kotlin' },
 
-                            // iOS / Swift
-                            { text: 'AnyPublisher<Void, Error>', x: '40%', y: '10%', rot: 5 },
-                            { text: '@EnvironmentObject var user: User', x: '50%', y: '85%', rot: -3 },
-                            { text: 'actor DataManager { }', x: '35%', y: '50%', rot: 2 },
-                            { text: 'UICollectionViewDiffableDataSource', x: '60%', y: '75%', rot: -6 },
-                            { text: 'Task { try await fetch() }', x: '25%', y: '90%', rot: 4 },
+                            // ADB & Terminal Commands - Green/Hacker
+                            { text: 'adb shell input keyevent 26', x: '25%', y: '25%', rot: 2, type: 'terminal' },
+                            { text: 'adb logcat -v time *:E', x: '65%', y: '35%', rot: -2, type: 'terminal' },
+                            { text: './gradlew assembleDebug', x: '45%', y: '55%', rot: 4, type: 'terminal' },
+                            { text: 'adb shell am start -n', x: '15%', y: '85%', rot: -6, type: 'terminal' },
+                            { text: 'scrcpy --max-size 1024', x: '85%', y: '85%', rot: 3, type: 'terminal' },
 
-                            // DevOps / Git / General
-                            { text: 'git rebase -i HEAD~3', x: '90%', y: '90%', rot: -8 },
-                            { text: 'docker-compose up -d --build', x: '5%', y: '5%', rot: 15 },
-                            { text: 'kubectl get pods -n prod', x: '45%', y: '30%', rot: 6 },
-                            { text: 'gh pr create --web', x: '55%', y: '20%', rot: -4 },
-                            { text: 'bundle exec fastlane beta', x: '75%', y: '45%', rot: 3 },
+                            // iOS / Swift - Orange/Warm
+                            { text: 'AnyPublisher<Void, Error>', x: '40%', y: '10%', rot: 5, type: 'swift' },
+                            { text: '@EnvironmentObject', x: '50%', y: '85%', rot: -3, type: 'swift' },
+                            { text: 'actor DataManager { }', x: '35%', y: '50%', rot: 2, type: 'swift' },
+                            { text: 'try await fetch()', x: '25%', y: '90%', rot: 4, type: 'swift' },
 
-                            // Advanced Patterns
-                            { text: 'Clean Architecture', x: '20%', y: '35%', rot: -2 },
-                            { text: 'MVI Pattern', x: '85%', y: '15%', rot: 4 },
-                            { text: 'Dependency Injection', x: '10%', y: '60%', rot: -5 },
-                            { text: 'CI/CD Pipelines', x: '65%', y: '65%', rot: 2 },
-                            { text: 'Unit Testing', x: '30%', y: '80%', rot: -3 },
+                            // DevOps / Git / General - Purple
+                            { text: 'git rebase -i HEAD~3', x: '90%', y: '90%', rot: -8, type: 'git' },
+                            { text: 'docker-compose up -d', x: '5%', y: '5%', rot: 15, type: 'git' },
+                            { text: 'kubectl get pods', x: '45%', y: '30%', rot: 6, type: 'git' },
+                            { text: 'gh pr create --web', x: '55%', y: '20%', rot: -4, type: 'git' },
 
-                            // Errors & Debugging
-                            { text: 'Fatal Exception: NullPointer', x: '20%', y: '20%', rot: -12, isError: true },
-                            { text: 'SIGSEGV (11)', x: '90%', y: '50%', rot: 5, isError: true },
-                            { text: '401 Unauthorized', x: '40%', y: '40%', rot: 10, isError: true },
-                            { text: 'Gradle Sync Failed', x: '10%', y: '80%', rot: -5, isError: true },
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                className={`absolute cursor-pointer px-3 py-1.5 backdrop-blur-sm rounded-lg font-mono text-xs md:text-sm font-medium select-none z-0 pointer-events-auto transition-colors duration-300 border border-white/5 shadow-lg ${item.isError
-                                    ? 'text-red-400 bg-red-900/10 border-red-500/20 hover:text-red-300 hover:bg-red-900/30'
-                                    : 'text-primary-light bg-primary/5 hover:text-white hover:bg-primary/20'}`}
-                                style={{
-                                    left: item.x,
-                                    top: item.y,
-                                    opacity: 0.6 // Increased visibility as requested
-                                }}
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={clickPos ? {
-                                    x: (Math.random() - 0.5) * 600, // Greater dispersion
-                                    y: (Math.random() - 0.5) * 600,
-                                    opacity: 0,
-                                    scale: 0.5
-                                } : {
-                                    opacity: 0.5, // Base opacity higher
-                                    scale: 1,
-                                    rotate: item.rot,
-                                    x: [0, (Math.random() - 0.5) * 60, 0],
-                                    y: [0, (Math.random() - 0.5) * 60, 0]
-                                }}
-                                transition={clickPos ? {
-                                    type: "spring",
-                                    stiffness: 50,
-                                    damping: 20
-                                } : {
-                                    duration: 12 + Math.random() * 8, // Slightly faster
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                whileHover={{ scale: 1.2, zIndex: 50, opacity: 1 }}
-                            >
-                                {item.text}
-                            </motion.div>
-                        ))}
+                            // Errors & Debugging - Red/Alert
+                            { text: 'Fatal Exception: NPE', x: '20%', y: '20%', rot: -12, type: 'error' },
+                            { text: 'SIGSEGV (11)', x: '90%', y: '50%', rot: 5, type: 'error' },
+                            { text: '401 Unauthorized', x: '40%', y: '40%', rot: 10, type: 'error' },
+                            { text: 'Gradle Sync Failed', x: '10%', y: '80%', rot: -5, type: 'error' }
+                        ].map((item, i) => {
+                            // Determine color based on type
+                            let colorClass = 'text-primary-light bg-primary/5 hover:text-white hover:bg-primary/20 border-white/5';
+                            if (item.type === 'error') colorClass = 'text-red-400 bg-red-900/10 border-red-500/20 hover:text-red-300 hover:bg-red-900/30';
+                            else if (item.type === 'terminal') colorClass = 'text-green-400 bg-green-900/10 border-green-500/20 hover:text-green-300 hover:bg-green-900/30';
+                            else if (item.type === 'swift') colorClass = 'text-orange-400 bg-orange-900/10 border-orange-500/20 hover:text-orange-300 hover:bg-orange-900/30';
+                            else if (item.type === 'kotlin') colorClass = 'text-blue-400 bg-blue-900/10 border-blue-500/20 hover:text-blue-300 hover:bg-blue-900/30';
+                            else if (item.type === 'git') colorClass = 'text-purple-400 bg-purple-900/10 border-purple-500/20 hover:text-purple-300 hover:bg-purple-900/30';
+
+                            return (
+                                <motion.div
+                                    key={i}
+                                    className={`absolute cursor-pointer px-3 py-1.5 backdrop-blur-sm rounded-lg font-mono text-xs md:text-sm font-medium select-none z-0 pointer-events-auto transition-colors duration-300 border shadow-lg ${colorClass}`}
+                                    style={{
+                                        left: item.x,
+                                        top: item.y,
+                                        opacity: 0.7 // Increased visibility
+                                    }}
+                                    initial={{ opacity: 0, scale: 0 }}
+                                    animate={clickPos ? {
+                                        x: (Math.random() - 0.5) * 600,
+                                        y: (Math.random() - 0.5) * 600,
+                                        opacity: 0,
+                                        scale: 0.5
+                                    } : {
+                                        opacity: 0.7,
+                                        scale: 1,
+                                        rotate: item.rot,
+                                        x: [0, (Math.random() - 0.5) * 60, 0],
+                                        y: [0, (Math.random() - 0.5) * 60, 0]
+                                    }}
+                                    transition={clickPos ? {
+                                        type: "spring",
+                                        stiffness: 50,
+                                        damping: 20
+                                    } : {
+                                        duration: 12 + Math.random() * 8,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }}
+                                    whileHover={{ scale: 1.2, zIndex: 50, opacity: 1 }}
+                                >
+                                    {item.text}
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 );
 

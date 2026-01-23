@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Code } from 'lucide-react';
+import { Github, ExternalLink, Code, Smartphone } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import SectionBackground from './SectionBackground';
 // import CaricatureCoding from '../assets/caricature_coding_profile.png';
@@ -37,6 +37,7 @@ const Projects: React.FC = () => {
                             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
                             drag
                             dragConstraints={{ left: -30, right: 30, top: -30, bottom: 30 }}
+                            onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
                         />
                     </motion.div>
                 </div>
@@ -85,7 +86,9 @@ const Projects: React.FC = () => {
                                             className="p-1.5 bg-dark-card/80 backdrop-blur-md rounded-full text-white hover:text-primary transition-colors border border-white/10"
                                             title={link.label}
                                         >
-                                            {link.label.toLowerCase().includes('github') ? <Github size={16} /> : <ExternalLink size={16} />}
+                                            {link.label.toLowerCase().includes('github') ? <Github size={16} /> :
+                                                link.label.toLowerCase().includes('play store') || link.label.toLowerCase().includes('app store') ? <Smartphone size={16} /> :
+                                                    <ExternalLink size={16} />}
                                         </a>
                                     ))}
                                 </div>

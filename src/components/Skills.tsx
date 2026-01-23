@@ -9,60 +9,51 @@ const getSkillIcon = (skill: string) => {
     const iconMap: { [key: string]: string } = {
         "Kotlin": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg",
         "Java": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-        "Swift": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg",
         "TypeScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-        "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-        "SQL": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
         "Android Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
-        "Jetpack Compose": "https://developer.android.com/static/images/jetpack/compose-icon.svg",
-        "iOS Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg",
-        "SwiftUI": "https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png",
-        "Xcode": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xcode/xcode-original.svg",
-        "Kotlin Multiplatform (KMP)": "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png",
-        "Compose Multiplatform": "https://github.com/JetBrains/compose-multiplatform/raw/master/artwork/compose-logo.png",
-        "React Native": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-        "Expo": "https://www.vectorlogo.zone/logos/expoio/expoio-icon.svg",
-        "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-        "Supabase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
+        "CMP": "https://github.com/JetBrains/compose-multiplatform/raw/master/artwork/compose-logo.png",
+        "React Native CLI & Expo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        "Firebase Auth": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+        "Firestore": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
         "Git": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
         "GitHub": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
-        "Docker": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
-        "AWS (Basic)": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
         "Postman": "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg",
         "Figma": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
-        "Redux Toolkit": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg"
+        "Redux Toolkit": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
+        "Expo Router": "https://www.vectorlogo.zone/logos/expoio/expoio-icon.svg",
+        "RN Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+        "ADB": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg"
     };
 
     // Return URL if found
     if (iconMap[skill]) return { type: 'img', src: iconMap[skill] };
 
     // Fuzzy match for specific common terms
-    if (skill.includes("Firebase")) return { type: 'img', src: iconMap["Firebase"] };
-    if (skill.includes("AWS")) return { type: 'img', src: iconMap["AWS (Basic)"] };
+    if (skill.includes("Firebase")) return { type: 'img', src: iconMap["Firebase Auth"] };
+    if (skill.includes("Expo")) return { type: 'img', src: iconMap["Expo Router"] };
+    if (skill.includes("React Native")) return { type: 'img', src: iconMap["React Native CLI & Expo"] };
 
     // Fallback Icon Mapping for abstract concepts
     const iconFallback: { [key: string]: any } = {
-        "Room DB": Database,
+        "Room": Database,
         "Retrofit": Globe,
         "Coroutines": Zap,
         "Flow": Layers,
+        "Paging 3": Layers,
         "WorkManager": Box,
-        "Hilt": Box,
-        "Dagger": Box,
+        "Hilt/Dagger": Box,
         "Koin": Box,
-        "Ktor": Globe,
         "JNI": Terminal,
         "ML Kit": Cpu,
-        "Google Maps SDK": Globe,
-        "XML Layouts": Layout,
+        "OkHttp": Globe,
+        "Coil": Layout,
+        "XML": Layout,
         "MVVM": Layers,
         "Clean Architecture": Layers,
         "Reanimated": Zap,
         "Gesture Handler": Smartphone,
-        "React Navigation": Globe,
-        "Axios": Globe,
-        "UIKit": Layout,
-        "CocoaPods": Box
+        "AsyncStorage": Database,
+        "Axios": Globe
     };
 
     const FallbackIcon = iconFallback[skill] || Code; // Default to Code icon
@@ -86,7 +77,7 @@ const Skills: React.FC = () => {
                 <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
                     {/* Flatten skills for compact view */}
                     {/* @ts-ignore */}
-                    {[...resumeData.skills.languages, ...resumeData.skills.android, ...resumeData.skills.ios, ...resumeData.skills.multiplatform, ...resumeData.skills.reactNative, ...resumeData.skills.backendAndTools].map((skill, index) => {
+                    {[...resumeData.skills.languages, ...resumeData.skills.android, ...resumeData.skills.reactNative, ...resumeData.skills.tools].map((skill, index) => {
                         const iconData = getSkillIcon(skill);
 
                         return (
@@ -100,11 +91,17 @@ const Skills: React.FC = () => {
                                 transition={{ delay: index * 0.01 }}
                             >
                                 {iconData.type === 'img' ? (
-                                    <div className={`w-6 h-6 flex items-center justify-center ${skill.includes("AWS") || skill.includes("GitHub") ? "bg-white rounded-full p-0.5" : ""} ${skill === "iOS Development" ? "invert dark:invert-0" : ""}`}>
+                                    <div className={`w-6 h-6 flex items-center justify-center ${skill.includes("GitHub") ? "bg-white rounded-full p-0.5" : ""}`}>
                                         <img
                                             src={iconData.src}
                                             alt={skill}
                                             className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md"
+                                            onError={(e) => {
+                                                // If image fails, hide it and letting the text label remain (or could swap to icon)
+                                                (e.target as HTMLImageElement).style.display = 'none';
+                                                (e.target as HTMLImageElement).parentElement!.innerText = '🛠️'; // Fallback emoji
+                                                (e.target as HTMLImageElement).parentElement!.classList.add('text-lg');
+                                            }}
                                         />
                                     </div>
                                 ) : (

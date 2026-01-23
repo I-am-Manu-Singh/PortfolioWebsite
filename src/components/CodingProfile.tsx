@@ -23,7 +23,7 @@ const CodingProfile: React.FC = () => {
 
                     {/* Floating Coding Caricature */}
                     <motion.div
-                        className="absolute right-0 top-0 lg:right-10 lg:-top-10 z-0 hidden lg:block opacity-90 pointer-events-none"
+                        className="absolute right-0 top-0 lg:right-10 lg:-top-10 z-0 hidden lg:block opacity-30 pointer-events-none"
                         initial={{ scale: 0, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
@@ -38,6 +38,10 @@ const CodingProfile: React.FC = () => {
                             drag
                             dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
                             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                            onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg'; // Fallback to GitHub icon
+                                (e.target as HTMLImageElement).classList.add('p-8', 'bg-white/10');
+                            }}
                         />
                     </motion.div>
 

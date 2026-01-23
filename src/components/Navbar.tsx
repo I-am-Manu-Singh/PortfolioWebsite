@@ -2,16 +2,17 @@
 import { useState } from 'react';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sun, Moon, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Sun, Moon, MessageCircle } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 import ContactModal from './ContactModal';
 
 interface NavbarProps {
     activeTab?: 'work' | 'personal';
+    onBackToWork?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ activeTab = 'work' }) => {
+const Navbar: React.FC<NavbarProps> = ({ activeTab = 'work', onBackToWork }) => {
     const { theme, toggleTheme } = useTheme();
     const [isContactOpen, setIsContactOpen] = useState(false);
 
@@ -34,10 +35,18 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab = 'work' }) => {
                         </h1>
                     </div>
 
-
-
                     {/* Right Actions */}
                     <div className="flex items-center gap-3">
+                        {activeTab === 'personal' && (
+                            <button
+                                onClick={onBackToWork}
+                                className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/40 rounded-full text-sm font-medium transition-all text-primary hover:text-primary-light backdrop-blur-sm shadow-sm"
+                            >
+                                <ArrowLeft size={16} />
+                                <span>Back to Work</span>
+                            </button>
+                        )}
+
                         <button
                             onClick={() => setIsContactOpen(true)}
                             className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/40 rounded-full text-sm font-medium transition-all text-primary hover:text-primary-light backdrop-blur-sm shadow-sm"
@@ -45,6 +54,15 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab = 'work' }) => {
                             <MessageCircle size={16} />
                             <span>Contact Me</span>
                         </button>
+
+                        {activeTab === 'personal' && (
+                            <button
+                                onClick={onBackToWork}
+                                className="md:hidden p-2 rounded-full hover:bg-white/5 text-text-muted transition-colors"
+                            >
+                                <ArrowLeft size={20} />
+                            </button>
+                        )}
 
                         <button
                             onClick={() => setIsContactOpen(true)}
