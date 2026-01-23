@@ -62,11 +62,11 @@ const Projects: React.FC = () => {
                         >
                             <div className="relative overflow-hidden h-40 bg-white/5">
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark-card to-transparent opacity-60 z-10" />
-                                {project.videoId ? (
+                                {project.videoId || project.name ? (
                                     <iframe
                                         width="100%"
                                         height="100%"
-                                        src={`https://www.youtube.com/embed/${project.videoId}?controls=0&mute=1`}
+                                        src={`https://www.youtube.com/embed/${project.videoId || 'lJIrF4YjHf8'}?controls=0&mute=1&loop=1&playlist=${project.videoId || 'lJIrF4YjHf8'}`}
                                         title={project.name}
                                         className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                                     />

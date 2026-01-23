@@ -108,6 +108,15 @@ const FeaturedContent: React.FC = () => {
                             Latest Publications
                         </h3>
                         <DynamicMedium username="@manu-singh" />
+                        <div className="flex justify-center mt-8">
+                            <a
+                                href="https://medium.com/@manu-singh"
+                                target="_blank"
+                                className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm font-bold transition-all flex items-center gap-2"
+                            >
+                                View Medium Profile
+                            </a>
+                        </div>
                     </motion.div>
                 </div>
             </div>

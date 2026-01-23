@@ -37,7 +37,7 @@ const Socials: React.FC<SocialsProps> = () => {
                                 Socials <span className="text-primary-light">& Interests</span>
                             </h2>
                             <p className="text-xl text-white/60 max-w-lg leading-relaxed">
-                                Beyond the code, I'm a musician, traveler, and tech enthusiast.
+                                Beyond the code, I'm a musician, an introvert , and a tech enthusiast.
                                 Exploring the world one beat at a time.
                             </p>
                         </div>
@@ -255,10 +255,20 @@ const Socials: React.FC<SocialsProps> = () => {
                                 </a>
                             ))}
                         </div>
+
+                        <div className="flex justify-center mt-8">
+                            <a
+                                href="https://www.instagram.com/manu.singh_001/"
+                                target="_blank"
+                                className="px-8 py-3 bg-pink-600 hover:bg-pink-700 text-white rounded-full font-bold transition-all shadow-lg shadow-pink-600/20 flex items-center gap-2"
+                            >
+                                <Instagram size={20} /> Follow on Instagram
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 };
 

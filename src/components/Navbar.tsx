@@ -40,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab = 'work', onBackToWork }) => 
                         {activeTab === 'personal' && (
                             <button
                                 onClick={onBackToWork}
-                                className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/40 rounded-full text-sm font-medium transition-all text-primary hover:text-primary-light backdrop-blur-sm shadow-sm"
+                                className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-full text-sm font-medium transition-all text-primary hover:text-primary-light backdrop-blur-sm shadow-sm hover:shadow-md"
                             >
                                 <ArrowLeft size={16} />
                                 <span>Back to Work</span>
@@ -49,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab = 'work', onBackToWork }) => 
 
                         <button
                             onClick={() => setIsContactOpen(true)}
-                            className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 border border-primary/40 rounded-full text-sm font-medium transition-all text-primary hover:text-primary-light backdrop-blur-sm shadow-sm"
+                            className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-full text-sm font-medium transition-all text-primary hover:text-primary-light backdrop-blur-sm shadow-sm hover:shadow-md"
                         >
                             <MessageCircle size={16} />
                             <span>Contact Me</span>

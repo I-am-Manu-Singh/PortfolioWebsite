@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, Eye } from 'lucide-react';
@@ -40,39 +40,10 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
     const nameLetters = resumeData.basics.name.split("");
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [visitCount, setVisitCount] = useState<number | null>(null);
-    const [isHovered, setIsHovered] = useState(false);
 
-    // Long Press Logic
-    const [isPressing, setIsPressing] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const pressTimer = useRef<any>(null);
+    // Shatter Game State
+    const [shatteredIndices, setShatteredIndices] = useState<Set<number>>(new Set());
     const textControls = useAnimation();
-    const PRESS_DURATION = 1500; // 1.5 seconds to unlock
-
-    const handlePressStart = () => {
-        setIsPressing(true);
-        const startTime = Date.now();
-
-        pressTimer.current = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            const newProgress = Math.min((elapsed / PRESS_DURATION) * 100, 100);
-            setProgress(newProgress);
-
-            if (newProgress >= 100) {
-                // Success!
-                clearInterval(pressTimer.current);
-                triggerUnlock();
-            }
-        }, 16);
-    };
-
-    const handlePressEnd = () => {
-        if (progress < 100) {
-            setIsPressing(false);
-            setProgress(0);
-            if (pressTimer.current) clearInterval(pressTimer.current);
-        }
-    };
 
     const triggerUnlock = async () => {
         await textControls.start({
@@ -83,17 +54,25 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
         setActiveTab('personal');
     };
 
+    const handleShardClick = (index: number) => {
+        if (shatteredIndices.has(index)) return;
+
+        const newSet = new Set(shatteredIndices);
+        newSet.add(index);
+        setShatteredIndices(newSet);
+
+        // Check if enough shards are broken to unlock (e.g., > 60%)
+        if (newSet.size > 60) {
+            triggerUnlock();
+        }
+    };
+
     React.useEffect(() => {
         // Simple visit counter using countapi.xyz
-        // Using a unique key for this portfolio
         fetch('https://api.countapi.xyz/hit/manpreet-portfolio-v1/visits')
             .then(res => res.json())
             .then(data => setVisitCount(data.value))
             .catch(err => console.error("CountAPI error:", err));
-
-        return () => {
-            if (pressTimer.current) clearInterval(pressTimer.current);
-        }
     }, []);
 
     return (
@@ -198,89 +177,66 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                     </div>
                 </motion.div>
 
-                {/* Profile Image with Motion & Matrix Shatter */}
+                {/* Profile Image with Shatter Game */}
                 <motion.div
                     className="order-1 md:order-2 flex justify-center perspective-1000 relative z-20"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <div
-                        className="relative w-64 h-64 md:w-80 md:h-80 cursor-pointer"
-                        onMouseDown={handlePressStart}
-                        onMouseUp={handlePressEnd}
-                        onMouseLeave={() => {
-                            handlePressEnd();
-                            setIsHovered(false);
-                        }}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onTouchStart={handlePressStart}
-                        onTouchEnd={handlePressEnd}
-                    >
-                        {/* Shards Container - The Work Image */}
-                        <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 w-full h-full pointer-events-none z-20">
+                    <div className="relative w-64 h-64 md:w-80 md:h-80 cursor-pointer group">
+                        {/* Background Reveal (Personal Image) */}
+                        <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-black">
+                            <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
+                                <span className="text-secondary font-mono font-bold text-center px-4 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity">
+                                    SYSTEM BREACH<br />DETECTED...
+                                </span>
+                            </div>
+                            <img
+                                src={ProfileImagePersonal}
+                                alt="Personal Profile"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+
+                        {/* Shatter Grid */}
+                        <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 w-full h-full z-20">
                             {[...Array(100)].map((_, i) => {
                                 const row = Math.floor(i / 10);
                                 const col = i % 10;
+                                const isShattered = shatteredIndices.has(i);
+
                                 return (
                                     <motion.div
                                         key={i}
-                                        className="w-full h-full"
+                                        className="w-full h-full bg-no-repeat"
                                         style={{
                                             backgroundImage: `url(${ProfileImage})`,
-                                            backgroundSize: '1000% 1000%', // 10x grid
-                                            backgroundPosition: `${col * 11.1}% ${row * 11.1}%`,
-                                            imageRendering: 'pixelated'
+                                            backgroundSize: '1000% 1000%',
+                                            backgroundPosition: `${col * 11.111}% ${row * 11.111}%`,
                                         }}
-                                        initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-                                        animate={isHovered ? {
-                                            x: (Math.random() - 0.5) * 300,
-                                            y: (Math.random() - 0.5) * 300,
-                                            z: (Math.random() - 0.5) * 200,
-                                            rotateX: Math.random() * 360,
-                                            rotateY: Math.random() * 360,
-                                            scale: Math.random() * 0.5 + 0.2,
-                                            opacity: 0.8
+                                        initial={{ x: 0, y: 0, opacity: 1, scale: 1, rotate: 0 }}
+                                        animate={isShattered ? {
+                                            x: (Math.random() - 0.5) * 500,
+                                            y: (Math.random() - 0.5) * 500,
+                                            opacity: 0,
+                                            scale: 0,
+                                            rotate: Math.random() * 720
                                         } : {
-                                            x: 0, y: 0, z: 0,
-                                            rotateX: 0, rotateY: 0,
-                                            scale: 1,
-                                            opacity: 1
+                                            x: 0, y: 0, opacity: 1, scale: 1, rotate: 0
                                         }}
-                                        transition={{ duration: 0.8, ease: "anticipate" }}
+                                        transition={{ duration: 0.8, ease: "easeIn" }}
+                                        onClick={() => handleShardClick(i)}
+                                        whileHover={{ scale: 0.9, opacity: 0.8 }}
                                     />
                                 );
                             })}
                         </div>
 
-                        {/* Background Reveal (Personal Image) - Visible through cracks */}
-                        <div className={`absolute inset-0 w-full h-full rounded-2xl overflow-hidden transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-                            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-10 flex items-center justify-center">
-                                <span className="text-secondary font-mono font-bold text-center px-4 animate-pulse">
-                                    INITIALIZING<br />PROTOCOL...
-                                </span>
-                            </div>
-                            <img
-                                src={ProfileImagePersonal}
-                                alt="Secret"
-                                className="w-full h-full object-cover opacity-50 grayscale"
-                            />
-                        </div>
-
-                        {/* Press Progress Overlay */}
-                        {isPressing && (
-                            <div className="absolute inset-[-10%] z-0">
-                                <svg className="w-full h-full rotate-[-90deg]">
-                                    <circle
-                                        cx="50%" cy="50%" r="48%"
-                                        stroke="var(--color-secondary)"
-                                        strokeWidth="4"
-                                        fill="none"
-                                        strokeDasharray="300"
-                                        strokeDashoffset={300 - (progress * 3)}
-                                        className="transition-all duration-75 ease-linear"
-                                    />
-                                </svg>
+                        {/* Floating Pieces Hints (if none shattered yet) */}
+                        {shatteredIndices.size === 0 && (
+                            <div className="absolute -bottom-12 left-0 right-0 text-center text-xs font-mono text-primary animate-bounce pointer-events-none">
+                                CLICK TO BREAK THE FIREWALL
                             </div>
                         )}
                     </div>

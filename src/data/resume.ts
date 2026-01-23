@@ -27,8 +27,9 @@ export const resumeData = {
     },
     skills: {
         languages: ["Kotlin", "Java", "TypeScript", "XML"],
-        android: ["CMP", "MVVM", "Clean Architecture", "Room", "Retrofit", "OkHttp", "Coroutines", "Flow", "Paging 3", "WorkManager", "Coil", "Hilt/Dagger", "Koin", "JNI", "ML Kit"],
-        reactNative: ["React Native CLI & Expo", "TypeScript", "Redux Toolkit", "Reanimated", "Gesture Handler", "Firebase Auth", "Firestore", "FCM", "RN Firebase", "AsyncStorage", "Expo Router", "Axios"],
+        android: ["CMP", "Compose Multiplatform", "MVVM", "Clean Architecture", "RoomKMP & SQLDelight", "Retrofit & OkHttp", "Coroutines", "Flow", "Ktor", "KotlinX", "WorkManager", "Coil", "Hilt/Dagger", "Koin", "JNI", "ML Kit", "Gradle", "Material Design 3"],
+        reactNative: ["React Native CLI & Expo Router", "TypeScript", "Redux Toolkit", "Reanimated", "Gesture Handler", "AsyncStorage", "Axios", "iOS Dev", "macOS Apps"],
+        ai: ["Gemini", "ChatGPT", "Cursor", "Antigravity", "Prompt Engineering"],
         tools: ["Git", "Firebase Console", "Postman", "ADB"]
     },
     experience: [
@@ -44,9 +45,9 @@ export const resumeData = {
         },
         {
             company: "Vimovi Global Tech",
-            position: "Mobile Developer (Internship)",
-            startDate: "Apr 2025",
-            endDate: "Jul 2025",
+            position: "Mobile Developer",
+            startDate: "Mar 2025",
+            endDate: "Aug 2025",
             highlights: [
                 "Started working on a user Chat App.",
                 "Built a SaaS platform with Personal Chat, Squads, and Spaces using React Native with full end-to-end encryption.",
@@ -56,7 +57,7 @@ export const resumeData = {
         },
         {
             company: "Neat Roots",
-            position: "Android Developer (Internship)",
+            position: "Android Developer (Part Time)",
             startDate: "Jan 2025",
             endDate: "Mar 2025",
             highlights: [
@@ -66,7 +67,7 @@ export const resumeData = {
         },
         {
             company: "FreeMemory",
-            position: "Android Developer (Internship)",
+            position: "Android Developer Trainee",
             startDate: "Sep 2024",
             endDate: "Dec 2024",
             highlights: [
@@ -187,13 +188,6 @@ export const resumeData = {
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting" }
             ],
             tags: ["JNI", "C/C++", "Compression Algo"]
-        },
-        {
-            name: "Pregnancy Logger App",
-            description: "Android app for tracking pregnancy details. Assignment submission for Janitri. Features local data storage and clean UI.",
-            links: [],
-            tags: ["Android", "Assignment", "Mobile"],
-            videoId: "nud2Le5g58A"
         }
     ],
     certifications: [

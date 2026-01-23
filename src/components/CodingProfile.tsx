@@ -23,7 +23,7 @@ const CodingProfile: React.FC = () => {
 
                     {/* Floating Coding Caricature */}
                     <motion.div
-                        className="absolute right-0 top-0 lg:right-10 lg:-top-10 z-0 hidden lg:block opacity-30 pointer-events-none"
+                        className="absolute right-0 top-0 lg:-right-10 lg:-top-10 z-0 hidden lg:block opacity-30 pointer-events-none"
                         initial={{ scale: 0, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
@@ -33,7 +33,7 @@ const CodingProfile: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_coding_profile.png`}
                             alt="Coding"
-                            className="w-40 md:w-56 object-contain drop-shadow-2xl relative z-10 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                            className="w-40 md:w-56 object-contain drop-shadow-2xl relative z-0 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
                             animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
                             drag
                             dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
@@ -55,7 +55,7 @@ const CodingProfile: React.FC = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="glass-card p-6 flex flex-col items-center"
+                        className="glass-card p-6 flex flex-col items-center relative z-10"
                     >
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" className="w-6 h-6 bg-white rounded-full" alt="GitHub" />
@@ -70,6 +70,9 @@ const CodingProfile: React.FC = () => {
                                 />
                             </a>
                         </div>
+                        <a href={resumeData.basics.profiles[1].url} target="_blank" className="mt-4 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm font-bold transition-all flex items-center gap-2">
+                            View GitHub Profile
+                        </a>
                     </motion.div>
 
                     {/* LeetCode Stats */}
@@ -78,7 +81,7 @@ const CodingProfile: React.FC = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="glass-card p-6 flex flex-col items-center"
+                        className="glass-card p-6 flex flex-col items-center relative z-10"
                     >
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-[#FFA116]">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/LeetCode_Logo_1.png" alt="LeetCode" className="w-6 h-6 object-contain" />
@@ -93,11 +96,14 @@ const CodingProfile: React.FC = () => {
                                 />
                             </a>
                         </div>
+                        <a href={resumeData.basics.profiles[2].url} target="_blank" className="mt-4 px-6 py-2 bg-[#FFA116]/10 hover:bg-[#FFA116]/20 text-[#FFA116] rounded-full text-sm font-bold transition-all flex items-center gap-2 border border-[#FFA116]/30">
+                            View LeetCode Profile
+                        </a>
                     </motion.div>
                 </div>
 
 
-            </div>
+            </div >
         </section >
     );
 };

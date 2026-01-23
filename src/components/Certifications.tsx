@@ -21,25 +21,7 @@ const Certifications: React.FC = () => {
                     Licenses & <span className="text-primary-light">Certifications</span>
                 </motion.h2>
 
-                {/* Caricatures for Licenses only */}
-                <div className="hidden lg:block absolute left-0 bottom-10 opacity-80 pointer-events-none z-0">
-                    <motion.div
-                        initial={{ x: -50, opacity: 0 }}
-                        whileInView={{ x: 0, opacity: 1 }}
-                        viewport={{ once: true }}
-                    >
-                        <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
-                        <motion.img
-                            src={`${import.meta.env.BASE_URL}caricature_licenses.png`}
-                            alt="Licenses"
-                            className="w-48 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-105 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
-                            animate={{ y: [0, 15, 0], rotate: [0, 5, 0] }}
-                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                            drag
-                            dragConstraints={{ left: -30, right: 30, top: -30, bottom: 30 }}
-                        />
-                    </motion.div>
-                </div>
+                {/* Caricature Removed */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {resumeData.certifications.map((cert, index) => (
