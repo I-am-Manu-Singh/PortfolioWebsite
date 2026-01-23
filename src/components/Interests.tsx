@@ -13,7 +13,7 @@ const Interests: React.FC = () => {
             <div className="absolute inset-x-0 top-0 h-2/3 overflow-hidden">
                 <SectionBackground variant="music" className="h-full" />
             </div>
-            <div className="absolute inset-x-0 bottom-0 h-1/3 overflow-hidden">
+            <div className="absolute inset-x-0 bottom-0 h-1/2 overflow-hidden">
                 <SectionBackground variant="instagram" className="h-full" />
             </div>
 
@@ -48,12 +48,14 @@ const Interests: React.FC = () => {
                         viewport={{ once: true }}
                         animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                        className="flex justify-center"
+                        className="flex justify-center relative"
                     >
+                        {/* Spotlight Glow */}
+                        <div className="absolute inset-0 bg-white/20 blur-[80px] rounded-full transform scale-75" />
                         <img
                             src={CaricatureGuitar}
                             alt="Guitarist"
-                            className="w-48 md:w-64 drop-shadow-2xl filter hover:brightness-110 transition-all"
+                            className="w-48 md:w-64 drop-shadow-2xl relative z-10 filter hover:brightness-110 transition-all"
                         />
                     </motion.div>
                 </div>
@@ -105,17 +107,19 @@ const Interests: React.FC = () => {
 
                                 {/* Piano Caricature */}
                                 <motion.div
-                                    className="hidden lg:flex justify-center"
+                                    className="hidden lg:flex justify-center relative"
                                     initial={{ x: 50, opacity: 0 }}
                                     whileInView={{ x: 0, opacity: 1 }}
                                     viewport={{ once: true }}
                                     animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
                                     transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
                                 >
+                                    {/* Spotlight Glow */}
+                                    <div className="absolute inset-0 bg-white/20 blur-[80px] rounded-full transform scale-75" />
                                     <img
                                         src={CaricaturePiano}
                                         alt="Pianist"
-                                        className="w-56 drop-shadow-2xl filter hover:brightness-110 transition-all"
+                                        className="w-56 drop-shadow-2xl relative z-10 filter hover:brightness-110 transition-all"
                                     />
                                 </motion.div>
                             </div>

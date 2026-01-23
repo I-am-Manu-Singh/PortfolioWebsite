@@ -1,45 +1,65 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
 import SectionBackground from './SectionBackground';
-
+import { Code, Database, Globe, Smartphone, Cpu, Layers, Box, Terminal, Zap, Layout } from 'lucide-react';
 
 const getSkillIcon = (skill: string) => {
+    // Exact map for known logos
     const iconMap: { [key: string]: string } = {
         "Kotlin": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg",
         "Java": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
         "TypeScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-        "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-        "XML": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xml/xml-original.svg", // Generic file icon or custom
-        "HTML/CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-        "SQL": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", // Using MySQL as generic SQL repr
-        "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-        "Go": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg",
-        "C-Lang": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
+        "XML": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xml/xml-original.svg",
+        "SQL": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
         "Android Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
         "Jetpack Compose": "https://developer.android.com/static/images/jetpack/compose-icon.svg",
         "React Native": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        "Expo": "https://www.vectorlogo.zone/logos/expoio/expoio-icon.svg",
         "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
         "Git": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
         "GitHub": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
         "Docker": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
         "Kubernetes": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg",
         "AWS (Basic)": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
-        "Jenkins": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg",
-        "Android Studio": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg",
-        "VS Code": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
-        "Figma": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+        "Postman": "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg",
+        "Figma": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+        "Redux Toolkit": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg"
     };
 
-    const url = iconMap[skill] || iconMap[skill.split(' ')[0]]; // Try exact match or first word
-    return url || '';
+    // Return URL if found
+    if (iconMap[skill]) return { type: 'img', src: iconMap[skill] };
+
+    // Fuzzy match for specific common terms
+    if (skill.includes("Firebase")) return { type: 'img', src: iconMap["Firebase"] };
+
+    // Fallback Icon Mapping for abstract concepts
+    const iconFallback: { [key: string]: any } = {
+        "Room DB": Database,
+        "Retrofit": Globe,
+        "Coroutines": Zap,
+        "Flow": Layers,
+        "WorkManager": Box,
+        "Hilt": Box,
+        "Dagger": Box,
+        "Koin": Box,
+        "JNI": Terminal,
+        "ML Kit": Cpu,
+        "Google Maps SDK": Globe,
+        "XML Layouts": Layout,
+        "MVVM": Layers,
+        "Clean Architecture": Layers,
+        "Reanimated": Zap,
+        "Gesture Handler": Smartphone,
+        "React Navigation": Globe,
+        "Axios": Globe
+    };
+
+    const FallbackIcon = iconFallback[skill] || Code; // Default to Code icon
+    return { type: 'icon', Component: FallbackIcon };
 };
 
-
-
 const Skills: React.FC = () => {
-    // Flatten skills for a "cloud" view or keep categorized? Categorized is better for this resume.
     return (
         <section className="section bg-dark-card/50 relative overflow-hidden" id="skills">
             <SectionBackground variant="skills" />
@@ -55,24 +75,33 @@ const Skills: React.FC = () => {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     {/* Flatten skills for compact view */}
-                    {[...resumeData.skills.languages, ...resumeData.skills.android, ...resumeData.skills.reactNative, ...resumeData.skills.backendAndTools].map((skill, index) => (
-                        <motion.div
-                            key={index}
-                            className="glass-card p-3 flex flex-col items-center justify-center gap-2 hover:bg-white/10 transition-all cursor-default group"
-                            whileHover={{ y: -5 }}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.02 }}
-                        >
-                            <img
-                                src={getSkillIcon(skill)}
-                                alt={skill}
-                                className="w-8 h-8 group-hover:scale-110 transition-transform duration-300 drop-shadow-md"
-                            />
-                            <span className="font-mono text-xs text-text-muted group-hover:text-white transition-colors text-center">{skill}</span>
-                        </motion.div>
-                    ))}
+                    {[...resumeData.skills.languages, ...resumeData.skills.android, ...resumeData.skills.reactNative, ...resumeData.skills.backendAndTools].map((skill, index) => {
+                        const iconData = getSkillIcon(skill);
+
+                        return (
+                            <motion.div
+                                key={index}
+                                className="glass-card p-3 flex flex-col items-center justify-center gap-2 hover:bg-white/10 transition-all cursor-default group"
+                                whileHover={{ y: -5 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.02 }}
+                            >
+                                {iconData.type === 'img' ? (
+                                    <img
+                                        src={iconData.src}
+                                        alt={skill}
+                                        className="w-8 h-8 group-hover:scale-110 transition-transform duration-300 drop-shadow-md"
+                                    />
+                                ) : (
+                                    // @ts-ignore
+                                    <iconData.Component size={32} className="text-primary-light group-hover:scale-110 transition-transform duration-300" />
+                                )}
+                                <span className="font-mono text-xs text-text-muted group-hover:text-white transition-colors text-center">{skill}</span>
+                            </motion.div>
+                        );
+                    })}
                 </div>
             </div>
         </section>
