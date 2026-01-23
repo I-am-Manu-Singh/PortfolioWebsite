@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Youtube } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import DynamicMedium from './DynamicMedium';
 import DynamicYouTube from './DynamicYouTube';
@@ -10,25 +11,29 @@ const CodingProfile: React.FC = () => {
     return (
         <section className="section" id="coding-profile">
             <div className="container">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="section-title"
-                >
-                    Coding <span className="text-primary-light">Profile</span>
-                </motion.h2>
+                <div className="flex justify-center items-center mb-12 relative">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="section-title mb-0"
+                    >
+                        Coding <span className="text-primary-light">Profile</span>
+                    </motion.h2>
 
-                <div className="flex justify-center mb-8">
-                    <motion.img
-                        src={CaricatureTeacher}
-                        alt="Teaching DSA"
-                        className="w-48 h-48 object-contain drop-shadow-lg"
-                        initial={{ scale: 0 }}
-                        whileInView={{ scale: 1 }}
+                    <motion.div
+                        className="absolute -right-4 -top-8 lg:right-40 lg:-top-10 z-10 hidden md:block"
+                        initial={{ scale: 0, rotate: 20 }}
+                        whileInView={{ scale: 1, rotate: 10 }}
                         viewport={{ once: true }}
                         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                    />
+                    >
+                        <img
+                            src={CaricatureTeacher}
+                            alt="Teaching DSA"
+                            className="w-28 h-28 lg:w-36 lg:h-36 object-contain drop-shadow-2xl"
+                        />
+                    </motion.div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -70,7 +75,7 @@ const CodingProfile: React.FC = () => {
                         <div className="w-full flex justify-center">
                             <a href={resumeData.basics.profiles[2].url} target="_blank" rel="noreferrer" className="w-full max-w-[400px]">
                                 <img
-                                    src={`https://leetcode-stats-six.vercel.app/?username=${resumeData.basics.profiles[2].username}&theme=dark&font=Space%20Grotesk`}
+                                    src={`https://leetcard.jacoblin.cool/${resumeData.basics.profiles[2].username}?theme=dark&font=Space%20Grotesk&ext=heatmap`}
                                     alt="LeetCode Stats"
                                     className="w-full"
                                 />
@@ -89,7 +94,7 @@ const CodingProfile: React.FC = () => {
                 >
                     <DynamicYouTube
                         playlistId="PL3gkgbVoJUE01-P8SzOZa8SXFgTdJsaRq"
-                        title="Latest LeetCode Solution"
+                        title=""
                     />
                     <p className="text-text-muted mt-4 text-center text-sm">
                         Check out the full playlist for detailed explanations:
@@ -101,6 +106,44 @@ const CodingProfile: React.FC = () => {
 
                 {/* Medium Publications */}
                 <DynamicMedium username="@manu-singh" />
+
+                {/* Tech Tutorials & Solutions Section */}
+                <div className="mt-20 pt-10 border-t border-white/10">
+                    <h3 className="text-2xl font-bold mb-8 flex items-center gap-2 text-white">
+                        <span className="p-2 bg-red-600 rounded-md text-white"><Youtube size={20} /></span>
+                        Tech Tutorials & Solutions
+                    </h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* @ts-ignore */}
+                        {resumeData.techPlaylists?.map((playlist: any, index: number) => (
+                            <motion.div
+                                key={index}
+                                className="glass-card overflow-hidden group"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1 }}
+                            >
+                                <div className="relative w-full aspect-video">
+                                    <iframe
+                                        width="100%"
+                                        height="100%"
+                                        src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`}
+                                        title={playlist.title}
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                        className="absolute inset-0"
+                                    ></iframe>
+                                </div>
+                                <div className="p-4 bg-white/5">
+                                    <h4 className="font-bold text-white group-hover:text-primary transition-colors">{playlist.title}</h4>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
 
             </div>
         </section>

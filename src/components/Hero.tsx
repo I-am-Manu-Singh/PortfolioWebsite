@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown, ExternalLink, Code } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Code, Eye } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import ProfileImage from '../assets/profile.jpg';
+import ResumePreview from './ResumePreview';
 
 const letterContainerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -31,6 +32,7 @@ const letterVariants: Variants = {
 
 const Hero: React.FC = () => {
     const nameLetters = resumeData.basics.name.split("");
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
     return (
         <section className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0" id="hero">
@@ -95,16 +97,14 @@ const Hero: React.FC = () => {
                             <span className="absolute inset-0 w-full h-full bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
                             <Mail size={18} className="relative z-10" /> <span className="relative z-10">Contact Me</span>
                         </motion.a>
-                        <motion.a
-                            href="https://drive.google.com/file/d/1IlMIoxqCKINQq44ONK8rVXVBesvckNpM/view?usp=sharing"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <motion.button
+                            onClick={() => setIsPreviewOpen(true)}
                             className="px-8 py-3 bg-primary text-white rounded-full font-mono hover:bg-primary-light transition-all shadow-lg shadow-primary/25 flex items-center gap-2"
                             whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0,79,144,0.5)" }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            View Resume <ExternalLink size={18} />
-                        </motion.a>
+                            Preview Resume <Eye size={18} />
+                        </motion.button>
                     </div>
 
                     <div className="mt-12 flex gap-6">
@@ -158,6 +158,8 @@ const Hero: React.FC = () => {
             >
                 <ChevronDown className="text-text-muted" size={32} />
             </motion.div>
+
+            <ResumePreview isOpen={isPreviewOpen} onClose={() => setIsPreviewOpen(false)} />
         </section>
     );
 };

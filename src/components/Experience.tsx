@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Calendar, ChevronRight, Youtube } from 'lucide-react';
+import { Briefcase, Calendar, ChevronRight } from 'lucide-react';
 import { resumeData } from '../data/resume';
 
 const ExperienceItem: React.FC<{
@@ -74,18 +74,39 @@ const ExperienceItem: React.FC<{
     );
 };
 
+import CaricatureProfessional from '../assets/caricature_professional.png';
+
+// ... (existing imports)
+
 const Experience: React.FC = () => {
     return (
         <section className="section" id="experience">
-            <div className="container">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="section-title"
-                >
-                    Work <span className="text-primary-light">Experience</span>
-                </motion.h2>
+            <div className="container relative">
+                <div className="flex justify-center items-center mb-16 relative">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="section-title mb-0"
+                    >
+                        Work <span className="text-primary-light">Experience</span>
+                    </motion.h2>
+
+                    {/* Professional Caricature */}
+                    <motion.div
+                        className="absolute -right-4 top-0 lg:right-20 lg:-top-6 z-10 hidden md:block"
+                        initial={{ scale: 0, rotate: -10 }}
+                        whileInView={{ scale: 1, rotate: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                    >
+                        <img
+                            src={CaricatureProfessional}
+                            alt="Professional"
+                            className="w-24 h-24 lg:w-32 lg:h-32 object-contain drop-shadow-xl hover:scale-110 transition-transform"
+                        />
+                    </motion.div>
+                </div>
 
                 <div className="flex flex-col gap-8 md:gap-16 relative">
                     {resumeData.experience.map((job, index) => (
@@ -144,46 +165,10 @@ const Experience: React.FC = () => {
 
                 </div>
 
-                {/* Tech Tutorials & Solutions Section */}
-                <div className="mt-20 pt-10 border-t border-white/10">
-                    <h3 className="text-2xl font-bold mb-8 flex items-center gap-2 text-white">
-                        <span className="p-2 bg-red-600 rounded-md text-white"><Youtube size={20} /></span>
-                        Tech Tutorials & Solutions
-                    </h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* @ts-ignore */}
-                        {resumeData.techPlaylists?.map((playlist: any, index: number) => (
-                            <motion.div
-                                key={index}
-                                className="glass-card overflow-hidden group"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                            >
-                                <div className="relative w-full aspect-video">
-                                    <iframe
-                                        width="100%"
-                                        height="100%"
-                                        src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`}
-                                        title={playlist.title}
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                        className="absolute inset-0"
-                                    ></iframe>
-                                </div>
-                                <div className="p-4 bg-white/5">
-                                    <h4 className="font-bold text-white group-hover:text-primary transition-colors">{playlist.title}</h4>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
             </div>
         </section>
     );
 };
 
-export default Experience;
+export default Experience; 

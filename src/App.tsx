@@ -4,7 +4,7 @@ import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
 import CodingProfile from './components/CodingProfile';
-import Interests from './components/Interests';
+import Socials from './components/Socials';
 import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import ChatBot from './components/ChatBot';
@@ -27,9 +27,9 @@ function App() {
       {/* Background - Changes based on mode */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[-2] bg-dark transition-colors duration-500">
         <div
-          className={`absolute top-0 left-0 w-full h-full opacity-50 transition-all duration-1000 ${isPersonal
-              ? 'bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-purple-500/20 via-dark to-dark'
-              : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-dark to-dark'
+          className={`absolute top-0 left-0 w-full h-full opacity-80 transition-all duration-1000 ${isPersonal
+            ? 'bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-purple-500/40 via-dark/50 to-dark'
+            : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/30 via-dark/50 to-dark'
             }`}
         ></div>
       </div>
@@ -60,7 +60,7 @@ function App() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <Interests />
+              <Socials />
               {/* Future: Photo Gallery, Blog, etc. */}
               <Contact />
             </motion.div>

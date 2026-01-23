@@ -6,7 +6,7 @@ export const resumeData = {
         email: "manpreetsinghkainth25@gmail.com",
         phone: "+917340007125",
         updatedAt: "January 2026",
-        summary: "Looking for Roles in SDE & App Dev. Android-Mobile-App | KMP-CMM | DSA | 250+ solved on Leetcode & GFG | Full-Stack Developer. I enjoy solving real problems through structured code, thoughtful design, and practical engineering decisions.",
+        summary: "Passionate Android & Web Developer building seamless mobile experiences with KMP & React Native. 250+ DSA problems solved. Transforming complex problems into elegant, structured solutions.",
         profiles: [
             {
                 network: "LinkedIn",
@@ -144,7 +144,8 @@ export const resumeData = {
             links: [
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/AnimeDekho" }
             ],
-            tags: ["API Integration", "Retrofit", "Gson", "Caching"]
+            tags: ["API Integration", "Retrofit", "Gson", "Caching"],
+            videoId: "videoseries?list=PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6" // Replaced with playlist as per user request
         },
         {
             name: "Recipe Finder App",
@@ -152,7 +153,8 @@ export const resumeData = {
             links: [
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/RecipeAppInJava" }
             ],
-            tags: ["Java", "Firebase", "OAuth"]
+            tags: ["Java", "Firebase", "OAuth"],
+            videoId: "videoseries?list=PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6" // Replaced with playlist as per user request
         },
         {
             name: "LeetCode Solutions",

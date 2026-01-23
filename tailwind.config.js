@@ -8,19 +8,19 @@ export default {
         extend: {
             colors: {
                 primary: {
-                    DEFAULT: '#004f90', // Deep Blue
-                    light: '#4dabf5',
+                    DEFAULT: 'var(--color-primary)',
+                    light: 'var(--color-primary-light)',
                 },
                 secondary: {
-                    DEFAULT: '#00d4ff', // Cyan
+                    DEFAULT: 'var(--color-secondary)',
                 },
                 dark: {
-                    DEFAULT: '#0a0a0a',
-                    card: '#121212',
+                    DEFAULT: 'var(--color-dark)',
+                    card: 'var(--color-dark-card)',
                 },
                 text: {
-                    DEFAULT: '#e0e0e0',
-                    muted: '#a0a0a0',
+                    DEFAULT: 'var(--color-text)',
+                    muted: 'var(--color-text-muted)',
                 }
             },
             fontFamily: {
