@@ -255,7 +255,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                                     <motion.img
                                         src={ProfileImage}
                                         alt={resumeData.basics.name}
-                                        className="w-full h-full object-cover object-top absolute inset-0 transition-opacity duration-300"
+                                        className="w-full h-full object-contain object-bottom absolute inset-0 transition-opacity duration-300"
                                         style={{ opacity: isPressing ? 0 : 1 }}
                                     />
 

@@ -30,8 +30,8 @@ const Projects: React.FC = () => {
                     >
                         <div className="absolute inset-0 bg-primary/10 blur-[50px] rounded-full" />
                         <motion.img
-                            src={`${import.meta.env.BASE_URL}caricature_coding_profile.png`}
-                            alt="Coding Projects"
+                            src={`${import.meta.env.BASE_URL}caricature_professional.png`}
+                            alt="Professional Caricature"
                             className="w-48 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
                             animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
                             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
