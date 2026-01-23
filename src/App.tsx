@@ -6,6 +6,7 @@ import Projects from './components/Projects';
 import CodingProfile from './components/CodingProfile';
 import Certifications from './components/Certifications';
 import TechTutorials from './components/TechTutorials';
+import Testimonials from './components/Testimonials';
 import Socials from './components/Socials';
 import Analytics from './components/Analytics';
 import ChatBot from './components/ChatBot';
@@ -53,6 +54,7 @@ function App() {
               <Projects />
               <Certifications />
               <TechTutorials />
+              <Testimonials />
             </motion.div>
           ) : (
             <motion.div

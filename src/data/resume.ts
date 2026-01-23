@@ -277,5 +277,30 @@ export const resumeData = {
     techPlaylists: [
         { title: "LeetCode Solutions", id: "PL3gkgbVoJUE01-P8SzOZa8SXFgTdJsaRq" },
         { title: "App Dev Tutorials", id: "PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6" }
+    ],
+    serviceStats: {
+        clients: 15,
+        projects: 25,
+        reviews: 4.9
+    },
+    testimonials: [
+        {
+            name: "Rahul Sharma",
+            role: "Founder, TechStart",
+            feedback: "Manpreet delivered our MVP in record time. His understanding of React Native is top-notch!",
+            rating: 5
+        },
+        {
+            name: "Sarah Jenkins",
+            role: "Product Manager",
+            feedback: "Great communication and excellent code quality. The Android app works flawlessly on all devices.",
+            rating: 5
+        },
+        {
+            name: "Amit Patel",
+            role: "CTO, FinSolve",
+            feedback: "He solved a complex encryption issue we were stuck on for weeks. Highly recommended for KMP work.",
+            rating: 5
+        }
     ]
 };
