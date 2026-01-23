@@ -16,59 +16,52 @@ const ExperienceItem: React.FC<{
 }> = ({ job, index }) => {
     return (
         <motion.div
-            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="relative pl-8 md:pl-0"
+            className="relative pl-8 md:pl-10"
         >
-            {/* Timeline Line (Mobile: Left, Desktop: Center) */}
-            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-white/10 top-0"></div>
-            <div className="md:hidden absolute left-[19px] top-0 w-0.5 h-full bg-white/10"></div>
+            {/* Timeline Line (Left Side) */}
+            <div className={`absolute left-0 top-0 w-0.5 h-full bg-white/10 ${index === resumeData.experience.length - 1 ? 'h-0' : ''}`}></div>
 
             {/* Timeline Dot */}
-            <div className="absolute left-[10px] md:left-1/2 transform -translate-x-1/2 w-5 h-5 bg-primary rounded-full border-4 border-dark z-10 mt-6 md:mt-6 transition-transform hover:scale-150 duration-300"></div>
+            <div className="absolute left-[-5px] top-0 w-3 h-3 bg-primary rounded-full z-10 mt-6 ring-4 ring-dark"></div>
 
-            <div className={`md:flex items-center justify-between w-full ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+            <div className="glass-card p-5 hover:bg-white/5 transition-colors group relative overflow-hidden">
+                {/* Gradient Shine Effect */}
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine pointer-events-none" />
 
-                {/* Empty space for the other side */}
-                <div className="hidden md:block w-5/12"></div>
-
-                {/* Content Card */}
-                <div className="w-full md:w-5/12 mb-8 md:mb-0">
-                    <div className="glass-card p-6 md:p-8 hover:bg-white/5 transition-colors group relative overflow-hidden">
-                        {/* Gradient Shine Effect */}
-                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine pointer-events-none" />
-
-                        <div className="flex items-center gap-2 text-primary-light mb-2 font-mono text-sm">
-                            <Calendar size={14} />
-                            <span>{job.startDate} — {job.endDate}</span>
-                        </div>
-
-                        <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-primary transition-colors">{job.position}</h3>
-                        <div className="text-xl text-text-muted mb-4 flex items-center gap-2">
-                            <Briefcase size={16} />
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
+                    <div>
+                        <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{job.position}</h3>
+                        <div className="text-lg text-text-muted flex items-center gap-2 font-medium">
+                            <Briefcase size={16} className="text-secondary" />
                             {job.company}
                         </div>
-
-                        <ul className="space-y-3">
-                            {job.highlights.map((highlight, i) => (
-                                <li key={i} className="flex gap-3 text-text-muted text-sm leading-relaxed">
-                                    <ChevronRight size={16} className="text-primary mt-1 flex-shrink-0" />
-                                    <span>{highlight}</span>
-                                </li>
-                            ))}
-                        </ul>
-
-                        {job.url && (
-                            <div className="mt-4 pt-4 border-t border-white/5">
-                                <a href={job.url} target="_blank" rel="noreferrer" className="text-sm text-secondary hover:underline flex items-center gap-1">
-                                    View Certificate/Work
-                                </a>
-                            </div>
-                        )}
+                    </div>
+                    <div className="flex items-center gap-2 text-primary-light font-mono text-sm bg-primary/10 px-3 py-1 rounded-full self-start md:self-auto">
+                        <Calendar size={14} />
+                        <span>{job.startDate} — {job.endDate}</span>
                     </div>
                 </div>
+
+                <ul className="space-y-2 mb-4">
+                    {job.highlights.map((highlight, i) => (
+                        <li key={i} className="flex gap-3 text-text-muted text-sm leading-relaxed">
+                            <ChevronRight size={16} className="text-primary mt-0.5 flex-shrink-0" />
+                            <span>{highlight}</span>
+                        </li>
+                    ))}
+                </ul>
+
+                {job.url && (
+                    <div className="pt-3 border-t border-white/5">
+                        <a href={job.url} target="_blank" rel="noreferrer" className="text-sm text-secondary hover:underline flex items-center gap-1 font-medium">
+                            View Certificate/Work
+                        </a>
+                    </div>
+                )}
             </div>
         </motion.div>
     );

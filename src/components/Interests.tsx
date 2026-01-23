@@ -12,14 +12,14 @@ const Interests: React.FC = () => {
             <motion.img
                 src={CaricatureGuitar}
                 alt="Guitarist"
-                className="absolute -left-10 md:left-10 top-20 w-32 md:w-48 opacity-20 md:opacity-100 pointer-events-none z-0"
+                className="absolute -left-10 md:left-10 top-20 w-32 md:w-48 opacity-40 md:opacity-80 pointer-events-none z-0 mix-blend-overlay md:mix-blend-normal"
                 animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.img
                 src={CaricaturePiano}
                 alt="Pianist"
-                className="absolute -right-10 md:right-10 bottom-20 w-32 md:w-48 opacity-20 md:opacity-100 pointer-events-none z-0"
+                className="absolute -right-10 md:right-10 bottom-20 w-32 md:w-48 opacity-40 md:opacity-80 pointer-events-none z-0 mix-blend-overlay md:mix-blend-normal"
                 animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
             />
