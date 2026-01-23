@@ -19,6 +19,43 @@ const Certifications: React.FC = () => {
                     Licenses & <span className="text-primary-light">Certifications</span>
                 </motion.h2>
 
+                {/* Caricatures for Publications & Licenses */}
+                <div className="hidden lg:block absolute right-0 top-0 opacity-80 pointer-events-none z-0">
+                    <motion.div
+                        initial={{ x: 50, opacity: 0 }}
+                        whileInView={{ x: 0, opacity: 1 }}
+                        viewport={{ once: true }}
+                    >
+                        <motion.img
+                            src="/caricature_publications.png"
+                            alt="Publications"
+                            className="w-48 object-contain drop-shadow-xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-105 transition-transform"
+                            animate={{ y: [0, -15, 0] }}
+                            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                            drag
+                            dragConstraints={{ left: -30, right: 30, top: -30, bottom: 30 }}
+                        />
+                    </motion.div>
+                </div>
+
+                <div className="hidden lg:block absolute left-0 bottom-10 opacity-60 pointer-events-none z-0">
+                    <motion.div
+                        initial={{ x: -50, opacity: 0 }}
+                        whileInView={{ x: 0, opacity: 1 }}
+                        viewport={{ once: true }}
+                    >
+                        <motion.img
+                            src="/caricature_licenses.png"
+                            alt="Licenses"
+                            className="w-40 object-contain drop-shadow-xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-105 transition-transform"
+                            animate={{ y: [0, 15, 0], rotate: [0, 5, 0] }}
+                            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                            drag
+                            dragConstraints={{ left: -30, right: 30, top: -30, bottom: 30 }}
+                        />
+                    </motion.div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {resumeData.certifications.map((cert, index) => (
                         <motion.div

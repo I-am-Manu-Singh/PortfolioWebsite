@@ -55,10 +55,20 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                             { text: 'FlatList data={data}', x: '45%', y: '40%', rot: 6 },
                             { text: 'Dimensions.get("window")', x: '55%', y: '15%', rot: -4 },
 
+                            // Android / Kotlin Specific
+                            { text: 'AndroidManifest.xml', x: '5%', y: '25%', rot: -5 },
+                            { text: 'suspend fun fetchData()', x: '45%', y: '75%', rot: 3 },
+                            { text: 'class MainActivity : ComponentActivity()', x: '10%', y: '90%', rot: -2 },
+                            { text: 'viewModelScope.launch {}', x: '60%', y: '35%', rot: 8 },
+                            { text: '<RecyclerView />', x: '80%', y: '65%', rot: -6 },
+                            { text: 'val context = LocalContext.current', x: '25%', y: '45%', rot: 4 },
+                            { text: 'Intent(this, DetailActivity::class.java)', x: '70%', y: '80%', rot: -3 },
+                            { text: 'NavHost(navController)', x: '90%', y: '20%', rot: 7 },
+                            { text: 'by remember { mutableStateOf() }', x: '35%', y: '15%', rot: -4 },
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
-                                className={`absolute cursor-grab active:cursor-grabbing px-3 py-1.5 bg-white/5 backdrop-blur-[2px] border border-white/5 rounded-md font-mono text-xs md:text-sm ${item.color || 'text-primary/20'} select-none z-0 pointer-events-auto hover:bg-white/10 hover:text-primary/60 hover:border-primary/20 hover:scale-110 active:scale-95 transition-colors`}
+                                className={`absolute cursor-grab active:cursor-grabbing px-3 py-1.5 bg-white/3 backdrop-blur-[1px] border border-white/5 rounded-md font-mono text-xs md:text-sm ${item.color || 'text-primary/10'} select-none z-0 pointer-events-auto hover:bg-white/10 hover:text-primary/40 hover:border-primary/20 hover:scale-110 active:scale-95 transition-colors`}
                                 style={{ left: item.x, top: item.y }}
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1, rotate: item.rot }}
@@ -106,6 +116,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
             case 'tutorials':
                 return (
                     <>
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,0,0,0.1),transparent_60%)]" />
                         {/* Play buttons floating - made more visible */}
                         {[...Array(8)].map((_, i) => (
                             <motion.div
@@ -123,6 +134,24 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                                 transition={{ duration: 4 + Math.random(), repeat: Infinity, delay: i * 0.5 }}
                             >
                                 <div className="w-0 h-0 border-t-[15px] border-t-transparent border-l-[25px] border-l-current border-b-[15px] border-b-transparent ml-1 filter drop-shadow-lg" />
+                            </motion.div>
+                        ))}
+                        {/* Floating Tech Icons / Placeholders */}
+                        {[...Array(5)].map((_, i) => (
+                            <motion.div
+                                key={`icon-${i}`}
+                                className="absolute text-white/10"
+                                style={{
+                                    left: `${Math.random() * 80 + 10}%`,
+                                    top: '110%'
+                                }}
+                                animate={{
+                                    top: '-10%',
+                                    rotate: Math.random() * 360
+                                }}
+                                transition={{ duration: 20, repeat: Infinity, delay: i * 4, ease: "linear" }}
+                            >
+                                <Folder size={30} />
                             </motion.div>
                         ))}
                     </>
@@ -369,16 +398,16 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                 return (
                     <>
                         {/* Audio Waveform Visualization - Enhanced */}
-                        <div className="absolute bottom-0 left-0 right-0 flex justify-center items-end h-3/4 opacity-10 gap-2 md:gap-4 px-10 pointer-events-none">
-                            {[...Array(15)].map((_, i) => (
+                        <div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-end h-full opacity-10 gap-2 md:gap-4 px-10 pointer-events-none">
+                            {[...Array(20)].map((_, i) => (
                                 <motion.div
                                     key={i}
                                     className="w-8 md:w-16 bg-gradient-to-t from-pink-600 via-purple-600 to-transparent rounded-t-xl"
                                     animate={{
-                                        height: ['10%', `${Math.random() * 50 + 30}%`, '10%']
+                                        height: ['10%', `${Math.random() * 80 + 20}%`, '10%']
                                     }}
                                     transition={{
-                                        duration: 0.6,
+                                        duration: 0.8,
                                         repeat: Infinity,
                                         repeatType: "reverse",
                                         delay: i * 0.05,
@@ -388,17 +417,17 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                             ))}
                         </div>
 
-                        {/* Floating Notes - More visible */}
-                        {[...Array(10)].map((_, i) => (
+                        {/* Floating Notes - More visible & covering entire height */}
+                        {[...Array(15)].map((_, i) => (
                             <motion.div
                                 key={i}
                                 className="absolute text-pink-500/20"
                                 style={{
                                     left: `${Math.random() * 100}%`,
-                                    bottom: '-20%'
+                                    top: '110%'
                                 }}
                                 animate={{
-                                    y: -800,
+                                    top: '-20%',
                                     x: Math.sin(i) * 50,
                                     opacity: [0, 0.6, 0],
                                     rotate: [0, 360]
@@ -406,10 +435,11 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                                 transition={{
                                     duration: 15 + Math.random() * 10,
                                     repeat: Infinity,
-                                    delay: i * 1.5
+                                    delay: i * 1.5,
+                                    ease: "linear"
                                 }}
                             >
-                                <Music size={60 + Math.random() * 40} />
+                                <Music size={40 + Math.random() * 60} />
                             </motion.div>
                         ))}
                     </>

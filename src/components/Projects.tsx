@@ -19,6 +19,27 @@ const Projects: React.FC = () => {
                     Selected <span className="gradient-text-animated">Projects</span>
                 </motion.h2>
 
+                {/* Projects Caricature */}
+                <div className="hidden lg:block absolute left-4 top-20 z-0 opacity-50 pointer-events-none">
+                    <motion.div
+                        initial={{ x: -50, opacity: 0 }}
+                        whileInView={{ x: 0, opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1 }}
+                    >
+                        <div className="absolute inset-0 bg-primary/10 blur-[50px] rounded-full" />
+                        <motion.img
+                            src="/caricature_coding_profile.png"
+                            alt="Coding Projects"
+                            className="w-48 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform"
+                            animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
+                            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+                            drag
+                            dragConstraints={{ left: -30, right: 30, top: -30, bottom: 30 }}
+                        />
+                    </motion.div>
+                </div>
+
                 <motion.div
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
                     initial="hidden"

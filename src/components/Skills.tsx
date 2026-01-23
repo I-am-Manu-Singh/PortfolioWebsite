@@ -100,7 +100,7 @@ const Skills: React.FC = () => {
                                 transition={{ delay: index * 0.01 }}
                             >
                                 {iconData.type === 'img' ? (
-                                    <div className={`w-6 h-6 flex items-center justify-center ${skill.includes("AWS") || skill.includes("GitHub") ? "bg-white rounded-full p-0.5" : ""}`}>
+                                    <div className={`w-6 h-6 flex items-center justify-center ${skill.includes("AWS") || skill.includes("GitHub") ? "bg-white rounded-full p-0.5" : ""} ${skill === "iOS Development" ? "invert dark:invert-0" : ""}`}>
                                         <img
                                             src={iconData.src}
                                             alt={skill}

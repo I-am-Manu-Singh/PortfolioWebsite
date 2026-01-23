@@ -20,6 +20,26 @@ const CodingProfile: React.FC = () => {
                         Coding <span className="text-primary-light">Profile</span>
                     </motion.h2>
 
+                    {/* Floating Coding Caricature */}
+                    <motion.div
+                        className="absolute right-0 top-0 lg:right-10 lg:-top-10 z-0 hidden lg:block opacity-90 pointer-events-none"
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
+                        <motion.img
+                            src="/caricature_coding_profile.png"
+                            alt="Coding"
+                            className="w-40 md:w-56 object-contain drop-shadow-2xl relative z-10 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform"
+                            animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
+                            drag
+                            dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                    </motion.div>
+
 
                 </div>
 
