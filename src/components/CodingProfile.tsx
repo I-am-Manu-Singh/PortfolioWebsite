@@ -2,7 +2,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
-import DynamicMedium from './DynamicMedium';
 import CaricatureTeacher from '../assets/caricature_teacher.png';
 
 const CodingProfile: React.FC = () => {
@@ -82,8 +81,6 @@ const CodingProfile: React.FC = () => {
                     </motion.div>
                 </div>
 
-                {/* Medium Publications */}
-                <DynamicMedium username="@manu-singh" />
 
             </div>
         </section >

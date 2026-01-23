@@ -7,6 +7,7 @@ import CodingProfile from './components/CodingProfile';
 import Certifications from './components/Certifications';
 import TechTutorials from './components/TechTutorials';
 import Testimonials from './components/Testimonials';
+import FeaturedContent from './components/FeaturedContent';
 import Socials from './components/Socials';
 import Analytics from './components/Analytics';
 import ChatBot from './components/ChatBot';
@@ -54,6 +55,7 @@ function App() {
               <CodingProfile />
               <Projects />
               <Certifications />
+              <FeaturedContent />
               <TechTutorials />
               <Testimonials />
             </motion.div>

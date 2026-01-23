@@ -1,0 +1,96 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Briefcase, BookOpen } from 'lucide-react';
+import DynamicMedium from './DynamicMedium';
+
+const FeaturedContent: React.FC = () => {
+    return (
+        <section className="section" id="featured">
+            <div className="container">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="section-title text-center mb-16"
+                >
+                    Featured <span className="text-primary-light">Insights</span>
+                </motion.h2>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    {/* LinkedIn Featured */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <div className="flex items-center justify-between mb-8">
+                            <h3 className="text-2xl font-bold flex items-center gap-2 text-white">
+                                <span className="p-2 bg-[#0077b5] rounded-md text-white"><Briefcase size={20} /></span>
+                                LinkedIn Featured
+                            </h3>
+                            <a href="https://www.linkedin.com/in/manpreetsingh-android/" target="_blank" className="text-sm text-primary hover:underline">View Profile</a>
+                        </div>
+
+                        <div className="flex flex-col gap-6">
+                            <motion.a
+                                href="https://www.linkedin.com/in/manpreetsingh-android/"
+                                target="_blank"
+                                className="glass-card p-6 hover:bg-white/5 transition-all group"
+                                whileHover={{ y: -5 }}
+                            >
+                                <div className="flex items-start gap-4">
+                                    <img
+                                        src="https://media.licdn.com/dms/image/v2/D5603AQGjCltwOpw8Tw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1718261309867?e=1743033600&v=beta&t=M_eKaaDJKXGvP3BNyC0tbwbNYjWUAoN8DdXyD7TBw_o"
+                                        alt="Profile"
+                                        className="w-12 h-12 rounded-full border-2 border-primary"
+                                    />
+                                    <div>
+                                        <div className="flex items-center gap-3">
+                                            <h4 className="font-bold text-white group-hover:text-primary transition-colors">Manpreet Singh</h4>
+                                            <div className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">Follow</div>
+                                        </div>
+                                        <p className="text-xs text-text-muted mb-2">Android Developer | KMP | React Native</p>
+                                        <p className="text-sm text-gray-300 line-clamp-3">
+                                            Check out my latest updates, project showcases, and technical articles on LinkedIn. I regularly share insights about Android Development, Jetpack Compose, and Kotlin Multiplatform.
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.a>
+
+                            <motion.div
+                                className="glass-card p-6 flex flex-col justify-center items-center text-center hover:bg-white/5 transition-all cursor-pointer"
+                                whileHover={{ scale: 1.02 }}
+                                onClick={() => window.open("https://www.linkedin.com/in/manpreetsingh-android/", "_blank")}
+                            >
+                                <div className="mb-3 p-3 bg-white/5 rounded-full">
+                                    <Briefcase size={24} className="text-primary-light" />
+                                </div>
+                                <h4 className="font-bold text-white mb-1">Open for Opportunities</h4>
+                                <p className="text-sm text-text-muted">
+                                    Connect with me to discuss potential collaborations or job roles.
+                                </p>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+
+                    {/* Medium Publications */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <h3 className="text-2xl font-bold flex items-center gap-2 text-white mb-8">
+                            <span className="p-2 bg-black rounded-md text-white border border-white/20"><BookOpen size={20} /></span>
+                            Latest Publications
+                        </h3>
+                        <DynamicMedium username="@manu-singh" />
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default FeaturedContent;
