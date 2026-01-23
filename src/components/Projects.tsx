@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Code, Folder } from 'lucide-react';
+import { Github, ExternalLink, Code } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import SectionBackground from './SectionBackground';
 // import CaricatureCoding from '../assets/caricature_coding_profile.png';

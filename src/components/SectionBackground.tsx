@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Cpu, Instagram, Globe, Folder, Users, MessageCircle, GitBranch, Heart } from 'lucide-react';
+import { Music, Cpu, Instagram, Globe, Folder, Users, MessageCircle, GitBranch } from 'lucide-react';
 
 
 type BackgroundVariant = 'hero' | 'skills' | 'experience' | 'music' | 'instagram' | 'projects' | 'writing' | 'community' | 'certifications' | 'tutorials' | 'coding' | 'default';
