@@ -30,31 +30,32 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                     <div className="absolute inset-0 w-full h-full" onClick={handleHeroClick}>
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-dark to-dark" />
 
-                        {/* Interactive Scattered Code Blocks - App Dev & Errors Only */}
+                        {/* Interactive Scattered Code Blocks - Real App Dev & Git Commands */}
                         {[
-                            // Errors (5% opacity)
-                            { text: 'NullPointerException', x: '10%', y: '15%', rot: -10, isError: true },
-                            { text: 'ANR detected', x: '80%', y: '10%', rot: 15, isError: true },
-                            { text: 'Gradle Sync Failed', x: '5%', y: '40%', rot: 5, isError: true },
-                            { text: 'Build Failed', x: '90%', y: '30%', rot: -5, isError: true },
-                            { text: 'ActivityNotFoundException', x: '20%', y: '70%', rot: 10, isError: true },
-                            { text: 'Unresolved Reference', x: '85%', y: '60%', rot: -10, isError: true },
-
-                            // App Dev Terms (Still subtle)
+                            // Real Android/iOS/Git Snippets
+                            { text: 'LazyColumn { items(data) { ... } }', x: '10%', y: '15%', rot: -5 },
+                            { text: 'viewModelScope.launch { }', x: '70%', y: '10%', rot: 3 },
+                            { text: 'pod install', x: '5%', y: '40%', rot: 8 },
+                            { text: 'git commit -m "feat: init"', x: '80%', y: '25%', rot: -3 },
+                            { text: 'struct HomeView: View', x: '15%', y: '70%', rot: 6 },
+                            { text: 'Modifier.fillMaxSize()', x: '85%', y: '60%', rot: -4 },
                             { text: '@Composable', x: '40%', y: '10%', rot: 5 },
-                            { text: 'suspend fun', x: '50%', y: '85%', rot: -3 },
-                            { text: '<Manifest>', x: '35%', y: '60%', rot: 8 },
-                            { text: 'ViewModel', x: '65%', y: '70%', rot: -6 },
-                            { text: 'CoroutineScope', x: '25%', y: '90%', rot: 4 },
-                            { text: 'NavController', x: '90%', y: '90%', rot: -8 },
-                            { text: 'RecyclerView', x: '5%', y: '5%', rot: 15 },
-                            { text: 'Retrofit.Builder', x: '95%', y: '5%', rot: -15 },
-                            { text: 'RoomDatabase', x: '45%', y: '40%', rot: 6 },
-                            { text: 'LiveData', x: '55%', y: '15%', rot: -4 },
+                            { text: 'suspend fun fetchData()', x: '50%', y: '85%', rot: -3 },
+                            { text: 'val nav = rememberNavController()', x: '35%', y: '50%', rot: 2 },
+                            { text: 'Retrofit.Builder().baseUrl()', x: '60%', y: '75%', rot: -6 },
+                            { text: 'var body: some View { }', x: '25%', y: '90%', rot: 4 },
+                            { text: 'git push origin main', x: '90%', y: '90%', rot: -8 },
+                            { text: 'RecyclerView.Adapter', x: '5%', y: '5%', rot: 15 },
+                            { text: 'ConstraintLayout', x: '45%', y: '30%', rot: 6 },
+                            { text: 'Image(painter = ...)', x: '55%', y: '20%', rot: -4 },
+                            { text: 'observer.observe(viewLifecycle) { }', x: '75%', y: '45%', rot: 3 },
+                            // Errors (still subtle but present)
+                            { text: 'NullPointerException', x: '20%', y: '20%', rot: -12, isError: true },
+                            { text: 'Build Failed', x: '90%', y: '50%', rot: 5, isError: true },
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
-                                className={`absolute cursor-pointer px-2 py-1 bg-white/0 rounded-md font-mono text-xs md:text-sm select-none z-0 pointer-events-auto transition-colors duration-300 ${item.isError ? 'text-red-500/20 opacity-5 hover:text-red-500 hover:opacity-100' : 'text-primary/20 opacity-5 hover:text-primary hover:opacity-100'}`}
+                                className={`absolute cursor-pointer px-2 py-1 bg-white/0 rounded-md font-mono text-xs md:text-sm select-none z-0 pointer-events-auto transition-colors duration-300 ${item.isError ? 'text-red-500/30 opacity-10 hover:text-red-500 hover:opacity-100' : 'text-primary/30 opacity-10 hover:text-primary hover:opacity-100'}`}
                                 style={{
                                     left: item.x,
                                     top: item.y,
@@ -66,7 +67,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                                     opacity: 0,
                                     scale: 0.5
                                 } : {
-                                    opacity: 0.2, // increased base opacity slightly but controlled via class
+                                    opacity: 0.2, // increased base opacity but controlled via class
                                     scale: 1,
                                     rotate: item.rot,
                                     x: 0,
@@ -168,30 +169,49 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_0%,rgba(0,255,0,0.05)_50%,rgba(0,0,0,0)_100%)] opacity-20" />
 
                         {/* DSA Visuals - Graphs, Trees, Arrays */}
-                        {[...Array(15)].map((_, i) => (
+                        {/* DSA Visuals - Graphs, Trees, Arrays & Complexities */}
+                        {[
+                            'O(n log n)', 'O(2^n)', 'O(1)', 'visited[i]', 'dp[i][j]',
+                            'p_queue.pop()', 'root.left', '>> 1', 'arr.map()',
+                            '&&', '||', '=>', '===', '!=', '0xFF',
+                            'backtrack()', 'start..end', 'async await',
+                            'memo = {}', '<T>'
+                        ].map((text, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute text-primary/10"
+                                className="absolute text-primary/20 font-mono font-bold select-none"
                                 style={{
                                     left: `${Math.random() * 90}%`,
-                                    top: `${Math.random() * 90}%`
+                                    top: `${Math.random() * 90}%`,
+                                    fontSize: Math.random() > 0.7 ? '1.5rem' : '0.9rem'
                                 }}
                                 animate={{
                                     y: [0, -20, 0],
-                                    opacity: [0.1, 0.3, 0.1],
+                                    opacity: [0.1, 0.4, 0.1],
                                     scale: [1, 1.1, 1]
                                 }}
                                 transition={{
                                     duration: 5 + Math.random() * 5,
                                     repeat: Infinity,
-                                    delay: i * 0.5
+                                    delay: i * 0.2
                                 }}
                             >
-                                {/* Random DSA shapes */}
-                                {i % 4 === 0 && <span className="font-mono font-bold text-2xl">O(log n)</span>}
-                                {i % 4 === 1 && <GitBranch size={40} className="opacity-50" />} {/* Graph/Tree proxy */}
-                                {i % 4 === 2 && <span className="font-mono text-xl">{'{}'}</span>}
-                                {i % 4 === 3 && <div className="flex gap-1"><div className="w-2 h-2 border border-primary/50" /><div className="w-2 h-2 border border-primary/50" /><div className="w-2 h-2 border border-primary/50" /></div>} {/* Array */}
+                                {text}
+                            </motion.div>
+                        ))}
+                        {/* Decorative Graph Nodes */}
+                        {[...Array(5)].map((_, i) => (
+                            <motion.div
+                                key={`node-${i}`}
+                                className="absolute opacity-20 text-primary"
+                                style={{
+                                    left: `${Math.random() * 80 + 10}%`,
+                                    top: `${Math.random() * 80 + 10}%`
+                                }}
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 20 + Math.random() * 10, repeat: Infinity, ease: "linear" }}
+                            >
+                                <GitBranch size={30 + Math.random() * 20} />
                             </motion.div>
                         ))}
                     </>

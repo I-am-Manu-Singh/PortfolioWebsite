@@ -18,6 +18,26 @@ const FeaturedContent: React.FC = () => {
                     Featured <span className="text-primary-light">Insights</span>
                 </motion.h2>
 
+                {/* Floating Caricature - Publications */}
+                <div className="hidden lg:block absolute right-4 top-20 z-0 opacity-90 pointer-events-none">
+                    <motion.div
+                        initial={{ x: 50, opacity: 0 }}
+                        whileInView={{ x: 0, opacity: 1 }}
+                        viewport={{ once: true }}
+                    >
+                        <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
+                        <motion.img
+                            src={`${import.meta.env.BASE_URL}caricature_publications.png`}
+                            alt="Publications"
+                            className="w-48 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                            animate={{ y: [0, -15, 0], rotate: [0, -5, 0] }}
+                            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                            drag
+                            dragConstraints={{ left: -30, right: 30, top: -30, bottom: 30 }}
+                        />
+                    </motion.div>
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     {/* LinkedIn Featured */}
                     <motion.div

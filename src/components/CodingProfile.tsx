@@ -33,7 +33,7 @@ const CodingProfile: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_coding_profile.png`}
                             alt="Coding"
-                            className="w-40 md:w-56 object-contain drop-shadow-2xl relative z-10 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform"
+                            className="w-40 md:w-56 object-contain drop-shadow-2xl relative z-10 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
                             animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
                             drag
                             dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}

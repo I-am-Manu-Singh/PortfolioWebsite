@@ -28,24 +28,36 @@ const Socials: React.FC<SocialsProps> = ({ onBack }) => {
             <SectionBackground variant="music" />
             {/* Floating Caricatures - Adjusted to not dangle over content */}
             {/* Floating Caricatures - More visible and interactive */}
-            <motion.img
-                src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
-                alt="Guitarist"
-                className="absolute -left-10 md:left-4 top-20 w-40 md:w-56 opacity-90 z-10 hover:scale-110 transition-transform cursor-pointer"
+            {/* Floating Caricatures - More visible and interactive */}
+            <motion.div
+                className="absolute -left-10 md:left-4 top-20 z-10 cursor-pointer"
                 animate={{ y: [0, -15, 0], rotate: [0, 3, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 drag
                 dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-            />
-            <motion.img
-                src={`${import.meta.env.BASE_URL}caricature_piano.png`}
-                alt="Pianist"
-                className="absolute -right-10 md:right-4 bottom-20 w-40 md:w-56 opacity-90 z-10 hover:scale-110 transition-transform cursor-pointer"
+            >
+                <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
+                <img
+                    src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
+                    alt="Guitarist"
+                    className="w-40 md:w-56 opacity-90 hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                />
+            </motion.div>
+
+            <motion.div
+                className="absolute -right-10 md:right-4 bottom-20 z-10 cursor-pointer"
                 animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
                 drag
                 dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-            />
+            >
+                <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
+                <img
+                    src={`${import.meta.env.BASE_URL}caricature_piano.png`}
+                    alt="Pianist"
+                    className="w-40 md:w-56 opacity-90 hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                />
+            </motion.div>
 
             {/* Background decoration */}
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
