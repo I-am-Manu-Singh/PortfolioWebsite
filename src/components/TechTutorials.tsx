@@ -7,7 +7,7 @@ import SectionBackground from './SectionBackground';
 const TechTutorials: React.FC = () => {
     return (
         <section className="section bg-dark-card/50 relative overflow-hidden" id="tech-tutorials">
-            <SectionBackground variant="skills" /> {/* Reusing skills/tech bg */}
+            <SectionBackground variant="tutorials" />
             <div className="container relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}

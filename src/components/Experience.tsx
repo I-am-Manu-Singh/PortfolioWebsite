@@ -98,8 +98,11 @@ const Experience: React.FC = () => {
                             <motion.img
                                 src={CaricatureProfessional}
                                 alt="Professional Manpreet"
-                                className="w-48 md:w-64 object-contain drop-shadow-2xl relative z-10"
+                                className="w-48 md:w-64 object-contain drop-shadow-2xl relative z-10 rounded-3xl border-4 border-white/20 cursor-grab active:cursor-grabbing"
                                 animate={{ y: [0, -15, 0], rotate: [0, 2, 0] }}
+                                whileHover={{ scale: 1.05 }}
+                                drag
+                                dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
                                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                             />
                         </motion.div>

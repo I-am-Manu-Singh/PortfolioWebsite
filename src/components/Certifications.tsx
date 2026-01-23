@@ -8,7 +8,7 @@ import SectionBackground from './SectionBackground';
 const Certifications: React.FC = () => {
     return (
         <section className="section bg-dark-card/30 relative overflow-hidden" id="certifications">
-            <SectionBackground variant="skills" />
+            <SectionBackground variant="certifications" />
             <div className="container">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}

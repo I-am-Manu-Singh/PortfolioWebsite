@@ -26,11 +26,13 @@ export const resumeData = {
         ]
     },
     skills: {
-        languages: ["Kotlin", "Java", "TypeScript", "XML", "SQL"],
-        android: ["Android Development", "Jetpack Compose", "XML Layouts", "MVVM", "Clean Architecture", "Room DB", "Retrofit", "Coroutines", "Flow", "WorkManager", "Hilt", "Dagger", "Koin", "JNI", "ML Kit", "Google Maps SDK"],
-        reactNative: ["React Native", "Expo", "Redux Toolkit", "Reanimated", "Gesture Handler", "React Navigation", "Axios", "TypeScript"],
-        backendAndTools: ["Firebase (Auth, Firestore, FCM, Crashlytics)", "Git", "GitHub", "Postman", "Figma", "AWS (Basic)"],
-        computerScience: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networking", "Low-Level Design"]
+        languages: ["Kotlin", "Java", "Swift", "TypeScript", "JavaScript", "SQL"],
+        android: ["Android Development", "Jetpack Compose", "XML Layouts", "MVVM", "Clean Architecture", "Room DB", "Retrofit", "Coroutines", "Flow", "WorkManager", "Hilt"],
+        ios: ["iOS Development", "SwiftUI", "UIKit", "Xcode", "CocoaPods"],
+        multiplatform: ["Kotlin Multiplatform (KMP)", "Compose Multiplatform", "Ktor"],
+        reactNative: ["React Native", "Expo", "Redux Toolkit", "Reanimated", "React Navigation"],
+        backendAndTools: ["Firebase", "Supabase", "Git", "GitHub", "Sanity CMS", "Postman", "Figma", "AWS (Basic)"],
+        computerScience: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networking"]
     },
     experience: [
         {

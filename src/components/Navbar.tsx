@@ -2,17 +2,14 @@
 import { useState } from 'react';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, User, Sun, Moon, MessageCircle } from 'lucide-react';
+import { Sun, Moon, MessageCircle } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import ProfileImage from '../assets/profile.jpg';
 import ContactModal from './ContactModal';
 
-interface NavbarProps {
-    activeTab: 'work' | 'personal';
-    setActiveTab: (tab: 'work' | 'personal') => void;
-}
+interface NavbarProps { }
 
-const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
+const Navbar: React.FC<NavbarProps> = () => {
     const { theme, toggleTheme } = useTheme();
     const [isContactOpen, setIsContactOpen] = useState(false);
 
@@ -30,40 +27,18 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                         <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
                             <img src={ProfileImage} alt="Manpreet Singh" className="w-full h-full object-cover object-top" />
                         </div>
-                        <h1 className="hidden md:block text-lg font-bold text-white tracking-tight">
+                        <h1 className="hidden md:block text-lg font-bold text-text tracking-tight">
                             Manpreet Singh <span className="text-primary">Portfolio</span>
                         </h1>
                     </div>
 
-                    {/* Center Tabs */}
-                    <div className="flex items-center bg-white/5 p-1 rounded-full border border-white/10 text-sm">
-                        <button
-                            onClick={() => setActiveTab('work')}
-                            className={`flex items-center gap-2 px-4 py-1.5 rounded-full transition-all ${activeTab === 'work'
-                                ? 'bg-primary text-white shadow-lg shadow-primary/25'
-                                : 'text-text-muted hover:text-white'
-                                }`}
-                        >
-                            <Briefcase size={14} />
-                            <span>Work</span>
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('personal')}
-                            className={`flex items-center gap-2 px-4 py-1.5 rounded-full transition-all ${activeTab === 'personal'
-                                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
-                                : 'text-text-muted hover:text-white'
-                                }`}
-                        >
-                            <User size={14} />
-                            <span>Personal</span>
-                        </button>
-                    </div>
+
 
                     {/* Right Actions */}
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setIsContactOpen(true)}
-                            className="hidden md:flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium transition-all text-white"
+                            className="hidden md:flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium transition-all text-text hover:text-primary"
                         >
                             <MessageCircle size={16} />
                             <span>Contact Me</span>

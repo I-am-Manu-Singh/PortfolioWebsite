@@ -8,7 +8,7 @@ import SectionBackground from './SectionBackground';
 const CodingProfile: React.FC = () => {
     return (
         <section className="section relative overflow-hidden" id="coding-profile">
-            <SectionBackground variant="hero" />
+            <SectionBackground variant="coding" />
             <div className="container relative z-10">
                 <div className="flex justify-center items-center mb-12 relative z-10">
                     <motion.h2
