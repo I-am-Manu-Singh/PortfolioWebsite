@@ -438,7 +438,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                 <motion.img
                                     src={ProfileImagePersonal}
                                     alt="Personal Profile"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover object-top"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: isUnlocked ? 0.8 : 0 }} // Reveal only when unlocked
                                 />
@@ -460,7 +460,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             <motion.img
                                 src={ProfileImage}
                                 alt="Profile"
-                                className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
+                                className="absolute inset-0 w-full h-full object-cover object-top transition-all duration-700"
                                 style={{
                                     opacity: isShattered ? 0 : 1,
                                     scale: isPressing ? 1.05 : 1

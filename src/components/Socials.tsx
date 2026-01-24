@@ -96,7 +96,7 @@ const Socials: React.FC<SocialsProps> = () => {
                             <img
                                 src={`${import.meta.env.BASE_URL}profile_person.png`}
                                 alt="Personal Profile"
-                                className="w-full h-full object-cover transition-transform duration-700"
+                                className="w-full h-full object-cover object-top transition-transform duration-700"
                                 onError={(e) => {
                                     (e.target as HTMLImageElement).src = `${import.meta.env.BASE_URL}profile.jpg`;
                                 }}
