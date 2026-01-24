@@ -49,8 +49,11 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const [unlockProgress, setUnlockProgress] = useState(0);
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [isPressing, setIsPressing] = useState(false);
-
+    const isPressingRef = useRef(false);
     const [isReverting, setIsReverting] = useState(false);
+
+    // Interaction Stages: 'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip'
+    const [interactionStage, setInteractionStage] = useState<'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip'>('idle');
 
     // Container Ref for "Assembly" Target Coordinates
     const containerRef = useRef<HTMLDivElement>(null);
@@ -59,7 +62,6 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     // Animation Refs
     const pressTimerRef = useRef<number | null>(null);
     const startTimeRef = useRef<number | null>(null);
-    const isPressingRef = useRef(false);
     const scrambleIntervalRef = useRef<number | null>(null);
     const [scrambleTick, setScrambleTick] = useState(0);
     const textControls = useAnimation();
@@ -109,13 +111,18 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         setActiveTab('personal');
     };
 
-    const handleTap = () => {
-        if (!isShattered && !isUnlocked && !isReverting) {
-            setIsShattered(true);
-            playScatter(); // Scatter Sound
-            // Rect is already measured on mount, but re-measure for good measure
-            if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
-        }
+    const handleTap = async () => {
+        if (interactionStage !== 'idle' || isUnlocked || isReverting) return;
+
+        setIsShattered(true);
+        // Stage 1: Break into Grid (In-place morph)
+        setInteractionStage('breaking-grid');
+        playScatter();
+
+        // Stage 2: Disperse after a short delay
+        setTimeout(() => {
+            setInteractionStage('breaking-disperse');
+        }, 600);
     };
 
     // State for decay animation
@@ -123,7 +130,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
     const startDecryption = () => {
         // Handle initial tap logic for mobile (unify)
-        if (!isShattered) {
+        if (!isShattered && interactionStage === 'idle') {
             handleTap();
         }
 
@@ -177,7 +184,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         const startDecay = () => {
             const initialProgress = unlockProgress;
             const decayStart = Date.now();
-            const decayDuration = 1000; // 1s to lose all progress
+            const decayDuration = 800; // 1s to lose all progress
 
             const animateDecay = () => {
                 const now = Date.now();
@@ -192,11 +199,19 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                     // Revert Condition: Progress reached 0
                     if (isShattered) {
                         setIsReverting(true);
-                        // Wait for Revert Animation (1s) to finish then hide shards
+                        // Stage 1: Pull back to grid
+                        setInteractionStage('reverting-grid');
+
                         setTimeout(() => {
-                            setIsShattered(false);
-                            setIsReverting(false);
-                        }, 1000);
+                            // Stage 2: Flip back to photo
+                            setInteractionStage('reverting-flip');
+
+                            setTimeout(() => {
+                                setIsShattered(false);
+                                setIsReverting(false);
+                                setInteractionStage('idle');
+                            }, 600);
+                        }, 800);
                     }
                 }
             };
@@ -452,49 +467,72 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 opacity: 1,
                                                 scale: 1
                                             }}
-                                            animate={isReverting ? {
-                                                // Revert to Assembled (Work)
-                                                x: targetX,
-                                                y: targetY,
-                                                z: 0,
-                                                rotateX: 0,
-                                                rotateY: 0,
-                                                opacity: 1,
-                                                scale: 1
-                                            } : isUnlocked ? {
-                                                // UNLOCK EXPLOSION: Fly off screen
-                                                x: shard.chaosX * 5,
-                                                y: shard.chaosY * 5,
-                                                z: 1000,
-                                                rotateX: Math.random() * 720,
-                                                rotateY: Math.random() * 720,
-                                                opacity: 0,
-                                                scale: 0.5
-                                            } : {
-                                                opacity: 1,
-                                                // FULL SCREEN SWIRL: Maintain spread even during interaction
-                                                // We add a persistent oscillation to keep them "rearranging"
-                                                // AGGRESSIVE GRID SHUFFLING:
-                                                // We use a multi-stage sequence to make them "shuffle" around their chaos points
-                                                x: isPressing
-                                                    ? [shard.chaosX, shard.chaosX + Math.sin(shard.id) * 200, shard.chaosX - Math.cos(shard.id) * 200, shard.chaosX]
-                                                    : shard.chaosX,
-                                                y: isPressing
-                                                    ? [shard.chaosY, shard.chaosY + Math.cos(shard.id) * 200, shard.chaosY + Math.sin(shard.id) * 200, shard.chaosY]
-                                                    : shard.chaosY,
-                                                z: isPressing ? [shard.chaosZ, 200, -200, shard.chaosZ] : shard.chaosZ,
+                                            animate={(() => {
+                                                if (isUnlocked) {
+                                                    return {
+                                                        x: shard.chaosX * 5,
+                                                        y: shard.chaosY * 5,
+                                                        z: 1000,
+                                                        rotateX: Math.random() * 720,
+                                                        rotateY: Math.random() * 720,
+                                                        opacity: 0,
+                                                        scale: 0.5
+                                                    };
+                                                }
 
-                                                // MORPH: Digital Conversion
-                                                rotateY: isPressing ? 180 : 0,
-                                                rotateX: isPressing ? [0, 180, 360] : 0,
-                                                scale: isPressing ? [1.2, 1.4, 1.2] : 1.5
-                                            }}
+                                                switch (interactionStage) {
+                                                    case 'breaking-grid':
+                                                        return {
+                                                            x: targetX,
+                                                            y: targetY,
+                                                            z: 0,
+                                                            rotateY: 180, // Morph to Matrix in-frame
+                                                            rotateX: 0,
+                                                            opacity: 1,
+                                                            scale: 1
+                                                        };
+                                                    case 'breaking-disperse':
+                                                    case 'shattered':
+                                                        return {
+                                                            opacity: 1,
+                                                            x: isPressing
+                                                                ? [shard.chaosX, shard.chaosX + Math.sin(shard.id) * 200, shard.chaosX]
+                                                                : shard.chaosX,
+                                                            y: isPressing
+                                                                ? [shard.chaosY, shard.chaosY + Math.cos(shard.id) * 200, shard.chaosY]
+                                                                : shard.chaosY,
+                                                            z: isPressing ? [shard.chaosZ, 100, shard.chaosZ] : shard.chaosZ,
+                                                            rotateY: 180,
+                                                            rotateX: isPressing ? [180, 540] : 180,
+                                                            scale: isPressing ? 1.2 : 1.5
+                                                        };
+                                                    case 'reverting-grid':
+                                                        return {
+                                                            x: targetX,
+                                                            y: targetY,
+                                                            z: 0,
+                                                            rotateY: 180, // Pull back while still Matrix
+                                                            opacity: 1,
+                                                            scale: 1
+                                                        };
+                                                    case 'reverting-flip':
+                                                        return {
+                                                            x: targetX,
+                                                            y: targetY,
+                                                            z: 0,
+                                                            rotateY: 0, // Flip back to Photo
+                                                            opacity: 1,
+                                                            scale: 1
+                                                        };
+                                                    default:
+                                                        return { x: targetX, y: targetY, opacity: 1 };
+                                                }
+                                            })()}
                                             transition={{
-                                                duration: isUnlocked ? 0.8 : (isReverting ? 1 : (isPressing ? 5 : 0.8)),
-                                                ease: isUnlocked ? "circIn" : (isPressing ? "linear" : "circOut"),
-                                                // Continuous shuffling while pressing
+                                                duration: isUnlocked ? 0.8 : (interactionStage.startsWith('reverting') ? 0.6 : (isPressing ? 8 : 0.6)),
+                                                ease: isUnlocked ? "circIn" : (isPressing ? "linear" : "easeOut"),
                                                 repeat: isPressing && !isUnlocked ? Infinity : 0,
-                                                repeatType: "loop"
+                                                repeatType: "reverse"
                                             }}
                                         >
                                             {/* FRONT FACE: Work Image Slice (Colorful) */}
