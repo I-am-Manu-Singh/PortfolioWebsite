@@ -27,8 +27,8 @@ export const resumeData = {
     },
     skills: {
         languages: ["Kotlin", "Java", "TypeScript", "XML"],
-        android: ["CMP", "Compose Multiplatform", "MVVM", "Clean Architecture", "RoomKMP & SQLDelight", "Retrofit & OkHttp", "Coroutines", "Flow", "Ktor", "KotlinX", "WorkManager", "Coil", "Hilt/Dagger", "Koin", "JNI", "AI Kit", "Gradle", "Material Design 3"],
-        reactNative: ["React Native CLI & Expo Router", "TypeScript", "Redux Toolkit", "Reanimated", "AsyncStorage", "Axios", "iOS Dev", "macOS Apps"],
+        android: ["CMP", "Compose Multiplatform", "MVVM", "Clean Architecture", "RoomKMP & SQLDelight", "Retrofit & OkHttp", "Coroutines", "Flow", "Ktor", "KotlinX", "WorkManager", "Coil", "Hilt/Dagger", "Koin", "JNI", "ML Kit", "Gradle", "Material Design 3"],
+        reactNative: ["RN CLI & Expo", "TypeScript", "Redux Toolkit", "Reanimated", "AsyncStorage", "Axios", "iOS Dev", "macOS Apps"],
         ai: ["Gemini", "ChatGPT", "Cursor", "Antigravity", "Prompt Engineering"],
         tools: ["Git", "Firebase Console", "Postman", "ADB"]
     },

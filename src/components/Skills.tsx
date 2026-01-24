@@ -11,8 +11,10 @@ const getSkillIcon = (skill: string) => {
         "Java": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
         "TypeScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
         "Android Dev": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
+        "Android Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
         "CMP": "https://github.com/JetBrains/compose-multiplatform/raw/master/artwork/compose-logo.png",
         "RN CLI & Expo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        "React Native CLI & Expo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
         "Firebase Auth": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
         "Firestore": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
         "Git": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
@@ -22,7 +24,9 @@ const getSkillIcon = (skill: string) => {
         "Redux Toolkit": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
         "Expo Router": "https://www.vectorlogo.zone/logos/expoio/expoio-icon.svg",
         "RN Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-        "ADB": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg"
+        "ADB": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
+        "Gemini": "https://www.vectorlogo.zone/logos/google_gemini/google_gemini-icon.svg",
+        "ChatGPT": "https://www.vectorlogo.zone/logos/openai/openai-icon.svg"
     };
 
     // Return URL if found
@@ -31,11 +35,14 @@ const getSkillIcon = (skill: string) => {
     // Fuzzy match for specific common terms
     if (skill.includes("Firebase")) return { type: 'img', src: iconMap["Firebase Auth"] };
     if (skill.includes("Expo")) return { type: 'img', src: iconMap["Expo Router"] };
-    if (skill.includes("React Native")) return { type: 'img', src: iconMap["React Native CLI & Expo"] };
+    if (skill.includes("React Native")) return { type: 'img', src: iconMap["RN CLI & Expo"] };
+    if (skill.includes("Android")) return { type: 'img', src: iconMap["Android Dev"] };
 
     // Fallback Icon Mapping for abstract concepts
     const iconFallback: { [key: string]: any } = {
+        "Room": Database,
         "RoomKMP & SQLDelight": Database,
+        "Retrofit": Globe,
         "Retrofit & OkHttp": Globe,
         "Coroutines": Zap,
         "Flow": Layers,
@@ -61,7 +68,10 @@ const getSkillIcon = (skill: string) => {
         "macOS Apps": Layers,
         "Firebase Console": Database, // Mapped fallback
         "Compose Multiplatform": Layers,
-        "KotlinX": Code
+        "KotlinX": Code,
+        "Antigravity": Box,
+        "Prompt Engineering": Terminal,
+        "Cursor": Code
     };
 
     const FallbackIcon = iconFallback[skill] || Code; // Default to Code icon
@@ -69,6 +79,15 @@ const getSkillIcon = (skill: string) => {
 };
 
 const Skills: React.FC = () => {
+    // Deduplicate skills using Set
+    const allSkills = Array.from(new Set([
+        ...resumeData.skills.languages,
+        ...resumeData.skills.android,
+        ...resumeData.skills.reactNative,
+        ...resumeData.skills.ai,
+        ...resumeData.skills.tools
+    ]));
+
     return (
         <section className="section bg-dark-card/50 relative overflow-hidden" id="skills">
             <SectionBackground variant="skills" />
@@ -83,14 +102,12 @@ const Skills: React.FC = () => {
                 </motion.h2>
 
                 <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
-                    {/* Flatten skills for compact view */}
-                    {/* @ts-ignore */}
-                    {[...resumeData.skills.languages, ...resumeData.skills.android, ...resumeData.skills.reactNative, ...resumeData.skills.tools].map((skill, index) => {
+                    {allSkills.map((skill, index) => {
                         const iconData = getSkillIcon(skill);
 
                         return (
                             <motion.div
-                                key={index}
+                                key={skill}
                                 className="glass-card p-1.5 flex flex-col items-center justify-center gap-1.5 hover:bg-white/10 transition-all cursor-default group bg-white/5"
                                 whileHover={{ y: -3 }}
                                 initial={{ opacity: 0, y: 10 }}
@@ -99,22 +116,23 @@ const Skills: React.FC = () => {
                                 transition={{ delay: index * 0.01 }}
                             >
                                 {iconData.type === 'img' ? (
-                                    <div className={`w-6 h-6 flex items-center justify-center ${skill.includes("GitHub") ? "bg-white rounded-full p-0.5" : ""}`}>
+                                    <div className={`w-8 h-8 flex items-center justify-center p-1 ${skill.includes("GitHub") ? "bg-white rounded-full p-0.5" : ""}`}>
                                         <img
                                             src={iconData.src}
                                             alt={skill}
                                             className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md"
                                             onError={(e) => {
-                                                // If image fails, hide it and letting the text label remain (or could swap to icon)
                                                 (e.target as HTMLImageElement).style.display = 'none';
-                                                (e.target as HTMLImageElement).parentElement!.innerText = '🛠️'; // Fallback emoji
+                                                (e.target as HTMLImageElement).parentElement!.innerText = '🛠️';
                                                 (e.target as HTMLImageElement).parentElement!.classList.add('text-lg');
                                             }}
                                         />
                                     </div>
                                 ) : (
-                                    // @ts-ignore
-                                    <iconData.Component size={20} className="text-primary-light group-hover:scale-110 transition-transform duration-300" />
+                                    <div className="w-8 h-8 flex items-center justify-center">
+                                        {/* @ts-ignore */}
+                                        <iconData.Component size={24} className="text-primary-light group-hover:scale-110 transition-transform duration-300" />
+                                    </div>
                                 )}
                                 <span className="font-mono text-[9px] md:text-[10px] text-text-muted group-hover:text-white transition-colors text-center leading-tight line-clamp-2 max-w-full px-1 break-words">{skill}</span>
                             </motion.div>
