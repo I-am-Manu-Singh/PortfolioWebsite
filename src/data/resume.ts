@@ -139,15 +139,6 @@ export const resumeData = {
             videoId: "videoseries?list=PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6" // Replaced with playlist as per user request
         },
         {
-            name: "Recipe Finder App",
-            description: "Java-based app with Firebase OAuth Integration, Sign out, Delete User, Add new user features. Displays Dummy Data.",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/RecipeAppInJava" }
-            ],
-            tags: ["Java", "Firebase", "OAuth"],
-            videoId: "videoseries?list=PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6" // Replaced with playlist as per user request
-        },
-        {
             name: "LeetCode Solutions",
             description: "GitHub Repo of my LeetCode questions to ace the coding interviews! Daily problem submissions to stay consistent.",
             links: [
