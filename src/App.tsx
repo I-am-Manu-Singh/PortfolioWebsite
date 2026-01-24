@@ -32,7 +32,6 @@ function App() {
           setIsUnlocked(false);
         }}
       />
-      <Analytics />
       <ChatBot />
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
         {/* Layer 1: Particles */}
@@ -73,6 +72,7 @@ function App() {
             <FeaturedContent />
             <TechTutorials />
             <Testimonials />
+            <Analytics />
           </motion.div>
 
           {/* Personal Content Layer - Fades in slowly underneath */}

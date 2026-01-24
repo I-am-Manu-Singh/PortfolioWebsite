@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
 import SectionBackground from './SectionBackground';
-import { Code, Database, Globe, Smartphone, Cpu, Layers, Box, Terminal, Zap, Layout } from 'lucide-react';
+import { Code, Smartphone, Cpu, Layers, Box, Terminal, Layout } from 'lucide-react';
 
 const getSkillIcon = (skill: string) => {
-    // Exact map for known logos
+    // Exact map for known logos (DevIcons + VectorLogos)
     const iconMap: { [key: string]: string } = {
         "Kotlin": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg",
         "Java": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
@@ -13,6 +13,7 @@ const getSkillIcon = (skill: string) => {
         "Android Dev": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
         "Android Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
         "CMP": "https://github.com/JetBrains/compose-multiplatform/raw/master/artwork/compose-logo.png",
+        "Compose Multiplatform": "https://github.com/JetBrains/compose-multiplatform/raw/master/artwork/compose-logo.png",
         "RN CLI & Expo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
         "React Native CLI & Expo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
         "Firebase Auth": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
@@ -26,55 +27,55 @@ const getSkillIcon = (skill: string) => {
         "RN Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
         "ADB": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg",
         "Gemini": "https://www.vectorlogo.zone/logos/google_gemini/google_gemini-icon.svg",
-        "ChatGPT": "https://www.vectorlogo.zone/logos/openai/openai-icon.svg"
+        "ChatGPT": "https://www.vectorlogo.zone/logos/openai/openai-icon.svg",
+        "Gradle": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg",
+        "Retrofit": "https://www.vectorlogo.zone/logos/squareup_retrofit/squareup_retrofit-icon.svg",
+        "Room": "https://www.vectorlogo.zone/logos/android/android-icon.svg",
+        "RoomKMP & SQLDelight": "https://www.vectorlogo.zone/logos/android/android-icon.svg",
+        "Dagger/Hilt": "https://www.vectorlogo.zone/logos/google_dagger/google_dagger-icon.svg",
+        "Hilt/Dagger": "https://www.vectorlogo.zone/logos/google_dagger/google_dagger-icon.svg",
+        "Koin": "https://insert-koin.io/img/koin_logo.png",
+        "Coroutines": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg",
+        "Flow": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg",
+        "Ktor": "https://www.vectorlogo.zone/logos/kotlinlang/kotlinlang-icon.svg",
+        "Reanimated": "https://raw.githubusercontent.com/software-mansion/react-native-reanimated/main/docs/static/img/logo.svg",
+        "Gesture Handler": "https://raw.githubusercontent.com/software-mansion/react-native-gesture-handler/main/docs/static/img/logo.svg",
+        "AsyncStorage": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        "Axios": "https://www.vectorlogo.zone/logos/axios/axios-icon.svg"
     };
 
     // Return URL if found
     if (iconMap[skill]) return { type: 'img', src: iconMap[skill] };
 
-    // Fuzzy match for specific common terms
-    if (skill.includes("Firebase")) return { type: 'img', src: iconMap["Firebase Auth"] };
-    if (skill.includes("Expo")) return { type: 'img', src: iconMap["Expo Router"] };
-    if (skill.includes("React Native")) return { type: 'img', src: iconMap["RN CLI & Expo"] };
-    if (skill.includes("Android")) return { type: 'img', src: iconMap["Android Dev"] };
+    // Fuzzy match
+    const skillLower = skill.toLowerCase();
+    if (skillLower.includes("firebase")) return { type: 'img', src: iconMap["Firebase Auth"] };
+    if (skillLower.includes("expo")) return { type: 'img', src: iconMap["Expo Router"] };
+    if (skillLower.includes("react native")) return { type: 'img', src: iconMap["RN CLI & Expo"] };
+    if (skillLower.includes("android")) return { type: 'img', src: iconMap["Android Dev"] };
+    if (skillLower.includes("kotlin")) return { type: 'img', src: iconMap["Kotlin"] };
+    if (skillLower.includes("retrofit")) return { type: 'img', src: iconMap["Retrofit"] };
+    if (skillLower.includes("gradle")) return { type: 'img', src: iconMap["Gradle"] };
 
     // Fallback Icon Mapping for abstract concepts
     const iconFallback: { [key: string]: any } = {
-        "Room": Database,
-        "RoomKMP & SQLDelight": Database,
-        "Retrofit": Globe,
-        "Retrofit & OkHttp": Globe,
-        "Coroutines": Zap,
-        "Flow": Layers,
-        "Paging 3": Layers,
         "WorkManager": Box,
-        "Hilt/Dagger": Box,
-        "Koin": Box,
         "JNI": Terminal,
         "ML Kit": Cpu,
-        "OkHttp": Globe,
-        "Ktor": Globe,
         "Coil": Layout,
         "XML": Layout,
         "MVVM": Layers,
         "Clean Architecture": Layers,
-        "Reanimated": Zap,
-        "Gesture Handler": Smartphone,
-        "AsyncStorage": Database,
-        "Axios": Globe,
-        "Gradle": Box,
         "Material Design 3": Layout,
         "iOS Dev": Smartphone,
         "macOS Apps": Layers,
-        "Firebase Console": Database, // Mapped fallback
-        "Compose Multiplatform": Layers,
         "KotlinX": Code,
         "Antigravity": Box,
         "Prompt Engineering": Terminal,
         "Cursor": Code
     };
 
-    const FallbackIcon = iconFallback[skill] || Code; // Default to Code icon
+    const FallbackIcon = iconFallback[skill] || Code;
     return { type: 'icon', Component: FallbackIcon };
 };
 
