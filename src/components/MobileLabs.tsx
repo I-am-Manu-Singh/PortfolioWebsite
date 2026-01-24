@@ -15,7 +15,7 @@ const apps = [
     {
         id: 'videoeditor',
         name: 'VideoEditor App',
-        description: 'Architected a high-performance, and high-fidelity audio waveform visualization. Engineered a robust media processing pipeline using FFmpeg and Media3 for background video composition, supporting complex overlay templates and multi-stream export optimization featuring a custom non-linear timeline engine with real-time canvas rendering.',
+        description: 'Engineered a robust media processing pipeline using FFmpeg and Media3 for background video composition, supporting complex overlay templates and multi-stream export optimization featuring a custom non-linear timeline engine with real-time canvas rendering.',
         tech: ['Kotlin', 'Android SDK', 'FFmpeg', 'Media3', 'Material 3', 'Canvas API', 'Foreground Services', 'Lottie', 'Gson'],
         logo: `${import.meta.env.BASE_URL}app_logo_video_editor.png`,
         gradient: 'from-pink-500/20 to-orange-500/20'
