@@ -459,43 +459,54 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 opacity: 0,
                                                 scale: 0.5
                                             } : {
-                                                // Standard Interaction
                                                 opacity: 1,
-                                                // If Pressing: Target (Assembled Personal). Else: Chaos (Explosion)
-                                                x: isPressing ? targetX : shard.chaosX,
-                                                y: isPressing ? targetY : shard.chaosY,
-                                                z: isPressing ? 0 : shard.chaosZ,
-                                                // Flip to Image (180deg) IF pressing
-                                                rotateX: isPressing ? 0 : [0, 360],
-                                                rotateY: isPressing ? 180 : [0, 360],
-                                                scale: isPressing ? 1 : 1.5
+                                                // FULL SCREEN SWIRL: Maintain spread even during interaction
+                                                // We add a persistent oscillation to keep them "rearranging"
+                                                x: isPressing
+                                                    ? [shard.chaosX, shard.chaosX + Math.sin(shard.id) * 100, shard.chaosX]
+                                                    : shard.chaosX,
+                                                y: isPressing
+                                                    ? [shard.chaosY, shard.chaosY + Math.cos(shard.id) * 100, shard.chaosY]
+                                                    : shard.chaosY,
+                                                z: isPressing ? [shard.chaosZ, 0, shard.chaosZ] : shard.chaosZ,
+
+                                                // MORPH: Rotate to 180deg (Matrix Backface) as progress increases
+                                                // Since we can't easily sync rotateY to a dynamic progress value in a simple 'animate' object,
+                                                // we animate it based on isPressing. 
+                                                rotateY: isPressing ? 180 : 0,
+                                                rotateX: isPressing ? [0, 360, 0] : 0,
+                                                scale: isPressing ? 1.2 : 1.5
                                             }}
                                             transition={{
-                                                // Unlock: Fast & Aggressive (0.8s). Explosion/Revert: Fast (1s). Assembly: Slow (10s)
                                                 duration: isUnlocked ? 0.8 : (isReverting ? 1 : (isPressing ? 10 : 0.8)),
-                                                ease: isUnlocked ? "circIn" : (isPressing ? "linear" : "circOut"),
+                                                ease: isUnlocked ? "circIn" : (isPressing ? "easeInOut" : "circOut"),
+                                                // Repeat the swirl during the 10s hold
+                                                repeat: isPressing && !isUnlocked ? Infinity : 0,
+                                                repeatType: "reverse"
                                             }}
                                         >
-                                            {/* FRONT FACE: Matrix Code */}
-                                            <div className="absolute inset-0 bg-transparent text-green-500 font-mono font-bold flex items-center justify-center text-[10px] backface-hidden shadow-[0_0_2px_rgba(0,255,0,0.8)]">
-                                                {shard.char}
-                                            </div>
-
-                                            {/* BACK FACE: Personal Image Slice with Green Tint */}
+                                            {/* FRONT FACE: Work Image Slice (Colorful) */}
                                             <div
                                                 className="absolute inset-0 bg-no-repeat backface-hidden"
                                                 style={{
-                                                    backgroundImage: `url(${ProfileImagePersonal})`,
+                                                    backgroundImage: `url(${ProfileImage})`,
                                                     backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
                                                     backgroundPosition: `-${targetX}px -${targetY}px`,
-                                                    transform: 'rotateY(180deg)',
-                                                    opacity: 0.8, // Slightly more visible for the green effect
-                                                    // Green Tint: High contrast sepia + hue rotate
-                                                    filter: isPressing ? 'sepia(1) hue-rotate(70deg) saturate(3)' : 'none',
-                                                    boxShadow: 'inset 0 0 5px rgba(0,255,0,0.4)',
-                                                    transition: 'filter 0.5s ease'
+                                                    opacity: 1,
+                                                    boxShadow: 'inset 0 0 2px rgba(255,255,255,0.2)'
                                                 }}
                                             />
+
+                                            {/* BACK FACE: Matrix Character (Green) */}
+                                            <div
+                                                className="absolute inset-0 bg-black text-green-500 font-mono font-bold flex items-center justify-center text-[10px] backface-hidden"
+                                                style={{
+                                                    transform: 'rotateY(180deg)',
+                                                    border: '1px solid rgba(0, 255, 0, 0.3)'
+                                                }}
+                                            >
+                                                {shard.char}
+                                            </div>
                                         </motion.div>
                                     );
                                 })}
