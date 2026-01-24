@@ -369,14 +369,16 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             <span className="absolute inset-0 w-full h-full bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
                             <Mail size={18} className="relative z-10" /> <span className="relative z-10">Contact Me</span>
                         </motion.a>
-                        <motion.button
-                            onClick={() => setIsPreviewOpen(true)}
+                        <motion.a
+                            href="https://drive.google.com/file/d/1fOB1uf98-bUVBf24-ro_oLZYKddj-gKq/view?usp=sharing"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="px-8 py-3 bg-primary text-white rounded-full font-mono hover:bg-primary-light transition-all shadow-lg shadow-primary/25 flex items-center gap-2"
                             whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0,79,144,0.5)" }}
                             whileTap={{ scale: 0.95 }}
                         >
                             Preview Resume <Eye size={18} />
-                        </motion.button>
+                        </motion.a>
                         {visitCount && (
                             <motion.div
                                 initial={{ opacity: 0 }}
