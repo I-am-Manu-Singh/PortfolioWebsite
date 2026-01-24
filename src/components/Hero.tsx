@@ -200,7 +200,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
         }, 80);
 
         const now = Date.now();
-        const duration = 10000; // 10s strict
+        const duration = 8000; // 8s strict
         // If progress is at 0, we start from now. If progress > 0, we offset.
         const elapsedSoFar = (unlockProgress / 100) * duration;
         startTimeRef.current = now - elapsedSoFar;
@@ -408,26 +408,11 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <div
-                        ref={containerRef}
-                        className="relative w-full max-w-sm md:max-w-md mx-auto aspect-[3/4] cursor-pointer group perspective-1000 select-none touch-none rounded-2xl overflow-hidden"
-                        style={{ WebkitTouchCallout: 'none' }}
-                        onContextMenu={(e) => e.preventDefault()}
-                        onMouseDown={startDecryption}
-                        onMouseUp={stopDecryption}
-                        onMouseLeave={stopDecryption}
-                        onTouchStart={startDecryption}
-                        onTouchEnd={stopDecryption}
-                    >
-                        {/* PHANTOM IMAGE: Maintans spacing with fixed aspect ratio */}
-                        <img src={ProfileImage} alt="Spacer" className="w-full h-full opacity-0 pointer-events-none absolute inset-0 z-0 block object-cover" aria-hidden="true" />
-
-
-
-                        {/* Decryption Progress */}
+                    <div className="relative w-full max-w-sm md:max-w-md mx-auto">
+                        {/* Decryption Progress - OUTSIDE overflow container */}
                         {isShattered && !isUnlocked && (
                             <motion.div
-                                className="absolute -top-24 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
+                                className="absolute -top-24 left-0 right-0 z-[110] flex flex-col items-center pointer-events-none"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                             >
@@ -448,145 +433,160 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             </motion.div>
                         )}
 
-                        {/* Underlay: Personal Profile - HIDDEN until unlocked */}
-                        <div className="absolute inset-0 w-full h-full shadow-2xl bg-black transform-gpu">
+                        <div
+                            ref={containerRef}
+                            className="relative w-full aspect-[3/4] cursor-pointer group perspective-1000 select-none touch-none rounded-2xl overflow-hidden shadow-2xl"
+                            style={{ WebkitTouchCallout: 'none' }}
+                            onContextMenu={(e) => e.preventDefault()}
+                            onMouseDown={startDecryption}
+                            onMouseUp={stopDecryption}
+                            onMouseLeave={stopDecryption}
+                            onTouchStart={startDecryption}
+                            onTouchEnd={stopDecryption}
+                        >
+                            {/* PHANTOM IMAGE: Maintans spacing with fixed aspect ratio */}
+                            <img src={ProfileImage} alt="Spacer" className="w-full h-full opacity-0 pointer-events-none absolute inset-0 z-0 block object-cover" aria-hidden="true" />
+
+                            {/* Underlay: Personal Profile - HIDDEN until unlocked */}
+                            <div className="absolute inset-0 w-full h-full shadow-2xl bg-black transform-gpu">
+                                <motion.img
+                                    src={ProfileImagePersonal}
+                                    alt="Personal Profile"
+                                    className="w-full h-full object-cover"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: isUnlocked ? 0.8 : 0 }} // Reveal only when unlocked
+                                />
+                                {isUnlocked && <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="text-center"
+                                    >
+                                        <div className="p-4 rounded-full bg-green-500/20 border border-green-500/50 mb-4 inline-flex">
+                                            <Unlock size={32} className="text-green-500" />
+                                        </div>
+                                        <div className="text-white font-mono font-bold text-xl tracking-widest drop-shadow-lg">ACCESS GRANTED</div>
+                                    </motion.div>
+                                </div>}
+                            </div>
+
+                            {/* Overlay: Work Profile (Static) */}
                             <motion.img
-                                src={ProfileImagePersonal}
-                                alt="Personal Profile"
-                                className="w-full h-full object-cover"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: isUnlocked ? 0.8 : 0 }} // Reveal only when unlocked
+                                src={ProfileImage}
+                                alt="Profile"
+                                className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
+                                style={{
+                                    opacity: isShattered ? 0 : 1,
+                                    scale: isPressing ? 1.05 : 1
+                                }}
                             />
-                            {isUnlocked && <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    className="text-center"
-                                >
-                                    <div className="p-4 rounded-full bg-green-500/20 border border-green-500/50 mb-4 inline-flex">
-                                        <Unlock size={32} className="text-green-500" />
-                                    </div>
-                                    <div className="text-white font-mono font-bold text-xl tracking-widest drop-shadow-lg">ACCESS GRANTED</div>
-                                </motion.div>
-                            </div>}
-                        </div>
 
-                        {/* Overlay: Work Profile (Static) */}
-                        <motion.img
-                            src={ProfileImage}
-                            alt="Profile"
-                            className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
-                            style={{
-                                opacity: isShattered ? 0 : 1,
-                                scale: isPressing ? 1.05 : 1
-                            }}
-                        />
+                            {/* MATRIX SHARDS - DIRECTLY IN DOM (No Portal) */}
+                            {isShattered && (
+                                <div className="absolute inset-0 z-[100] pointer-events-none perspective-[2000px]">
+                                    {shards.map((shard) => {
+                                        if (!containerRect) return null;
 
-                        {/* MATRIX SHARDS - DIRECTLY IN DOM (No Portal) */}
-                        {isShattered && (
-                            <div className="absolute inset-0 z-[100] pointer-events-none perspective-[2000px] rounded-2xl overflow-hidden">
-                                {shards.map((shard) => {
-                                    if (!containerRect) return null;
+                                        // Local Grid Position (relative to this container)
+                                        const shardWidth = "5%";
+                                        const shardHeight = "5%";
+                                        const targetX = shard.col * (containerRect.width / gridSize);
+                                        const targetY = shard.row * (containerRect.height / gridSize);
+                                        const bgX = targetX;
+                                        const bgY = targetY;
 
-                                    // Local Grid Position (relative to this container)
-                                    const shardWidth = "5%";
-                                    const shardHeight = "5%";
-                                    const targetX = shard.col * (containerRect.width / gridSize);
-                                    const targetY = shard.row * (containerRect.height / gridSize);
-                                    const bgX = targetX;
-                                    const bgY = targetY;
+                                        // Local Grid Position relative to cell (which is already at shard.col * 5%)
+                                        // 0% = Grid (x:0, y:0)
+                                        // 100% = Chaos (x:relChaosX, y:relChaosY)
+                                        const relChaosX = shard.chaosX - targetX;
+                                        const relChaosY = shard.chaosY - targetY;
 
-                                    // Local Grid Position relative to cell (which is already at shard.col * 5%)
-                                    // 0% = Grid (x:0, y:0)
-                                    // 100% = Chaos (x:relChaosX, y:relChaosY)
-                                    const relChaosX = shard.chaosX - targetX;
-                                    const relChaosY = shard.chaosY - targetY;
+                                        const t = unlockProgress / 100;
+                                        const currentX = relChaosX * t;
+                                        const currentY = relChaosY * t;
+                                        const currentZ = shard.chaosZ * t;
 
-                                    const t = unlockProgress / 100;
-                                    const currentX = relChaosX * t;
-                                    const currentY = relChaosY * t;
-                                    const currentZ = shard.chaosZ * t;
-
-                                    return (
-                                        <motion.div
-                                            key={shard.id}
-                                            className="absolute bg-no-repeat backface-hidden"
-                                            style={{
-                                                width: shardWidth,
-                                                height: shardHeight,
-                                                transformStyle: 'preserve-3d',
-                                                top: `${shard.row * 5}%`,
-                                                left: `${shard.col * 5}%`
-                                            }}
-                                            initial={{ x: 0, y: 0, z: 0, rotateY: 0, opacity: 1 }}
-                                            animate={(() => {
-                                                switch (interactionStage) {
-                                                    case 'breaking-grid':
-                                                        return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
-                                                    case 'breaking-disperse':
-                                                    case 'shattered':
-                                                        return {
-                                                            x: isPressing ? [currentX, currentX + Math.sin(shard.id) * 20, currentX] : currentX,
-                                                            y: isPressing ? [currentY, currentY + Math.cos(shard.id) * 20, currentY] : currentY,
-                                                            z: currentZ,
-                                                            rotateY: isPressing ? [180, 0, 180] : 180, // TUMBLE while pressing
-                                                            opacity: 1,
-                                                            scale: isPressing ? 1.1 : 1.2
-                                                        };
-                                                    case 'reverting-grid':
-                                                        return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
-                                                    case 'reverting-flip':
-                                                        return { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1 };
-                                                    case 'unlock-grid':
-                                                        return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
-                                                    case 'unlock-flip':
-                                                        return { x: 0, y: 0, z: 0, rotateY: 360, opacity: 1 };
-                                                    case 'unlock-disperse':
-                                                        return {
-                                                            x: relChaosX * 3,
-                                                            y: relChaosY * 3,
-                                                            z: 500,
-                                                            rotateY: 720,
-                                                            opacity: 0,
-                                                            scale: 0.5
-                                                        };
-                                                    default:
-                                                        return { x: 0, y: 0, rotateY: 0, opacity: 1 };
-                                                }
-                                            })()}
-                                            transition={{
-                                                duration: interactionStage.includes('grid') || interactionStage.includes('flip') ? 0.6 : 0.8,
-                                                ease: "easeInOut",
-                                                repeat: isPressing && interactionStage === 'shattered' ? Infinity : 0,
-                                                repeatType: "reverse"
-                                            }}
-                                        >
-                                            <div
-                                                className="absolute inset-0 bg-no-repeat backface-hidden"
+                                        return (
+                                            <motion.div
+                                                key={shard.id}
+                                                className="absolute bg-no-repeat backface-hidden"
                                                 style={{
-                                                    backgroundImage: `url(${interactionStage.startsWith('unlock') ? ProfileImagePersonal : ProfileImage})`,
-                                                    backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
-                                                    backgroundPosition: `-${bgX}px -${bgY}px`,
-                                                    outline: '1px solid transparent'
+                                                    width: shardWidth,
+                                                    height: shardHeight,
+                                                    transformStyle: 'preserve-3d',
+                                                    top: `${shard.row * 5}%`,
+                                                    left: `${shard.col * 5}%`
                                                 }}
-                                            />
-                                            <div
-                                                className="absolute inset-0 bg-black text-green-500 font-mono font-bold flex items-center justify-center text-[8px] md:text-[10px] backface-hidden"
-                                                style={{
-                                                    transform: 'rotateY(180deg)',
-                                                    border: '1px solid rgba(0, 255, 0, 0.1)'
+                                                initial={{ x: 0, y: 0, z: 0, rotateY: 0, opacity: 1 }}
+                                                animate={(() => {
+                                                    switch (interactionStage) {
+                                                        case 'breaking-grid':
+                                                            return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
+                                                        case 'breaking-disperse':
+                                                        case 'shattered':
+                                                            return {
+                                                                x: isPressing ? [currentX, currentX + Math.sin(shard.id) * 20, currentX] : currentX,
+                                                                y: isPressing ? [currentY, currentY + Math.cos(shard.id) * 20, currentY] : currentY,
+                                                                z: currentZ,
+                                                                rotateY: isPressing ? [180, 0, 180] : 180, // TUMBLE while pressing
+                                                                opacity: 1,
+                                                                scale: isPressing ? 1.1 : 1.2
+                                                            };
+                                                        case 'reverting-grid':
+                                                            return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
+                                                        case 'reverting-flip':
+                                                            return { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1 };
+                                                        case 'unlock-grid':
+                                                            return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
+                                                        case 'unlock-flip':
+                                                            return { x: 0, y: 0, z: 0, rotateY: 360, opacity: 1 };
+                                                        case 'unlock-disperse':
+                                                            return {
+                                                                x: relChaosX * 3,
+                                                                y: relChaosY * 3,
+                                                                z: 500,
+                                                                rotateY: 720,
+                                                                opacity: 0,
+                                                                scale: 0.5
+                                                            };
+                                                        default:
+                                                            return { x: 0, y: 0, rotateY: 0, opacity: 1 };
+                                                    }
+                                                })()}
+                                                transition={{
+                                                    duration: interactionStage.includes('grid') || interactionStage.includes('flip') ? 0.6 : 0.8,
+                                                    ease: "easeInOut",
+                                                    repeat: isPressing && interactionStage === 'shattered' ? Infinity : 0,
+                                                    repeatType: "reverse"
                                                 }}
                                             >
-                                                {isPressing || interactionStage === 'shattered' || interactionStage.includes('grid')
-                                                    ? "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890".charAt(Math.floor(Math.random() * 56 + scrambleTick) % 56)
-                                                    : shard.char
-                                                }
-                                            </div>
-                                        </motion.div>
-                                    );
-                                })}
-                            </div>
-                        )}
+                                                <div
+                                                    className="absolute inset-0 bg-no-repeat backface-hidden"
+                                                    style={{
+                                                        backgroundImage: `url(${interactionStage.startsWith('unlock') ? ProfileImagePersonal : ProfileImage})`,
+                                                        backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
+                                                        backgroundPosition: `-${bgX}px -${bgY}px`,
+                                                        outline: '1px solid transparent'
+                                                    }}
+                                                />
+                                                <div
+                                                    className="absolute inset-0 bg-black text-green-500 font-mono font-bold flex items-center justify-center text-[8px] md:text-[10px] backface-hidden"
+                                                    style={{
+                                                        transform: 'rotateY(180deg)',
+                                                        border: '1px solid rgba(0, 255, 0, 0.1)'
+                                                    }}
+                                                >
+                                                    {isPressing || interactionStage === 'shattered' || interactionStage.includes('grid')
+                                                        ? "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890".charAt(Math.floor(Math.random() * 56 + scrambleTick) % 56)
+                                                        : shard.char
+                                                    }
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </motion.div>
             </div>
