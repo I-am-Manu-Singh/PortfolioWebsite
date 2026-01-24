@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { createPortal } from 'react-dom';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock, Code } from 'lucide-react';
@@ -9,7 +8,6 @@ const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.png`;
 import SectionBackground from './SectionBackground';
 import ResumePreview from './ResumePreview';
 
-// ... (Variants remain same)
 const letterContainerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -45,8 +43,6 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [isPressing, setIsPressing] = useState(false);
 
-    // Portal Target (Body)
-    const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
     // Container Ref for "Assembly" Target Coordinates
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
@@ -57,19 +53,17 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const textControls = useAnimation();
 
     useEffect(() => {
-        setPortalTarget(document.body);
         // Initial measurement
         const measure = () => {
             if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
         };
-        measure();
+        // Delay slightly for layout stability
+        setTimeout(measure, 500);
         window.addEventListener('resize', measure);
-        window.addEventListener('scroll', measure);
         return () => {
             window.removeEventListener('resize', measure);
-            window.removeEventListener('scroll', measure);
         };
-    }, []);
+    }, [isShattered]);
 
     const triggerUnlock = async () => {
         setIsUnlocked(true);
@@ -84,23 +78,41 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const handleTap = () => {
         if (!isShattered && !isUnlocked) {
             setIsShattered(true);
-            // Measure again to be sure
-            if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
+            setTimeout(() => {
+                if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
+            }, 100);
         }
     };
+
+    // State for decay animation
+    const decayTimerRef = useRef<number | null>(null);
 
     const startDecryption = () => {
         if (!isShattered || isUnlocked) return;
 
+        // Stop any active decay
+        if (decayTimerRef.current) cancelAnimationFrame(decayTimerRef.current);
+
         setIsPressing(true);
-        startTimeRef.current = Date.now();
-        const initialProgress = unlockProgress;
-        const totalDuration = 10000; // 10s
+        // We DON'T reset start time if continuing, but for "Linear 0-100", we need a reference.
+        // To support "Hold from 50%", we need to track accumulated time or calculate start time backwards.
+        // Simpler approach for "Strict 10s": You must hold for 10s *total duration*.
+        // If we want it to resume, we calculate a "virtual" start time based on current progress.
+
+        // Calculate virtual start time so progress is continuous
+        // progress = (now - startTime) / 10000 * 100
+        // (now - startTime) = (progress / 100) * 10000
+        // startTime = now - (progress / 100) * 10000
+
+        const now = Date.now();
+        const duration = 10000; // 10s strict
+        const elapsedSoFar = (unlockProgress / 100) * duration;
+        startTimeRef.current = now - elapsedSoFar;
 
         const animate = () => {
-            const now = Date.now();
-            const elapsed = now - (startTimeRef.current || now);
-            const progress = Math.min(initialProgress + (elapsed / totalDuration) * 100, 100);
+            const currentTime = Date.now();
+            const elapsed = currentTime - (startTimeRef.current || currentTime);
+            const progress = Math.min((elapsed / duration) * 100, 100);
 
             setUnlockProgress(progress);
 
@@ -115,9 +127,38 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
     const stopDecryption = () => {
         if (isUnlocked) return;
+
         setIsPressing(false);
         if (pressTimerRef.current) cancelAnimationFrame(pressTimerRef.current);
-        setUnlockProgress(0);
+
+        // STRICT REQUIREMENT: "Show % increments strictly... no premature revealing"
+        // Implicitly, if they let go, it scatters again (Entropy).
+        // I will implement a fast decay so they lose progress if they don't commit.
+
+        const startDecay = () => {
+            // Decay from current progress to 0 over 1 second (Fast punishment)
+            const initialProgress = unlockProgress; // Capture current
+            // We need a separate start time for decay
+            const decayStart = Date.now();
+            const decayDuration = 1000; // 1s to lose all progress
+
+            const animateDecay = () => {
+                const now = Date.now();
+                const decayElapsed = now - decayStart;
+                // Linear interpolation from initial -> 0
+                // current = initial * (1 - elapsed/duration)
+                const newProgress = Math.max(initialProgress * (1 - decayElapsed / decayDuration), 0);
+
+                setUnlockProgress(newProgress);
+
+                if (newProgress > 0) {
+                    decayTimerRef.current = requestAnimationFrame(animateDecay);
+                }
+            };
+            decayTimerRef.current = requestAnimationFrame(animateDecay);
+        };
+
+        startDecay();
     };
 
     useEffect(() => {
@@ -128,6 +169,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
         return () => {
             if (pressTimerRef.current) cancelAnimationFrame(pressTimerRef.current);
+            if (decayTimerRef.current) cancelAnimationFrame(decayTimerRef.current);
         }
     }, []);
 
@@ -137,17 +179,18 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         row: Math.floor(i / 32),
         col: i % 32,
         char: String.fromCharCode(0x30A0 + Math.random() * 96),
-        // Random "Chaos" Initial Position (Fixed Screen Coords)
-        chaosX: Math.random() * window.innerWidth,
-        chaosY: Math.random() * window.innerHeight,
-        chaosZ: (Math.random() - 0.5) * 500
+        // Random "Chaos" Initial Position (Relative to Hero Section now)
+        // Spread wider than container to cover "Name to Socials"
+        chaosX: (Math.random() - 0.5) * 1500, // Spread across screen width
+        chaosY: (Math.random() - 0.5) * 1000, // Spread vertically
+        chaosZ: (Math.random() - 0.5) * 800
     })), []);
 
     return (
-        <section className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0" id="hero">
+        <section className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0 perspective-1000" id="hero">
             <SectionBackground variant="hero" />
 
-            <div className="container max-w-6xl mx-auto z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="container max-w-6xl mx-auto z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
                 <motion.div
                     className="order-2 md:order-1"
                     initial="hidden"
@@ -192,7 +235,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                         {resumeData.basics.summary}
                     </p>
 
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-4 z-20 relative">
                         <motion.a
                             href={`mailto:${resumeData.basics.email}`}
                             className="group px-8 py-3 bg-transparent border border-primary text-primary hover:bg-primary/10 rounded-full font-mono transition-all flex items-center gap-2 overflow-hidden relative"
@@ -221,7 +264,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                             </motion.div>
                         )}
                     </div>
-                    <div className="mt-12 flex gap-6">
+                    <div className="mt-12 flex gap-6 z-20 relative">
                         {resumeData.basics.profiles.map((profile, index) => (
                             <motion.a
                                 key={index}
@@ -259,7 +302,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                         onTouchStart={startDecryption}
                         onTouchEnd={stopDecryption}
                     >
-                        {/* PHANTOM IMAGE */}
+                        {/* PHANTOM IMAGE: Maintans spacing */}
                         <img src={ProfileImage} alt="Spacer" className="w-full h-auto opacity-0 pointer-events-none relative z-0 block" aria-hidden="true" />
 
                         {/* Status / Hint Overlay */}
@@ -275,7 +318,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                             </motion.div>
                         )}
 
-                        {/* Decryption Progress (Global Overlay or Local?) Let's keep local but visible */}
+                        {/* Decryption Progress */}
                         {isShattered && !isUnlocked && (
                             <motion.div
                                 className="absolute -top-24 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
@@ -285,7 +328,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                 <div className="relative w-56 p-4 bg-black/90 backdrop-blur-lg border border-green-500/40 rounded-lg shadow-[0_0_30px_rgba(34,197,94,0.4)]">
                                     <div className="flex justify-between items-end mb-2">
                                         <span className="text-[10px] text-green-500/80 font-mono tracking-widest">REASSEMBLING...</span>
-                                        <span className="text-xl font-bold font-mono text-green-500 tabular-nums">{unlockProgress.toFixed(2)}%</span>
+                                        <span className="text-xl font-bold font-mono text-green-500 tabular-nums">{unlockProgress.toFixed(0)}%</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-gray-900 rounded-full overflow-hidden">
                                         <motion.div
@@ -297,13 +340,19 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                             </motion.div>
                         )}
 
-                        {/* Underlay: Personal Profile */}
+                        {/* Underlay: Personal Profile - HIDDEN until unlocked */}
                         <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-black transform-gpu">
-                            <img src={ProfileImagePersonal} alt="Personal Profile" className="w-full h-full object-cover opacity-80" />
-                            <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
+                            <motion.img
+                                src={ProfileImagePersonal}
+                                alt="Personal Profile"
+                                className="w-full h-full object-cover"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: isUnlocked ? 0.8 : 0 }} // Reveal only when unlocked
+                            />
+                            {isUnlocked && <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={isUnlocked ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
                                     className="text-center"
                                 >
                                     <div className="p-4 rounded-full bg-green-500/20 border border-green-500/50 mb-4 inline-flex">
@@ -311,7 +360,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                     </div>
                                     <div className="text-white font-mono font-bold text-xl tracking-widest drop-shadow-lg">ACCESS GRANTED</div>
                                 </motion.div>
-                            </div>
+                            </div>}
                         </div>
 
                         {/* Overlay: Work Profile (Static) */}
@@ -327,18 +376,18 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                             )}
                         </AnimatePresence>
 
-                        {/* MATRIX SHARDS PORTAL */}
-                        {isShattered && portalTarget && createPortal(
-                            <div className="fixed inset-0 w-screen h-screen z-[9999] pointer-events-none perspective-[2000px] overflow-hidden">
+                        {/* MATRIX SHARDS - DIRECTLY IN DOM (No Portal) */}
+                        {isShattered && (
+                            <div className="absolute top-0 left-0 w-full h-full z-[100] pointer-events-none perspective-[2000px]">
                                 {shards.map((shard) => {
-                                    // Calculate "Target" position (grid assembly) if we want to reform image
-                                    // We need to map shard row/col to screen coordinates based on containerRect
                                     if (!containerRect) return null;
 
+                                    // Local Grid Position (relative to this container)
+                                    // 32x32 Grid
                                     const shardWidth = containerRect.width / 32;
                                     const shardHeight = containerRect.height / 32;
-                                    const targetX = containerRect.left + (shard.col * shardWidth);
-                                    const targetY = containerRect.top + (shard.row * shardHeight);
+                                    const targetX = shard.col * shardWidth;
+                                    const targetY = shard.row * shardHeight;
 
                                     return (
                                         <motion.div
@@ -348,7 +397,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 width: shardWidth,
                                                 height: shardHeight,
                                                 transformStyle: 'preserve-3d',
-                                                // Default: Chaos
+                                                top: 0,
+                                                left: 0
                                             }}
                                             initial={{
                                                 x: shard.chaosX,
@@ -356,48 +406,55 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 z: shard.chaosZ,
                                                 rotateX: Math.random() * 360,
                                                 rotateY: Math.random() * 360,
-                                                opacity: 0
+                                                opacity: 0,
+                                                scale: 2
                                             }}
                                             animate={isUnlocked ? {
-                                                opacity: 0, // Vanish on unlock
+                                                opacity: 0, // Vanish
                                             } : {
                                                 opacity: 1,
-                                                // If Pressing: Converge to Target
-                                                x: isPressing ? targetX : [shard.chaosX, shard.chaosX + (Math.random() - 0.5) * 100, shard.chaosX],
-                                                y: isPressing ? targetY : [shard.chaosY, shard.chaosY + (Math.random() - 0.5) * 100, shard.chaosY],
-                                                z: isPressing ? 0 : [shard.chaosZ, shard.chaosZ + (Math.random() - 0.5) * 100, shard.chaosZ],
-                                                // If Pressing: Flip to show Image
+                                                // Sync: 10s linear interpolation to 0,0,0
+                                                x: isPressing ? targetX : shard.chaosX,
+                                                y: isPressing ? targetY : shard.chaosY,
+                                                z: isPressing ? 0 : shard.chaosZ,
+                                                // Flip to Image (180deg)
                                                 rotateX: isPressing ? 0 : [0, 360],
                                                 rotateY: isPressing ? 180 : [0, 360],
-                                                scale: isPressing ? 1.05 : 1
+                                                scale: isPressing ? 1 : 1.5
                                             }}
                                             transition={{
-                                                duration: isPressing ? 0.8 : 10 + Math.random() * 10,
-                                                ease: isPressing ? "circOut" : "linear",
-                                                repeat: isPressing ? 0 : Infinity,
-                                                repeatType: "mirror"
+                                                // KEY: Match 10s timer exactly for linear build-up
+                                                duration: isPressing ? 10 : 2,
+                                                ease: isPressing ? "linear" : "circOut",
                                             }}
                                         >
                                             {/* FRONT FACE: Matrix Code */}
-                                            <div className="absolute inset-0 bg-transparent text-green-500 font-mono font-bold flex items-center justify-center text-[10px] backface-hidden shadow-[0_0_5px_rgba(0,255,0,0.5)]">
+                                            <div className="absolute inset-0 bg-transparent text-green-500 font-mono font-bold flex items-center justify-center text-[10px] backface-hidden shadow-[0_0_2px_rgba(0,255,0,0.8)]">
                                                 {shard.char}
                                             </div>
 
-                                            {/* BACK FACE: Image Slice (for Reassembly) */}
+                                            {/* BACK FACE: Image Slice (Revealed slowly as it rotates 180deg over 10s) */}
                                             <div
                                                 className="absolute inset-0 bg-no-repeat backface-hidden"
                                                 style={{
-                                                    backgroundImage: `url(${ProfileImage})`,
-                                                    backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
-                                                    backgroundPosition: `-${shard.col * shardWidth}px -${shard.row * shardHeight}px`,
-                                                    transform: 'rotateY(180deg)' // Back face rotated
+                                                    backgroundColor: 'rgba(0, 20, 0, 0.9)',
+                                                    border: '1px solid rgba(0, 255, 0, 0.3)',
+                                                    transform: 'rotateY(180deg)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    color: 'rgba(0, 255, 0, 0.5)',
+                                                    fontSize: '8px',
+                                                    fontFamily: 'monospace'
                                                 }}
-                                            />
+                                            >
+                                                {/* Encrypted Data Look */}
+                                                {String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96))}
+                                            </div>
                                         </motion.div>
                                     );
                                 })}
-                            </div>,
-                            portalTarget
+                            </div>
                         )}
 
                     </div>

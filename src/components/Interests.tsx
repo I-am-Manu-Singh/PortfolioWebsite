@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Instagram } from 'lucide-react';
 
 import SectionBackground from './SectionBackground';
-import SpotifyPlayer from './SpotifyPlayer';
 
 const Interests: React.FC = () => {
     return (
@@ -35,33 +34,7 @@ const Interests: React.FC = () => {
 
                 <div className="space-y-12">
                     {/* SPOTIFY PLAYER SECTION */}
-                    <div className="relative mb-20">
-                        {/* Floating Caricatures - Positioning relative to the player */}
-                        {/* Piano - Left side */}
-                        <motion.img
-                            src={`${import.meta.env.BASE_URL}caricature_piano.png`}
-                            alt="Pianist"
-                            className="absolute -left-10 md:-left-20 top-20 w-32 md:w-56 drop-shadow-2xl z-20 pointer-events-none opacity-80" // Reduced opacity here
-                            initial={{ x: -100, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 0.8 }} // Animate to 0.8
-                            viewport={{ once: true }}
-                            animate={{ y: [0, 10, 0], rotate: [0, 2, 0] }}
-                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                        {/* Guitar - Right side */}
-                        <motion.img
-                            src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
-                            alt="Guitarist"
-                            className="absolute -right-10 md:-right-20 bottom-20 w-32 md:w-56 drop-shadow-2xl z-20 pointer-events-none opacity-80" // Reduced opacity here
-                            initial={{ x: 100, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 0.8 }} // Animate to 0.8
-                            viewport={{ once: true }}
-                            animate={{ y: [0, -10, 0], rotate: [0, -2, 0] }}
-                            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                        />
-
-                        <SpotifyPlayer />
-                    </div>
+                    {/* SPOTIFY PLAYER MOVED TO SOCIALS */}
 
 
                     {/* Spacer to visually separate YouTube/Music from Instagram */}
