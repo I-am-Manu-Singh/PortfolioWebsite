@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Instagram } from 'lucide-react';
+import { Youtube, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
 
 
@@ -46,7 +46,7 @@ const Socials: React.FC<SocialsProps> = () => {
                             {/* YouTube */}
                             <a href={resumeData.youtube.channel} target="_blank" className="flex-1 min-w-[140px] bg-red-600/10 border border-red-500/30 hover:bg-red-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
                                 <div className="p-2 bg-red-600 text-white rounded-full group-hover:scale-110 transition-transform">
-                                    <Music size={20} />
+                                    <Youtube size={20} />
                                 </div>
                                 <div className="text-center">
                                     <div className="text-xl font-bold text-white group-hover:text-red-400">Subscribe</div>
@@ -149,12 +149,13 @@ const Socials: React.FC<SocialsProps> = () => {
                                     {category.title}
                                 </h3>
 
-                                {/* Caricature Placement - Visible, Floating, Boardered */}
+                                {/* Caricature Placement - Visible, Floating, Boardered, Behind Header */}
                                 {category.title.toLowerCase().includes('guitar') && (
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
                                         alt="Guitarist"
-                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-20 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        style={{ zIndex: 0 }} // Ensure behind header which should have z-10
                                         animate={{
                                             rotate: [0, 5, 0],
                                             y: [0, -10, 0]
@@ -167,7 +168,8 @@ const Socials: React.FC<SocialsProps> = () => {
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_piano.png`}
                                         alt="Pianist"
-                                        className="absolute right-0 -top-12 w-24 md:w-40 object-contain z-20 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        className="absolute right-0 -top-12 w-24 md:w-40 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        style={{ zIndex: 0 }}
                                         animate={{
                                             rotate: [0, -3, 0],
                                             y: [0, -12, 0]
@@ -180,7 +182,8 @@ const Socials: React.FC<SocialsProps> = () => {
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_singing.png`}
                                         alt="Singer"
-                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-20 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        style={{ zIndex: 0 }}
                                         animate={{
                                             y: [0, -15, 0],
                                             rotate: [0, 2, 0]
@@ -192,7 +195,7 @@ const Socials: React.FC<SocialsProps> = () => {
                             </div>
 
                             {/* Changed to 3 columns for smaller thumbnails */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pr-0 lg:pr-48">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pr-0 lg:pr-48 relative z-20">
                                 {category.playlists.map((playlist: any, pIdx: number) => (
                                     <motion.div
                                         key={pIdx}
@@ -217,7 +220,7 @@ const Socials: React.FC<SocialsProps> = () => {
                                         <div className="p-4 bg-white/5 flex justify-between items-center whitespace-normal">
                                             <h4 className="font-bold text-text group-hover:text-primary transition-colors text-sm line-clamp-2">{playlist.title}</h4>
                                             <div className="p-2 bg-red-600 rounded-full scale-75 flex-shrink-0">
-                                                <Music size={16} className="text-white" />
+                                                <Youtube size={16} className="text-white" />
                                             </div>
                                         </div>
                                     </motion.div>

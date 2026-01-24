@@ -95,7 +95,7 @@ const Interests: React.FC = () => {
                                             <img
                                                 src={`${import.meta.env.BASE_URL}caricature_piano.png`}
                                                 alt="Pianist"
-                                                className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                                                className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10"
                                             />
                                         </motion.div>
                                     )}
@@ -113,7 +113,7 @@ const Interests: React.FC = () => {
                                             <img
                                                 src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
                                                 alt="Guitarist"
-                                                className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                                                className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10"
                                             />
                                         </motion.div>
                                     )}
