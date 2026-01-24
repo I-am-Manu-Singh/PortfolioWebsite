@@ -195,44 +195,41 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         if (pressTimerRef.current) cancelAnimationFrame(pressTimerRef.current);
         if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
 
-        const startDecay = () => {
-            const initialProgress = unlockProgress;
-            const decayStart = Date.now();
-            const decayDuration = 800; // 1s to lose all progress
+        // STAGE 1 REVERT: Pull to Grid instantly on release
+        if (isShattered) {
+            setIsReverting(true);
+            setInteractionStage('reverting-grid');
 
-            const animateDecay = () => {
-                const now = Date.now();
-                const decayElapsed = now - decayStart;
-                const newProgress = Math.max(initialProgress * (1 - decayElapsed / decayDuration), 0);
+            const startDecay = () => {
+                const initialProgress = unlockProgress;
+                const decayStart = Date.now();
+                const decayDuration = 800; // 0.8s to re-align
 
-                setUnlockProgress(newProgress);
+                const animateDecay = () => {
+                    const now = Date.now();
+                    const decayElapsed = now - decayStart;
+                    const newProgress = Math.max(initialProgress * (1 - decayElapsed / decayDuration), 0);
 
-                if (newProgress > 0) {
-                    decayTimerRef.current = requestAnimationFrame(animateDecay);
-                } else {
-                    // Revert Condition: Progress reached 0
-                    if (isShattered) {
-                        setIsReverting(true);
-                        // Stage 1: Pull back to grid
-                        setInteractionStage('reverting-grid');
+                    setUnlockProgress(newProgress);
+
+                    if (newProgress > 0) {
+                        decayTimerRef.current = requestAnimationFrame(animateDecay);
+                    } else {
+                        // STAGE 2 REVERT: Once at 0, flip back to photo
+                        setInteractionStage('reverting-flip');
 
                         setTimeout(() => {
-                            // Stage 2: Flip back to photo
-                            setInteractionStage('reverting-flip');
-
-                            setTimeout(() => {
-                                setIsShattered(false);
-                                setIsReverting(false);
-                                setInteractionStage('idle');
-                            }, 600);
+                            setIsShattered(false);
+                            setIsReverting(false);
+                            setInteractionStage('idle');
                         }, 800);
                     }
-                }
+                };
+                decayTimerRef.current = requestAnimationFrame(animateDecay);
             };
-            decayTimerRef.current = requestAnimationFrame(animateDecay);
-        };
 
-        startDecay();
+            startDecay();
+        }
     };
 
     useEffect(() => {
@@ -493,7 +490,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                             x: isPressing ? [currentX, currentX + Math.sin(shard.id) * 20, currentX] : currentX,
                                                             y: isPressing ? [currentY, currentY + Math.cos(shard.id) * 20, currentY] : currentY,
                                                             z: currentZ,
-                                                            rotateY: 180,
+                                                            rotateY: isPressing ? [180, 0, 180] : 180, // TUMBLE while pressing
                                                             opacity: 1,
                                                             scale: isPressing ? 1.1 : 1.2
                                                         };

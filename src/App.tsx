@@ -46,10 +46,9 @@ function App() {
             initial={false}
             animate={{
               opacity: activeTab === 'work' ? 1 : 0,
-              visibility: activeTab === 'work' ? 'visible' : 'hidden', // Still hide from pointer if not active
               pointerEvents: activeTab === 'work' ? 'auto' : 'none'
             }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
             className="z-10 relative"
           >
             <Hero setActiveTab={setActiveTab} />
@@ -63,16 +62,23 @@ function App() {
             <Testimonials />
           </motion.div>
 
-          {/* Personal Content Layer - Slides up or Fades in underneath */}
+          {/* Personal Content Layer - Fades in slowly underneath */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{
               opacity: activeTab === 'personal' ? 1 : 0,
               zIndex: activeTab === 'personal' ? 20 : 0
             }}
-            transition={{ duration: 1, delay: activeTab === 'personal' ? 1 : 0 }}
-            className="absolute top-0 left-0 w-full pointer-events-none"
-            style={{ pointerEvents: activeTab === 'personal' ? 'auto' : 'none' }}
+            transition={{
+              duration: 1.5,
+              delay: activeTab === 'personal' ? 0.5 : 0, // Fade in WHILE shards are dispersing
+              ease: "easeOut"
+            }}
+            className="absolute top-0 left-0 w-full"
+            style={{
+              pointerEvents: activeTab === 'personal' ? 'auto' : 'none',
+              visibility: activeTab === 'personal' || activeTab === 'work' ? 'visible' : 'hidden' // Always visible during swap
+            }}
           >
             <Socials />
           </motion.div>
