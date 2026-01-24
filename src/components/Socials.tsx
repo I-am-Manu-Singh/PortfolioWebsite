@@ -19,12 +19,12 @@ const Socials: React.FC<SocialsProps> = () => {
             {/* Background decoration */}
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
 
-            <div className="container max-w-6xl mx-auto relative z-20">
+            <div className="container max-w-6xl mx-auto px-4 md:px-6 relative z-20">
                 {/* Personal Profile Header - Aligned to Hero for perfect overlap */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
                     {/* Left Column: Text & Stats */}
-                    <div className="order-2 lg:order-1 flex flex-col items-start text-left space-y-6">
+                    <div className="order-2 md:order-1 flex flex-col items-start text-left space-y-6">
                         <div className="relative">
                             <motion.div
                                 initial={{ scale: 0, rotate: -20 }}
@@ -75,7 +75,7 @@ const Socials: React.FC<SocialsProps> = () => {
 
 
                     {/* Right Column: Profile Image (Full Body) */}
-                    <div className="order-1 lg:order-2 flex flex-col items-center justify-center relative">
+                    <div className="order-1 md:order-2 flex flex-col items-center justify-center relative">
                         {/* Music Visualizer Effect Above Image */}
                         <div className="flex items-end gap-1 mb-2 h-8 absolute -top-10 left-1/2 transform -translate-x-1/2">
                             {[...Array(12)].map((_, i) => (

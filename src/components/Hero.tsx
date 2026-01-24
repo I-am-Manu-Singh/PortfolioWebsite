@@ -264,7 +264,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         >
             <SectionBackground variant="hero" />
 
-            <div className="container max-w-6xl mx-auto z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
+            <div className="container max-w-6xl mx-auto px-4 md:px-6 z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
                 <motion.div
                     className="order-2 md:order-1"
                     initial="hidden"
