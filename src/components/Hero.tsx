@@ -69,7 +69,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
     const startTimeRef = useRef<number | null>(null);
     const scrambleIntervalRef = useRef<number | null>(null);
     const [scrambleTick, setScrambleTick] = useState(0);
-    const textControls = useAnimation();
+    const textControls = useAnimation(); // Keep for child variants if needed, or remove if unused
 
     // Audio Hook
     const { playCharge, stopCharge, playUnlock, playScatter } = useCyberpunkSound();
@@ -102,6 +102,22 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
         };
     }, []); // Only on mount
 
+    // Unified Variants for robust visibility
+    const containerVariants: Variants = {
+        hidden: { opacity: 0, x: -50 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            transition: { duration: 0.8, ease: "easeOut" }
+        },
+        unlocked: {
+            scale: [1, 1.2, 0],
+            opacity: [1, 1, 0],
+            transition: { duration: 0.5 }
+        }
+    };
+
     // State Lifting: Reset detection
     useEffect(() => {
         if (!isUnlocked) {
@@ -110,9 +126,8 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
             setIsShattered(false);
             setUnlockProgress(0);
             setIsReverting(false);
-            textControls.start("visible"); // Robust restore!
         }
-    }, [isUnlocked, textControls]); // Watch for isUnlocked reset from parent
+    }, [isUnlocked]); // Watch for isUnlocked reset from parent
 
     const triggerUnlock = async () => {
         if (!isPressingRef.current) return; // STRICT CHECK: If they released, don't unlock!
@@ -155,11 +170,6 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
 
         setIsUnlocked(true);
         playUnlock();
-        await textControls.start({
-            scale: [1, 1.2, 0],
-            opacity: [1, 1, 0],
-            transition: { duration: 0.5 }
-        });
         setActiveTab('personal');
     };
 
@@ -261,7 +271,6 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             setIsShattered(false);
                             setIsReverting(false);
                             setInteractionStage('idle');
-                            textControls.start("visible"); // Force restore!
                         }, 1200); // Slower flip reassembly
                     }
                 };
@@ -311,11 +320,8 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                 <motion.div
                     className="order-2 md:order-1"
                     initial="hidden"
-                    animate={textControls}
-                    variants={{
-                        hidden: { opacity: 0, x: -50 },
-                        visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
-                    }}
+                    animate={isUnlocked ? "unlocked" : "visible"}
+                    variants={containerVariants}
                 >
                     <motion.h2
                         className="text-secondary font-mono text-xl md:text-2xl mb-4"
