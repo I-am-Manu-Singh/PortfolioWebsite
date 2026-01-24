@@ -76,17 +76,24 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         // Start entry animation
         textControls.start("visible");
 
-        // Initial measurement
+        // Force measurement for mobile stability
         const measure = () => {
-            if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
+            if (containerRef.current) {
+                const rect = containerRef.current.getBoundingClientRect();
+                setContainerRect(rect);
+            }
         };
-        // Delay slightly for layout stability
-        setTimeout(measure, 500);
+
+        // Measure immediately and after short delay for layout
+        measure();
+        const t = setTimeout(measure, 100);
+
         window.addEventListener('resize', measure);
         return () => {
             window.removeEventListener('resize', measure);
+            clearTimeout(t);
         };
-    }, [isShattered]);
+    }, []); // Only on mount
 
     const triggerUnlock = async () => {
         setIsUnlocked(true);
@@ -103,9 +110,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         if (!isShattered && !isUnlocked && !isReverting) {
             setIsShattered(true);
             playScatter(); // Scatter Sound
-            setTimeout(() => {
-                if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
-            }, 50); // Faster measurement
+            // Rect is already measured on mount, but re-measure for good measure
+            if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
         }
     };
 
@@ -113,7 +119,15 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const decayTimerRef = useRef<number | null>(null);
 
     const startDecryption = () => {
-        if (!isShattered || isUnlocked || isReverting) return;
+        // Handle initial tap logic for mobile (unify)
+        if (!isShattered) {
+            handleTap();
+        }
+
+        if (isUnlocked || isReverting) return;
+
+        // Prevent default only for touch to stop menus, but be careful with scrolling logic
+        // if (e && 'touches' in e) e.preventDefault(); 
 
         // Stop any active decay
         if (decayTimerRef.current) cancelAnimationFrame(decayTimerRef.current);
@@ -320,8 +334,9 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                 >
                     <div
                         ref={containerRef}
-                        className="relative w-full max-w-sm md:max-w-md mx-auto aspect-auto cursor-pointer group perspective-1000 select-none"
-                        onClick={handleTap}
+                        className="relative w-full max-w-sm md:max-w-md mx-auto aspect-auto cursor-pointer group perspective-1000 select-none touch-none"
+                        style={{ WebkitTouchCallout: 'none' }}
+                        onContextMenu={(e) => e.preventDefault()}
                         onMouseDown={startDecryption}
                         onMouseUp={stopDecryption}
                         onMouseLeave={stopDecryption}
@@ -385,8 +400,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                     className="absolute inset-0 z-20 rounded-2xl overflow-hidden shadow-2xl"
                                     exit={{ opacity: 0 }}
                                 >
-                                    <img src={ProfileImage} alt="Work Profile" className="w-full h-full object-cover grayscale contrast-125" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-green-900/20 via-transparent to-transparent opacity-60 mix-blend-overlay" />
+                                    <img src={ProfileImage} alt="Work Profile" className="w-full h-full object-cover shadow-2xl" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-green-900/10 via-transparent to-transparent opacity-40 mix-blend-overlay" />
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -399,8 +414,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
                                     // Local Grid Position (relative to this container)
                                     // 32x32 Grid
-                                    const shardWidth = containerRect.width / 32;
-                                    const shardHeight = containerRect.height / 32;
+                                    const shardWidth = containerRect.width / gridSize;
+                                    const shardHeight = containerRect.height / gridSize;
                                     const targetX = shard.col * shardWidth;
                                     const targetY = shard.row * shardHeight;
 
@@ -459,7 +474,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 {shard.char}
                                             </div>
 
-                                            {/* BACK FACE: Personal Image Slice (Restored) */}
+                                            {/* BACK FACE: Personal Image Slice with Green Tint */}
                                             <div
                                                 className="absolute inset-0 bg-no-repeat backface-hidden"
                                                 style={{
@@ -467,8 +482,11 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                     backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
                                                     backgroundPosition: `-${targetX}px -${targetY}px`,
                                                     transform: 'rotateY(180deg)',
-                                                    opacity: 0.4, // Ghostly opacity as requested
-                                                    boxShadow: 'inset 0 0 5px rgba(0,0,0,0.8)'
+                                                    opacity: 0.8, // Slightly more visible for the green effect
+                                                    // Green Tint: High contrast sepia + hue rotate
+                                                    filter: isPressing ? 'sepia(1) hue-rotate(70deg) saturate(3)' : 'none',
+                                                    boxShadow: 'inset 0 0 5px rgba(0,255,0,0.4)',
+                                                    transition: 'filter 0.5s ease'
                                                 }}
                                             />
                                         </motion.div>

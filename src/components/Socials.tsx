@@ -19,9 +19,9 @@ const Socials: React.FC<SocialsProps> = () => {
             {/* Background decoration */}
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
 
-            <div className="container relative z-20 pt-10 md:pt-12">
-                {/* Personal Profile Header - Redesigned Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12 items-center">
+            <div className="container max-w-6xl mx-auto relative z-20">
+                {/* Personal Profile Header - Redesigned Layout to match Hero for alignment */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[80vh] py-12">
 
                     {/* Left Column: Text & Stats */}
                     <div className="order-2 lg:order-1 flex flex-col items-start text-left space-y-6">
