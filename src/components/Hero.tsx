@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown, Eye } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Eye, Fingerprint, Unlock } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.png`;
@@ -41,12 +41,15 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [visitCount, setVisitCount] = useState<number | null>(null);
 
-    // Complex Particle Shooter Game State
-    const [score, setScore] = useState(0);
-    const [shatteredIndices, setShatteredIndices] = useState<Set<number>>(new Set());
+    // Tap-to-Shatter & Long Press Unlock State
+    const [isShattered, setIsShattered] = useState(false);
+    const [unlockProgress, setUnlockProgress] = useState(0);
+    const [isUnlocked, setIsUnlocked] = useState(false);
+    const pressTimerRef = useRef<number | null>(null);
     const textControls = useAnimation();
 
     const triggerUnlock = async () => {
+        setIsUnlocked(true);
         await textControls.start({
             scale: [1, 1.2, 0],
             opacity: [1, 1, 0],
@@ -55,33 +58,51 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
         setActiveTab('personal');
     };
 
-    const handleShardClick = (index: number) => {
-        if (shatteredIndices.has(index)) return;
-
-        const newSet = new Set(shatteredIndices);
-        newSet.add(index);
-        setShatteredIndices(newSet);
-
-        // Calculate score based on percentage cleared (Total: 144 shards)
-        const newScore = Math.floor((newSet.size / 144) * 100);
-        setScore(newScore);
-
-        if (newSet.size >= 144) {
-            setTimeout(triggerUnlock, 500);
+    // Handle Tap to Shatter
+    const handleTap = () => {
+        if (!isShattered && !isUnlocked) {
+            setIsShattered(true);
         }
     };
 
+    // Handle Long Press for Decryption
+    const startDecryption = () => {
+        if (!isShattered || isUnlocked) return;
+
+        // Clear any existing timer
+        if (pressTimerRef.current) clearInterval(pressTimerRef.current);
+
+        pressTimerRef.current = window.setInterval(() => {
+            setUnlockProgress(prev => {
+                if (prev >= 100) {
+                    if (pressTimerRef.current) clearInterval(pressTimerRef.current);
+                    triggerUnlock();
+                    return 100;
+                }
+                return prev + 2; // Speed of unlock
+            });
+        }, 30); // Validated interval
+    };
+
+    const stopDecryption = () => {
+        if (isUnlocked) return;
+        if (pressTimerRef.current) clearInterval(pressTimerRef.current);
+        setUnlockProgress(0); // Reset on release
+    };
+
     React.useEffect(() => {
-        // Simple visit counter using countapi.xyz
         fetch('https://api.countapi.xyz/hit/manpreet-portfolio-v1/visits')
             .then(res => res.json())
             .then(data => setVisitCount(data.value))
             .catch(err => console.error("CountAPI error:", err));
+
+        return () => {
+            if (pressTimerRef.current) clearInterval(pressTimerRef.current);
+        }
     }, []);
 
     return (
         <section className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0" id="hero">
-            {/* Background Elements */}
             <SectionBackground variant="hero" />
 
             <div className="container max-w-6xl mx-auto z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -181,123 +202,140 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                     </div>
                 </motion.div>
 
-                {/* Profile Image with Complex Particle Shooter Game */}
+                {/* Interactive Profile Area */}
                 <motion.div
                     className="order-1 md:order-2 flex justify-center perspective-1000 relative z-20"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <div className="relative w-full max-w-sm md:max-w-md mx-auto aspect-square md:aspect-auto cursor-crosshair group perspective-1000">
-                        {/* Score Card / Encryption Status */}
-                        {score < 100 && (
+                    <div
+                        className="relative w-full max-w-sm md:max-w-md mx-auto aspect-auto cursor-pointer group perspective-1000 select-none"
+                        onClick={handleTap}
+                        onMouseDown={startDecryption}
+                        onMouseUp={stopDecryption}
+                        onMouseLeave={stopDecryption}
+                        onTouchStart={startDecryption}
+                        onTouchEnd={stopDecryption}
+                    >
+                        {/* Status / Hint Overlay */}
+                        {!isShattered ? (
                             <motion.div
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="absolute -top-16 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
+                                className="absolute inset-0 z-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                                initial={{ scale: 0.9 }}
+                                whileHover={{ scale: 1 }}
                             >
-                                <div className="px-5 py-2 bg-black/80 backdrop-blur-xl border border-primary/50 rounded-full flex items-center gap-3 shadow-[0_0_25px_rgba(14,165,233,0.4)]">
-                                    <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                                    <span className="text-primary font-mono font-bold text-xs tracking-wider">
-                                        ENCRYPTION LVS: {100 - score}%
-                                    </span>
+                                <div className="bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 text-white font-mono text-sm flex items-center gap-2">
+                                    <Fingerprint size={16} className="text-primary animate-pulse" /> TAP TO INITIALIZE
                                 </div>
-                                {/* Glitchy Progress Bar */}
-                                <div className="w-56 h-1 bg-gray-900/50 rounded-full mt-2 overflow-hidden relative">
-                                    <motion.div
-                                        className="h-full bg-gradient-to-r from-primary via-blue-400 to-primary shadow-[0_0_15px_rgba(14,165,233,0.8)] relative"
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${score}%` }}
-                                        transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                                    >
-                                        <div className="absolute inset-0 bg-white/20 w-full h-full animate-pulse" />
-                                    </motion.div>
+                            </motion.div>
+                        ) : !isUnlocked && (
+                            <motion.div
+                                className="absolute -top-16 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                            >
+                                {/* Unlock Progress Ring/Bar */}
+                                <div className="relative w-16 h-16 flex items-center justify-center mb-2">
+                                    <svg className="absolute inset-0 w-full h-full rotate-[-90deg]">
+                                        <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-gray-800" />
+                                        <motion.circle
+                                            cx="32" cy="32" r="28"
+                                            stroke="currentColor" strokeWidth="4" fill="transparent"
+                                            className="text-primary drop-shadow-[0_0_10px_rgba(14,165,233,0.8)]"
+                                            strokeDasharray="176"
+                                            strokeDashoffset={176 - (176 * unlockProgress) / 100}
+                                        />
+                                    </svg>
+                                    <div className="text-xs font-bold font-mono text-primary">{Math.round(unlockProgress)}%</div>
+                                </div>
+                                <div className="text-xs font-mono text-primary/80 tracking-widest animate-pulse">
+                                    HOLD TO DECRYPT
                                 </div>
                             </motion.div>
                         )}
 
-                        {/* Underlay: Personal Profile (Visible through holes) */}
-                        <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-black transform-gpu transition-all duration-700">
+                        {/* Underlay: Personal Profile (The "Secret") */}
+                        <div className="relative w-full h-auto rounded-2xl overflow-hidden shadow-2xl bg-black transform-gpu">
                             <img
                                 src={ProfileImagePersonal}
                                 alt="Personal Profile"
-                                className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700"
+                                className="w-full h-auto object-cover opacity-80"
                             />
                             <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={score === 100 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                                    animate={isUnlocked ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                                     className="text-center"
                                 >
-                                    <div className="text-secondary font-mono font-bold text-2xl mb-2 tracking-widest drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]">
-                                        ACCESS GRANTED
+                                    <div className="p-4 rounded-full bg-green-500/20 border border-green-500/50 mb-4 inline-flex">
+                                        <Unlock size={32} className="text-green-500" />
                                     </div>
-                                    <div className="text-xs text-secondary/70 font-mono tracking-widest">
+                                    <div className="text-white font-mono font-bold text-xl tracking-widest drop-shadow-lg">
                                         IDENTITY VERIFIED
                                     </div>
                                 </motion.div>
                             </div>
                         </div>
 
-                        {/* Overlay: Work Profile Swirling Shards (12x12 Grid = 144 shards) */}
-                        <div className="absolute inset-0 w-full h-full grid grid-cols-12 grid-rows-12 z-20">
-                            {[...Array(144)].map((_, i) => {
-                                const row = Math.floor(i / 12);
-                                const col = i % 12;
-                                const isShattered = shatteredIndices.has(i);
+                        {/* Overlay: Work Profile (The "Mask") */}
+                        {/* If NOT shattered, show full static image */}
+                        {!isShattered && (
+                            <motion.div
+                                className="absolute inset-0 z-20 rounded-2xl overflow-hidden shadow-2xl"
+                                exit={{ opacity: 0 }}
+                            >
+                                <img src={ProfileImage} alt="Work Profile" className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
+                            </motion.div>
+                        )}
 
-                                return (
-                                    <motion.div
-                                        key={i}
-                                        className="w-full h-full bg-no-repeat relative transform-gpu"
-                                        style={{
-                                            backgroundImage: `url(${ProfileImage})`,
-                                            backgroundSize: '1200% 1200%',
-                                            backgroundPosition: `${col * 9.09}% ${row * 9.09}%`,
-                                            backfaceVisibility: 'hidden',
-                                        }}
-                                        initial={{ opacity: 1, scale: 1 }}
-                                        animate={isShattered ? {
-                                            opacity: 0,
-                                            scale: 0,
-                                            z: 500, // Fly towards screen when broken
-                                            rotateX: (Math.random() - 0.5) * 720,
-                                            rotateY: (Math.random() - 0.5) * 720,
-                                            x: (Math.random() - 0.5) * 300,
-                                            y: (Math.random() - 0.5) * 300
-                                        } : {
-                                            opacity: 1,
-                                            z: 0,
-                                            // Chaotic "Swirl" Idle Animation
-                                            x: [0, (Math.random() - 0.5) * 15, (Math.random() - 0.5) * 15, 0],
-                                            y: [0, (Math.random() - 0.5) * 15, (Math.random() - 0.5) * 15, 0],
-                                            rotate: [0, (Math.random() - 0.5) * 10, -(Math.random() - 0.5) * 10, 0],
-                                            scale: [1, 1.05, 0.95, 1]
-                                        }}
-                                        transition={isShattered ? { duration: 0.6, ease: "circOut" } : {
-                                            duration: 4 + Math.random() * 4,
-                                            repeat: Infinity,
-                                            ease: "easeInOut",
-                                            delay: Math.random() * -5 // Random start time
-                                        }}
-                                        onMouseEnter={() => handleShardClick(i)}
-                                        onClick={() => handleShardClick(i)}
-                                    >
-                                        {/* Highlight/Glitch effect on hover */}
-                                        <div className="absolute inset-0 bg-primary/20 opacity-0 hover:opacity-100 transition-opacity duration-75 border-[0.5px] border-primary/30" />
-                                    </motion.div>
-                                );
-                            })}
-                        </div>
+                        {/* If SHATTERED, show 12x12 grid of particles */}
+                        {isShattered && (
+                            <div className="absolute inset-0 w-full h-full grid grid-cols-12 grid-rows-12 z-20 pointer-events-none">
+                                {[...Array(144)].map((_, i) => {
+                                    const row = Math.floor(i / 12);
+                                    const col = i % 12;
 
-                        {/* Start Hint */}
-                        {score === 0 && (
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-50 w-full">
-                                <span className="inline-block px-4 py-2 bg-black/60 backdrop-blur-sm rounded-lg border border-primary/30 text-xs font-mono text-primary animate-pulse">
-                                    HOVER TO DECRYPT
-                                </span>
+                                    return (
+                                        <motion.div
+                                            key={i}
+                                            className="w-full h-full bg-no-repeat relative transform-gpu"
+                                            style={{
+                                                backgroundImage: `url(${ProfileImage})`,
+                                                backgroundSize: '1200% 1200%',
+                                                backgroundPosition: `${col * 9.09}% ${row * 9.09}%`,
+                                            }}
+                                            initial={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                                            animate={isUnlocked ? {
+                                                // Explode/Vanish on Unlock
+                                                opacity: 0,
+                                                scale: 2,
+                                                x: (Math.random() - 0.5) * 500,
+                                                y: (Math.random() - 0.5) * 500,
+                                                rotate: Math.random() * 360
+                                            } : {
+                                                // Idle Swirl after shatter
+                                                opacity: 1,
+                                                scale: [1, 0.8, 1], // Breathing effect
+                                                x: [0, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, 0],
+                                                y: [0, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, 0],
+                                                rotate: [0, (Math.random() - 0.5) * 20, 0],
+                                                filter: unlockProgress > 0 ? [`hue-rotate(0deg)`, `hue-rotate(${unlockProgress * 2}deg)`] : "none"
+                                            }}
+                                            transition={isUnlocked ? { duration: 0.8, ease: "circOut" } : {
+                                                duration: 3 + Math.random() * 2,
+                                                repeat: Infinity,
+                                                ease: "easeInOut",
+                                            }}
+                                        >
+                                            <div className={`absolute inset-0 border-[0.5px] border-primary/20 transition-opacity ${unlockProgress > 50 ? 'opacity-100' : 'opacity-0'}`} />
+                                        </motion.div>
+                                    );
+                                })}
                             </div>
                         )}
+
                     </div>
                 </motion.div>
             </div>
