@@ -8,6 +8,7 @@ import Certifications from './components/Certifications';
 import TechTutorials from './components/TechTutorials';
 import Testimonials from './components/Testimonials';
 import FeaturedContent from './components/FeaturedContent';
+import MobileLabs from './components/MobileLabs';
 import Socials from './components/Socials';
 import Analytics from './components/Analytics';
 import ChatBot from './components/ChatBot';
@@ -67,6 +68,7 @@ function App() {
             <Experience />
             <CodingProfile />
             <Projects />
+            <MobileLabs />
             <Certifications />
             <FeaturedContent />
             <TechTutorials />

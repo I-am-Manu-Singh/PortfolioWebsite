@@ -171,10 +171,10 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
         setInteractionStage('breaking-grid');
         playScatter();
 
-        // Stage 2: Disperse after a short delay
+        // Stage 2: Disperse after a longer delay to show the "grid break" first
         setTimeout(() => {
             setInteractionStage('breaking-disperse');
-        }, 600);
+        }, 1500);
     };
 
     // State for decay animation
@@ -261,7 +261,8 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             setIsShattered(false);
                             setIsReverting(false);
                             setInteractionStage('idle');
-                        }, 800);
+                            textControls.start("visible"); // Force restore!
+                        }, 1200); // Slower flip reassembly
                     }
                 };
                 decayTimerRef.current = requestAnimationFrame(animateDecay);
@@ -554,7 +555,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                                     }
                                                 })()}
                                                 transition={{
-                                                    duration: interactionStage.includes('grid') || interactionStage.includes('flip') ? 0.6 : 0.8,
+                                                    duration: interactionStage.includes('grid') || interactionStage.includes('flip') ? 1.2 : 0.8,
                                                     ease: "easeInOut",
                                                     repeat: isPressing && interactionStage === 'shattered' ? Infinity : 0,
                                                     repeatType: "reverse"
@@ -592,7 +593,11 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
             </div>
             <motion.div
                 className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-                animate={{ y: [0, 10, 0] }}
+                initial={{ opacity: 1 }}
+                animate={{
+                    y: [0, 10, 0],
+                    opacity: isShattered ? 0 : 1
+                }}
                 transition={{ repeat: Infinity, duration: 2 }}
             >
                 <ChevronDown className="text-text-muted" size={32} />
