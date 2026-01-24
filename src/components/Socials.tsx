@@ -91,7 +91,7 @@ const Socials: React.FC<SocialsProps> = () => {
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="relative w-full max-w-sm md:max-w-md h-auto aspect-auto rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl z-10 bg-dark/50 backdrop-blur-sm group cursor-pointer"
+                            className="relative w-full max-w-sm md:max-w-md aspect-[3/4] rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl z-10 bg-dark/50 backdrop-blur-sm group cursor-pointer"
                             whileHover={{ scale: 1.02 }}
                         >
                             {/* Glitch Layers - Red Channel */}
@@ -126,7 +126,7 @@ const Socials: React.FC<SocialsProps> = () => {
                                 transition={{ duration: 0.2, repeat: Infinity, repeatType: "mirror", delay: 0.05 }}
                             />
 
-                            {/* Main Image - Removed aspect-square, using aspect-[9/16] wrapper */}
+                            {/* Main Image - Fixed Aspect Ratio and object-cover */}
                             <img
                                 src={`${import.meta.env.BASE_URL}profile_person.png`}
                                 alt="Personal Profile"

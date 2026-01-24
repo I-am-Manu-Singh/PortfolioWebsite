@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { motion, useAnimation, AnimatePresence } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock } from 'lucide-react';
 import { resumeData } from '../data/resume';
@@ -116,21 +116,38 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
         // Stop scramble
         if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
 
-        // Stage 1: Fly to Grid (Matrix view)
+        // Stage 1: Fly to Grid (Smoothly revert progress to 0%)
         setInteractionStage('unlock-grid');
+
+        // Manual Progress Decay for visual re-assembly
+        const duration = 1000;
+        const start = Date.now();
+        const startProgress = unlockProgress;
+
+        const animateReturn = () => {
+            const now = Date.now();
+            const elapsed = now - start;
+            const newProgress = Math.max(startProgress * (1 - elapsed / duration), 0);
+            setUnlockProgress(newProgress);
+            if (newProgress > 0 && isPressingRef.current) {
+                requestAnimationFrame(animateReturn);
+            }
+        };
+        requestAnimationFrame(animateReturn);
+
         await new Promise(r => setTimeout(r, 1000));
-        if (!isPressingRef.current) return; // Check again after wait
+        if (!isPressingRef.current) return;
 
         // Stage 2: Flip to show Personal Face
         setInteractionStage('unlock-flip');
         await new Promise(r => setTimeout(r, 1200));
-        if (!isPressingRef.current) return; // Check again
+        if (!isPressingRef.current) return;
 
         // Stage 3: Final Personal Image Dispersal
         setInteractionStage('unlock-disperse');
-        playScatter(); // Final Explosion sound
+        playScatter();
         await new Promise(r => setTimeout(r, 1500));
-        if (!isPressingRef.current) return; // Final strict check before commit
+        if (!isPressingRef.current) return;
 
         setIsUnlocked(true);
         playUnlock();
@@ -180,6 +197,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
 
         const now = Date.now();
         const duration = 10000; // 10s strict
+        // If progress is at 0, we start from now. If progress > 0, we offset.
         const elapsedSoFar = (unlockProgress / 100) * duration;
         startTimeRef.current = now - elapsedSoFar;
 
@@ -190,7 +208,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
             const elapsed = currentTime - (startTimeRef.current || currentTime);
             const progress = Math.min((elapsed / duration) * 100, 100);
 
-            setUnlockProgress(progress);
+            setUnlockProgress(progress); // Progress goes 0 -> 100 (Away from grid)
             playCharge(progress);
 
             if (progress < 100) {
@@ -212,7 +230,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
         if (pressTimerRef.current) cancelAnimationFrame(pressTimerRef.current);
         if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
 
-        // STAGE 1 REVERT: Pull to Grid instantly on release
+        // STAGE 1 REVERT: Fly back to Grid (Towards 0%)
         if (isShattered) {
             setIsReverting(true);
             setInteractionStage('reverting-grid');
@@ -220,14 +238,14 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
             const startDecay = () => {
                 const initialProgress = unlockProgress;
                 const decayStart = Date.now();
-                const decayDuration = 800; // 0.8s to re-align
+                const decayDuration = 1000; // 1s to bleed back to zero
 
                 const animateDecay = () => {
                     const now = Date.now();
                     const decayElapsed = now - decayStart;
                     const newProgress = Math.max(initialProgress * (1 - decayElapsed / decayDuration), 0);
 
-                    setUnlockProgress(newProgress);
+                    setUnlockProgress(newProgress); // Progress goes back to 0
 
                     if (newProgress > 0) {
                         decayTimerRef.current = requestAnimationFrame(animateDecay);
@@ -388,7 +406,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                 >
                     <div
                         ref={containerRef}
-                        className="relative w-full max-w-sm md:max-w-md mx-auto aspect-auto cursor-pointer group perspective-1000 select-none touch-none"
+                        className="relative w-full max-w-sm md:max-w-md mx-auto aspect-[3/4] cursor-pointer group perspective-1000 select-none touch-none rounded-2xl overflow-hidden"
                         style={{ WebkitTouchCallout: 'none' }}
                         onContextMenu={(e) => e.preventDefault()}
                         onMouseDown={startDecryption}
@@ -397,8 +415,8 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                         onTouchStart={startDecryption}
                         onTouchEnd={stopDecryption}
                     >
-                        {/* PHANTOM IMAGE: Maintans spacing */}
-                        <img src={ProfileImage} alt="Spacer" className="w-full h-auto opacity-0 pointer-events-none relative z-0 block" aria-hidden="true" />
+                        {/* PHANTOM IMAGE: Maintans spacing with fixed aspect ratio */}
+                        <img src={ProfileImage} alt="Spacer" className="w-full h-full opacity-0 pointer-events-none absolute inset-0 z-0 block object-cover" aria-hidden="true" />
 
 
 
@@ -411,7 +429,9 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             >
                                 <div className="relative w-56 p-4 bg-black/90 backdrop-blur-lg border border-green-500/40 rounded-lg shadow-[0_0_30px_rgba(34,197,94,0.4)]">
                                     <div className="flex justify-between items-end mb-2">
-                                        <span className="text-[10px] text-green-500/80 font-mono tracking-widest">REASSEMBLING...</span>
+                                        <span className="text-[10px] text-green-500/80 font-mono tracking-widest uppercase">
+                                            {isReverting ? 'REVERTING...' : 'DECRYPTING...'}
+                                        </span>
                                         <span className="text-xl font-bold font-mono text-green-500 tabular-nums">{unlockProgress.toFixed(0)}%</span>
                                     </div>
                                     <div className="w-full h-1.5 bg-gray-900 rounded-full overflow-hidden">
@@ -425,7 +445,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                         )}
 
                         {/* Underlay: Personal Profile - HIDDEN until unlocked */}
-                        <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-black transform-gpu">
+                        <div className="absolute inset-0 w-full h-full shadow-2xl bg-black transform-gpu">
                             <motion.img
                                 src={ProfileImagePersonal}
                                 alt="Personal Profile"
@@ -448,17 +468,15 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                         </div>
 
                         {/* Overlay: Work Profile (Static) */}
-                        <AnimatePresence>
-                            {!isShattered && (
-                                <motion.div
-                                    className="absolute inset-0 z-20 rounded-2xl overflow-hidden shadow-2xl"
-                                    exit={{ opacity: 0 }}
-                                >
-                                    <img src={ProfileImage} alt="Work Profile" className="w-full h-full object-cover shadow-2xl" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-green-900/10 via-transparent to-transparent opacity-40 mix-blend-overlay" />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        <motion.img
+                            src={ProfileImage}
+                            alt="Profile"
+                            className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
+                            style={{
+                                opacity: isShattered ? 0 : 1,
+                                scale: isPressing ? 1.05 : 1
+                            }}
+                        />
 
                         {/* MATRIX SHARDS - DIRECTLY IN DOM (No Portal) */}
                         {isShattered && (
@@ -475,15 +493,15 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                     const bgY = targetY;
 
                                     // Local Grid Position relative to cell (which is already at shard.col * 5%)
-                                    // So in grid, x=0, y=0.
-                                    // In chaos, x = chaosX - targetX.
+                                    // 0% = Grid (x:0, y:0)
+                                    // 100% = Chaos (x:relChaosX, y:relChaosY)
                                     const relChaosX = shard.chaosX - targetX;
                                     const relChaosY = shard.chaosY - targetY;
 
                                     const t = unlockProgress / 100;
-                                    const currentX = 0 * t + relChaosX * (1 - t);
-                                    const currentY = 0 * t + relChaosY * (1 - t);
-                                    const currentZ = 0 * t + shard.chaosZ * (1 - t);
+                                    const currentX = relChaosX * t;
+                                    const currentY = relChaosY * t;
+                                    const currentZ = shard.chaosZ * t;
 
                                     return (
                                         <motion.div
