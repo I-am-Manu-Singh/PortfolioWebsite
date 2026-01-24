@@ -52,8 +52,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const isPressingRef = useRef(false);
     const [isReverting, setIsReverting] = useState(false);
 
-    // Interaction Stages: 'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip'
-    const [interactionStage, setInteractionStage] = useState<'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip'>('idle');
+    // Interaction Stages: 'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip'
+    const [interactionStage, setInteractionStage] = useState<'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip'>('idle');
 
     // Container Ref for "Assembly" Target Coordinates
     const containerRef = useRef<HTMLDivElement>(null);
@@ -251,7 +251,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
     return (
         <section
-            className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0 perspective-1000"
+            className="min-h-screen flex items-center justify-center relative overflow-hidden perspective-1000"
             id="hero"
             style={{ touchAction: isShattered ? 'none' : 'auto' }} // Prevent scroll while interacting
         >
@@ -468,19 +468,27 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 scale: 1
                                             }}
                                             animate={(() => {
-                                                if (isUnlocked) {
-                                                    return {
-                                                        x: shard.chaosX * 5,
-                                                        y: shard.chaosY * 5,
-                                                        z: 1000,
-                                                        rotateX: Math.random() * 720,
-                                                        rotateY: Math.random() * 720,
-                                                        opacity: 0,
-                                                        scale: 0.5
-                                                    };
-                                                }
-
                                                 switch (interactionStage) {
+                                                    case 'unlock-grid':
+                                                        return {
+                                                            x: targetX,
+                                                            y: targetY,
+                                                            z: 0,
+                                                            rotateY: 180, // Return to grid while showing Matrix
+                                                            rotateX: 0,
+                                                            opacity: 1,
+                                                            scale: 1
+                                                        };
+                                                    case 'unlock-flip':
+                                                        return {
+                                                            x: targetX,
+                                                            y: targetY,
+                                                            z: 0,
+                                                            rotateY: 360, // Flip to reveal Personal Image
+                                                            rotateX: 0,
+                                                            opacity: 1,
+                                                            scale: 1
+                                                        };
                                                     case 'breaking-grid':
                                                         return {
                                                             x: targetX,
@@ -529,17 +537,17 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 }
                                             })()}
                                             transition={{
-                                                duration: isUnlocked ? 0.8 : (interactionStage.startsWith('reverting') ? 0.6 : (isPressing ? 8 : 0.6)),
-                                                ease: isUnlocked ? "circIn" : (isPressing ? "linear" : "easeOut"),
+                                                duration: interactionStage.includes('unlock') || interactionStage.startsWith('reverting') ? 0.6 : (isPressing ? 8 : 0.6),
+                                                ease: (interactionStage === 'unlock-flip' || interactionStage === 'reverting-flip') ? "backOut" : (isPressing ? "linear" : "easeOut"),
                                                 repeat: isPressing && !isUnlocked ? Infinity : 0,
                                                 repeatType: "reverse"
                                             }}
                                         >
-                                            {/* FRONT FACE: Work Image Slice (Colorful) */}
+                                            {/* FRONT FACE: Image Slice (Work by default, Personal during unlock flip) */}
                                             <div
                                                 className="absolute inset-0 bg-no-repeat backface-hidden"
                                                 style={{
-                                                    backgroundImage: `url(${ProfileImage})`,
+                                                    backgroundImage: `url(${interactionStage.startsWith('unlock') ? ProfileImagePersonal : ProfileImage})`,
                                                     backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
                                                     backgroundPosition: `-${targetX}px -${targetY}px`,
                                                     opacity: 1,

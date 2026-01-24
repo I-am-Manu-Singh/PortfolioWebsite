@@ -12,7 +12,7 @@ interface SocialsProps {
 
 const Socials: React.FC<SocialsProps> = () => {
     return (
-        <section className="section bg-dark-card/30 relative overflow-hidden flex flex-col" id="socials">
+        <section className="min-h-screen flex items-center justify-center bg-dark-card/30 relative overflow-hidden" id="socials">
 
             <SectionBackground variant="music" />
 
@@ -20,8 +20,8 @@ const Socials: React.FC<SocialsProps> = () => {
             <div className="absolute -right-20 top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
 
             <div className="container max-w-6xl mx-auto relative z-20">
-                {/* Personal Profile Header - Redesigned Layout to match Hero for alignment */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[80vh] py-12">
+                {/* Personal Profile Header - Aligned to Hero for perfect overlap */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
                     {/* Left Column: Text & Stats */}
                     <div className="order-2 lg:order-1 flex flex-col items-start text-left space-y-6">
