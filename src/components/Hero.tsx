@@ -52,8 +52,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const isPressingRef = useRef(false);
     const [isReverting, setIsReverting] = useState(false);
 
-    // Interaction Stages: 'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip'
-    const [interactionStage, setInteractionStage] = useState<'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip'>('idle');
+    // Interaction Stages: 'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip' | 'unlock-disperse'
+    const [interactionStage, setInteractionStage] = useState<'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip' | 'unlock-disperse'>('idle');
 
     // Container Ref for "Assembly" Target Coordinates
     const containerRef = useRef<HTMLDivElement>(null);
@@ -101,8 +101,24 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     }, []); // Only on mount
 
     const triggerUnlock = async () => {
+        // Stop scramble
+        if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
+
+        // Stage 1: Fly to Grid (Matrix view)
+        setInteractionStage('unlock-grid');
+        await new Promise(r => setTimeout(r, 800));
+
+        // Stage 2: Flip to show Personal Face
+        setInteractionStage('unlock-flip');
+        await new Promise(r => setTimeout(r, 600));
+
+        // Stage 3: Final Personal Image Dispersal
+        setInteractionStage('unlock-disperse');
+        playScatter(); // Final Explosion sound
+        await new Promise(r => setTimeout(r, 1000));
+
         setIsUnlocked(true);
-        playUnlock(); // Success Sound
+        playUnlock();
         await textControls.start({
             scale: [1, 1.2, 0],
             opacity: [1, 1, 0],
@@ -441,10 +457,16 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
                                     // Local Grid Position (relative to this container)
                                     // 32x32 Grid
-                                    const shardWidth = containerRect.width / gridSize;
-                                    const shardHeight = containerRect.height / gridSize;
-                                    const targetX = shard.col * shardWidth;
-                                    const targetY = shard.row * shardHeight;
+                                    const shardWidth = Math.ceil(containerRect.width / gridSize);
+                                    const shardHeight = Math.ceil(containerRect.height / gridSize);
+                                    const targetX = shard.col * (containerRect.width / gridSize);
+                                    const targetY = shard.row * (containerRect.height / gridSize);
+
+                                    // LERP Position based on progress
+                                    const t = unlockProgress / 100;
+                                    const currentX = targetX * t + shard.chaosX * (1 - t);
+                                    const currentY = targetY * t + shard.chaosY * (1 - t);
+                                    const currentZ = 0 * t + shard.chaosZ * (1 - t);
 
                                     return (
                                         <motion.div
@@ -458,7 +480,6 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 left: 0
                                             }}
                                             initial={{
-                                                // Explosion Start: Start at "Assembled" position (0,0 relative)
                                                 x: targetX,
                                                 y: targetY,
                                                 z: 0,
@@ -470,102 +491,71 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                             animate={(() => {
                                                 switch (interactionStage) {
                                                     case 'unlock-grid':
-                                                        return {
-                                                            x: targetX,
-                                                            y: targetY,
-                                                            z: 0,
-                                                            rotateY: 180, // Return to grid while showing Matrix
-                                                            rotateX: 0,
-                                                            opacity: 1,
-                                                            scale: 1
-                                                        };
+                                                        return { x: targetX, y: targetY, z: 0, rotateY: 180, rotateX: 0, opacity: 1, scale: 1 };
                                                     case 'unlock-flip':
+                                                        return { x: targetX, y: targetY, z: 0, rotateY: 360, rotateX: 0, opacity: 1, scale: 1 };
+                                                    case 'unlock-disperse':
                                                         return {
-                                                            x: targetX,
-                                                            y: targetY,
-                                                            z: 0,
-                                                            rotateY: 360, // Flip to reveal Personal Image
-                                                            rotateX: 0,
-                                                            opacity: 1,
-                                                            scale: 1
+                                                            x: shard.chaosX * 4,
+                                                            y: shard.chaosY * 4,
+                                                            z: 1000,
+                                                            rotateX: Math.random() * 720,
+                                                            rotateY: Math.random() * 720,
+                                                            opacity: 0,
+                                                            scale: 0.5
                                                         };
                                                     case 'breaking-grid':
-                                                        return {
-                                                            x: targetX,
-                                                            y: targetY,
-                                                            z: 0,
-                                                            rotateY: 180, // Morph to Matrix in-frame
-                                                            rotateX: 0,
-                                                            opacity: 1,
-                                                            scale: 1
-                                                        };
+                                                        return { x: targetX, y: targetY, z: 0, rotateY: 180, rotateX: 0, opacity: 1, scale: 1 };
                                                     case 'breaking-disperse':
                                                     case 'shattered':
                                                         return {
                                                             opacity: 1,
                                                             x: isPressing
-                                                                ? [shard.chaosX, shard.chaosX + Math.sin(shard.id) * 200, shard.chaosX]
-                                                                : shard.chaosX,
+                                                                ? [currentX, currentX + Math.sin(shard.id) * 30, currentX]
+                                                                : currentX,
                                                             y: isPressing
-                                                                ? [shard.chaosY, shard.chaosY + Math.cos(shard.id) * 200, shard.chaosY]
-                                                                : shard.chaosY,
-                                                            z: isPressing ? [shard.chaosZ, 100, shard.chaosZ] : shard.chaosZ,
+                                                                ? [currentY, currentY + Math.cos(shard.id) * 30, currentY]
+                                                                : currentY,
+                                                            z: isPressing ? [currentZ, 50, currentZ] : currentZ,
                                                             rotateY: 180,
-                                                            rotateX: isPressing ? [180, 540] : 180,
-                                                            scale: isPressing ? 1.2 : 1.5
+                                                            rotateX: isPressing ? [180, 200, 180] : 180,
+                                                            scale: isPressing ? 1.1 : 1.4
                                                         };
                                                     case 'reverting-grid':
-                                                        return {
-                                                            x: targetX,
-                                                            y: targetY,
-                                                            z: 0,
-                                                            rotateY: 180, // Pull back while still Matrix
-                                                            opacity: 1,
-                                                            scale: 1
-                                                        };
+                                                        return { x: targetX, y: targetY, z: 0, rotateY: 180, opacity: 1, scale: 1 };
                                                     case 'reverting-flip':
-                                                        return {
-                                                            x: targetX,
-                                                            y: targetY,
-                                                            z: 0,
-                                                            rotateY: 0, // Flip back to Photo
-                                                            opacity: 1,
-                                                            scale: 1
-                                                        };
+                                                        return { x: targetX, y: targetY, z: 0, rotateY: 0, opacity: 1, scale: 1 };
                                                     default:
                                                         return { x: targetX, y: targetY, opacity: 1 };
                                                 }
                                             })()}
                                             transition={{
-                                                duration: interactionStage.includes('unlock') || interactionStage.startsWith('reverting') ? 0.6 : (isPressing ? 8 : 0.6),
-                                                ease: (interactionStage === 'unlock-flip' || interactionStage === 'reverting-flip') ? "backOut" : (isPressing ? "linear" : "easeOut"),
-                                                repeat: isPressing && !isUnlocked ? Infinity : 0,
+                                                duration: interactionStage.includes('unlock') || interactionStage.startsWith('reverting') ? 0.6 : (isPressing ? 0.5 : 0.6),
+                                                ease: "easeOut",
+                                                repeat: isPressing && !interactionStage.includes('unlock') ? Infinity : 0,
                                                 repeatType: "reverse"
                                             }}
                                         >
-                                            {/* FRONT FACE: Image Slice (Work by default, Personal during unlock flip) */}
+                                            {/* FRONT FACE: Image Slice */}
                                             <div
                                                 className="absolute inset-0 bg-no-repeat backface-hidden"
                                                 style={{
                                                     backgroundImage: `url(${interactionStage.startsWith('unlock') ? ProfileImagePersonal : ProfileImage})`,
                                                     backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
                                                     backgroundPosition: `-${targetX}px -${targetY}px`,
-                                                    opacity: 1,
-                                                    boxShadow: 'inset 0 0 2px rgba(255,255,255,0.2)'
+                                                    opacity: 1
                                                 }}
                                             />
 
-                                            {/* BACK FACE: Matrix Character (Green & Scrambling) */}
+                                            {/* BACK FACE: Matrix Character */}
                                             <div
                                                 className="absolute inset-0 bg-black text-green-500 font-mono font-bold flex items-center justify-center text-[10px] backface-hidden"
                                                 style={{
                                                     transform: 'rotateY(180deg)',
-                                                    border: '1px solid rgba(0, 255, 0, 0.3)',
-                                                    boxShadow: '0 0 10px rgba(0, 255, 0, 0.2)'
+                                                    border: '1px solid rgba(0, 255, 0, 0.2)'
                                                 }}
                                             >
-                                                {/* CHARACTER SCRAMBLING LOGIC */}
-                                                {isPressing
+                                                {isPressing || interactionStage === 'shattered'
                                                     ? "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890".charAt(Math.floor(Math.random() * 56 + scrambleTick) % 56)
                                                     : shard.char
                                                 }
