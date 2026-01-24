@@ -413,7 +413,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                         {/* Decryption Progress - OUTSIDE overflow container */}
                         {isShattered && !isUnlocked && (
                             <motion.div
-                                className="absolute -top-24 left-0 right-0 z-[110] flex flex-col items-center pointer-events-none"
+                                className="absolute top-10 md:-top-24 left-0 right-0 z-[110] flex flex-col items-center pointer-events-none"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                             >
