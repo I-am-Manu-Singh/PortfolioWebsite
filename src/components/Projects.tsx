@@ -21,7 +21,7 @@ const Projects: React.FC = () => {
                 </motion.h2>
 
                 {/* Projects Caricature - Reduced Opacity */}
-                <div className="hidden lg:block absolute -left-10 top-20 z-0 pointer-events-none">
+                <div className="hidden lg:block absolute -left-10 top-20 z-20 pointer-events-none">
                     <motion.div
                         initial={{ x: -50, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}
