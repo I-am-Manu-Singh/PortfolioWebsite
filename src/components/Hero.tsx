@@ -200,7 +200,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
         }, 80);
 
         const now = Date.now();
-        const duration = 8000; // 8s strict
+        const duration = 7000; // 7s strict
         // If progress is at 0, we start from now. If progress > 0, we offset.
         const elapsedSoFar = (unlockProgress / 100) * duration;
         startTimeRef.current = now - elapsedSoFar;
