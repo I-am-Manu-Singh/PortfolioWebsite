@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock, Code } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.png`;
@@ -73,6 +73,9 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     });
 
     useEffect(() => {
+        // Start entry animation
+        textControls.start("visible");
+
         // Initial measurement
         const measure = () => {
             if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
@@ -217,7 +220,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                 <motion.div
                     className="order-2 md:order-1"
                     initial="hidden"
-                    animate="visible"
+                    animate={textControls}
                     variants={{
                         hidden: { opacity: 0, x: -50 },
                         visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
@@ -328,18 +331,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                         {/* PHANTOM IMAGE: Maintans spacing */}
                         <img src={ProfileImage} alt="Spacer" className="w-full h-auto opacity-0 pointer-events-none relative z-0 block" aria-hidden="true" />
 
-                        {/* Status / Hint Overlay */}
-                        {!isShattered && (
-                            <motion.div
-                                className="absolute inset-0 z-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                                initial={{ scale: 0.9 }}
-                                whileHover={{ scale: 1 }}
-                            >
-                                <div className="bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full border border-green-500/50 text-green-500 font-mono text-sm flex items-center gap-2 shadow-[0_0_15px_rgba(34,197,94,0.3)]">
-                                    <Code size={16} className="animate-pulse" /> TAP TO ENTER MATRIX
-                                </div>
-                            </motion.div>
-                        )}
+
 
                         {/* Decryption Progress */}
                         {isShattered && !isUnlocked && (
