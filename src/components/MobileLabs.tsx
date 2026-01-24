@@ -1,23 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Apple, Play, Rocket, Video, Camera } from 'lucide-react';
+import { Apple, Play, Rocket } from 'lucide-react';
 import SectionBackground from './SectionBackground';
 
 const apps = [
     {
         id: 'moonlight',
         name: 'MoonlightWebcam',
-        description: 'Turn your mobile device into a professional-grade webcam. Ultra-low latency streaming with advanced focus and exposure controls. Perfect for streamers and professional meetings.',
-        tech: ['Flutter', 'WebRTC', 'C++'],
-        icon: <Camera className="text-blue-400" size={32} />,
+        description: 'Cross-platform KMP remote webcam system with <60ms low-latency video/audio streaming. Features device discovery, manual camera controls, screen-casting, and desktop client.',
+        tech: ["KMP", "Ktor", "CameraX", "AVFoundation", "MediaProjection"],
+        logo: `${import.meta.env.BASE_URL}app_logo_moonlight_webcam.png`,
         gradient: 'from-blue-500/20 to-purple-500/20'
     },
     {
         id: 'videoeditor',
-        name: 'Premium Video Editor',
-        description: 'A powerful yet lightweight video editing suite for mobile. Intuitive multi-track editing, real-time filters, and 4K export optimization for social media creators.',
-        tech: ['React Native', 'FFmpeg', 'Native Modules'],
-        icon: <Video className="text-pink-400" size={32} />,
+        name: 'VideoEditor App',
+        description: 'Architected a high-performance, and high-fidelity audio waveform visualization. Engineered a robust media processing pipeline using FFmpeg and Media3 for background video composition, supporting complex overlay templates and multi-stream export optimization featuring a custom non-linear timeline engine with real-time canvas rendering.',
+        tech: ['Kotlin', 'Android SDK', 'FFmpeg', 'Media3', 'Material 3', 'Canvas API', 'Foreground Services', 'Lottie', 'Gson'],
+        logo: `${import.meta.env.BASE_URL}app_logo_video_editor.png`,
         gradient: 'from-pink-500/20 to-orange-500/20'
     }
 ];
@@ -68,8 +68,8 @@ const MobileLabs: React.FC = () => {
                             <div className={`absolute inset-0 bg-gradient-to-br ${app.gradient} blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 rounded-3xl`} />
 
                             <div className="glass-card p-8 relative flex flex-col md:flex-row gap-8 h-full border-white/5 hover:border-primary/30 transition-colors">
-                                <div className="flex-shrink-0 flex items-center justify-center w-20 h-20 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-primary/20 transition-all duration-500 group-hover:scale-110">
-                                    {app.icon}
+                                <div className="flex-shrink-0 flex items-center justify-center w-24 h-24 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-primary/20 transition-all duration-500 group-hover:scale-110 overflow-hidden">
+                                    <img src={app.logo} alt={app.name} className="w-full h-full object-contain p-2" />
                                 </div>
 
                                 <div className="flex-grow flex flex-col justify-between">

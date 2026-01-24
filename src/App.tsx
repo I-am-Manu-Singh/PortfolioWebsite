@@ -66,9 +66,9 @@ function App() {
             />
             <Skills />
             <Experience />
+            <MobileLabs />
             <CodingProfile />
             <Projects />
-            <MobileLabs />
             <Certifications />
             <FeaturedContent />
             <TechTutorials />

@@ -4,7 +4,7 @@ import type { Variants } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
-const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.png`;
+const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_person.png`;
 import SectionBackground from './SectionBackground';
 import ResumePreview from './ResumePreview';
 
