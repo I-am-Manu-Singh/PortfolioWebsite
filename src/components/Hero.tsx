@@ -79,18 +79,15 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         // Start entry animation
         textControls.start("visible");
 
-        // Force measurement for mobile stability
-        const measure = () => {
-            if (containerRef.current) {
-                const rect = containerRef.current.getBoundingClientRect();
-                setContainerRect(rect);
-            }
-        };
+        // Pre-load personal profile image early
+        const img = new Image();
+        img.src = ProfileImagePersonal;
 
-        // Measure immediately and after short delay for layout
+        const measure = () => {
+            if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
+        };
         measure();
         const t = setTimeout(measure, 100);
-
         window.addEventListener('resize', measure);
         return () => {
             window.removeEventListener('resize', measure);
@@ -445,11 +442,11 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
                         {/* MATRIX SHARDS - DIRECTLY IN DOM (No Portal) */}
                         {isShattered && (
-                            <div className="absolute top-0 left-0 w-full h-full z-[100] pointer-events-none perspective-[2000px] rounded-2xl overflow-hidden">
+                            <div className="absolute inset-0 z-[100] pointer-events-none perspective-[2000px] rounded-2xl overflow-hidden">
                                 {shards.map((shard) => {
                                     if (!containerRect) return null;
 
-                                    // 20x20 Grid = 5% each
+                                    // Local Grid Position (relative to this container)
                                     const shardWidth = "5%";
                                     const shardHeight = "5%";
                                     const targetX = shard.col * (containerRect.width / gridSize);
