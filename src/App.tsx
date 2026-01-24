@@ -13,7 +13,7 @@ import Analytics from './components/Analytics';
 import ChatBot from './components/ChatBot';
 import FloatingParticles from './components/FloatingParticles';
 import Navbar from './components/Navbar';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'work' | 'personal'>('work');
@@ -39,39 +39,44 @@ function App() {
         ></div>
       </div>
 
-      <main className="pt-20"> {/* Padding for fixed navbar */}
-        <AnimatePresence mode="wait">
-          {activeTab === 'work' ? (
-            <motion.div
-              key="work"
-              initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
-              transition={{ duration: 0.5, ease: "circOut" }}
-            >
-              <Hero setActiveTab={setActiveTab} />
-              <Skills />
-              <Experience />
-              <CodingProfile />
-              <Projects />
-              <Certifications />
-              <FeaturedContent />
-              <TechTutorials />
-              <Testimonials />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="personal"
-              initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
-              transition={{ duration: 0.5, ease: "circOut" }}
-            >
-              <Socials />
-              {/* Future: Photo Gallery, Blog, etc. */}
-            </motion.div>
-          )}
-        </AnimatePresence>
+      <main className="pt-20 relative"> {/* Padding for fixed navbar */}
+        <div className="relative">
+          {/* Work Content Layer */}
+          <motion.div
+            initial={false}
+            animate={{
+              opacity: activeTab === 'work' ? 1 : 0,
+              visibility: activeTab === 'work' ? 'visible' : 'hidden', // Still hide from pointer if not active
+              pointerEvents: activeTab === 'work' ? 'auto' : 'none'
+            }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="z-10 relative"
+          >
+            <Hero setActiveTab={setActiveTab} />
+            <Skills />
+            <Experience />
+            <CodingProfile />
+            <Projects />
+            <Certifications />
+            <FeaturedContent />
+            <TechTutorials />
+            <Testimonials />
+          </motion.div>
+
+          {/* Personal Content Layer - Slides up or Fades in underneath */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: activeTab === 'personal' ? 1 : 0,
+              zIndex: activeTab === 'personal' ? 20 : 0
+            }}
+            transition={{ duration: 1, delay: activeTab === 'personal' ? 1 : 0 }}
+            className="absolute top-0 left-0 w-full pointer-events-none"
+            style={{ pointerEvents: activeTab === 'personal' ? 'auto' : 'none' }}
+          >
+            <Socials />
+          </motion.div>
+        </div>
       </main>
     </div>
   );

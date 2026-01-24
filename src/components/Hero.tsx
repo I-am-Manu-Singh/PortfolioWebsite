@@ -104,16 +104,16 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
         // Stage 1: Fly to Grid (Matrix view)
         setInteractionStage('unlock-grid');
-        await new Promise(r => setTimeout(r, 800));
+        await new Promise(r => setTimeout(r, 1000)); // Slightly slower
 
         // Stage 2: Flip to show Personal Face
         setInteractionStage('unlock-flip');
-        await new Promise(r => setTimeout(r, 600));
+        await new Promise(r => setTimeout(r, 1200)); // Much slower to enjoy the reveal
 
         // Stage 3: Final Personal Image Dispersal
         setInteractionStage('unlock-disperse');
         playScatter(); // Final Explosion sound
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise(r => setTimeout(r, 1500));
 
         setIsUnlocked(true);
         playUnlock();
@@ -448,7 +448,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
                         {/* MATRIX SHARDS - DIRECTLY IN DOM (No Portal) */}
                         {isShattered && (
-                            <div className="absolute top-0 left-0 w-full h-full z-[100] pointer-events-none perspective-[2000px]">
+                            <div className="absolute top-0 left-0 w-full h-full z-[100] pointer-events-none perspective-[2000px] rounded-2xl overflow-hidden">
                                 {shards.map((shard) => {
                                     if (!containerRect) return null;
 
