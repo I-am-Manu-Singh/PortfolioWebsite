@@ -21,7 +21,7 @@ const Projects: React.FC = () => {
                 </motion.h2>
 
                 {/* Projects Caricature - Reduced Opacity */}
-                <div className="hidden lg:block absolute -left-10 top-20 z-0 opacity-30 pointer-events-none">
+                <div className="hidden lg:block absolute -left-10 top-20 z-0 pointer-events-none">
                     <motion.div
                         initial={{ x: -50, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}
@@ -32,7 +32,7 @@ const Projects: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_professional.png`}
                             alt="Professional Caricature"
-                            className="w-56 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                            className="w-56 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm opacity-80"
                             animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
                             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
                             drag

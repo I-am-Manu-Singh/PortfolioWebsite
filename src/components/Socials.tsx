@@ -154,7 +154,7 @@ const Socials: React.FC<SocialsProps> = () => {
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
                                         alt="Guitarist"
-                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm opacity-80"
                                         style={{ zIndex: 0 }} // Ensure behind header which should have z-10
                                         animate={{
                                             rotate: [0, 5, 0],
@@ -168,7 +168,7 @@ const Socials: React.FC<SocialsProps> = () => {
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_piano.png`}
                                         alt="Pianist"
-                                        className="absolute right-0 -top-12 w-24 md:w-40 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        className="absolute right-0 -top-12 w-24 md:w-40 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm opacity-80"
                                         style={{ zIndex: 0 }}
                                         animate={{
                                             rotate: [0, -3, 0],
@@ -182,7 +182,7 @@ const Socials: React.FC<SocialsProps> = () => {
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_singing.png`}
                                         alt="Singer"
-                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-10 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm opacity-80"
                                         style={{ zIndex: 0 }}
                                         animate={{
                                             y: [0, -15, 0],

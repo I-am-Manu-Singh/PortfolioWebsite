@@ -1,11 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Instagram } from 'lucide-react';
-import { resumeData } from '../data/resume';
-// import CaricaturePiano from '../assets/caricature_piano.png';
-// import CaricatureGuitar from '../assets/caricature_guitar.png';
+import { Instagram } from 'lucide-react';
 
 import SectionBackground from './SectionBackground';
+import SpotifyPlayer from './SpotifyPlayer';
 
 const Interests: React.FC = () => {
     return (
@@ -36,91 +34,35 @@ const Interests: React.FC = () => {
 
 
                 <div className="space-y-12">
-                    {/* Music Categories & Caricatures */}
-                    {/* @ts-ignore - resumeData structure */}
-                    {resumeData.interests.music.categories.map((category: any, idx: number) => (
-                        <div key={idx} className="relative mb-8">
-                            <h3 className="text-2xl font-bold mb-6 text-white border-l-4 border-primary pl-4 flex items-center gap-3">
-                                {category.title}
-                                {(category.title.toLowerCase().includes('piano') || category.title.toLowerCase().includes('guitar')) && <Music size={24} className="text-primary-light" />}
-                            </h3>
+                    {/* SPOTIFY PLAYER SECTION */}
+                    <div className="relative mb-20">
+                        {/* Floating Caricatures - Positioning relative to the player */}
+                        {/* Piano - Left side */}
+                        <motion.img
+                            src={`${import.meta.env.BASE_URL}caricature_piano.png`}
+                            alt="Pianist"
+                            className="absolute -left-10 md:-left-20 top-20 w-32 md:w-56 drop-shadow-2xl z-20 pointer-events-none opacity-80" // Reduced opacity here
+                            initial={{ x: -100, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 0.8 }} // Animate to 0.8
+                            viewport={{ once: true }}
+                            animate={{ y: [0, 10, 0], rotate: [0, 2, 0] }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                        {/* Guitar - Right side */}
+                        <motion.img
+                            src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
+                            alt="Guitarist"
+                            className="absolute -right-10 md:-right-20 bottom-20 w-32 md:w-56 drop-shadow-2xl z-20 pointer-events-none opacity-80" // Reduced opacity here
+                            initial={{ x: 100, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 0.8 }} // Animate to 0.8
+                            viewport={{ once: true }}
+                            animate={{ y: [0, -10, 0], rotate: [0, -2, 0] }}
+                            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                        />
 
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                                {/* Playlists */}
-                                <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {category.playlists.map((playlist: any, pIdx: number) => (
-                                        <motion.div
-                                            key={pIdx}
-                                            className="glass-card overflow-hidden group hover:border-primary/50 transition-colors"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: pIdx * 0.1 }}
-                                        >
-                                            <div className="relative w-full aspect-video">
-                                                <iframe
-                                                    width="100%"
-                                                    height="100%"
-                                                    src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`}
-                                                    title={playlist.title}
-                                                    frameBorder="0"
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowFullScreen
-                                                    className="absolute inset-0"
-                                                ></iframe>
-                                            </div>
-                                            <div className="p-3 bg-white/5 flex justify-between items-center">
-                                                <h4 className="font-bold text-white text-xs group-hover:text-primary transition-colors truncate">{playlist.title}</h4>
-                                                <div className="p-1.5 bg-red-600 rounded-full">
-                                                    <Music size={12} className="text-white" />
-                                                </div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
+                        <SpotifyPlayer />
+                    </div>
 
-                                {/* Caricatures Placement (Right Column) */}
-                                <div className="hidden lg:flex flex-col gap-8 justify-center items-center h-full pointer-events-none">
-                                    {/* Piano Caricature */}
-                                    {category.title.toLowerCase().includes('piano') && (
-                                        <motion.div
-                                            className="relative"
-                                            initial={{ x: 50, opacity: 0 }}
-                                            whileInView={{ x: 0, opacity: 1 }}
-                                            viewport={{ once: true }}
-                                            animate={{ y: [0, 10, 0] }}
-                                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                                        >
-                                            <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
-                                            <img
-                                                src={`${import.meta.env.BASE_URL}caricature_piano.png`}
-                                                alt="Pianist"
-                                                className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10"
-                                            />
-                                        </motion.div>
-                                    )}
-                                    {/* Guitar Caricature */}
-                                    {category.title.toLowerCase().includes('guitar') && (
-                                        <motion.div
-                                            className="relative"
-                                            initial={{ x: 50, opacity: 0 }}
-                                            whileInView={{ x: 0, opacity: 1 }}
-                                            viewport={{ once: true }}
-                                            animate={{ y: [0, -10, 0] }}
-                                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                                        >
-                                            <div className="absolute inset-0 bg-white/10 blur-[60px] rounded-full transform scale-75" />
-                                            <img
-                                                src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
-                                                alt="Guitarist"
-                                                className="w-56 drop-shadow-2xl relative z-10 pointer-events-auto hover:scale-105 transition-transform rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10"
-                                            />
-                                        </motion.div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
 
                     {/* Spacer to visually separate YouTube/Music from Instagram */}
                     <div className="h-12"></div>

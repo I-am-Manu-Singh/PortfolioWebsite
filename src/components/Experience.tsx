@@ -96,9 +96,9 @@ const Experience: React.FC = () => {
                             {/* Spotlight Glow matches Interests */}
                             <div className="absolute inset-0 bg-white/10 blur-[80px] rounded-full transform scale-75" />
                             <motion.img
-                                src="/caricature_professional.png"
+                                src={`${import.meta.env.BASE_URL}caricature_professional.png`}
                                 alt="Professional Manpreet"
-                                className="w-48 md:w-64 object-contain drop-shadow-2xl relative z-10 rounded-3xl border-4 border-white/20 cursor-grab active:cursor-grabbing"
+                                className="w-48 md:w-64 object-contain drop-shadow-2xl relative z-10 rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm opacity-80 cursor-grab active:cursor-grabbing"
                                 animate={{ y: [0, -15, 0], rotate: [0, 2, 0] }}
                                 whileHover={{ scale: 1.05 }}
                                 drag

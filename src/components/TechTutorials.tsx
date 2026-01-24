@@ -30,9 +30,9 @@ const TechTutorials: React.FC = () => {
                     >
                         <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75" />
                         <motion.img
-                            src="/caricature_teacher.png"
+                            src={`${import.meta.env.BASE_URL}caricature_teacher.png`}
                             alt="Teaching Tech"
-                            className="w-40 h-40 lg:w-48 lg:h-48 object-contain drop-shadow-2xl relative z-10 hover:scale-110 transition-transform cursor-pointer pointer-events-auto"
+                            className="w-40 h-40 lg:w-48 lg:h-48 object-contain drop-shadow-2xl relative z-10 hover:scale-110 transition-transform cursor-pointer pointer-events-auto rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm opacity-80"
                             animate={{ y: [0, -10, 0], rotate: [5, 0, 5] }}
                             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                             drag

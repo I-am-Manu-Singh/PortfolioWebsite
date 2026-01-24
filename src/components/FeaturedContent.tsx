@@ -29,7 +29,7 @@ const FeaturedContent: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_publications.png`}
                             alt="Publications"
-                            className="w-48 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-2 border-white/10 bg-black/20"
+                            className="w-48 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm opacity-80"
                             animate={{ y: [0, -15, 0], rotate: [0, -5, 0] }}
                             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
                             drag
@@ -51,12 +51,12 @@ const FeaturedContent: React.FC = () => {
                                 <span className="p-2 bg-[#0077b5] rounded-md text-white"><Briefcase size={20} /></span>
                                 LinkedIn Featured
                             </h3>
-                            <a href="https://www.linkedin.com/in/manpreetsingh-android/" target="_blank" className="text-sm text-primary hover:underline">View Profile</a>
+                            <a href="https://www.linkedin.com/posts/manpreet-singh001_just-did-my-first-100century-problems-on-activity-7278847345100824577-xPvW?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC_re9gBMwDNcnOojDO0oOyr4644o4RHMRo" target="_blank" className="text-sm text-primary hover:underline">View Profile</a>
                         </div>
 
                         <div className="flex flex-col gap-6">
                             <motion.a
-                                href="https://www.linkedin.com/in/manpreetsingh-android/"
+                                href="https://www.linkedin.com/in/manpreet-singh001/"
                                 target="_blank"
                                 className="glass-card p-6 hover:bg-white/5 transition-all group"
                                 whileHover={{ y: -5 }}
@@ -72,6 +72,7 @@ const FeaturedContent: React.FC = () => {
                                             <h4 className="font-bold text-white group-hover:text-primary transition-colors">Manpreet Singh</h4>
                                             <div className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">Follow</div>
                                         </div>
+
                                         <p className="text-xs text-text-muted mb-2">Android Developer | KMP | React Native</p>
                                         <p className="text-sm text-gray-300 line-clamp-3">
                                             Check out my latest updates, project showcases, and technical articles on LinkedIn. I regularly share insights about Android Development, Jetpack Compose, and Kotlin Multiplatform.
@@ -83,7 +84,7 @@ const FeaturedContent: React.FC = () => {
                             <motion.div
                                 className="glass-card p-6 flex flex-col justify-center items-center text-center hover:bg-white/5 transition-all cursor-pointer"
                                 whileHover={{ scale: 1.02 }}
-                                onClick={() => window.open("https://www.linkedin.com/in/manpreetsingh-android/", "_blank")}
+                                onClick={() => window.open("https://www.linkedin.com/in/manpreet-singh001//", "_blank")}
                             >
                                 <div className="mb-3 p-3 bg-white/5 rounded-full">
                                     <Briefcase size={24} className="text-primary-light" />
