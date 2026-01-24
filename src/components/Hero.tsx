@@ -59,6 +59,9 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     // Animation Refs
     const pressTimerRef = useRef<number | null>(null);
     const startTimeRef = useRef<number | null>(null);
+    const isPressingRef = useRef(false);
+    const scrambleIntervalRef = useRef<number | null>(null);
+    const [scrambleTick, setScrambleTick] = useState(0);
     const textControls = useAnimation();
 
     // Audio Hook
@@ -126,19 +129,25 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
         if (isUnlocked || isReverting) return;
 
-        // Prevent default only for touch to stop menus, but be careful with scrolling logic
-        // if (e && 'touches' in e) e.preventDefault(); 
-
         // Stop any active decay
         if (decayTimerRef.current) cancelAnimationFrame(decayTimerRef.current);
 
         setIsPressing(true);
+        isPressingRef.current = true;
+
+        // SCRAMBLE EFFECT: Randomize characters while holding
+        scrambleIntervalRef.current = window.setInterval(() => {
+            setScrambleTick(prev => prev + 1);
+        }, 80);
+
         const now = Date.now();
         const duration = 10000; // 10s strict
         const elapsedSoFar = (unlockProgress / 100) * duration;
         startTimeRef.current = now - elapsedSoFar;
 
         const animate = () => {
+            if (!isPressingRef.current) return; // STRICT BAIL
+
             const currentTime = Date.now();
             const elapsed = currentTime - (startTimeRef.current || currentTime);
             const progress = Math.min((elapsed / duration) * 100, 100);
@@ -159,8 +168,11 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         if (isUnlocked || isReverting) return;
 
         setIsPressing(false);
+        isPressingRef.current = false;
         stopCharge();
+
         if (pressTimerRef.current) cancelAnimationFrame(pressTimerRef.current);
+        if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
 
         const startDecay = () => {
             const initialProgress = unlockProgress;
@@ -462,27 +474,27 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 opacity: 1,
                                                 // FULL SCREEN SWIRL: Maintain spread even during interaction
                                                 // We add a persistent oscillation to keep them "rearranging"
+                                                // AGGRESSIVE GRID SHUFFLING:
+                                                // We use a multi-stage sequence to make them "shuffle" around their chaos points
                                                 x: isPressing
-                                                    ? [shard.chaosX, shard.chaosX + Math.sin(shard.id) * 100, shard.chaosX]
+                                                    ? [shard.chaosX, shard.chaosX + Math.sin(shard.id) * 200, shard.chaosX - Math.cos(shard.id) * 200, shard.chaosX]
                                                     : shard.chaosX,
                                                 y: isPressing
-                                                    ? [shard.chaosY, shard.chaosY + Math.cos(shard.id) * 100, shard.chaosY]
+                                                    ? [shard.chaosY, shard.chaosY + Math.cos(shard.id) * 200, shard.chaosY + Math.sin(shard.id) * 200, shard.chaosY]
                                                     : shard.chaosY,
-                                                z: isPressing ? [shard.chaosZ, 0, shard.chaosZ] : shard.chaosZ,
+                                                z: isPressing ? [shard.chaosZ, 200, -200, shard.chaosZ] : shard.chaosZ,
 
-                                                // MORPH: Rotate to 180deg (Matrix Backface) as progress increases
-                                                // Since we can't easily sync rotateY to a dynamic progress value in a simple 'animate' object,
-                                                // we animate it based on isPressing. 
+                                                // MORPH: Digital Conversion
                                                 rotateY: isPressing ? 180 : 0,
-                                                rotateX: isPressing ? [0, 360, 0] : 0,
-                                                scale: isPressing ? 1.2 : 1.5
+                                                rotateX: isPressing ? [0, 180, 360] : 0,
+                                                scale: isPressing ? [1.2, 1.4, 1.2] : 1.5
                                             }}
                                             transition={{
-                                                duration: isUnlocked ? 0.8 : (isReverting ? 1 : (isPressing ? 10 : 0.8)),
-                                                ease: isUnlocked ? "circIn" : (isPressing ? "easeInOut" : "circOut"),
-                                                // Repeat the swirl during the 10s hold
+                                                duration: isUnlocked ? 0.8 : (isReverting ? 1 : (isPressing ? 5 : 0.8)),
+                                                ease: isUnlocked ? "circIn" : (isPressing ? "linear" : "circOut"),
+                                                // Continuous shuffling while pressing
                                                 repeat: isPressing && !isUnlocked ? Infinity : 0,
-                                                repeatType: "reverse"
+                                                repeatType: "loop"
                                             }}
                                         >
                                             {/* FRONT FACE: Work Image Slice (Colorful) */}
@@ -497,15 +509,20 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 }}
                                             />
 
-                                            {/* BACK FACE: Matrix Character (Green) */}
+                                            {/* BACK FACE: Matrix Character (Green & Scrambling) */}
                                             <div
                                                 className="absolute inset-0 bg-black text-green-500 font-mono font-bold flex items-center justify-center text-[10px] backface-hidden"
                                                 style={{
                                                     transform: 'rotateY(180deg)',
-                                                    border: '1px solid rgba(0, 255, 0, 0.3)'
+                                                    border: '1px solid rgba(0, 255, 0, 0.3)',
+                                                    boxShadow: '0 0 10px rgba(0, 255, 0, 0.2)'
                                                 }}
                                             >
-                                                {shard.char}
+                                                {/* CHARACTER SCRAMBLING LOGIC */}
+                                                {isPressing
+                                                    ? "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890".charAt(Math.floor(Math.random() * 56 + scrambleTick) % 56)
+                                                    : shard.char
+                                                }
                                             </div>
                                         </motion.div>
                                     );
