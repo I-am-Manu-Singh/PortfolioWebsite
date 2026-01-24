@@ -218,6 +218,14 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                         onTouchStart={startDecryption}
                         onTouchEnd={stopDecryption}
                     >
+                        {/* PHANTOM IMAGE: Forces container height to match image aspect ratio naturally */}
+                        <img
+                            src={ProfileImage}
+                            alt="Spacer"
+                            className="w-full h-auto opacity-0 pointer-events-none relative z-0 block"
+                            aria-hidden="true"
+                        />
+
                         {/* Status / Hint Overlay */}
                         {!isShattered ? (
                             <motion.div
@@ -255,12 +263,12 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab }) => {
                             </motion.div>
                         )}
 
-                        {/* Underlay: Personal Profile (The "Secret") */}
-                        <div className="relative w-full h-auto rounded-2xl overflow-hidden shadow-2xl bg-black transform-gpu">
+                        {/* Underlay: Personal Profile (The "Secret") - Now Absolute to match container */}
+                        <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-black transform-gpu">
                             <img
                                 src={ProfileImagePersonal}
                                 alt="Personal Profile"
-                                className="w-full h-auto object-cover opacity-80"
+                                className="w-full h-full object-cover opacity-80"
                             />
                             <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center pointer-events-none">
                                 <motion.div
