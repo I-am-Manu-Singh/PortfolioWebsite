@@ -22,8 +22,6 @@ const letterContainerVariants: Variants = {
 import { useCyberpunkSound } from '../hooks/useCyberpunkSound';
 import { useKonamiCode } from '../hooks/useKonamiCode';
 
-// Simple heuristic for low power mode
-const isLowPower = typeof navigator !== 'undefined' && (navigator.hardwareConcurrency || 4) < 4;
 
 
 const letterVariants: Variants = {
@@ -249,8 +247,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         }
     }, []);
 
-    // 1024 Shards (32x32) or 144 (12x12) for Low Power
-    const gridSize = isLowPower ? 12 : 32;
+    // 20x20 Grid (400 Shards) for evenness and perfect percentage-based coverage
+    const gridSize = 20;
     const totalShards = gridSize * gridSize;
 
     const shards = useMemo(() => Array.from({ length: totalShards }, (_, i) => ({
@@ -258,10 +256,9 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         row: Math.floor(i / gridSize),
         col: i % gridSize,
         char: String.fromCharCode(0x30A0 + Math.random() * 96),
-        // Random "Chaos" Initial Position (Relative to Hero Section now)
-        // Spread wider than container to cover "Name to Socials"
-        chaosX: (Math.random() - 0.5) * 1500, // Spread across screen width
-        chaosY: (Math.random() - 0.5) * 1000, // Spread vertically
+        // Random "Chaos" Initial Position
+        chaosX: (Math.random() - 0.5) * 1500,
+        chaosY: (Math.random() - 0.5) * 1000,
         chaosZ: (Math.random() - 0.5) * 800
     })), [gridSize, totalShards]);
 
@@ -455,17 +452,23 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                 {shards.map((shard) => {
                                     if (!containerRect) return null;
 
-                                    // Local Grid Position (relative to this container)
-                                    // 32x32 Grid
-                                    const shardWidth = Math.ceil(containerRect.width / gridSize);
-                                    const shardHeight = Math.ceil(containerRect.height / gridSize);
+                                    // 20x20 Grid = 5% each
+                                    const shardWidth = "5%";
+                                    const shardHeight = "5%";
                                     const targetX = shard.col * (containerRect.width / gridSize);
                                     const targetY = shard.row * (containerRect.height / gridSize);
+                                    const bgX = targetX;
+                                    const bgY = targetY;
 
-                                    // LERP Position based on progress
+                                    // Local Grid Position relative to cell (which is already at shard.col * 5%)
+                                    // So in grid, x=0, y=0.
+                                    // In chaos, x = chaosX - targetX.
+                                    const relChaosX = shard.chaosX - targetX;
+                                    const relChaosY = shard.chaosY - targetY;
+
                                     const t = unlockProgress / 100;
-                                    const currentX = targetX * t + shard.chaosX * (1 - t);
-                                    const currentY = targetY * t + shard.chaosY * (1 - t);
+                                    const currentX = 0 * t + relChaosX * (1 - t);
+                                    const currentY = 0 * t + relChaosY * (1 - t);
                                     const currentZ = 0 * t + shard.chaosZ * (1 - t);
 
                                     return (
@@ -476,86 +479,69 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 width: shardWidth,
                                                 height: shardHeight,
                                                 transformStyle: 'preserve-3d',
-                                                top: 0,
-                                                left: 0
+                                                top: `${shard.row * 5}%`,
+                                                left: `${shard.col * 5}%`
                                             }}
-                                            initial={{
-                                                x: targetX,
-                                                y: targetY,
-                                                z: 0,
-                                                rotateX: 0,
-                                                rotateY: 0,
-                                                opacity: 1,
-                                                scale: 1
-                                            }}
+                                            initial={{ x: 0, y: 0, z: 0, rotateY: 0, opacity: 1 }}
                                             animate={(() => {
                                                 switch (interactionStage) {
-                                                    case 'unlock-grid':
-                                                        return { x: targetX, y: targetY, z: 0, rotateY: 180, rotateX: 0, opacity: 1, scale: 1 };
-                                                    case 'unlock-flip':
-                                                        return { x: targetX, y: targetY, z: 0, rotateY: 360, rotateX: 0, opacity: 1, scale: 1 };
-                                                    case 'unlock-disperse':
-                                                        return {
-                                                            x: shard.chaosX * 4,
-                                                            y: shard.chaosY * 4,
-                                                            z: 1000,
-                                                            rotateX: Math.random() * 720,
-                                                            rotateY: Math.random() * 720,
-                                                            opacity: 0,
-                                                            scale: 0.5
-                                                        };
                                                     case 'breaking-grid':
-                                                        return { x: targetX, y: targetY, z: 0, rotateY: 180, rotateX: 0, opacity: 1, scale: 1 };
+                                                        return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
                                                     case 'breaking-disperse':
                                                     case 'shattered':
                                                         return {
-                                                            opacity: 1,
-                                                            x: isPressing
-                                                                ? [currentX, currentX + Math.sin(shard.id) * 30, currentX]
-                                                                : currentX,
-                                                            y: isPressing
-                                                                ? [currentY, currentY + Math.cos(shard.id) * 30, currentY]
-                                                                : currentY,
-                                                            z: isPressing ? [currentZ, 50, currentZ] : currentZ,
+                                                            x: isPressing ? [currentX, currentX + Math.sin(shard.id) * 20, currentX] : currentX,
+                                                            y: isPressing ? [currentY, currentY + Math.cos(shard.id) * 20, currentY] : currentY,
+                                                            z: currentZ,
                                                             rotateY: 180,
-                                                            rotateX: isPressing ? [180, 200, 180] : 180,
-                                                            scale: isPressing ? 1.1 : 1.4
+                                                            opacity: 1,
+                                                            scale: isPressing ? 1.1 : 1.2
                                                         };
                                                     case 'reverting-grid':
-                                                        return { x: targetX, y: targetY, z: 0, rotateY: 180, opacity: 1, scale: 1 };
+                                                        return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
                                                     case 'reverting-flip':
-                                                        return { x: targetX, y: targetY, z: 0, rotateY: 0, opacity: 1, scale: 1 };
+                                                        return { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1 };
+                                                    case 'unlock-grid':
+                                                        return { x: 0, y: 0, z: 0, rotateY: 180, opacity: 1 };
+                                                    case 'unlock-flip':
+                                                        return { x: 0, y: 0, z: 0, rotateY: 360, opacity: 1 };
+                                                    case 'unlock-disperse':
+                                                        return {
+                                                            x: relChaosX * 3,
+                                                            y: relChaosY * 3,
+                                                            z: 500,
+                                                            rotateY: 720,
+                                                            opacity: 0,
+                                                            scale: 0.5
+                                                        };
                                                     default:
-                                                        return { x: targetX, y: targetY, opacity: 1 };
+                                                        return { x: 0, y: 0, rotateY: 0, opacity: 1 };
                                                 }
                                             })()}
                                             transition={{
-                                                duration: interactionStage.includes('unlock') || interactionStage.startsWith('reverting') ? 0.6 : (isPressing ? 0.5 : 0.6),
-                                                ease: "easeOut",
-                                                repeat: isPressing && !interactionStage.includes('unlock') ? Infinity : 0,
+                                                duration: interactionStage.includes('grid') || interactionStage.includes('flip') ? 0.6 : 0.8,
+                                                ease: "easeInOut",
+                                                repeat: isPressing && interactionStage === 'shattered' ? Infinity : 0,
                                                 repeatType: "reverse"
                                             }}
                                         >
-                                            {/* FRONT FACE: Image Slice */}
                                             <div
                                                 className="absolute inset-0 bg-no-repeat backface-hidden"
                                                 style={{
                                                     backgroundImage: `url(${interactionStage.startsWith('unlock') ? ProfileImagePersonal : ProfileImage})`,
                                                     backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
-                                                    backgroundPosition: `-${targetX}px -${targetY}px`,
-                                                    opacity: 1
+                                                    backgroundPosition: `-${bgX}px -${bgY}px`,
+                                                    outline: '1px solid transparent'
                                                 }}
                                             />
-
-                                            {/* BACK FACE: Matrix Character */}
                                             <div
-                                                className="absolute inset-0 bg-black text-green-500 font-mono font-bold flex items-center justify-center text-[10px] backface-hidden"
+                                                className="absolute inset-0 bg-black text-green-500 font-mono font-bold flex items-center justify-center text-[8px] md:text-[10px] backface-hidden"
                                                 style={{
                                                     transform: 'rotateY(180deg)',
-                                                    border: '1px solid rgba(0, 255, 0, 0.2)'
+                                                    border: '1px solid rgba(0, 255, 0, 0.1)'
                                                 }}
                                             >
-                                                {isPressing || interactionStage === 'shattered'
+                                                {isPressing || interactionStage === 'shattered' || interactionStage.includes('grid')
                                                     ? "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890".charAt(Math.floor(Math.random() * 56 + scrambleTick) % 56)
                                                     : shard.char
                                                 }
@@ -565,11 +551,9 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                 })}
                             </div>
                         )}
-
                     </div>
                 </motion.div>
             </div>
-
             <motion.div
                 className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
                 animate={{ y: [0, 10, 0] }}
@@ -577,7 +561,6 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
             >
                 <ChevronDown className="text-text-muted" size={32} />
             </motion.div>
-
             <ResumePreview isOpen={isPreviewOpen} onClose={() => setIsPreviewOpen(false)} />
         </section>
     );
