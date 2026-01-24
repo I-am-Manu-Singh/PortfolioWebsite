@@ -58,15 +58,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
     // Interaction Stages: 'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip' | 'unlock-disperse'
     const [interactionStage, setInteractionStage] = useState<'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip' | 'unlock-disperse'>('idle');
 
-    // State Lifting: Reset detection
-    useEffect(() => {
-        if (!isUnlocked && interactionStage !== 'idle' && !isPressingRef.current) {
-            // Navbar reset triggered
-            setInteractionStage('idle');
-            setIsShattered(false);
-            setUnlockProgress(0);
-        }
-    }, [isUnlocked, interactionStage]); // Added interactionStage to dependency array for correctness
+
 
     // Container Ref for "Assembly" Target Coordinates
     const containerRef = useRef<HTMLDivElement>(null);
@@ -109,6 +101,18 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
             clearTimeout(t);
         };
     }, []); // Only on mount
+
+    // State Lifting: Reset detection
+    useEffect(() => {
+        if (!isUnlocked) {
+            // Navbar reset triggered or site load
+            setInteractionStage('idle');
+            setIsShattered(false);
+            setUnlockProgress(0);
+            setIsReverting(false);
+            textControls.set("visible"); // Force restore visibility!
+        }
+    }, [isUnlocked, textControls]); // Watch for isUnlocked reset from parent
 
     const triggerUnlock = async () => {
         if (!isPressingRef.current) return; // STRICT CHECK: If they released, don't unlock!
