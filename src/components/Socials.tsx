@@ -87,7 +87,7 @@ const Socials: React.FC<SocialsProps> = () => {
                             <motion.img
                                 src={`${import.meta.env.BASE_URL}profile_person.png`}
                                 alt="Glitch Red"
-                                className="absolute inset-0 w-full h-full object-cover opacity-0 mix-blend-screen filter hue-rotate-90 pointer-events-none"
+                                className="absolute inset-0 w-full h-full object-cover object-top opacity-0 mix-blend-screen filter hue-rotate-90 pointer-events-none"
                                 whileHover={{ opacity: [0, 0.8, 0], x: [-3, 3, -1, 0, 2], y: [2, -2, 0, 1, -1] }}
                                 transition={{ duration: 0.2, repeat: Infinity }}
                             />
