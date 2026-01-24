@@ -36,7 +36,9 @@ const getSkillIcon = (skill: string) => {
     // Fallback Icon Mapping for abstract concepts
     const iconFallback: { [key: string]: any } = {
         "Room": Database,
+        "RoomKMP & SQLDelight": Database,
         "Retrofit": Globe,
+        "Retrofit & OkHttp": Globe,
         "Coroutines": Zap,
         "Flow": Layers,
         "Paging 3": Layers,
@@ -46,6 +48,7 @@ const getSkillIcon = (skill: string) => {
         "JNI": Terminal,
         "ML Kit": Cpu,
         "OkHttp": Globe,
+        "Ktor": Globe,
         "Coil": Layout,
         "XML": Layout,
         "MVVM": Layers,
@@ -53,7 +56,14 @@ const getSkillIcon = (skill: string) => {
         "Reanimated": Zap,
         "Gesture Handler": Smartphone,
         "AsyncStorage": Database,
-        "Axios": Globe
+        "Axios": Globe,
+        "Gradle": Box,
+        "Material Design 3": Layout,
+        "iOS Dev": Smartphone,
+        "macOS Apps": Layers,
+        "Firebase Console": Database, // Mapped fallback
+        "Compose Multiplatform": Layers,
+        "KotlinX": Code
     };
 
     const FallbackIcon = iconFallback[skill] || Code; // Default to Code icon
@@ -108,7 +118,7 @@ const Skills: React.FC = () => {
                                     // @ts-ignore
                                     <iconData.Component size={20} className="text-primary-light group-hover:scale-110 transition-transform duration-300" />
                                 )}
-                                <span className="font-mono text-[9px] md:text-[10px] text-text-muted group-hover:text-white transition-colors text-center leading-tight line-clamp-2 max-w-full px-1">{skill}</span>
+                                <span className="font-mono text-[9px] md:text-[10px] text-text-muted group-hover:text-white transition-colors text-center leading-tight line-clamp-2 max-w-full px-1 break-words">{skill}</span>
                             </motion.div>
                         );
                     })}

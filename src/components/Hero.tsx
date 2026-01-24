@@ -50,6 +50,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [isPressing, setIsPressing] = useState(false);
 
+    const [isReverting, setIsReverting] = useState(false);
+
     // Container Ref for "Assembly" Target Coordinates
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
@@ -95,12 +97,12 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     };
 
     const handleTap = () => {
-        if (!isShattered && !isUnlocked) {
+        if (!isShattered && !isUnlocked && !isReverting) {
             setIsShattered(true);
             playScatter(); // Scatter Sound
             setTimeout(() => {
                 if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
-            }, 100);
+            }, 50); // Faster measurement
         }
     };
 
@@ -108,22 +110,12 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const decayTimerRef = useRef<number | null>(null);
 
     const startDecryption = () => {
-        if (!isShattered || isUnlocked) return;
+        if (!isShattered || isUnlocked || isReverting) return;
 
         // Stop any active decay
         if (decayTimerRef.current) cancelAnimationFrame(decayTimerRef.current);
 
         setIsPressing(true);
-        // We DON'T reset start time if continuing, but for "Linear 0-100", we need a reference.
-        // To support "Hold from 50%", we need to track accumulated time or calculate start time backwards.
-        // Simpler approach for "Strict 10s": You must hold for 10s *total duration*.
-        // If we want it to resume, we calculate a "virtual" start time based on current progress.
-
-        // Calculate virtual start time so progress is continuous
-        // progress = (now - startTime) / 10000 * 100
-        // (now - startTime) = (progress / 100) * 10000
-        // startTime = now - (progress / 100) * 10000
-
         const now = Date.now();
         const duration = 10000; // 10s strict
         const elapsedSoFar = (unlockProgress / 100) * duration;
@@ -147,34 +139,36 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     };
 
     const stopDecryption = () => {
-        if (isUnlocked) return;
+        if (isUnlocked || isReverting) return;
 
         setIsPressing(false);
         stopCharge();
         if (pressTimerRef.current) cancelAnimationFrame(pressTimerRef.current);
 
-        // STRICT REQUIREMENT: "Show % increments strictly... no premature revealing"
-        // Implicitly, if they let go, it scatters again (Entropy).
-        // I will implement a fast decay so they lose progress if they don't commit.
-
         const startDecay = () => {
-            // Decay from current progress to 0 over 1 second (Fast punishment)
-            const initialProgress = unlockProgress; // Capture current
-            // We need a separate start time for decay
+            const initialProgress = unlockProgress;
             const decayStart = Date.now();
             const decayDuration = 1000; // 1s to lose all progress
 
             const animateDecay = () => {
                 const now = Date.now();
                 const decayElapsed = now - decayStart;
-                // Linear interpolation from initial -> 0
-                // current = initial * (1 - elapsed/duration)
                 const newProgress = Math.max(initialProgress * (1 - decayElapsed / decayDuration), 0);
 
                 setUnlockProgress(newProgress);
 
                 if (newProgress > 0) {
                     decayTimerRef.current = requestAnimationFrame(animateDecay);
+                } else {
+                    // Revert Condition: Progress reached 0
+                    if (isShattered) {
+                        setIsReverting(true);
+                        // Wait for Revert Animation (1s) to finish then hide shards
+                        setTimeout(() => {
+                            setIsShattered(false);
+                            setIsReverting(false);
+                        }, 1000);
+                    }
                 }
             };
             decayTimerRef.current = requestAnimationFrame(animateDecay);
@@ -239,7 +233,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                     </motion.h2>
 
                     <motion.h1
-                        className="text-5xl md:text-7xl font-bold mb-6 tracking-tight flex flex-wrap"
+                        className="text-4xl md:text-6xl font-bold mb-6 tracking-tight flex flex-wrap"
                         variants={letterContainerVariants}
                     >
                         {nameLetters.map((letter, index) => (
@@ -251,7 +245,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                     </motion.h1>
 
                     <motion.h3
-                        className="text-3xl md:text-5xl font-bold mb-8"
+                        className="text-2xl md:text-4xl font-bold mb-8"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1, duration: 0.8 }}
@@ -430,30 +424,41 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 left: 0
                                             }}
                                             initial={{
-                                                x: shard.chaosX,
-                                                y: shard.chaosY,
-                                                z: shard.chaosZ,
-                                                rotateX: Math.random() * 360,
-                                                rotateY: Math.random() * 360,
-                                                opacity: 0,
-                                                scale: 2
+                                                // Explosion Start: Start at "Assembled" position (0,0 relative)
+                                                x: targetX,
+                                                y: targetY,
+                                                z: 0,
+                                                rotateX: 0,
+                                                rotateY: 0,
+                                                opacity: 1,
+                                                scale: 1
                                             }}
-                                            animate={isUnlocked ? {
+                                            animate={isReverting ? {
+                                                // Revert to Assembled (Work)
+                                                x: targetX,
+                                                y: targetY,
+                                                z: 0,
+                                                rotateX: 0,
+                                                rotateY: 0,
+                                                opacity: 1,
+                                                scale: 1
+                                            } : isUnlocked ? {
                                                 opacity: 0, // Vanish
                                             } : {
+                                                // Standard Interaction
                                                 opacity: 1,
-                                                // Sync: 10s linear interpolation to 0,0,0
+                                                // If Pressing: Target (Assembled Personal). Else: Chaos (Explosion)
                                                 x: isPressing ? targetX : shard.chaosX,
                                                 y: isPressing ? targetY : shard.chaosY,
                                                 z: isPressing ? 0 : shard.chaosZ,
-                                                // Flip to Image (180deg)
+                                                // Flip to Image (180deg) IF pressing
                                                 rotateX: isPressing ? 0 : [0, 360],
                                                 rotateY: isPressing ? 180 : [0, 360],
                                                 scale: isPressing ? 1 : 1.5
                                             }}
                                             transition={{
-                                                // KEY: Match 10s timer exactly for linear build-up
-                                                duration: isPressing ? 10 : 2,
+                                                // Explosion/Revert: Fast (0.5s - 1s). Assembly: Slow (10s)
+                                                duration: isReverting ? 1 : (isPressing ? 10 : 0.8),
                                                 ease: isPressing ? "linear" : "circOut",
                                             }}
                                         >
@@ -462,24 +467,18 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 {shard.char}
                                             </div>
 
-                                            {/* BACK FACE: Image Slice (Revealed slowly as it rotates 180deg over 10s) */}
+                                            {/* BACK FACE: Personal Image Slice (Restored) */}
                                             <div
                                                 className="absolute inset-0 bg-no-repeat backface-hidden"
                                                 style={{
-                                                    backgroundColor: 'rgba(0, 20, 0, 0.9)',
-                                                    border: '1px solid rgba(0, 255, 0, 0.3)',
+                                                    backgroundImage: `url(${ProfileImagePersonal})`,
+                                                    backgroundSize: `${containerRect.width}px ${containerRect.height}px`,
+                                                    backgroundPosition: `-${targetX}px -${targetY}px`,
                                                     transform: 'rotateY(180deg)',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    color: 'rgba(0, 255, 0, 0.5)',
-                                                    fontSize: '8px',
-                                                    fontFamily: 'monospace'
+                                                    opacity: 0.4, // Ghostly opacity as requested
+                                                    boxShadow: 'inset 0 0 5px rgba(0,0,0,0.8)'
                                                 }}
-                                            >
-                                                {/* Encrypted Data Look */}
-                                                {String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96))}
-                                            </div>
+                                            />
                                         </motion.div>
                                     );
                                 })}

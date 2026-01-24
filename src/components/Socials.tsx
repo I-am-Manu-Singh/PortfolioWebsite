@@ -91,7 +91,7 @@ const Socials: React.FC<SocialsProps> = () => {
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="relative w-full max-w-[300px] h-auto aspect-[9/16] rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl z-10 bg-dark/50 backdrop-blur-sm group cursor-pointer"
+                            className="relative w-full max-w-sm md:max-w-md h-auto aspect-auto rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl z-10 bg-dark/50 backdrop-blur-sm group cursor-pointer"
                             whileHover={{ scale: 1.02 }}
                         >
                             {/* Glitch Layers - Red Channel */}
