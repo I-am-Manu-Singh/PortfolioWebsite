@@ -110,7 +110,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
             setIsShattered(false);
             setUnlockProgress(0);
             setIsReverting(false);
-            textControls.set("visible"); // Force restore visibility!
+            textControls.start("visible"); // Robust restore!
         }
     }, [isUnlocked, textControls]); // Watch for isUnlocked reset from parent
 

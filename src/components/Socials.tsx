@@ -85,7 +85,7 @@ const Socials: React.FC<SocialsProps> = () => {
                         <div className="relative w-full max-w-sm md:max-w-md mx-auto aspect-[3/4] rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl z-10 bg-dark/50 backdrop-blur-sm group cursor-pointer">
                             {/* Glitch Layers */}
                             <motion.img
-                                src={`${import.meta.env.BASE_URL}profile_person.png`}
+                                src={`${import.meta.env.BASE_URL}profile_personal.png`}
                                 alt="Glitch Red"
                                 className="absolute inset-0 w-full h-full object-cover opacity-0 mix-blend-screen filter hue-rotate-90 pointer-events-none"
                                 whileHover={{ opacity: [0, 0.8, 0], x: [-3, 3, -1, 0, 2], y: [2, -2, 0, 1, -1] }}
@@ -94,7 +94,7 @@ const Socials: React.FC<SocialsProps> = () => {
 
                             {/* Main Image - Precise Alignment with Hero */}
                             <img
-                                src={`${import.meta.env.BASE_URL}profile_person.png`}
+                                src={`${import.meta.env.BASE_URL}profile_personal.png`}
                                 alt="Personal Profile"
                                 className="w-full h-full object-cover transition-transform duration-700"
                                 onError={(e) => {
