@@ -450,7 +450,14 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 opacity: 1,
                                                 scale: 1
                                             } : isUnlocked ? {
-                                                opacity: 0, // Vanish
+                                                // UNLOCK EXPLOSION: Fly off screen
+                                                x: shard.chaosX * 5,
+                                                y: shard.chaosY * 5,
+                                                z: 1000,
+                                                rotateX: Math.random() * 720,
+                                                rotateY: Math.random() * 720,
+                                                opacity: 0,
+                                                scale: 0.5
                                             } : {
                                                 // Standard Interaction
                                                 opacity: 1,
@@ -464,9 +471,9 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                                 scale: isPressing ? 1 : 1.5
                                             }}
                                             transition={{
-                                                // Explosion/Revert: Fast (0.5s - 1s). Assembly: Slow (10s)
-                                                duration: isReverting ? 1 : (isPressing ? 10 : 0.8),
-                                                ease: isPressing ? "linear" : "circOut",
+                                                // Unlock: Fast & Aggressive (0.8s). Explosion/Revert: Fast (1s). Assembly: Slow (10s)
+                                                duration: isUnlocked ? 0.8 : (isReverting ? 1 : (isPressing ? 10 : 0.8)),
+                                                ease: isUnlocked ? "circIn" : (isPressing ? "linear" : "circOut"),
                                             }}
                                         >
                                             {/* FRONT FACE: Matrix Code */}
