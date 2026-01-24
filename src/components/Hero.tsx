@@ -19,6 +19,13 @@ const letterContainerVariants: Variants = {
     }
 };
 
+import { useCyberpunkSound } from '../hooks/useCyberpunkSound';
+import { useKonamiCode } from '../hooks/useKonamiCode';
+
+// Simple heuristic for low power mode
+const isLowPower = typeof navigator !== 'undefined' && (navigator.hardwareConcurrency || 4) < 4;
+
+
 const letterVariants: Variants = {
     hidden: { opacity: 0, x: -10 },
     visible: {
@@ -52,6 +59,17 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const startTimeRef = useRef<number | null>(null);
     const textControls = useAnimation();
 
+    // Audio Hook
+    const { playCharge, stopCharge, playUnlock, playScatter } = useCyberpunkSound();
+
+    // Konami Code: Instant Unlock
+    useKonamiCode(() => {
+        if (!isUnlocked) {
+            playUnlock();
+            triggerUnlock();
+        }
+    });
+
     useEffect(() => {
         // Initial measurement
         const measure = () => {
@@ -67,6 +85,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
     const triggerUnlock = async () => {
         setIsUnlocked(true);
+        playUnlock(); // Success Sound
         await textControls.start({
             scale: [1, 1.2, 0],
             opacity: [1, 1, 0],
@@ -78,6 +97,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     const handleTap = () => {
         if (!isShattered && !isUnlocked) {
             setIsShattered(true);
+            playScatter(); // Scatter Sound
             setTimeout(() => {
                 if (containerRef.current) setContainerRect(containerRef.current.getBoundingClientRect());
             }, 100);
@@ -115,6 +135,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
             const progress = Math.min((elapsed / duration) * 100, 100);
 
             setUnlockProgress(progress);
+            playCharge(progress);
 
             if (progress < 100) {
                 pressTimerRef.current = requestAnimationFrame(animate);
@@ -129,6 +150,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         if (isUnlocked) return;
 
         setIsPressing(false);
+        stopCharge();
         if (pressTimerRef.current) cancelAnimationFrame(pressTimerRef.current);
 
         // STRICT REQUIREMENT: "Show % increments strictly... no premature revealing"
@@ -173,21 +195,28 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         }
     }, []);
 
-    // 1024 Shards (32x32)
-    const shards = useMemo(() => Array.from({ length: 1024 }, (_, i) => ({
+    // 1024 Shards (32x32) or 144 (12x12) for Low Power
+    const gridSize = isLowPower ? 12 : 32;
+    const totalShards = gridSize * gridSize;
+
+    const shards = useMemo(() => Array.from({ length: totalShards }, (_, i) => ({
         id: i,
-        row: Math.floor(i / 32),
-        col: i % 32,
+        row: Math.floor(i / gridSize),
+        col: i % gridSize,
         char: String.fromCharCode(0x30A0 + Math.random() * 96),
         // Random "Chaos" Initial Position (Relative to Hero Section now)
         // Spread wider than container to cover "Name to Socials"
         chaosX: (Math.random() - 0.5) * 1500, // Spread across screen width
         chaosY: (Math.random() - 0.5) * 1000, // Spread vertically
         chaosZ: (Math.random() - 0.5) * 800
-    })), []);
+    })), [gridSize, totalShards]);
 
     return (
-        <section className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0 perspective-1000" id="hero">
+        <section
+            className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0 perspective-1000"
+            id="hero"
+            style={{ touchAction: isShattered ? 'none' : 'auto' }} // Prevent scroll while interacting
+        >
             <SectionBackground variant="hero" />
 
             <div className="container max-w-6xl mx-auto z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
