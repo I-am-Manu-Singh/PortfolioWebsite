@@ -37,7 +37,13 @@ const letterVariants: Variants = {
     }
 };
 
-const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ setActiveTab }) => {
+interface HeroProps {
+    setActiveTab: (tab: 'work' | 'personal') => void;
+    isUnlocked: boolean;
+    setIsUnlocked: (unlocked: boolean) => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) => {
     const nameLetters = resumeData.basics.name.split("");
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [visitCount, setVisitCount] = useState<number | null>(null);
@@ -45,13 +51,22 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     // Matrix Interaction State
     const [isShattered, setIsShattered] = useState(false);
     const [unlockProgress, setUnlockProgress] = useState(0);
-    const [isUnlocked, setIsUnlocked] = useState(false);
     const [isPressing, setIsPressing] = useState(false);
     const isPressingRef = useRef(false);
     const [isReverting, setIsReverting] = useState(false);
 
     // Interaction Stages: 'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip' | 'unlock-disperse'
     const [interactionStage, setInteractionStage] = useState<'idle' | 'breaking-grid' | 'breaking-disperse' | 'shattered' | 'reverting-grid' | 'reverting-flip' | 'unlock-grid' | 'unlock-flip' | 'unlock-disperse'>('idle');
+
+    // State Lifting: Reset detection
+    useEffect(() => {
+        if (!isUnlocked && interactionStage !== 'idle' && !isPressingRef.current) {
+            // Navbar reset triggered
+            setInteractionStage('idle');
+            setIsShattered(false);
+            setUnlockProgress(0);
+        }
+    }, [isUnlocked, interactionStage]); // Added interactionStage to dependency array for correctness
 
     // Container Ref for "Assembly" Target Coordinates
     const containerRef = useRef<HTMLDivElement>(null);
@@ -96,21 +111,26 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
     }, []); // Only on mount
 
     const triggerUnlock = async () => {
+        if (!isPressingRef.current) return; // STRICT CHECK: If they released, don't unlock!
+
         // Stop scramble
         if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
 
         // Stage 1: Fly to Grid (Matrix view)
         setInteractionStage('unlock-grid');
-        await new Promise(r => setTimeout(r, 1000)); // Slightly slower
+        await new Promise(r => setTimeout(r, 1000));
+        if (!isPressingRef.current) return; // Check again after wait
 
         // Stage 2: Flip to show Personal Face
         setInteractionStage('unlock-flip');
-        await new Promise(r => setTimeout(r, 1200)); // Much slower to enjoy the reveal
+        await new Promise(r => setTimeout(r, 1200));
+        if (!isPressingRef.current) return; // Check again
 
         // Stage 3: Final Personal Image Dispersal
         setInteractionStage('unlock-disperse');
         playScatter(); // Final Explosion sound
         await new Promise(r => setTimeout(r, 1500));
+        if (!isPressingRef.current) return; // Final strict check before commit
 
         setIsUnlocked(true);
         playUnlock();

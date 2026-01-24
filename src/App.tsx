@@ -17,13 +17,20 @@ import { motion } from 'framer-motion';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'work' | 'personal'>('work');
+  const [isUnlocked, setIsUnlocked] = useState(false);
 
   // Dynamic Background/Theme based on Active Tab
   const isPersonal = activeTab === 'personal';
 
   return (
     <div className={`App relative transition-colors duration-500 min-h-screen ${isPersonal ? 'theme-personal' : 'theme-work'}`}>
-      <Navbar activeTab={activeTab} onBackToWork={() => setActiveTab('work')} />
+      <Navbar
+        activeTab={activeTab}
+        onBackToWork={() => {
+          setActiveTab('work');
+          setIsUnlocked(false);
+        }}
+      />
       <Analytics />
       <ChatBot />
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
@@ -51,7 +58,11 @@ function App() {
             transition={{ duration: 1.2, ease: "easeInOut" }}
             className="z-10 relative"
           >
-            <Hero setActiveTab={setActiveTab} />
+            <Hero
+              setActiveTab={setActiveTab}
+              isUnlocked={isUnlocked}
+              setIsUnlocked={setIsUnlocked}
+            />
             <Skills />
             <Experience />
             <CodingProfile />
