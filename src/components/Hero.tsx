@@ -112,8 +112,8 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
             transition: { duration: 0.8, ease: "easeOut" }
         },
         unlocked: {
-            scale: [1, 1.2, 0],
-            opacity: [1, 1, 0],
+            scale: 0.9,
+            opacity: 0,
             transition: { duration: 0.5 }
         }
     };
@@ -318,6 +318,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
 
             <div className="container max-w-6xl mx-auto px-4 md:px-6 z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
                 <motion.div
+                    key={`hero-content-${isUnlocked}`}
                     className="order-2 md:order-1"
                     initial="hidden"
                     animate={isUnlocked ? "unlocked" : "visible"}
@@ -416,33 +417,9 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                     transition={{ duration: 1 }}
                 >
                     <div className="relative w-full max-w-sm md:max-w-md mx-auto">
-                        {/* Decryption Progress - OUTSIDE overflow container */}
-                        {isShattered && !isUnlocked && (
-                            <motion.div
-                                className="absolute top-10 md:-top-24 left-0 right-0 z-[110] flex flex-col items-center pointer-events-none"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                            >
-                                <div className="relative w-56 p-4 bg-black/90 backdrop-blur-lg border border-green-500/40 rounded-lg shadow-[0_0_30px_rgba(34,197,94,0.4)]">
-                                    <div className="flex justify-between items-end mb-2">
-                                        <span className="text-[10px] text-green-500/80 font-mono tracking-widest uppercase">
-                                            {isReverting ? 'REVERTING...' : 'DECRYPTING...'}
-                                        </span>
-                                        <span className="text-xl font-bold font-mono text-green-500 tabular-nums">{unlockProgress.toFixed(0)}%</span>
-                                    </div>
-                                    <div className="w-full h-1.5 bg-gray-900 rounded-full overflow-hidden">
-                                        <motion.div
-                                            className="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)]"
-                                            style={{ width: `${unlockProgress}%` }}
-                                        />
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
-
                         <div
                             ref={containerRef}
-                            className="relative w-full aspect-[3/4] cursor-pointer group perspective-1000 select-none touch-none rounded-2xl overflow-hidden shadow-2xl"
+                            className="relative w-full aspect-[3/4] cursor-pointer group perspective-1000 select-none touch-none rounded-2xl overflow-hidden shadow-2xl z-10"
                             style={{ WebkitTouchCallout: 'none' }}
                             onContextMenu={(e) => e.preventDefault()}
                             onMouseDown={startDecryption}
@@ -469,10 +446,10 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                         animate={{ opacity: 1, scale: 1 }}
                                         className="text-center"
                                     >
-                                        <div className="p-4 rounded-full bg-green-500/20 border border-green-500/50 mb-4 inline-flex">
-                                            <Unlock size={32} className="text-green-500" />
+                                        <div className="text-white flex flex-col items-center gap-2">
+                                            <Unlock size={48} className="animate-bounce" />
+                                            <span className="font-mono text-sm tracking-widest">PERSONAL DATA UNLOCKED</span>
                                         </div>
-                                        <div className="text-white font-mono font-bold text-xl tracking-widest drop-shadow-lg">ACCESS GRANTED</div>
                                     </motion.div>
                                 </div>}
                             </div>
@@ -594,6 +571,30 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                 </div>
                             )}
                         </div>
+
+                        {/* Decryption Progress - OUTSIDE overflow container and below in DOM for visibility */}
+                        {isShattered && !isUnlocked && (
+                            <motion.div
+                                className="absolute bottom-10 md:-top-24 left-0 right-0 z-[999] flex flex-col items-center pointer-events-none"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                            >
+                                <div className="relative w-56 p-4 bg-black/90 backdrop-blur-lg border border-green-500/40 rounded-lg shadow-[0_0_30px_rgba(34,197,94,0.4)]">
+                                    <div className="flex justify-between items-end mb-2">
+                                        <span className="text-[10px] text-green-500/80 font-mono tracking-widest uppercase">
+                                            {isReverting ? 'REVERTING...' : 'DECRYPTING...'}
+                                        </span>
+                                        <span className="text-xl font-bold font-mono text-green-500 tabular-nums">{unlockProgress.toFixed(0)}%</span>
+                                    </div>
+                                    <div className="w-full h-1.5 bg-gray-900 rounded-full overflow-hidden">
+                                        <motion.div
+                                            className="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)]"
+                                            style={{ width: `${unlockProgress}%` }}
+                                        />
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
                     </div>
                 </motion.div>
             </div>
