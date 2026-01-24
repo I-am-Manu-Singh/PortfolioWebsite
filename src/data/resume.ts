@@ -27,8 +27,8 @@ export const resumeData = {
     },
     skills: {
         languages: ["Kotlin", "Java", "TypeScript", "XML"],
-        android: ["CMP", "Compose Multiplatform", "MVVM", "Clean Architecture", "RoomKMP & SQLDelight", "Retrofit & OkHttp", "Coroutines", "Flow", "Ktor", "KotlinX", "WorkManager", "Coil", "Hilt/Dagger", "Koin", "JNI", "ML Kit", "Gradle", "Material Design 3"],
-        reactNative: ["React Native CLI & Expo Router", "TypeScript", "Redux Toolkit", "Reanimated", "Gesture Handler", "AsyncStorage", "Axios", "iOS Dev", "macOS Apps"],
+        android: ["CMP", "Compose Multiplatform", "MVVM", "Clean Architecture", "RoomKMP & SQLDelight", "Retrofit & OkHttp", "Coroutines", "Flow", "Ktor", "KotlinX", "WorkManager", "Coil", "Hilt/Dagger", "Koin", "JNI", "AI Kit", "Gradle", "Material Design 3"],
+        reactNative: ["React Native CLI & Expo Router", "TypeScript", "Redux Toolkit", "Reanimated", "AsyncStorage", "Axios", "iOS Dev", "macOS Apps"],
         ai: ["Gemini", "ChatGPT", "Cursor", "Antigravity", "Prompt Engineering"],
         tools: ["Git", "Firebase Console", "Postman", "ADB"]
     },
@@ -119,15 +119,6 @@ export const resumeData = {
         }
     ],
     projects: [
-        {
-            name: "MoonlightWebcam",
-            description: "Cross-platform KMP remote webcam system with <60ms low-latency video/audio streaming. Features device discovery, manual camera controls, screen-casting, and desktop client.",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/RecipeAppInJava" }
-            ],
-            tags: ["KMP", "Ktor", "CameraX", "AVFoundation", "MediaProjection"],
-            videoId: "YC8S69lBrGs"
-        },
         {
             name: "SudhahUtpadah App",
             description: "Grocery App (User + Admin). Manage, edit, add & delete products & help show in user app. Built with Firebase DB & Room DB.",
@@ -279,20 +270,20 @@ export const resumeData = {
     testimonials: [
         {
             name: "Rahul Sharma",
-            role: "Founder, TechStart",
+            role: "Founder",
             feedback: "Manpreet delivered our MVP in record time. His understanding of React Native is top-notch!",
             rating: 5
         },
         {
-            name: "Sarah Jenkins",
+            name: "Sudha Banerjee",
             role: "Product Manager",
             feedback: "Great communication and excellent code quality. The Android app works flawlessly on all devices.",
             rating: 5
         },
         {
             name: "Amit Patel",
-            role: "CTO, FinSolve",
-            feedback: "He solved a complex encryption issue we were stuck on for weeks. Highly recommended for KMP work.",
+            role: "CTO",
+            feedback: "He solved a complex encryption issue when uploading images in chat, we were stuck on for weeks. Highly recommended for KMP work.",
             rating: 5
         }
     ]
