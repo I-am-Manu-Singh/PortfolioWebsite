@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock, Binary } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock, Code } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_personal.png`;
@@ -32,40 +32,12 @@ const letterVariants: Variants = {
     }
 };
 
-// Lightning Bolt Component
-const LightningBolt = ({ delay = 0 }: { delay?: number }) => (
-    <motion.svg
-        viewBox="0 0 100 100"
-        className="absolute inset-0 w-full h-full pointer-events-none z-50 overflow-visible"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 1, 0, 1, 0] }}
-        transition={{ duration: 0.5, repeat: Infinity, repeatDelay: Math.random() * 2 + delay }}
-    >
-        <motion.path
-            d={`M${40 + Math.random() * 20} 0 L${30 + Math.random() * 40} 40 L${50 + Math.random() * 20} 50 L${20 + Math.random() * 60} 100`}
-            stroke="#0ea5e9"
-            strokeWidth="2"
-            fill="none"
-            filter="url(#glow)"
-        />
-        <defs>
-            <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-                <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                </feMerge>
-            </filter>
-        </defs>
-    </motion.svg>
-);
-
 const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ setActiveTab }) => {
     const nameLetters = resumeData.basics.name.split("");
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [visitCount, setVisitCount] = useState<number | null>(null);
 
-    // Cyberpunk Interaction State
+    // Matrix Interaction State
     const [isShattered, setIsShattered] = useState(false);
     const [unlockProgress, setUnlockProgress] = useState(0);
     const [isUnlocked, setIsUnlocked] = useState(false);
@@ -97,14 +69,12 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
 
         setIsPressing(true);
         startTimeRef.current = Date.now();
-        // Resume from current progress if needed (converting % back to time)
         const initialProgress = unlockProgress;
         const totalDuration = 10000; // 10 seconds
 
         const animate = () => {
             const now = Date.now();
             const elapsed = now - (startTimeRef.current || now);
-            // Calculate progress based on 10s duration + previously accumulated
             const progress = Math.min(initialProgress + (elapsed / totalDuration) * 100, 100);
 
             setUnlockProgress(progress);
@@ -122,7 +92,6 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         if (isUnlocked) return;
         setIsPressing(false);
         if (pressTimerRef.current) cancelAnimationFrame(pressTimerRef.current);
-        // Optional: Decay progress or keep it? Let's reset for difficulty.
         setUnlockProgress(0);
     };
 
@@ -137,14 +106,14 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
         }
     }, []);
 
-    // Generate 400 shards (20x20)
-    const shards = Array.from({ length: 400 }, (_, i) => ({
+    // Generate 1024 shards (32x32)
+    // Optimized: Create variants statically to avoid re-render perf hits
+    const shards = React.useMemo(() => Array.from({ length: 1024 }, (_, i) => ({
         id: i,
-        row: Math.floor(i / 20),
-        col: i % 20,
-        // Random "Code" character
-        char: Math.random() > 0.5 ? '1' : '0'
-    }));
+        row: Math.floor(i / 32),
+        col: i % 32,
+        char: String.fromCharCode(0x30A0 + Math.random() * 96) // Random Katakana/Matrix-like chars
+    })), []);
 
     return (
         <section className="min-h-screen flex flex-col justify-center relative overflow-hidden px-4 md:px-0" id="hero">
@@ -247,7 +216,7 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                     </div>
                 </motion.div>
 
-                {/* Cyberpunk Glitch Profile Area */}
+                {/* MATRIX HERO INTERACTION */}
                 <motion.div
                     className="order-1 md:order-2 flex justify-center perspective-1000 relative z-20"
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -271,17 +240,6 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                             aria-hidden="true"
                         />
 
-                        {/* Lightning Effects (Show on Press) */}
-                        <AnimatePresence>
-                            {isPressing && !isUnlocked && (
-                                <>
-                                    <LightningBolt delay={0} />
-                                    <LightningBolt delay={0.5} />
-                                    <LightningBolt delay={1.2} />
-                                </>
-                            )}
-                        </AnimatePresence>
-
                         {/* Status / Hint Overlay */}
                         {!isShattered ? (
                             <motion.div
@@ -289,8 +247,8 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                 initial={{ scale: 0.9 }}
                                 whileHover={{ scale: 1 }}
                             >
-                                <div className="bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 text-white font-mono text-sm flex items-center gap-2">
-                                    <Binary size={16} className="text-primary animate-pulse" /> TAP TO INITIALIZE
+                                <div className="bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full border border-green-500/50 text-green-500 font-mono text-sm flex items-center gap-2 shadow-[0_0_15px_rgba(34,197,94,0.3)]">
+                                    <Code size={16} className="animate-pulse" /> TAP TO ENTER MATRIX
                                 </div>
                             </motion.div>
                         ) : !isUnlocked && (
@@ -299,23 +257,22 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                             >
-                                {/* Biometric/Cyber Decryption UI */}
-                                <div className="relative w-48 p-3 bg-black/80 backdrop-blur-lg border border-primary/30 rounded-lg shadow-[0_0_20px_rgba(14,165,233,0.3)]">
-                                    <div className="flex justify-between items-end mb-1">
-                                        <span className="text-[10px] text-primary/60 font-mono">DECRYPTION SEQUENCE</span>
-                                        <span className="text-lg font-bold font-mono text-primary tabular-nums">
+                                {/* Matrix Decryption UI */}
+                                <div className="relative w-56 p-4 bg-black/90 backdrop-blur-lg border border-green-500/40 rounded-lg shadow-[0_0_30px_rgba(34,197,94,0.4)]">
+                                    <div className="flex justify-between items-end mb-2">
+                                        <span className="text-[10px] text-green-500/80 font-mono tracking-widest">SYSTEM_DECRYPT</span>
+                                        <span className="text-xl font-bold font-mono text-green-500 tabular-nums">
                                             {unlockProgress.toFixed(2)}%
                                         </span>
                                     </div>
-                                    <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
+                                    <div className="w-full h-1.5 bg-gray-900 rounded-full overflow-hidden">
                                         <motion.div
-                                            className="h-full bg-primary shadow-[0_0_10px_rgba(14,165,233,0.8)]"
+                                            className="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)]"
                                             style={{ width: `${unlockProgress}%` }}
                                         />
                                     </div>
-                                    <div className="flex justify-between mt-1 opacity-50">
-                                        <span className="text-[8px] text-white/40 font-mono">SEC_LEVEL_9</span>
-                                        <span className="text-[8px] text-white/40 font-mono animate-pulse">{isPressing ? 'DECRYPTING...' : 'WAITING'}</span>
+                                    <div className="mt-2 text-[10px] font-mono text-green-400/60 text-center uppercase tracking-[0.2em] animate-pulse">
+                                        {isPressing ? 'Brute Force in Progress...' : 'Awaiting Input'}
                                     </div>
                                 </div>
                             </motion.div>
@@ -352,55 +309,59 @@ const Hero: React.FC<{ setActiveTab: (tab: 'work' | 'personal') => void }> = ({ 
                                     className="absolute inset-0 z-20 rounded-2xl overflow-hidden shadow-2xl"
                                     exit={{ opacity: 0 }}
                                 >
-                                    <img src={ProfileImage} alt="Work Profile" className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
+                                    <img src={ProfileImage} alt="Work Profile" className="w-full h-full object-cover grayscale contrast-125" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-green-900/20 via-transparent to-transparent opacity-60 mix-blend-overlay" />
                                 </motion.div>
                             )}
                         </AnimatePresence>
 
-                        {/* Matrix Code Shards (20x20) */}
+                        {/* MATRIX SHARDS (32x32 = 1024 particles) */}
                         {isShattered && (
-                            <div className="absolute inset-0 w-full h-full grid grid-cols-[repeat(20,1fr)] grid-rows-[repeat(20,1fr)] z-20 pointer-events-none">
-                                {shards.map((shard) => {
-                                    return (
-                                        <motion.div
-                                            key={shard.id}
-                                            className="w-full h-full bg-no-repeat relative transform-gpu overflow-hidden"
-                                            style={{
-                                                backgroundImage: `url(${ProfileImage})`,
-                                                backgroundSize: '2000% 2000%', // 20x20
-                                                backgroundPosition: (`${shard.col * 5.26}% ${shard.row * 5.26}%` as any),
-                                            }}
-                                            initial={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-                                            animate={isUnlocked ? {
-                                                // Explode/Vanish on Unlock
-                                                opacity: 0,
-                                                scale: 0,
-                                                x: (Math.random() - 0.5) * 800,
-                                                y: (Math.random() - 0.5) * 800,
-                                                rotate: Math.random() * 720
-                                            } : {
-                                                // Swirl & Glitch
-                                                x: isPressing ? [0, (Math.random() - 0.5) * 5, 0] : [0, (Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40, 0],
-                                                y: isPressing ? [0, (Math.random() - 0.5) * 5, 0] : [0, (Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40, 0],
-                                                filter: isPressing
-                                                    ? [`hue-rotate(0deg) contrast(1)`, `hue-rotate(${Math.random() * 90}deg) contrast(1.5)`, `hue-rotate(0deg) contrast(1)`]
-                                                    : "none",
-                                                zIndex: isPressing ? 50 : 20
-                                            }}
-                                            transition={isUnlocked ? { duration: 0.8, ease: "circOut" } : {
-                                                duration: isPressing ? 0.2 : 3 + Math.random() * 2,
-                                                repeat: Infinity,
-                                                ease: isPressing ? "linear" : "easeInOut",
-                                            }}
-                                        >
-                                            {/* The "CODE" aspect - Binary overlay on shards */}
-                                            <div className={`absolute inset-0 flex items-center justify-center text-[6px] font-mono font-bold text-primary/50 mix-blend-overlay ${isPressing ? 'opacity-100' : 'opacity-0'} transition-opacity`}>
+                            // Full-screen fixed container for explosion
+                            <div className="fixed inset-0 w-screen h-screen z-50 pointer-events-none overflow-hidden flex items-center justify-center">
+                                {/* Positioning wrapper to match original image location approximately */}
+                                <div className="relative w-full h-full">
+                                    {shards.map((shard) => {
+                                        // Calculate random "Matrix rain" offsets
+                                        const randomX = (Math.random() - 0.5) * window.innerWidth * 1.5;
+                                        const randomY = (Math.random() - 0.5) * window.innerHeight * 1.5;
+
+                                        return (
+                                            <motion.div
+                                                key={shard.id}
+                                                className="absolute w-[3vw] h-[3vw] md:w-[1vw] md:h-[1vw] bg-no-repeat bg-black text-green-500 font-mono font-bold flex items-center justify-center text-[8px] md:text-[10px] overflow-hidden border-[0.5px] border-green-900/30"
+                                                // Initial position: center screen (where image was)
+                                                // Ideally we'd calculate exact screen coords, but centering is a cool "Big Bang" effect
+                                                style={{
+                                                    left: '50%',
+                                                    top: '50%',
+                                                    textShadow: '0 0 2px #0f0'
+                                                }}
+                                                initial={{ scale: 0, x: 0, y: 0, opacity: 0 }}
+                                                animate={isUnlocked ? {
+                                                    opacity: 0,
+                                                    scale: 0,
+                                                } : {
+                                                    opacity: [0, 1, 0.8],
+                                                    scale: 1,
+                                                    // Move to random position
+                                                    x: isPressing ? randomX * 0.1 : randomX,
+                                                    y: isPressing ? randomY * 0.1 : randomY,
+                                                    // "Rain" effect or "Float"
+                                                    rotate: Math.random() * 360,
+                                                }}
+                                                transition={{
+                                                    duration: isUnlocked ? 0.5 : (isPressing ? 0.2 : 2 + Math.random() * 3),
+                                                    ease: "circOut",
+                                                    // Matrix rain staggering
+                                                    delay: Math.random() * 0.5
+                                                }}
+                                            >
                                                 {shard.char}
-                                            </div>
-                                        </motion.div>
-                                    );
-                                })}
+                                            </motion.div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         )}
 

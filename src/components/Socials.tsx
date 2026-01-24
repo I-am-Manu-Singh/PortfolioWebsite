@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Instagram, Users } from 'lucide-react';
+import { Music, Instagram } from 'lucide-react';
 import { resumeData } from '../data/resume';
 
 
@@ -42,7 +41,7 @@ const Socials: React.FC<SocialsProps> = () => {
                             </p>
                         </div>
 
-                        {/* Social Stats Buttons */}
+                        {/* Social Stats Buttons - Updated: YouTube & Instagram */}
                         <div className="flex flex-wrap gap-4 w-full">
                             {/* YouTube */}
                             <a href={resumeData.youtube.channel} target="_blank" className="flex-1 min-w-[140px] bg-red-600/10 border border-red-500/30 hover:bg-red-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
@@ -55,14 +54,14 @@ const Socials: React.FC<SocialsProps> = () => {
                                 </div>
                             </a>
 
-                            {/* LinkedIn */}
-                            <a href={resumeData.basics.profiles.find(p => p.network === "LinkedIn")?.url} target="_blank" className="flex-1 min-w-[140px] bg-blue-600/10 border border-blue-500/30 hover:bg-blue-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
-                                <div className="p-2 bg-blue-600 text-white rounded-full group-hover:scale-110 transition-transform">
-                                    <Users size={20} />
+                            {/* Instagram (Replaces LinkedIn) */}
+                            <a href="https://www.instagram.com/manu.singh_001/" target="_blank" className="flex-1 min-w-[140px] bg-pink-600/10 border border-pink-500/30 hover:bg-pink-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
+                                <div className="p-2 bg-pink-600 text-white rounded-full group-hover:scale-110 transition-transform">
+                                    <Instagram size={20} />
                                 </div>
                                 <div className="text-center">
-                                    <div className="text-xl font-bold text-white group-hover:text-blue-400">Connect</div>
-                                    <div className="text-xs text-white/50">LinkedIn Profile</div>
+                                    <div className="text-xl font-bold text-white group-hover:text-pink-400">Follow</div>
+                                    <div className="text-xs text-white/50">On Instagram</div>
                                 </div>
                             </a>
                         </div>
@@ -150,14 +149,17 @@ const Socials: React.FC<SocialsProps> = () => {
                                     {category.title}
                                 </h3>
 
-                                {/* Caricature Placement - Near Title */}
+                                {/* Caricature Placement - Visible, Floating, Boardered */}
                                 {category.title.toLowerCase().includes('guitar') && (
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
                                         alt="Guitarist"
-                                        className="absolute right-0 -top-10 w-32 md:w-48 object-contain drop-shadow-xl z-20 opacity-30 hidden sm:block pointer-events-none"
-                                        animate={{ rotate: [0, 5, 0] }}
-                                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-20 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        animate={{
+                                            rotate: [0, 5, 0],
+                                            y: [0, -10, 0]
+                                        }}
+                                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                                         onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
                                     />
                                 )}
@@ -165,9 +167,12 @@ const Socials: React.FC<SocialsProps> = () => {
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_piano.png`}
                                         alt="Pianist"
-                                        className="absolute right-0 -top-12 w-32 md:w-56 object-contain drop-shadow-xl z-20 opacity-30 hidden sm:block pointer-events-none"
-                                        animate={{ rotate: [0, -3, 0] }}
-                                        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                                        className="absolute right-0 -top-12 w-24 md:w-40 object-contain z-20 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        animate={{
+                                            rotate: [0, -3, 0],
+                                            y: [0, -12, 0]
+                                        }}
+                                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                                         onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
                                     />
                                 )}
@@ -175,9 +180,12 @@ const Socials: React.FC<SocialsProps> = () => {
                                     <motion.img
                                         src={`${import.meta.env.BASE_URL}caricature_singing.png`}
                                         alt="Singer"
-                                        className="absolute right-0 -top-10 w-32 md:w-48 object-contain drop-shadow-xl z-20 opacity-30 hidden sm:block pointer-events-none"
-                                        animate={{ y: [0, -5, 0] }}
-                                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                        className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-20 border-4 border-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
+                                        animate={{
+                                            y: [0, -15, 0],
+                                            rotate: [0, 2, 0]
+                                        }}
+                                        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
                                         onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
                                     />
                                 )}
