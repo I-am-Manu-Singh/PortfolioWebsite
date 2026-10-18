@@ -197,3 +197,15 @@ html[data-theme='light'] img[src*="hostelshop"] {
   background: var(--color-primary) !important;
   border-radius: 2px !important;
 }
+
+/* When video theater mode is active, completely hide floating navbar, caricatures, and backdrops so nothing bleeds over the modal */
+body.theater-active nav {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+body.theater-active .caricature-element,
+body.theater-active section:not(#tech-tutorials) {
+  pointer-events: none !important;
+}

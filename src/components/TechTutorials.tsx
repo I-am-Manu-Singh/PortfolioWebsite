@@ -163,7 +163,7 @@ const TechTutorials: React.FC = () => {
                 </div>
 
                 {/* Media Player Card */}
-                <div className="w-full max-w-5xl mx-auto bg-dark-card rounded-2xl overflow-hidden shadow-2xl border border-dark font-sans">
+                <div className="w-full max-w-5xl mx-auto bg-dark-card rounded-2xl shadow-2xl border border-dark font-sans">
                     <div className="flex flex-col md:flex-row h-[620px] md:h-[520px]">
                         {/* Sidebar / Track List */}
                         <div className="w-full md:w-1/2 p-5 overflow-y-auto custom-scrollbar bg-dark border-r border-dark flex flex-col justify-between">
