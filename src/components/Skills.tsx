@@ -97,22 +97,10 @@ const getSkillIcon = (skill: string) => {
 // Clean, deduplicated, verified tech stack directly from the 7 resumes
 interface TechItem {
     name: string;
-    category: 'languages' | 'mobile' | 'web' | 'backend' | 'ai' | 'tools';
+    category: 'mobile' | 'languages' | 'web' | 'backend' | 'ai' | 'tools';
 }
 
 const VERIFIED_TECH_STACK: TechItem[] = [
-    // Languages
-    { name: "Kotlin", category: "languages" },
-    { name: "Java", category: "languages" },
-    { name: "TypeScript", category: "languages" },
-    { name: "JavaScript", category: "languages" },
-    { name: "Python", category: "languages" },
-    { name: "Dart", category: "languages" },
-    { name: "C++", category: "languages" },
-    { name: "SQL", category: "languages" },
-    { name: "HTML5", category: "languages" },
-    { name: "CSS3", category: "languages" },
-
     // Mobile & Cross-Platform
     { name: "Android Native", category: "mobile" },
     { name: "Jetpack Compose", category: "mobile" },
@@ -132,6 +120,18 @@ const VERIFIED_TECH_STACK: TechItem[] = [
     { name: "Reanimated 3", category: "mobile" },
     { name: "CameraX", category: "mobile" },
     { name: "WorkManager", category: "mobile" },
+
+    // Languages
+    { name: "Kotlin", category: "languages" },
+    { name: "Java", category: "languages" },
+    { name: "TypeScript", category: "languages" },
+    { name: "JavaScript", category: "languages" },
+    { name: "Python", category: "languages" },
+    { name: "Dart", category: "languages" },
+    { name: "C++", category: "languages" },
+    { name: "SQL", category: "languages" },
+    { name: "HTML5", category: "languages" },
+    { name: "CSS3", category: "languages" },
 
     // Web & Frontend
     { name: "React.js", category: "web" },
@@ -187,18 +187,17 @@ const VERIFIED_TECH_STACK: TechItem[] = [
     { name: "CI/CD GitHub Actions", category: "tools" }
 ];
 
-type SkillCategory = 'all' | 'languages' | 'mobile' | 'web' | 'backend' | 'ai' | 'tools';
+type SkillCategory = 'mobile' | 'languages' | 'web' | 'backend' | 'ai' | 'tools';
 
 const Skills: React.FC = () => {
-    const [selectedCategory, setSelectedCategory] = useState<SkillCategory>('all');
+    // Default to 'mobile' (removed 'all verified' tab as requested)
+    const [selectedCategory, setSelectedCategory] = useState<SkillCategory>('mobile');
 
     const filteredSkills = useMemo(() => {
-        if (selectedCategory === 'all') return VERIFIED_TECH_STACK;
         return VERIFIED_TECH_STACK.filter(s => s.category === selectedCategory);
     }, [selectedCategory]);
 
     const categories: { id: SkillCategory; label: string; icon: any }[] = [
-        { id: 'all', label: `All Verified (${VERIFIED_TECH_STACK.length})`, icon: Sparkles },
         { id: 'mobile', label: 'Mobile & Multiplatform', icon: Smartphone },
         { id: 'languages', label: 'Languages', icon: Code },
         { id: 'web', label: 'Web & Frontend', icon: Globe },
@@ -208,7 +207,7 @@ const Skills: React.FC = () => {
     ];
 
     return (
-        <section className="section bg-surface-base relative overflow-hidden" id="skills">
+        <section className="section bg-dark relative overflow-hidden" id="skills">
             <SectionBackground variant="skills" />
             <div className="container relative z-10">
                 <div className="flex flex-col items-center mb-8">
@@ -220,12 +219,12 @@ const Skills: React.FC = () => {
                     >
                         Tech <span className="text-primary-light">Stack</span>
                     </motion.h2>
-                    <p className="text-text-muted text-center max-w-xl text-sm mb-6 font-mono">
-                        Curated and non-redundant technologies actively featured in my production resumes and systems.
+                    <p className="text-text-muted text-center max-w-xl text-xs md:text-sm mb-6 font-mono">
+                        Curated technologies actively featured in my production resumes, systems, and mobile architectures.
                     </p>
 
-                    {/* Category Filter Pills */}
-                    <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-surface-card border border-border-card rounded-2xl max-w-4xl shadow-sm">
+                    {/* Category Filter Pills: Subtle, subtle border stroke */}
+                    <div className="flex flex-wrap items-center justify-center gap-1.5 p-1.5 bg-dark-card/90 border border-white/5 rounded-2xl max-w-4xl shadow-sm">
                         {categories.map(cat => {
                             const Icon = cat.icon;
                             const isActive = selectedCategory === cat.id;
@@ -235,8 +234,8 @@ const Skills: React.FC = () => {
                                     onClick={() => setSelectedCategory(cat.id)}
                                     className={`px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
                                         isActive
-                                            ? 'bg-primary text-white shadow-md shadow-primary/30 font-semibold'
-                                            : 'text-text-muted hover:text-text hover:bg-surface-elevated'
+                                            ? 'bg-primary text-white shadow-md shadow-primary/25 font-semibold'
+                                            : 'text-text-muted hover:text-text hover:bg-dark'
                                     }`}
                                 >
                                     <Icon size={13} />
@@ -247,7 +246,7 @@ const Skills: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Skills Grid */}
+                {/* Skills Grid: Subtle borders, no harsh white stroke in dark mode */}
                 <motion.div 
                     layout
                     className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5"
@@ -260,11 +259,11 @@ const Skills: React.FC = () => {
                                 <motion.div
                                     layout
                                     key={item.name}
-                                    className="p-2.5 flex flex-col items-center justify-center gap-1.5 transition-all cursor-default group bg-surface-card border border-border-card hover:border-primary/50 hover:bg-surface-elevated rounded-xl shadow-sm"
+                                    className="p-2.5 flex flex-col items-center justify-center gap-1.5 transition-all cursor-default group bg-dark-card border border-white/5 hover:border-primary/40 hover:bg-dark rounded-xl shadow-sm"
                                     whileHover={{ y: -3, scale: 1.02 }}
-                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ duration: 0.15 }}
                                 >
                                     {iconData.type === 'img' ? (

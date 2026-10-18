@@ -485,7 +485,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                                                 href={proj.repo}
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                className="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-dark-card border border-dark text-primary hover:text-white hover:bg-primary text-xs font-mono transition-colors print:hidden"
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-white border border-primary/20 hover:border-transparent text-xs font-mono font-medium transition-all shadow-sm print:hidden"
                                                             >
                                                                 <span>Repository</span>
                                                                 <ExternalLink size={12} />
