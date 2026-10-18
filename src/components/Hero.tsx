@@ -294,8 +294,8 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
     }, []);
 
     // Professional Matrix Grid (8x8 = 64 shards) for true picture fragmentation & scrambled 3D scatter
-    const gridCols = 64;
-    const gridRows = 64;
+    const gridCols = 32;
+    const gridRows = 32;
     const totalShards = gridCols * gridRows;
 
     const shards = useMemo(() => {
@@ -563,8 +563,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                                 transition={{
                                                     duration: interactionStage.includes('grid') || interactionStage.includes('flip') ? 1.2 : 0.8,
                                                     ease: "easeInOut",
-                                                    repeat: isPressing && interactionStage === 'shattered' ? Infinity : 0,
-                                                    repeatType: "reverse"
+                                                    repeat: 0
                                                 }}
                                             >
                                                 <div

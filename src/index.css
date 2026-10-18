@@ -22,7 +22,7 @@
   --glass-bg: rgba(15, 16, 32, 0.7);
   /* Tinted glass */
   /* Gradient Backgrounds */
-  --bg-gradient: linear-gradient(180deg, #050510 0%, #0d0e25 50%, #050510 100%);
+  --bg-gradient: linear-gradient(180deg, #050510 0%, #0b0d24 45%, #050510 100%);
 }
 
 [data-theme='light'] {
@@ -72,6 +72,14 @@
   box-sizing: border-box;
 }
 
+html, body {
+  min-height: 100vh;
+  background-color: var(--color-dark);
+  color: var(--color-text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -80,9 +88,8 @@ body {
   font-family: var(--font-main);
   background: var(--bg-gradient);
   background-attachment: fixed;
-  color: var(--color-text);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 a {
