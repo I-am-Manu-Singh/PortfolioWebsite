@@ -149,6 +149,15 @@ export const resumeData = {
             tags: ["Compose Multiplatform", "Stockfish NNUE", "Neural Vision", "CameraX", "Room KMP", "PGN Analyzer"]
         },
         {
+            name: "SevaStack (Kota Logistics & ERP)",
+            description: "Cross-platform NGO, student provisioning & institutional kitchen delivery ERP built on React Native & Expo. Features real-time route sequencing, daily seva distribution tracking, inventory deductions, multi-role dispatch console, and Supabase cloud ledger accounting.",
+            logo: "/logos/sevastack.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/SevaStack-App" }
+            ],
+            tags: ["React Native", "Expo Router", "Supabase", "TypeScript", "Dispatch Logistics", "New Architecture"]
+        },
+        {
             name: "Tiffin Management (Logistics Suite)",
             description: "Enterprise meal subscription and cloud kitchen dispatch ERP built with Compose Multiplatform for Android, iOS, Web & Desktop. Features automated meal calendars, delivery route optimization, kitchen batch forecasting, doorstep drop-proof verification, and Supabase ledger billing.",
             logo: "/logos/tiffinmanagement.png",
