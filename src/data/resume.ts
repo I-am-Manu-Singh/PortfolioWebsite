@@ -118,58 +118,112 @@ export const resumeData = {
             ]
         }
     ],
-    projects: [
+        projects: [
+        {
+            name: "pEQ Learn (Universal DAW & Academy)",
+            description: "Compose Multiplatform digital audio workstation and interactive music academy. Features an 88-key synthesia waterfall piano with 3D shaders, real-time 6-stem neural AI isolation (ONNX), Radel digital Tanpura & Tabla machine, microtonal tuning, and multi-track MusicXML/MIDI scoring engine.",
+            logo: "/logos/peq-learn.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/pEQ-Learn-App" }
+            ],
+            tags: ["Compose Multiplatform", "AndroidX Media3", "ONNX Runtime", "FluidSynth KMP", "Ktor Client", "Kotlin 2.2"]
+        },
+        {
+            name: "pEQ Neural Workstation",
+            description: "Cross-platform audiophile media workstation featuring real-time parametric DSP equalization, neural stem separation, dynamic waveform audio scrubbing, Google Cast v2 streaming, synchronized lyrics, and low-latency VLC callback decoding pipelines.",
+            logo: "/logos/peq-app.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/pEQ-Media-App" }
+            ],
+            tags: ["Kotlin Multiplatform", "DSP Equalizer", "ExoPlayer", "VLC Pipeline", "Google Cast", "FFT Analyzer"]
+        },
+        {
+            name: "Moonlight Webcam",
+            description: "High-performance camera & wireless streaming studio converting Android/iOS devices into 4K 60fps webcams. Integrates CameraX manual optical controls (ISO, AE/AF lock, exposure), embedded Ktor HTTP/WebSocket micro-server, and low-latency RTSP/MJPEG feeds for OBS & Zoom.",
+            logo: "/logos/moonlight.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/MoonlightWebcam" }
+            ],
+            tags: ["KMP", "CameraX", "Ktor Server", "RTSP / MJPEG", "Foreground Service", "OBS Studio"]
+        },
+        {
+            name: "Nitnem Gutka Steek",
+            description: "Sacred Gurbani reading and devotional learning companion built with Compose Multiplatform. Features authentic line-by-line Steek (meanings), first-letter phonetic search (Shabad Khoj), synchronized audio recitation, customizable Gurmukhi typography, and daily Nitnem streak tracking.",
+            logo: "/logos/nitnem.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/NitnemGutkaSahib" }
+            ],
+            tags: ["Compose Multiplatform", "Offline SQLite", "GurbaniDB", "Habit Streaks", "Audio Sync"]
+        },
+        {
+            name: "Studio V4 (Video Editor)",
+            description: "GPU-accelerated mobile non-linear video editing suite with multi-track magnetic timeline. Powered by FFmpeg Kit, AndroidX Media3, and custom OpenGL ES shaders for 4K 60fps export, color grading LUTs, kinetic typography, smart audio ducking, and chroma key compositing.",
+            logo: "/logos/studiov4.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/VideoEditorApp" }
+            ],
+            tags: ["Jetpack Compose", "FFmpeg Kit", "OpenGL ES", "MediaCodec NDK", "Non-Linear Timeline"]
+        },
+        {
+            name: "ReconcAILe Hub (TallyPrime Automation)",
+            description: "Enterprise accounting automation and desktop bridge synchronization platform for TallyPrime. Incorporates AI-powered invoice OCR extraction, automated bank reconciliation (BRS), XML ledger bi-directional syncing, and multi-entity financial analytics.",
+            logo: "/logos/reconcaile.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/reconcAIle-Hub" }
+            ],
+            tags: ["Next.js", "Electron", "TallyPrime XML", "AI OCR", "Bank Reconciliation", "TypeScript"]
+        },
+        {
+            name: "Signy Tactical Application",
+            description: "Mission-critical real-time tactical signaling and security asset tracking platform built on Kotlin Multiplatform. Features live WebRTC encrypted streams, GPS telemetry mapping, Supabase PostgreSQL RLS security, and instant field dispatcher messaging.",
+            logo: "/logos/signy.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/Signy-App" }
+            ],
+            tags: ["KMP", "Supabase", "WebRTC", "PostgreSQL RLS", "GPS Telemetry", "Kotlin Coroutines"]
+        },
+        {
+            name: "Trip India (Expedition HQ)",
+            description: "High-altitude expedition logistics and adventure booking platform built with Flutter. Built with tactical Command & Control aesthetic, three distinct terminal roles (Explorer, Guide, Admin), live offline-ready itineraries, gear rental, and GlassShimmer framework.",
+            logo: "/logos/trekindia.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/TrekIndiaApp" }
+            ],
+            tags: ["Flutter", "Dart", "Supabase", "Tactical UI", "GlassShimmer", "Provider"]
+        },
+        {
+            name: "Hostel Shop Management",
+            description: "Industrial-scale provisioning logistics platform for high-density student campus procurement. Features a 500-unit branded inventory fleet, multi-modal nutrition & technical spec terminals, dynamic QR generation, and real-time inventory deductions.",
+            logo: "/logos/hostelshop.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/HostelShopManagementApp" }
+            ],
+            tags: ["Flutter", "Supabase PostgreSQL", "Inventory Logistics", "Provider State", "QR Engine"]
+        },
         {
             name: "SudhahUtpadah App",
-            description: "Grocery App (User + Admin). Manage, edit, add & delete products & help show in user app. Built with Firebase DB & Room DB.",
+            description: "Grocery logistics & provisioning application with dual User & Admin interfaces. Provides real-time catalogue management, inventory tracking, offline Room DB caching, and secure Firebase synchronization.",
             links: [
                 { label: "Admin Repo", url: "https://github.com/I-am-Manu-Singh/SuddahUtpadahAdmin" },
                 { label: "User Repo", url: "https://github.com/I-am-Manu-Singh/SuddahUtpadahUser" }
             ],
-            tags: ["Android", "Room DB", "Jetpack Compose", "Firebase"],
-            videoId: "5IBl5NDd8Ys"
+            tags: ["Android", "Room DB", "Jetpack Compose", "Firebase"]
         },
         {
-            name: "AnimeDekho",
-            description: "Anime browsing app leveraging Jikan API. Advanced search filters, responsive UI/UX, optimized image caching, and lazy loading.",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/AnimeDekho" }
-            ],
-            tags: ["API Integration", "Retrofit", "Gson", "Caching"],
-            videoId: "videoseries?list=PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6" // Replaced with playlist as per user request
-        },
-        {
-            name: "LeetCode Solutions",
-            description: "GitHub Repo of my LeetCode questions to ace the coding interviews! Daily problem submissions to stay consistent.",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/Leetcode_problems" }
-            ],
-            tags: ["DSA", "Algorithms", "Problem Solving"]
-        },
-        {
-            name: "Habit/Task Tracker",
-            description: "Task Tracker app with add, edit, delete, and complete task with Firebase Firestore. Real-time data storage and updates.",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/Habit-Task-Tracker-App" }
-            ],
-            tags: ["Jetpack Compose", "Firestore", "State Management"]
-        },
-        {
-            name: "Java Console Apps",
-            description: "Collection of console apps: Book Tracker (Library Management), Expense Tracker, and To-Do List.",
-            links: [
-                { label: "Book Tracker", url: "https://github.com/I-am-Manu-Singh/BookTracker-In-Java" },
-                { label: "Expense Tracker", url: "https://github.com/I-am-Manu-Singh/ExpenseTracker-In-Java" }
-            ],
-            tags: ["Java", "DSA", "Console"]
-        },
-        {
-            name: "FreeMemory Compression",
-            description: "Implemented lossless image and file compression using Huffman, Deflate, and LZW from scratch. Native JNI + C integration.",
+            name: "FreeMemory Compression Engine",
+            description: "Lossless image and binary file compression suite implementing Huffman coding, Deflate, and LZW from scratch. Features high-throughput native C/C++ acceleration via Java Native Interface (JNI).",
             links: [
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting" }
             ],
-            tags: ["JNI", "C/C++", "Compression Algo"]
+            tags: ["JNI / NDK", "C/C++", "Huffman", "LZW", "Data Compression"]
+        },
+        {
+            name: "AnimeDekho",
+            description: "Anime discovery and media tracking application powered by Jikan REST API. Features real-time search filtering, lazy-loaded pagination, memory-optimized image caching, and fluid Jetpack Compose transitions.",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/AnimeDekho" }
+            ],
+            tags: ["Android", "Retrofit", "REST API", "Image Caching", "MVVM"]
         }
     ],
     certifications: [
