@@ -293,35 +293,36 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
         }
     }, []);
 
-    // Card-proportional Matrix Shards (3 Columns x 4 Rows = 12 card-sized shards) with dynamic 3D shuffling
-    const gridCols = 3;
-    const gridRows = 4;
+    // Professional Matrix Grid (8x8 = 64 shards) for true picture fragmentation & scrambled 3D scatter
+    const gridCols = 8;
+    const gridRows = 8;
     const totalShards = gridCols * gridRows;
 
     const shards = useMemo(() => {
-        // Create an array of target slots for shuffling
         const slots = Array.from({ length: totalShards }, (_, i) => i);
-        // Shuffle target positions so card pieces swap locations during matrix break
         const shuffledSlots = [...slots].sort(() => Math.random() - 0.5);
 
         return Array.from({ length: totalShards }, (_, i) => {
             const targetSlot = shuffledSlots[i];
             const targetRow = Math.floor(targetSlot / gridCols);
             const targetCol = targetSlot % gridCols;
+            const originRow = Math.floor(i / gridCols);
+            const originCol = i % gridCols;
 
             return {
                 id: i,
-                row: Math.floor(i / gridCols),
-                col: i % gridCols,
+                row: originRow,
+                col: originCol,
                 targetRow,
                 targetCol,
                 char: String.fromCharCode(0x30A0 + Math.random() * 96),
-                // 3D Matrix Chaos & Shuffle offsets
-                chaosX: (targetCol - (i % gridCols)) * 130 + (Math.random() - 0.5) * 350,
-                chaosY: (targetRow - Math.floor(i / gridCols)) * 160 + (Math.random() - 0.5) * 350,
-                chaosZ: (Math.random() - 0.5) * 500,
-                rotateZ: (Math.random() - 0.5) * 30,
-                rotateX: (Math.random() - 0.5) * 45
+                // Scrambled dispersion targets in 3D space
+                scatterX: (targetCol - originCol) * 60 + (Math.random() - 0.5) * 280,
+                scatterY: (targetRow - originRow) * 75 + (Math.random() - 0.5) * 280,
+                scatterZ: (Math.random() - 0.5) * 400,
+                rotateX: (Math.random() - 0.5) * 120,
+                rotateY: 180 + (Math.random() - 0.5) * 90,
+                rotateZ: (Math.random() - 0.5) * 80
             };
         });
     }, [totalShards]);
@@ -502,18 +503,18 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                         // Local Grid Position relative to cell (which is already at shard.col * 5%)
                                         // 0% = Grid (x:0, y:0)
                                         // 100% = Chaos (x:relChaosX, y:relChaosY)
-                                        const relChaosX = shard.chaosX - targetX;
-                                        const relChaosY = shard.chaosY - targetY;
+                                        const relChaosX = shard.scatterX;
+                                        const relChaosY = shard.scatterY;
 
                                         const t = unlockProgress / 100;
                                         const currentX = relChaosX * t;
                                         const currentY = relChaosY * t;
-                                        const currentZ = shard.chaosZ * t;
+                                        const currentZ = shard.scatterZ * t;
 
                                         return (
                                             <motion.div
                                                 key={shard.id}
-                                                className="absolute bg-no-repeat backface-hidden rounded-xl overflow-hidden shadow-2xl border border-white/20"
+                                                className="absolute bg-no-repeat backface-hidden rounded-sm overflow-hidden shadow-lg border border-primary/20"
                                                 style={{
                                                     width: shardWidth,
                                                     height: shardHeight,
