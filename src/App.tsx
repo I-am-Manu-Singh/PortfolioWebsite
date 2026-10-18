@@ -13,6 +13,8 @@ import Socials from './components/Socials';
 import ChatBot from './components/ChatBot';
 import FloatingParticles from './components/FloatingParticles';
 import Navbar from './components/Navbar';
+import VideoTheaterModal from './components/VideoTheaterModal';
+import { VideoTheaterProvider } from './context/VideoTheaterContext';
 import { motion } from 'framer-motion';
 
 function App() {
@@ -23,77 +25,83 @@ function App() {
   const isPersonal = activeTab === 'personal';
 
   return (
-    <div className={`App relative transition-colors duration-500 min-h-screen ${isPersonal ? 'theme-personal' : 'theme-work'}`}>
-      <Navbar
-        activeTab={activeTab}
-        onBackToWork={() => {
-          setActiveTab('work');
-          setIsUnlocked(false);
-        }}
-      />
-      <ChatBot />
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
-        {/* Layer 1: Particles */}
-        <FloatingParticles />
+    <VideoTheaterProvider>
+      <div className={`App relative transition-colors duration-500 min-h-screen ${isPersonal ? 'theme-personal' : 'theme-work'}`}>
+        <Navbar
+          activeTab={activeTab}
+          onBackToWork={() => {
+            setActiveTab('work');
+            setIsUnlocked(false);
+          }}
+        />
+        <ChatBot />
+        
+        {/* Global Video Theater Modal: Renders at the root of App outside motion.div, never blocked by stacking contexts */}
+        <VideoTheaterModal />
 
-        {/* Layer 2: Gradient Overlay (with transparency) */}
-        <div
-          className={`absolute inset-0 transition-opacity duration-1000 z-[-1] opacity-70 ${isPersonal
-            ? 'bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-purple-500/30 via-transparent to-transparent'
-            : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent'
-            }`}
-        ></div>
-      </div>
+        <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
+          {/* Layer 1: Particles */}
+          <FloatingParticles />
 
-      <main className="pt-20 relative"> {/* Padding for fixed navbar */}
-        <div className="relative">
-          {/* Work Content Layer */}
-          <motion.div
-            initial={false}
-            animate={{
-              opacity: activeTab === 'work' ? 1 : 0,
-              pointerEvents: activeTab === 'work' ? 'auto' : 'none'
-            }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className={`z-10 relative ${activeTab === 'personal' ? 'hidden' : 'block'}`}
-          >
-            <Hero
-              setActiveTab={setActiveTab}
-              isUnlocked={isUnlocked}
-              setIsUnlocked={setIsUnlocked}
-            />
-            <Skills />
-            <Experience />
-            <MobileLabs />
-            <CodingProfile />
-            <Projects />
-            <Certifications />
-            <FeaturedContent />
-            <TechTutorials />
-            <Testimonials />
-                      </motion.div>
-
-          {/* Personal Content Layer - Fades in */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: activeTab === 'personal' ? 1 : 0,
-              zIndex: activeTab === 'personal' ? 20 : 0
-            }}
-            transition={{
-              duration: 0.8,
-              ease: "easeOut"
-            }}
-            className={`w-full ${activeTab === 'personal' ? 'relative block' : 'hidden'}`}
-            style={{
-              pointerEvents: activeTab === 'personal' ? 'auto' : 'none'
-            }}
-          >
-            <Socials />
-          </motion.div>
+          {/* Layer 2: Gradient Overlay (with transparency) */}
+          <div
+            className={`absolute inset-0 transition-opacity duration-1000 z-[-1] opacity-70 ${isPersonal
+              ? 'bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-purple-500/30 via-transparent to-transparent'
+              : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent'
+              }`}
+          ></div>
         </div>
-      </main>
-    </div>
+
+        <main className="pt-20 relative"> {/* Padding for fixed navbar */}
+          <div className="relative">
+            {/* Work Content Layer */}
+            <motion.div
+              initial={false}
+              animate={{
+                opacity: activeTab === 'work' ? 1 : 0,
+                pointerEvents: activeTab === 'work' ? 'auto' : 'none'
+              }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+              className={`z-10 relative ${activeTab === 'personal' ? 'hidden' : 'block'}`}
+            >
+              <Hero
+                setActiveTab={setActiveTab}
+                isUnlocked={isUnlocked}
+                setIsUnlocked={setIsUnlocked}
+              />
+              <Skills />
+              <Experience />
+              <MobileLabs />
+              <CodingProfile />
+              <Projects />
+              <Certifications />
+              <FeaturedContent />
+              <TechTutorials />
+              <Testimonials />
+            </motion.div>
+
+            {/* Personal Content Layer - Fades in */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: activeTab === 'personal' ? 1 : 0,
+                zIndex: activeTab === 'personal' ? 20 : 0
+              }}
+              transition={{
+                duration: 0.8,
+                ease: "easeOut"
+              }}
+              className={`w-full ${activeTab === 'personal' ? 'relative block' : 'hidden'}`}
+              style={{
+                pointerEvents: activeTab === 'personal' ? 'auto' : 'none'
+              }}
+            >
+              <Socials />
+            </motion.div>
+          </div>
+        </main>
+      </div>
+    </VideoTheaterProvider>
   );
 }
 

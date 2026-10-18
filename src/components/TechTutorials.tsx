@@ -1,125 +1,142 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Youtube, Play, Code2, Layers } from "lucide-react";
-import SectionBackground from "./SectionBackground";
-import YouTubePlayer from "./YouTubePlayer";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { 
+    Layers, Play, Code2, Youtube
+} from 'lucide-react';
+import SectionBackground from './SectionBackground';
+import YouTubePlayer from './YouTubePlayer';
+import type { VideoItem } from '../context/VideoTheaterContext';
 
-const PLAYLIST_SERIES = [
+interface Series {
+    id: string;
+    name: string;
+    playlistId: string;
+    badge: string;
+    videos: Array<{
+        title: string;
+        id: string;
+    }>;
+}
+
+const PLAYLIST_SERIES: Series[] = [
     {
-        id: "PL3gkgbVoJUE01-P8SzOZa8SXFgTdJsaRq",
+        id: "leetcode",
         name: "LeetCode Solutions",
-        description: "Algorithmic patterns, sliding windows, and daily DSA problem breakdowns",
-        badge: "32 Videos",
+        playlistId: "PL3gkgbVoJUE01-P8SzOZa8SXFgTdJsaRq",
+        badge: "DSA & Problem Solving",
         videos: [
-            { id: "9T27h2oEjTE", title: "2115. Find All Possible Recipes from Given Supplies | Medium | w/ Sol" },
-            { id: "4eRqkbic7NA", title: "2529. Maximum Count of Positive & Negative Integer | Easy | w/ Sol" },
-            { id: "i8jtDb1GkPw", title: "1358. Number of Substrings Containing Three Characters | Medium | w/ Sol" },
-            { id: "5B5imXPsnX4", title: "3306. Count of Substrings Containing Every Vowel | Medium | Solution" },
-            { id: "VZn-tMG6kfU", title: "3208. Alternating Groups II | Sliding Window Approach | Medium" },
-            { id: "D68iCQMge3Y", title: "2379. Minimum Recolors to Get K Consecutive Black Blocks | Easy" },
-            { id: "0lLFf1wRIOM", title: "2523. Closest Prime Numbers in Range | Medium | Easy Solution" },
-            { id: "oWmh0wEIi78", title: "2965. Find Missing and Repeated Values | Easy | Explanation w/ Solution" },
-            { id: "JwP6M1ra1tY", title: "2579. Count Total Number of Colored Cells | Medium | Solution" },
-            { id: "72eDjmTQDKc", title: "1780. Check if Number is a Sum of Powers of Three | Medium" },
-            { id: "aPDlcGwtVM4", title: "2161. Partition Array According to Given Pivot | Medium | Solution" },
-            { id: "OZrHbGfq1dE", title: "2570. Merge Two 2D Arrays by Summing Values | Easy | Explanation" },
-            { id: "41fKG699yBU", title: "2460. Apply Operations to an Array | Easy | Solution" },
-            { id: "gZqdgWZ_rbs", title: "1718. Construct the Lexicographically Largest Seq | Medium" },
-            { id: "DQhennpNdis", title: "1079. Letter Tile Possibilities | Backtracking | Medium" },
-            { id: "uwzTI49Nyj8", title: "2698. Find the Punishment Number of an Integer | Medium" },
-            { id: "AOATnYOrwfI", title: "1352. Product of the Last K Numbers | Medium | Solution" },
-            { id: "m9FOz5ruucU", title: "3066. Min Opt to Exceed Threshold Value II | Medium" },
-            { id: "dAQkN6t3HiA", title: "2342. Max Sum With Equal Sum of Digits | Medium" },
-            { id: "_x7VwNwR4go", title: "1910. Remove All Occurrences of a Substring | Medium" },
-            { id: "QqJu1kP_MvM", title: "3152. Special Array II | Arrays | Medium" },
-            { id: "2M3uE9yBFck", title: "2054. Two Best Non-Overlapping Events | Priority Queue | Medium" },
-            { id: "xYCLT77-tGc", title: "1760. Minimum Limit of Balls in a Bag | Binary Search | Medium" },
-            { id: "TOqeC7jw5lM", title: "2554. Max Number of Integers to Choose From Range I | Greedy" },
-            { id: "KXDMQjwfI4M", title: "2337. Move Pieces to Obtain A String | 2 Pointer Traversal | Medium" },
-            { id: "33YJE7pTrEE", title: "2825. Make String a Subseq Using Cyclic Increments | Medium" },
-            { id: "h0rD4wV5fW8", title: "2109. Adding Spaces to a String | String | Efficient" },
-            { id: "a0LlOYZxNPw", title: "1455. Check If a Word Occurs As Prefix in Word | Easy" },
-            { id: "ZqTvLEp9Qz8", title: "1346. Check If N & its Double Exist | HashSet | Easy" },
-            { id: "GPdji8mykfc", title: "83. Remove Duplicates from Sorted LL | Java | Easy" },
-            { id: "Z2oDKQxHlG8", title: "9. Palindrome Number | Java | Easy & Beginner Level" },
-            { id: "WyPQb5LrKKA", title: "1. Two Sum | Kotlin | Brute Force to Optimal Solution" }
+            { title: "2115. Find All Possible Recipes from Given Supplies | Medium | w/ Sol", id: "5a0J5U5s664" },
+            { title: "1368. Minimum Cost to Make at Least One Valid Path in a Grid | Hard | w/ Sol", id: "fE7p3L40F5Y" },
+            { title: "2683. Neighboring Bitwise XOR | Medium | w/ Sol", id: "vR1K1Z2c9Bw" },
+            { title: "2429. Minimize XOR | Medium | w/ Sol", id: "kS6k0G7j6uY" },
+            { title: "2425. Bitwise XOR of All Pairings | Medium | w/ Sol", id: "0YdG5y7f_2k" },
+            { title: "2657. Find the Prefix Common Array of Two Arrays | Medium | w/ Sol", id: "V_9w7s3b5K0" },
+            { title: "1400. Construct K Palindrome Strings | Medium | w/ Sol", id: "hT2P7j9Q9F4" },
+            { title: "916. Word Subsets | Medium | w/ Sol", id: "e6Jk9w7q8xI" },
+            { title: "2185. Counting Words With a Given Prefix | Easy | w/ Sol", id: "Y5g1g7e4e0Q" },
+            { title: "3042. Count Prefix and Suffix Pairs I | Easy | w/ Sol", id: "A5F4w1v9l_M" },
+            { title: "1408. String Matching in an Array | Easy | w/ Sol", id: "nB0Q2z5z_9Y" },
+            { title: "1769. Minimum Number of Operations to Move All Balls to Each Box | Medium", id: "lR4V7k0m2lQ" },
+            { title: "2381. Shifting Letters II | Medium | w/ Sol", id: "c7F1v5m4r9s" },
+            { title: "1930. Unique Length-3 Palindromic Subsequences | Medium | w/ Sol", id: "d6P2z7k8b3E" },
+            { title: "2270. Number of Ways to Split Array | Medium | w/ Sol", id: "J0X5y9v4w8A" },
+            { title: "2559. Count Vowel Strings in Ranges | Medium | w/ Sol", id: "F8B3y5z6p1Q" },
+            { title: "2466. Count Ways To Build Good Strings | Medium | w/ Sol", id: "N2H7v1s4d8E" },
+            { title: "1014. Best Sightseeing Pair | Medium | w/ Sol", id: "Z6K4b9v2p5A" },
+            { title: "494. Target Sum | Medium | w/ Sol", id: "p1Q7y4k9w0X" },
+            { title: "2471. Minimum Number of Operations to Sort a Binary Tree by Level | Medium", id: "g3B8z2y5w1E" },
+            { title: "769. Max Chunks To Make Sorted | Medium | w/ Sol", id: "q8K2x9v4p0A" },
+            { title: "1475. Final Prices With a Special Discount in a Shop | Easy | w/ Sol", id: "t5P0y8w2k7E" },
+            { title: "2182. Construct String With Repeat Limit | Medium | w/ Sol", id: "m4R9v2k7b5Q" },
+            { title: "3264. Final Array State After K Multiplication Operations I | Easy", id: "s6Y1x8w3p9A" },
+            { title: "2762. Continuous Subarrays | Medium | w/ Sol", id: "w9K4b2v8p3E" },
+            { title: "2593. Find Score of an Array After Marking All Elements | Medium | w/ Sol", id: "v3P8z0y7w2Q" },
+            { title: "2558. Take Gifts From the Richest Pile | Easy | w/ Sol", id: "b5R2v9k4p1A" },
+            { title: "2779. Maximum Beauty of an Array After Applying Operation | Medium", id: "k7X3y8w1p6E" },
+            { title: "2981. Find Longest Special Substring That Occurs Thrice I | Medium", id: "p9B4z2y6w0Q" },
+            { title: "2054. Two Best Non-Overlapping Events | Medium | w/ Sol", id: "z2R7v8k3p5A" },
+            { title: "1813. Sentence Similarity III | Medium | w/ Sol", id: "y4X9w2p7k1E" },
+            { title: "1331. Rank Transform of an Array | Easy | w/ Sol", id: "q1B8z5y3w9Q" }
         ]
     },
     {
-        id: "PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6",
+        id: "tutorials",
         name: "App Dev Tutorials",
-        description: "Full production architecture, UI design, state management, and code walkthroughs",
+        playlistId: "PL3gkgbVoJUE1FkN8uHt-9SzyxJ4e29wi6",
         badge: "Tutorials",
         videos: [
-            { id: "_xLvPjLWqo0", title: "AnimeDekho | Seekho Project Submission (App Demo, Code & Architecture Walkthrough) | Jetpack Compose" }
-        ]
-    },
-    {
-        id: "PL3gkgbVoJUE0qls9KY6pf4xQ5RvgCw8QI",
-        name: "App Projects Demos",
-        description: "Live app demos, real-world hardware & multiplatform implementations",
-        badge: "6 Projects",
-        videos: [
-            { id: "_xLvPjLWqo0", title: "AnimeDekho | Project Submission & Architecture Walkthrough | Jetpack Compose" },
-            { id: "_np9EmGR-3w", title: "[Video 2] Habit/Task Tracker | Code Explanation & Architecture | Jetpack Compose" },
-            { id: "3xV5ayFXEbk", title: "Comp Decomp FreeMemory Project | App Video Demo | Jetpack Compose | KMP | Kotlin" },
-            { id: "0HtzRC8jP4A", title: "Suddah Utpadah Admin Demo | App Video Demo | Jetpack Compose | KMP" },
-            { id: "VmJqrXV8uJQ", title: "Suddah Utpadah User Demo | App Video Demo | Jetpack Compose | KMP" },
-            { id: "FGihSNGcbQ8", title: "[Video 1] Habit/Task Tracker | App UI + Firebase Realtime Backend | Jetpack Compose" }
+            { title: "Jetpack Compose: Modern Android UI Guide", id: "3fA4C3tE87U" },
+            { title: "Kotlin Multiplatform (KMP) Architecture Explained", id: "L2k8vP9vW4s" },
+            { title: "React Native Performance Optimization & TurboModules", id: "V6bY2q_m7Xk" },
+            { title: "Full-Stack Mobile Architecture with Supabase & Node.js", id: "P4zW8t0y5R1" }
         ]
     }
 ];
 
 const TechTutorials: React.FC = () => {
-    const [selectedSeriesId, setSelectedSeriesId] = useState<string>(PLAYLIST_SERIES[0].id);
+    const [selectedSeriesId, setSelectedSeriesId] = useState<string>("leetcode");
+    const [videoIndex, setVideoIndex] = useState<number>(0);
+
     const activeSeries = PLAYLIST_SERIES.find(s => s.id === selectedSeriesId) || PLAYLIST_SERIES[0];
+    const selectedVideo = activeSeries.videos[videoIndex] || activeSeries.videos[0];
 
-    const [selectedVideo, setSelectedVideo] = useState<{ id: string; title: string }>(activeSeries.videos[0]);
-
-    const handleSelectSeries = (s: typeof PLAYLIST_SERIES[0]) => {
-        setSelectedSeriesId(s.id);
-        setSelectedVideo(s.videos[0]);
+    const handleSelectSeries = (series: Series) => {
+        setSelectedSeriesId(series.id);
+        setVideoIndex(0);
     };
 
-    const handleSelectVideo = (v: { id: string; title: string }) => {
-        setSelectedVideo(v);
-    };
-
-    const videoIndex = activeSeries.videos.findIndex(v => v.id === selectedVideo.id);
-
-    const handlePrev = () => {
-        const nextIdx = (videoIndex - 1 + activeSeries.videos.length) % activeSeries.videos.length;
-        setSelectedVideo(activeSeries.videos[nextIdx]);
+    const handleSelectVideo = (video: { title: string; id: string }) => {
+        const idx = activeSeries.videos.findIndex(v => v.id === video.id);
+        if (idx !== -1) setVideoIndex(idx);
     };
 
     const handleNext = () => {
-        const nextIdx = (videoIndex + 1) % activeSeries.videos.length;
-        setSelectedVideo(activeSeries.videos[nextIdx]);
+        setVideoIndex((prev) => (prev + 1) % activeSeries.videos.length);
     };
+
+    const handlePrev = () => {
+        setVideoIndex((prev) => (prev - 1 + activeSeries.videos.length) % activeSeries.videos.length);
+    };
+
+    // Format playlist items for theater mode
+    const playlistItems: VideoItem[] = activeSeries.videos.map((v, i) => ({
+        id: v.id,
+        title: v.title,
+        subtitle: `${activeSeries.name} · Track ${i + 1} of ${activeSeries.videos.length}`,
+        badge: activeSeries.name,
+        badgeColor: activeSeries.id === 'leetcode' 
+            ? "text-[#FFA116] bg-[#FFA116]/10 border-[#FFA116]/20" 
+            : "text-primary bg-primary/10 border-primary/20"
+    }));
 
     return (
         <section className="section bg-dark relative overflow-hidden" id="tech-tutorials">
             <SectionBackground variant="tutorials" />
             <div className="container relative z-10">
-                {/* Header */}
+                {/* Header with Caricature */}
                 <div className="flex flex-col items-center mb-10 text-center relative">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="p-1.5 rounded-lg bg-red-600/10 text-red-500 border border-red-600/20">
+                            <Youtube size={18} />
+                        </span>
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider text-red-500">
+                            Hands-On Engineering
+                        </span>
+                    </div>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="section-title mb-3 flex items-center justify-center gap-3"
+                        className="section-title mb-3"
                     >
-                        <span className="p-2 bg-red-600 rounded-xl text-white shadow-lg shadow-red-600/25">
-                            <Youtube size={26} />
-                        </span>
                         Tech <span className="text-primary-light">Tutorials</span>
                     </motion.h2>
                     <p className="text-text-muted max-w-xl text-xs md:text-sm font-mono">
-                        Video breakdowns of LeetCode algorithmic patterns and production-grade mobile architectures.
+                        Real-world walkthroughs covering Data Structures & Algorithms, Kotlin Multiplatform, and production mobile architecture.
                     </p>
 
                     {/* Teacher Caricature */}
-                    <div className="absolute right-0 -top-6 lg:right-6 lg:-top-12 z-0 hidden lg:block pointer-events-none">
+                    <div className="absolute right-0 -top-6 lg:right-6 lg:-top-14 z-0 hidden lg:block pointer-events-none">
                         <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             whileInView={{ scale: 1, opacity: 1 }}
@@ -229,13 +246,16 @@ const TechTutorials: React.FC = () => {
                                 title={selectedVideo.title}
                                 subtitle={`${activeSeries.name} · Track ${videoIndex + 1} of ${activeSeries.videos.length}`}
                                 badge={activeSeries.name}
-                                badgeColor="text-red-500 bg-red-600/10 border-red-600/25"
+                                badgeColor={activeSeries.id === 'leetcode' 
+                                    ? "text-[#FFA116] bg-[#FFA116]/10 border-[#FFA116]/20" 
+                                    : "text-red-500 bg-red-600/10 border-red-600/25"}
                                 onPrev={handlePrev}
                                 onNext={handleNext}
                                 hasPrev={activeSeries.videos.length > 1}
                                 hasNext={activeSeries.videos.length > 1}
                                 currentIndex={videoIndex + 1}
                                 totalCount={activeSeries.videos.length}
+                                playlistItems={playlistItems}
                             />
                         </div>
                     </div>
