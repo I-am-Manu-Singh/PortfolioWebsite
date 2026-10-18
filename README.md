@@ -1,75 +1,128 @@
-# Link to Portfolio Website - https://i-am-manu-singh.github.io/PortfolioWebsite/
+# 🌐 Manpreet Singh — Interactive 3D Portfolio & Developer Showcase
 
-# React + TypeScript + Vite
+[![Live Demo](https://img.shields.io/badge/Live_Site-i--am--manu--singh.github.io-00E5FF.svg?logo=githubpages)](https://i-am-manu-singh.github.io/PortfolioWebsite/)
+[![React](https://img.shields.io/badge/React-19.2+-61DAFB.svg?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-3178C6.svg?logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.2+-646CFF.svg?logo=vite)](https://vite.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.4+-06B6D4.svg?logo=tailwindcss)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.2+-FF0055.svg?logo=framer)](https://www.framer.com/motion/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Live Deployment:** [https://i-am-manu-singh.github.io/PortfolioWebsite/](https://i-am-manu-singh.github.io/PortfolioWebsite/)
 
-Currently, two official plugins are available:
+**Manpreet Singh's Official Portfolio** is an interactive, cinematic developer portfolio crafted with **React 19**, **TypeScript**, **Vite**, **Tailwind CSS**, and **Framer Motion**. Designed with dark cyberpunk aesthetics, glassmorphism telemetry, and fluid micro-animations, it spotlights production-grade engineering across **Kotlin Multiplatform (KMP)**, **Android Native (Jetpack Compose)**, and **React Native / Expo** ecosystems.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 📑 Table of Contents
+1. [Overview & Highlights](#-overview--highlights)
+2. [Key Portfolio Features](#-key-portfolio-features)
+3. [Architecture & Component Structure](#-architecture--component-structure)
+4. [File & Directory Structure](#-file--directory-structure)
+5. [Tech Stack & Dependencies](#-tech-stack--dependencies)
+6. [Getting Started & Local Development](#-getting-started--local-development)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🌟 Overview & Highlights
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Interactive Project Showcases**: Deep dive into real-world applications (pEQ Workstation, Signy Tactical, Moonlight Webcam, Radel Tanpura, TallyPlugin).
+- **Dynamic PDF Resume Generator**: On-the-fly client-side export of a high-resolution CV powered by `html2canvas` and `jsPDF`.
+- **Telemetry & Skill Matrices**: Real-time stats on 250+ solved LeetCode DSA problems, Android system design, JNI/NDK, audio DSP, and cloud architecture.
+- **Glassmorphic Cyberpunk DNA**: High-framerate fluid cursor gradients, spotlight hover states, and smooth spring physics.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🚀 Key Portfolio Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 💻 Featured Engineering Projects
+- **pEQ Learn & Neural Media Player**: Multi-track stem isolation, 88-key synthesia piano, and DSP telemetry.
+- **Signy Tactical KMP**: Real-time asset tracking, WebRTC live feeds, and Supabase security infrastructure.
+- **Moonlight Webcam**: Wireless RTSP and MJPEG camera streaming suite for mobile and desktop.
+- **ReconcAILe Hub (TallyPrime)**: Automated bank reconciliation, OCR invoice processing, and desktop bridge.
+- **Trip India & Hostel Shop**: High-density Flutter provisioning and expedition command portals.
+
+### 📄 One-Click Resume Generator
+- Live downloadable formatted PDF resume directly from the browser without server roundtrips.
+
+### 📬 Direct Connection Portal
+- Embedded contact terminal with interactive social badges (LinkedIn, GitHub, LeetCode, Email).
+
+---
+
+## 🏛 Architecture & Component Structure
+
+The frontend leverages a modular component structure optimized for Vite tree-shaking and zero-latency rendering:
+
+```mermaid
+graph TD
+    App[App.tsx Root] --> Nav[Navbar & Telemetry Header]
+    App --> Hero[Hero Banner & Interactive Spotlight]
+    App --> About[About & Tech Stack Badges]
+    App --> Projects[Project Showcase Cards & Live Demos]
+    App --> Experience[Experience & Education Timeline]
+    App --> Resume[Dynamic PDF Resume Generator]
+    App --> Contact[Contact & Social Links]
+    
+    subgraph "State & Data"
+        Data[resume.ts - Single Source of Truth] --> App
+    end
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📂 File & Directory Structure
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+PortfolioWebsite/
+├── package.json                          # Dependencies & NPM scripts
+├── vite.config.ts                        # Vite bundler configuration
+├── tailwind.config.js                    # Custom cyberpunk palette & tokens
+├── tsconfig.json                         # Strict TypeScript configuration
+├── public/                               # Static assets, favicon, preview images
+└── src/
+    ├── main.tsx                          # React 19 application mount
+    ├── App.tsx                           # Top-level layout & view orchestrator
+    ├── index.css                         # Global CSS, utilities & custom glow effects
+    ├── components/                       # Modular UI components (Navbar, Hero, Projects, etc.)
+    ├── data/                             # Single source of truth resume & project datasets
+    ├── hooks/                            # Custom interaction & scroll-observer hooks
+    └── utils/                            # PDF export logic & formatters
 ```
+
+---
+
+## 🛠 Tech Stack & Dependencies
+
+| Technology | Purpose |
+|---|---|
+| **React 19** | Ultra-performant reactive component model |
+| **TypeScript 5.9** | Strict type safety across all project models |
+| **Vite 7.2** | Instant Hot Module Replacement (HMR) and optimized rollup bundle |
+| **Tailwind CSS 3.4** | Utility-first responsive styling and curated dark gradients |
+| **Framer Motion 12.2** | Smooth spring animations, staggered reveals, and scroll triggers |
+| **Lucide React** | Crisp, lightweight modern icon suite |
+| **html2canvas & jsPDF** | Client-side DOM-to-PDF vector generation |
+
+---
+
+## 💻 Getting Started & Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/I-am-Manu-Singh/PortfolioWebsite.git
+
+# Install dependencies
+npm install
+
+# Start local development server
+npm run dev
+
+# Create optimized production build
+npm run build
+```
+
+---
+
+## 👤 Author
+**Manpreet Singh** ([@I-am-Manu-Singh](https://github.com/I-am-Manu-Singh))  
+*Software Development Engineer & Mobile Specialist*
