@@ -72,24 +72,27 @@
   box-sizing: border-box;
 }
 
-html, body {
-  min-height: 100vh;
-  background-color: var(--color-dark);
-  color: var(--color-text);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
 html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: var(--font-main);
+  min-height: 100%;
+  background-color: var(--color-dark);
   background: var(--bg-gradient);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-dark);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: var(--color-text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-main);
 }
 
 a {
