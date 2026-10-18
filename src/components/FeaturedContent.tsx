@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
-    Briefcase, BookOpen, ExternalLink, ArrowUpRight, 
+    Briefcase, Linkedin, BookOpen, ExternalLink, ArrowUpRight, 
     Sparkles
 } from 'lucide-react';
 import DynamicMedium from './DynamicMedium';
@@ -111,7 +111,7 @@ const FeaturedContent: React.FC = () => {
       {/* Icon and Header */}
       <div className="flex items-center gap-4">
         <span className="p-3 bg-[#0077b5] text-white rounded-xl shadow-md">
-          <Briefcase size={24} />
+          <Linkedin size={24} />
         </span>
         <div>
           <h4 className="text-lg font-bold text-text font-outfit">
