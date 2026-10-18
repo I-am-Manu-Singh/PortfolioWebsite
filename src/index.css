@@ -163,3 +163,10 @@ ul {
     font-size: 2.5rem;
   }
 }
+/* Force Hostel Shop Management white icon to black in light theme across both cards and data attributes */
+[data-theme='light'] img[src*="hostelshop"],
+[data-theme='light'] img[alt*="Hostel Shop"],
+html[data-theme='light'] img[src*="hostelshop"] {
+  filter: invert(1) brightness(0) !important;
+  background-color: transparent !important;
+}
