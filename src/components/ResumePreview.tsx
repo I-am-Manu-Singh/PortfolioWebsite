@@ -18,6 +18,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
     const [viewMode, setViewMode] = useState<'interactive' | 'pdf'>('interactive');
     const [isExportMenuOpen, setIsExportMenuOpen] = useState<boolean>(false);
 
+    // Find the currently selected resume dynamically
     const activeResume: ResumeData = resumesList.find(r => r.id === selectedResumeId) || resumesList[0];
     const drivePdfUrl = RESUME_DRIVE_URL;
 
@@ -27,7 +28,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         return parts.map((part, index) => {
             if (part.startsWith('**') && part.endsWith('**')) {
                 return (
-                    <strong key={index} className="font-bold text-text dark:text-white">
+                    <strong key={index} className="font-bold text-text">
                         {part.slice(2, -2)}
                     </strong>
                 );
@@ -36,20 +37,22 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         });
     };
 
-    // Export Handlers
+    // 1. Export as PDF (Native window print with print styles)
     const exportAsPDF = () => {
         window.print();
     };
 
+    // 2. Export as Word (.doc) for the CURRENTLY SELECTED RESUME
     const exportAsWord = () => {
+        const current = activeResume;
         const headerHtml = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head><meta charset='utf-8'><title>${activeResume.title} - Manpreet Singh Resume</title>
+            <head><meta charset='utf-8'><title>${current.title} - Manpreet Singh Resume</title>
             <style>
-                body { font-family: 'Calibri', 'Arial', sans-serif; line-height: 1.4; color: #222; }
-                h1 { font-size: 20pt; text-align: center; color: #004f90; margin-bottom: 2pt; }
+                body { font-family: 'Calibri', 'Arial', sans-serif; line-height: 1.4; color: #111; }
+                h1 { font-size: 20pt; text-align: center; color: #0056b3; margin-bottom: 2pt; }
                 .subtitle { text-align: center; font-size: 10pt; color: #555; margin-bottom: 15pt; }
-                h2 { font-size: 13pt; border-bottom: 1.5pt solid #004f90; color: #004f90; margin-top: 14pt; margin-bottom: 6pt; }
+                h2 { font-size: 13pt; border-bottom: 1.5pt solid #0056b3; color: #0056b3; margin-top: 14pt; margin-bottom: 6pt; }
                 h3 { font-size: 11pt; margin-bottom: 2pt; color: #111; }
                 p, li { font-size: 10pt; }
                 ul { margin-top: 4pt; margin-bottom: 8pt; padding-left: 20pt; }
@@ -63,13 +66,13 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                 manpreetsinghkainth25@gmail.com | +91 7340007125 | linkedin.com/in/manpreet-singh001 | github.com/I-am-Manu-Singh | leetcode.com/u/manu_singh
             </div>
             <h2>SUMMARY</h2>
-            <p>${activeResume.summary.replace(/\*\*/g, '')}</p>
+            <p>${current.summary.replace(/\*\*/g, '')}</p>
             <h2>TECHNICAL SKILLS</h2>
             <ul>
-                ${activeResume.skills.map(s => `<li><b>${s.category}:</b> ${s.items.replace(/\*\*/g, '')}</li>`).join('')}
+                ${current.skills.map(s => `<li><b>${s.category}:</b> ${s.items.replace(/\*\*/g, '')}</li>`).join('')}
             </ul>
             <h2>PROFESSIONAL EXPERIENCE</h2>
-            ${activeResume.experiences.map(e => `
+            ${current.experiences.map(e => `
                 <div>
                     <span class='period'>${e.period}</span>
                     <h3>${e.role} — <span class='company'>${e.company}</span></h3>
@@ -80,7 +83,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                 </div>
             `).join('')}
             <h2>KEY TECHNICAL PROJECTS</h2>
-            ${activeResume.projects.map(p => `
+            ${current.projects.map(p => `
                 <div>
                     <h3>${p.name}</h3>
                     <ul>
@@ -100,57 +103,70 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Manpreet_Singh_${activeResume.id.toUpperCase()}_Resume.doc`;
+        a.download = `Manpreet_Singh_${current.id.toUpperCase()}_Resume.doc`;
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
     };
 
+    // 3. Export as CSV for the CURRENTLY SELECTED RESUME
     const exportAsCSV = () => {
+        const current = activeResume;
         const rows: string[][] = [
             ['Section', 'Category / Role', 'Detail / Highlights'],
             ['Basics', 'Name', 'Manpreet Singh'],
             ['Basics', 'Email', 'manpreetsinghkainth25@gmail.com'],
             ['Basics', 'Phone', '+91 7340007125'],
-            ['Basics', 'Profile Track', activeResume.title],
-            ['Summary', 'Overview', `"${activeResume.summary.replace(/"/g, '""').replace(/\*\*/g, '')}"`],
+            ['Basics', 'Profile Track', current.title],
+            ['Summary', 'Overview', `"${current.summary.replace(/"/g, '""').replace(/\*\*/g, '')}"`],
         ];
 
-        activeResume.skills.forEach(s => {
+        current.skills.forEach(s => {
             rows.push(['Skills', s.category, `"${s.items.replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
         });
 
-        activeResume.experiences.forEach(e => {
+        current.experiences.forEach(e => {
             rows.push(['Experience', `${e.role} at ${e.company} (${e.period})`, `"${e.highlights.join(' | ').replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
         });
 
-        activeResume.projects.forEach(p => {
+        current.projects.forEach(p => {
             rows.push(['Project', p.name, `"${p.highlights.join(' | ').replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
         });
 
         rows.push(['Education', 'MCA', 'Shri Khushal Das University (CGPA: 8.1)']);
         rows.push(['Education', 'BCA', 'Kalinga University (CGPA: 7.5)']);
 
-        const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(r => r.join(',')).join('\n');
-        const encodedUri = encodeURI(csvContent);
+        const csvContent = rows.map(r => r.join(',')).join('\r\n');
+        const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.setAttribute('href', encodedUri);
-        link.setAttribute('download', `Manpreet_Singh_${activeResume.id}_Resume.csv`);
+        link.href = url;
+        link.download = `Manpreet_Singh_${current.id}_Resume.csv`;
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
+        setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }, 100);
     };
 
+    // 4. Export as JSON for the CURRENTLY SELECTED RESUME
     const exportAsJSON = () => {
-        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(activeResume, null, 2));
+        const current = activeResume;
+        const blob = new Blob([JSON.stringify(current, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = dataStr;
-        a.download = `Manpreet_Singh_${activeResume.id}_Resume.json`;
+        a.href = url;
+        a.download = `Manpreet_Singh_${current.id}_Resume.json`;
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(dataStr);
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
     };
 
     return (
@@ -163,20 +179,20 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/85 backdrop-blur-md z-[120] print:hidden"
+                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99990] print:hidden"
                     />
 
-                    {/* Modal Dialog */}
+                    {/* Modal Dialog with z-[99999] so it floats above top navbar */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.96, y: 15 }}
+                        initial={{ opacity: 0, scale: 0.98, y: 15 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.96, y: 15 }}
-                        className="fixed inset-2 md:inset-6 lg:inset-8 bg-surface-base border border-border-card rounded-2xl shadow-2xl z-[130] flex flex-col overflow-hidden text-text print:static print:inset-0 print:border-0 print:bg-white print:text-black"
+                        exit={{ opacity: 0, scale: 0.98, y: 15 }}
+                        className="fixed inset-2 md:inset-6 lg:inset-8 bg-dark-card border border-white/15 rounded-2xl shadow-2xl z-[99999] flex flex-col overflow-hidden text-text print:static print:inset-0 print:border-0 print:bg-white print:text-black"
                     >
                         {/* Header Bar */}
-                        <div className="flex flex-wrap items-center justify-between p-4 md:px-6 border-b border-border-card bg-surface-card gap-3 print:hidden">
+                        <div className="flex flex-wrap items-center justify-between p-4 md:px-6 border-b border-dark bg-dark-card gap-3 print:hidden">
                             <div className="flex items-center gap-3">
-                                <div className="p-2.5 rounded-xl bg-primary/20 text-primary border border-primary/30">
+                                <div className="p-2.5 rounded-xl bg-primary/15 text-primary border border-primary/25">
                                     <FileText size={20} />
                                 </div>
                                 <div>
@@ -184,7 +200,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                         <h2 className="text-lg md:text-xl font-bold text-text font-outfit">
                                             Interactive ATS Resumes
                                         </h2>
-                                        <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                                        <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-semibold">
                                             7 Domain Profiles
                                         </span>
                                     </div>
@@ -196,12 +212,12 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
                             {/* View Switcher & Export Menu */}
                             <div className="flex items-center gap-2">
-                                <div className="flex rounded-lg bg-surface-base border border-border-card p-0.5 text-xs font-mono">
+                                <div className="flex rounded-lg bg-dark border border-dark p-0.5 text-xs font-mono">
                                     <button
                                         onClick={() => setViewMode('interactive')}
                                         className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
                                             viewMode === 'interactive' 
-                                                ? 'bg-primary text-white shadow' 
+                                                ? 'bg-primary text-white shadow font-semibold' 
                                                 : 'text-text-muted hover:text-text'
                                         }`}
                                     >
@@ -211,7 +227,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                         onClick={() => setViewMode('pdf')}
                                         className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
                                             viewMode === 'pdf' 
-                                                ? 'bg-primary text-white shadow' 
+                                                ? 'bg-primary text-white shadow font-semibold' 
                                                 : 'text-text-muted hover:text-text'
                                         }`}
                                     >
@@ -231,42 +247,45 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                     </button>
 
                                     {isExportMenuOpen && (
-                                        <div className="absolute right-0 mt-2 w-52 bg-surface-card border border-border-card rounded-xl shadow-2xl py-1.5 z-50">
+                                        <div className="absolute right-0 mt-2 w-56 bg-dark-card border border-white/20 rounded-xl shadow-2xl py-2 z-[100000] ring-1 ring-black/10">
+                                            <div className="px-3.5 py-1 text-[10px] font-mono uppercase text-text-muted border-b border-dark mb-1">
+                                                Export: {activeResume.title}
+                                            </div>
                                             <button
                                                 onClick={() => { exportAsPDF(); setIsExportMenuOpen(false); }}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors cursor-pointer"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-dark flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
                                                 <Printer size={14} className="text-primary" />
                                                 <span>Print / Save as PDF</span>
                                             </button>
                                             <button
                                                 onClick={() => { exportAsWord(); setIsExportMenuOpen(false); }}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors cursor-pointer"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-dark flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
                                                 <FileText size={14} className="text-blue-500" />
                                                 <span>Save as Word (.doc)</span>
                                             </button>
                                             <button
                                                 onClick={() => { exportAsCSV(); setIsExportMenuOpen(false); }}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors cursor-pointer"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-dark flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
                                                 <FileSpreadsheet size={14} className="text-emerald-500" />
                                                 <span>Export as CSV</span>
                                             </button>
                                             <button
                                                 onClick={() => { exportAsJSON(); setIsExportMenuOpen(false); }}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors cursor-pointer"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-dark flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
                                                 <FileCode size={14} className="text-amber-500" />
                                                 <span>Export as JSON</span>
                                             </button>
-                                            <div className="my-1 border-t border-border-card" />
+                                            <div className="my-1 border-t border-dark" />
                                             <a
                                                 href={drivePdfUrl}
                                                 target="_blank"
                                                 rel="noreferrer"
                                                 onClick={() => setIsExportMenuOpen(false)}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-dark flex items-center gap-2.5 transition-colors"
                                             >
                                                 <ExternalLink size={14} className="text-secondary" />
                                                 <span>Open Google Drive PDF</span>
@@ -277,7 +296,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
                                 <button
                                     onClick={onClose}
-                                    className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-surface-elevated transition-colors cursor-pointer"
+                                    className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-dark transition-colors cursor-pointer"
                                     aria-label="Close Preview"
                                 >
                                     <X size={20} />
@@ -286,7 +305,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                         </div>
 
                         {/* Domain Tracks Tab Bar */}
-                        <div className="flex items-center gap-1.5 px-4 py-2.5 bg-surface-base border-b border-border-card overflow-x-auto no-scrollbar print:hidden">
+                        <div className="flex items-center gap-1.5 px-4 py-2.5 bg-dark border-b border-dark overflow-x-auto no-scrollbar print:hidden">
                             {resumesList.map((res) => {
                                 const isSelected = res.id === selectedResumeId;
                                 return (
@@ -296,7 +315,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                         className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
                                             isSelected
                                                 ? 'bg-primary text-white shadow-md shadow-primary/25 font-semibold'
-                                                : 'text-text-muted hover:text-text hover:bg-surface-elevated'
+                                                : 'text-text-muted hover:text-text hover:bg-dark-card'
                                         }`}
                                     >
                                         {isSelected && <CheckCircle2 size={12} />}
@@ -307,10 +326,10 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                         </div>
 
                         {/* Modal Body / Viewer */}
-                        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-surface-base custom-scrollbar print:p-0 print:overflow-visible">
+                        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-dark custom-scrollbar print:p-0 print:overflow-visible">
                             {viewMode === 'pdf' ? (
-                                <div className="w-full h-full min-h-[600px] rounded-2xl overflow-hidden border border-border-card bg-surface-card flex flex-col">
-                                    <div className="p-3 bg-surface-elevated border-b border-border-card flex items-center justify-between text-xs font-mono text-text-muted">
+                                <div className="w-full h-full min-h-[600px] rounded-2xl overflow-hidden border border-white/10 bg-dark-card flex flex-col">
+                                    <div className="p-3 bg-dark border-b border-dark flex items-center justify-between text-xs font-mono text-text-muted">
                                         <span>Google Drive PDF Viewer: {activeResume.title}</span>
                                         <a
                                             href={drivePdfUrl}
@@ -330,9 +349,9 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                     />
                                 </div>
                             ) : (
-                                <div className="max-w-4xl mx-auto bg-surface-card border border-border-card rounded-2xl p-6 md:p-10 shadow-xl space-y-8 print:border-0 print:shadow-none print:p-0 print:text-black print:bg-white">
+                                <div className="max-w-4xl mx-auto bg-dark-card border border-white/10 rounded-2xl p-6 md:p-10 shadow-xl space-y-8 print:border-0 print:shadow-none print:p-0 print:text-black print:bg-white">
                                     {/* Resume Header */}
-                                    <div className="text-center pb-6 border-b border-border-card space-y-2 print:border-black">
+                                    <div className="text-center pb-6 border-b border-dark space-y-2 print:border-black">
                                         <h1 className="text-3xl md:text-4xl font-extrabold text-text font-outfit tracking-wide print:text-black">
                                             MANPREET SINGH
                                         </h1>
@@ -377,7 +396,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                         </h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {activeResume.skills.map((s, idx) => (
-                                                <div key={idx} className="p-3.5 rounded-xl bg-surface-base border border-border-card space-y-1 print:border-0 print:p-0">
+                                                <div key={idx} className="p-3.5 rounded-xl bg-dark border border-dark space-y-1 print:border-0 print:p-0">
                                                     <div className="text-xs font-mono font-bold text-text">
                                                         {s.category}
                                                     </div>
@@ -396,7 +415,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                         </h3>
                                         <div className="space-y-5">
                                             {activeResume.experiences.map((exp, idx) => (
-                                                <div key={idx} className="p-5 rounded-2xl bg-surface-base border border-border-card hover:border-primary/40 transition-colors space-y-3 print:border-0 print:p-0">
+                                                <div key={idx} className="p-5 rounded-2xl bg-dark border border-dark hover:border-primary/40 transition-colors space-y-3 print:border-0 print:p-0">
                                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                                                         <div>
                                                             <h4 className="text-base font-bold text-text font-outfit print:text-black">
@@ -406,7 +425,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                                                 {exp.company}
                                                             </div>
                                                         </div>
-                                                        <span className="text-xs font-mono text-text-muted bg-surface-elevated px-2.5 py-1 rounded-md self-start sm:self-auto print:bg-transparent print:p-0">
+                                                        <span className="text-xs font-mono text-text-muted bg-dark-card px-2.5 py-1 rounded-md self-start sm:self-auto border border-dark print:bg-transparent print:p-0">
                                                             {exp.period}
                                                         </span>
                                                     </div>
@@ -456,7 +475,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                         </h3>
                                         <div className="space-y-4">
                                             {activeResume.projects.map((proj, idx) => (
-                                                <div key={idx} className="p-5 rounded-2xl bg-surface-base border border-border-card hover:border-primary/40 transition-colors space-y-2.5 print:border-0 print:p-0">
+                                                <div key={idx} className="p-5 rounded-2xl bg-dark border border-dark hover:border-primary/40 transition-colors space-y-2.5 print:border-0 print:p-0">
                                                     <div className="flex items-center justify-between gap-3">
                                                         <h4 className="text-base font-bold text-text font-outfit print:text-black">
                                                             {proj.name}
@@ -466,7 +485,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                                                 href={proj.repo}
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                className="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-surface-elevated border border-border-card text-primary hover:text-white hover:bg-primary text-xs font-mono transition-colors print:hidden"
+                                                                className="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-dark-card border border-dark text-primary hover:text-white hover:bg-primary text-xs font-mono transition-colors print:hidden"
                                                             >
                                                                 <span>Repository</span>
                                                                 <ExternalLink size={12} />
@@ -486,8 +505,8 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                     </div>
 
                                     {/* Education & Languages */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-border-card print:border-black">
-                                        <div className="p-4 rounded-xl bg-surface-base border border-border-card space-y-2 print:border-0 print:p-0">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-dark print:border-black">
+                                        <div className="p-4 rounded-xl bg-dark border border-dark space-y-2 print:border-0 print:p-0">
                                             <h4 className="text-xs font-mono font-bold text-primary uppercase tracking-wider flex items-center gap-2">
                                                 <GraduationCap size={15} /> Education
                                             </h4>
@@ -497,7 +516,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                             </div>
                                         </div>
 
-                                        <div className="p-4 rounded-xl bg-surface-base border border-border-card space-y-2 print:border-0 print:p-0">
+                                        <div className="p-4 rounded-xl bg-dark border border-dark space-y-2 print:border-0 print:p-0">
                                             <h4 className="text-xs font-mono font-bold text-primary uppercase tracking-wider flex items-center gap-2">
                                                 <Globe2 size={15} /> Languages
                                             </h4>
