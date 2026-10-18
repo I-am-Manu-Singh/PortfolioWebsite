@@ -14,7 +14,7 @@ interface NavbarProps {
 const NAV_LINKS = [
     { label: "Tech Stack", href: "#skills" },
     { label: "Experience", href: "#experience" },
-    { label: "Mobile Labs", href: "#mobile-labs" },
+    { label: "Creative Bliss Labs", href: "#mobile-labs" },
     { label: "Coding Profile", href: "#coding-profile" },
     { label: "Projects", href: "#projects" },
     { label: "Certifications", href: "#certifications" },

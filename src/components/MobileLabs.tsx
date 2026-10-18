@@ -84,7 +84,7 @@ const MobileLabs: React.FC = () => {
 
                     {/* Description */}
                     <p className="text-text-muted text-sm md:text-base leading-relaxed">
-                        Sacred Gurbani reading & devotional learning companion engineered with Compose Multiplatform. Features authentic line-by-line Steek (meanings), first-letter phonetic search (Shabad Khoj), synchronized background audio recitation, customizable Gurmukhi typography, and offline habit tracking.
+                        Sacred Gurbani reading & devotional learning companion engineered with Compose Multiplatform. Features authentic line-by-line Steek (meanings), Shabad Khoj, synchronized background audio recitation, customizable Gurmukhi typography, and offline habit tracking.
                     </p>
 
                     {/* Tech Pills */}

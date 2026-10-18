@@ -214,7 +214,7 @@ export const resumeData = {
         },
         {
             name: "Hostel Shop Management",
-            description: "Industrial-scale provisioning logistics platform for high-density student campus procurement. Features a 500-unit branded inventory fleet, multi-modal nutrition & technical spec terminals, dynamic QR generation, and real-time inventory deductions.",
+            description: "Industrial-scale provisioning logistics platform for high-density student campus procurement. Features a inventory, nutrition & gate terminals, dynamic QR generation, and real-time inventory deductions.",
             logo: "/logos/hostelshop.png",
             links: [
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/HostelShopManagementApp" }

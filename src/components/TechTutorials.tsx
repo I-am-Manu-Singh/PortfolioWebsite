@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Youtube, Play, Pause, SkipBack, SkipForward, Code2, Layers } from 'lucide-react';
-import SectionBackground from './SectionBackground';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Youtube, Play, Code2, Layers } from "lucide-react";
+import SectionBackground from "./SectionBackground";
+import YouTubePlayer from "./YouTubePlayer";
 
 const PLAYLIST_SERIES = [
     {
@@ -74,17 +75,14 @@ const TechTutorials: React.FC = () => {
     const activeSeries = PLAYLIST_SERIES.find(s => s.id === selectedSeriesId) || PLAYLIST_SERIES[0];
 
     const [selectedVideo, setSelectedVideo] = useState<{ id: string; title: string }>(activeSeries.videos[0]);
-    const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
     const handleSelectSeries = (s: typeof PLAYLIST_SERIES[0]) => {
         setSelectedSeriesId(s.id);
         setSelectedVideo(s.videos[0]);
-        setIsPlaying(true);
     };
 
     const handleSelectVideo = (v: { id: string; title: string }) => {
         setSelectedVideo(v);
-        setIsPlaying(true);
     };
 
     const videoIndex = activeSeries.videos.findIndex(v => v.id === selectedVideo.id);
@@ -92,13 +90,11 @@ const TechTutorials: React.FC = () => {
     const handlePrev = () => {
         const nextIdx = (videoIndex - 1 + activeSeries.videos.length) % activeSeries.videos.length;
         setSelectedVideo(activeSeries.videos[nextIdx]);
-        setIsPlaying(true);
     };
 
     const handleNext = () => {
         const nextIdx = (videoIndex + 1) % activeSeries.videos.length;
         setSelectedVideo(activeSeries.videos[nextIdx]);
-        setIsPlaying(true);
     };
 
     return (
@@ -166,10 +162,10 @@ const TechTutorials: React.FC = () => {
                     })}
                 </div>
 
-                {/* Spotify-Style Media Player for Tech Tutorials */}
+                {/* Media Player Card */}
                 <div className="w-full max-w-5xl mx-auto bg-dark-card rounded-2xl overflow-hidden shadow-2xl border border-dark font-sans">
-                    <div className="flex flex-col md:flex-row h-[600px] md:h-[500px]">
-                        {/* Sidebar / Video Track List */}
+                    <div className="flex flex-col md:flex-row h-[620px] md:h-[520px]">
+                        {/* Sidebar / Track List */}
                         <div className="w-full md:w-1/2 p-5 overflow-y-auto custom-scrollbar bg-dark border-r border-dark flex flex-col justify-between">
                             <div>
                                 <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark">
@@ -191,32 +187,26 @@ const TechTutorials: React.FC = () => {
                                                 onClick={() => handleSelectVideo(video)}
                                                 className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all group ${
                                                     isSelected 
-                                                        ? 'bg-dark-card border border-primary/40 shadow-md ring-1 ring-primary/20' 
-                                                        : 'hover:bg-dark-card/60 border border-transparent'
+                                                        ? "bg-dark-card border border-primary/40 shadow-md ring-1 ring-primary/20" 
+                                                        : "hover:bg-dark-card/60 border border-transparent"
                                                 }`}
                                             >
                                                 <div className="text-text-muted w-5 text-center text-xs font-mono group-hover:hidden shrink-0">
-                                                    {isSelected && isPlaying ? (
-                                                        <div className="flex items-end gap-[2px] h-3 justify-center">
-                                                            <div className="w-[3px] bg-red-500 animate-[bounce_0.6s_infinite]" />
-                                                            <div className="w-[3px] bg-red-500 animate-[bounce_0.8s_infinite]" />
-                                                            <div className="w-[3px] bg-red-500 animate-[bounce_1s_infinite]" />
-                                                        </div>
-                                                    ) : (idx + 1)}
+                                                    {idx + 1}
                                                 </div>
                                                 <div className="text-primary hidden group-hover:block w-5 shrink-0">
                                                     <Play size={14} />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <div className={`text-xs md:text-sm font-medium truncate flex items-center gap-1.5 ${isSelected ? 'text-primary font-bold' : 'text-text'}`}>
+                                                    <div className={`text-xs md:text-sm font-medium truncate flex items-center gap-1.5 ${isSelected ? "text-primary font-bold" : "text-text"}`}>
                                                         <span className="truncate">{video.title}</span>
                                                     </div>
                                                     <div className="text-[11px] text-text-muted truncate font-mono mt-0.5">
-                                                        {activeSeries.name} · Track {idx + 1}
+                                                        {activeSeries.name} · Video {idx + 1}
                                                     </div>
                                                 </div>
                                                 <div className="text-[10px] font-mono px-2 py-0.5 rounded bg-dark-card text-text-muted border border-dark shrink-0">
-                                                    Watch
+                                                    Play
                                                 </div>
                                             </div>
                                         );
@@ -237,69 +227,21 @@ const TechTutorials: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Main Player Area */}
+                        {/* Player Container */}
                         <div className="w-full md:w-1/2 bg-dark-card p-6 flex flex-col justify-between relative">
-                            {/* Video Embed */}
-                            <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg mb-4 bg-black z-10 border border-dark">
-                                <iframe
-                                    width="100%"
-                                    height="100%"
-                                    src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=${isPlaying ? 1 : 0}`}
-                                    title={selectedVideo.title}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    className="absolute inset-0"
-                                />
-                            </div>
-
-                            {/* Now Playing Info */}
-                            <div className="z-10">
-                                <div className="mb-4">
-                                    <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-red-600/15 text-red-500 border border-red-600/25">
-                                        {activeSeries.name}
-                                    </span>
-                                    <h2 className="text-base md:text-lg font-bold text-text truncate mt-1.5" title={selectedVideo.title}>
-                                        {selectedVideo.title}
-                                    </h2>
-                                    <p className="text-xs text-text-muted font-mono">
-                                        Track {videoIndex + 1} of {activeSeries.videos.length} · Manpreet Singh
-                                    </p>
-                                </div>
-
-                                {/* Controls */}
-                                <div className="flex flex-col gap-2">
-                                    <div className="w-full bg-dark h-1.5 rounded-full overflow-hidden border border-dark">
-                                        <div className="h-full bg-red-500 w-2/5 rounded-full" />
-                                    </div>
-                                    <div className="flex justify-between text-[11px] text-text-muted font-mono">
-                                        <span>Video {videoIndex + 1}</span>
-                                        <span>Streaming from YouTube</span>
-                                    </div>
-
-                                    <div className="flex items-center justify-center gap-6 mt-1">
-                                        <SkipBack 
-                                            className="text-text-muted hover:text-text cursor-pointer transition-colors" 
-                                            size={22}
-                                            onClick={handlePrev}
-                                        />
-                                        <div 
-                                            onClick={() => setIsPlaying(!isPlaying)}
-                                            className="p-3 bg-red-600 hover:bg-red-500 transition-all rounded-full hover:scale-105 cursor-pointer text-white shadow-lg shadow-red-600/30"
-                                        >
-                                            {isPlaying ? <Pause size={20} fill="white" /> : <Play size={20} fill="white" className="ml-0.5" />}
-                                        </div>
-                                        <SkipForward 
-                                            className="text-text-muted hover:text-text cursor-pointer transition-colors" 
-                                            size={22}
-                                            onClick={handleNext}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Subtle Background Accent */}
-                            <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-red-600/5 to-transparent pointer-events-none" />
+                            <YouTubePlayer
+                                videoId={selectedVideo.id}
+                                title={selectedVideo.title}
+                                subtitle={`${activeSeries.name} · Track ${videoIndex + 1} of ${activeSeries.videos.length}`}
+                                badge={activeSeries.name}
+                                badgeColor="text-red-500 bg-red-600/10 border-red-600/25"
+                                onPrev={handlePrev}
+                                onNext={handleNext}
+                                hasPrev={activeSeries.videos.length > 1}
+                                hasNext={activeSeries.videos.length > 1}
+                                currentIndex={videoIndex + 1}
+                                totalCount={activeSeries.videos.length}
+                            />
                         </div>
                     </div>
                 </div>
