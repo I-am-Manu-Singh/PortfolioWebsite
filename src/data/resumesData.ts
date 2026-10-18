@@ -483,7 +483,7 @@ export const resumesList: ResumeData[] = [
       },
       {
         "role": "Machine Learning \& Compression Intern",
-        "company": "",
+        "company": "FreeMemory",
         "period": "Oct 2024 \u2013 Dec 2024",
         "playStore": null,
         "appStore": null,
