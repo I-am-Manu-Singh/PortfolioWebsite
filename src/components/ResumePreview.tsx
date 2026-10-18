@@ -94,7 +94,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         <div class="contact-details">
             manpreetsinghkainth25@gmail.com &nbsp;|&nbsp; +91 7340007125 &nbsp;|&nbsp; linkedin.com/in/manpreet-singh001 &nbsp;|&nbsp; github.com/I-am-Manu-Singh &nbsp;|&nbsp; leetcode.com/u/manu_singh
         </div>
-        <div class="track-title">${current.title.toUpperCase()} SPECIALIZATION TRACK</div>
+        <div class="track-title">${current.title.toUpperCase()}</div>
     </div>
 
     <div class="section-header">PROFESSIONAL SUMMARY</div>
@@ -204,7 +204,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
             <div class='subtitle'>
                 manpreetsinghkainth25@gmail.com | +91 7340007125 | linkedin.com/in/manpreet-singh001 | github.com/I-am-Manu-Singh | leetcode.com/u/manu_singh
             </div>
-            <div class='track'>${current.title.toUpperCase()} SPECIALIZATION TRACK</div>
+            <div class='track'>${current.title.toUpperCase()}</div>
 
             <h2>PROFESSIONAL SUMMARY</h2>
             <p>${current.summary.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</p>

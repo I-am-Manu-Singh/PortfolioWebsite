@@ -30,7 +30,7 @@ export interface ResumeData {
 export const resumesList: ResumeData[] = [
   {
     "id": "sde",
-    "title": "SDE / Systems",
+    "title": "Software Development Engineer",
     "summary": "Software Development Engineer specializing in distributed application architecture, low-latency streaming pipelines, and algorithmic problem-solving (**250+ LeetCode problems solved**). Experienced in designing enterprise client-server sync systems, cryptographic streaming protocols, and high-performance native C++/JNI hardware abstractions across cross-platform mobile, desktop, and cloud services.",
     "skills": [
       {
@@ -126,7 +126,7 @@ export const resumesList: ResumeData[] = [
   },
   {
     "id": "flutter",
-    "title": "Flutter",
+    "title": "Flutter Developer",
     "summary": "Flutter Developer specializing in building high-fidelity cross-platform applications across iOS, Android, and Desktop. Expert in reactive state management (Bloc, Provider), Supabase real-time architectures, custom animation frameworks, offline-first local databases, and hardware barcode/biometric sensor integrations with fluid 60fps UI rendering.",
     "skills": [
       {
@@ -228,7 +228,7 @@ export const resumesList: ResumeData[] = [
   },
   {
     "id": "reactnative",
-    "title": "React Native",
+    "title": "React Native Developer",
     "summary": "React Native Developer with expertise in building scalable, production-ready mobile applications for iOS and Android using **React Native CLI**, **Expo (SDK 51+)**, and **TypeScript**. Proven background architecting offline-first enterprise collaboration platforms, end-to-end encrypted messaging, complex 60fps animations with Reanimated 3, and native bridge modules.",
     "skills": [
       {
@@ -330,7 +330,7 @@ export const resumesList: ResumeData[] = [
   },
   {
     "id": "backend",
-    "title": "Backend",
+    "title": "Backend & Distributed Systems Engineer",
     "summary": "Backend Engineer specializing in distributed systems, real-time communication architectures, database design, and high-throughput server backends. Experienced designing fault-tolerant microservices, asynchronous job queues, cryptographic file ingestion pipelines on AWS, and PostgreSQL Row-Level Security (RLS) schemas with algorithmic optimization (**250+ LeetCode solved**).",
     "skills": [
       {
@@ -432,7 +432,7 @@ export const resumesList: ResumeData[] = [
   },
   {
     "id": "aiml",
-    "title": "AI / ML Systems",
+    "title": "AI & Machine Learning Engineer",
     "summary": "AI/ML Systems Engineer specializing in on-device neural edge computing, computer vision pipelines, local LLM quantization, and real-time DSP audio intelligence. Expert in deploying MediaPipe, ONNX, and ML Kit across mobile and desktop environments, with strong algorithmic depth in graph search and mathematical modeling (**250+ LeetCode solved**).",
     "skills": [
       {
@@ -534,7 +534,7 @@ export const resumesList: ResumeData[] = [
   },
   {
     "id": "web",
-    "title": "Full-Stack Web",
+    "title": "Full-Stack Web Developer",
     "summary": "Full-Stack Web Developer with expertise in building responsive, high-performance web applications using **React**, **Next.js**, **TypeScript**, and **modern Node.js backends**. Proficient in state management, micro-frontends, desktop web bridges (Electron), hardware-accelerated animations (Framer Motion, Canvas), and enterprise cloud deployments on Vercel and AWS.",
     "skills": [
       {
@@ -633,7 +633,7 @@ export const resumesList: ResumeData[] = [
   },
   {
     "id": "androidnative",
-    "title": "Android Native",
+    "title": "Android Native Developer",
     "summary": "Senior Android Native Developer specializing in modern **Kotlin**, **Jetpack Compose**, **Kotlin Multiplatform (KMP)**, and clean reactive architectures (MVI/MVVM). Proven track record developing production apps on the Google Play Console (closed testing to release), low-latency audio DSP (AudioTrack, Media3), USB-OTG/MIDI hardware communications, and C++/JNI native performance optimizations.",
     "skills": [
       {
