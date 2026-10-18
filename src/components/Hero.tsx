@@ -411,7 +411,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="flex items-center gap-2 px-4 py-3 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-text-muted cursor-help"
+                                className="flex items-center gap-2 px-4 py-3 rounded-full bg-dark-card border border-dark border border-white/10 text-xs font-mono text-text-muted cursor-help"
                                 title="Total Portfolio Visits"
                             >
                                 <Eye size={14} /> {visitCount.toLocaleString()} Visits
@@ -425,14 +425,18 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                 href={profile.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-3 bg-white/5 rounded-full text-text-muted hover:text-white hover:bg-primary/20 hover:border-primary/50 border border-transparent transition-all"
+                                className="p-3 bg-dark-card border border-dark rounded-full text-text-muted hover:text-primary hover:bg-primary/10 hover:border-primary/50 border border-transparent transition-all"
                                 whileHover={{ y: -5, scale: 1.1 }}
                                 title={profile.network}
                             >
                                 {profile.network === 'GitHub' && <Github size={24} />}
                                 {profile.network === 'LinkedIn' && <Linkedin size={24} />}
                                 {profile.network === 'LeetCode' && (
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/LeetCode_Logo_1.png" alt="LeetCode" className="w-6 h-6 object-contain" />
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-current">
+    <path d="M16 8l-5.5 5.5a3.5 3.5 0 0 1-5 0l0 0a3.5 3.5 0 0 1 0-5L11 3" />
+    <path d="M8 16l4 4" />
+    <path d="M12 12l8 0" />
+</svg>
                                 )}
                             </motion.a>
                         ))}

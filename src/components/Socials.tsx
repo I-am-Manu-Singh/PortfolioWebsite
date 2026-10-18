@@ -5,7 +5,7 @@ import { resumeData } from '../data/resume';
 
 
 import SectionBackground from './SectionBackground';
-import SpotifyPlayer from './SpotifyPlayer';
+
 
 interface SocialsProps {
 }
@@ -62,10 +62,7 @@ const Socials: React.FC<SocialsProps> = () => {
                             </a>
                         </div>
 
-                        {/* Spotify Activity */}
-                        <div className="w-full pt-6">
-                            <SpotifyPlayer />
-                        </div>
+
                     </div>
 
                     {/* Right Column: Profile Image (1:1 Alignment Wrapper) */}

@@ -86,13 +86,19 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         .skills-category { font-weight: bold; width: 26%; color: #000000; }
         .footer-table { width: 100%; border-collapse: collapse; margin-top: 3pt; }
         .footer-table td { width: 50%; vertical-align: top; font-size: 9.5pt; }
+        .contact-details a { color: #004f90; text-decoration: underline; font-weight: 500; }
+        .badge-link { display: inline-block; font-size: 7.5pt; font-family: monospace; background: #f0f4f8; border: 1px solid #c2d4e5; color: #004f90; padding: 1pt 4pt; border-radius: 3pt; text-decoration: none; margin-left: 4pt; font-weight: 600; vertical-align: middle; }
     </style>
 </head>
 <body>
     <div class="resume-header">
         <div class="candidate-name">MANPREET SINGH</div>
         <div class="contact-details">
-            manpreetsinghkainth25@gmail.com &nbsp;|&nbsp; +91 7340007125 &nbsp;|&nbsp; linkedin.com/in/manpreet-singh001 &nbsp;|&nbsp; github.com/I-am-Manu-Singh &nbsp;|&nbsp; leetcode.com/u/manu_singh
+            <a href="mailto:manpreetsinghkainth25@gmail.com">manpreetsinghkainth25@gmail.com</a> &nbsp;|&nbsp; 
+            <span>+91 7340007125</span> &nbsp;|&nbsp; 
+            <a href="https://www.linkedin.com/in/manpreet-singh001" target="_blank">LinkedIn</a> &nbsp;|&nbsp; 
+            <a href="https://github.com/I-am-Manu-Singh" target="_blank">GitHub</a> &nbsp;|&nbsp; 
+            <a href="https://leetcode.com/u/manu_singh" target="_blank">LeetCode</a>
         </div>
         <div class="track-title">${current.title.toUpperCase()}</div>
     </div>
@@ -114,7 +120,11 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
     ${current.experiences.map(e => `
         <div style="margin-bottom: 5.5pt;">
             <span class="item-date">${e.period}</span>
-            <div class="item-role">${e.role} — <span class="item-company">${e.company}</span></div>
+            <div class="item-role">
+                ${e.role} — <span class="item-company">${e.company}</span>
+                ${e.playStore ? `<a href="${e.playStore}" target="_blank" class="badge-link">&#9658; Play Store</a>` : ""}
+                ${e.appStore ? `<a href="${e.appStore}" target="_blank" class="badge-link">&#63743; App Store</a>` : ""}
+            </div>
             <div class="clear"></div>
             <ul>
                 ${e.highlights.map(h => `<li>${h.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}
@@ -125,7 +135,10 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
     <div class="section-header">KEY TECHNICAL PROJECTS</div>
     ${current.projects.map(p => `
         <div style="margin-bottom: 5pt;">
-            <div class="item-role">${p.name}</div>
+            <div class="item-role">
+                ${p.name}
+                ${p.repo ? `<a href="${p.repo}" target="_blank" class="badge-link">&#128279; GitHub Repo</a>` : ""}
+            </div>
             <ul>
                 ${p.highlights.map(h => `<li>${h.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}
             </ul>
@@ -202,7 +215,11 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
             </head><body>
             <h1>MANPREET SINGH</h1>
             <div class='subtitle'>
-                manpreetsinghkainth25@gmail.com | +91 7340007125 | linkedin.com/in/manpreet-singh001 | github.com/I-am-Manu-Singh | leetcode.com/u/manu_singh
+                <a href='mailto:manpreetsinghkainth25@gmail.com'>manpreetsinghkainth25@gmail.com</a> | 
+                <span>+91 7340007125</span> | 
+                <a href='https://www.linkedin.com/in/manpreet-singh001'>LinkedIn</a> | 
+                <a href='https://github.com/I-am-Manu-Singh'>GitHub</a> | 
+                <a href='https://leetcode.com/u/manu_singh'>LeetCode</a>
             </div>
             <div class='track'>${current.title.toUpperCase()}</div>
 
@@ -223,7 +240,11 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
             ${current.experiences.map(e => `
                 <div style="margin-bottom: 6pt;">
                     <span class='period'>${e.period}</span>
-                    <h3>${e.role} — <span class='company'>${e.company}</span></h3>
+                    <h3>
+                        ${e.role} — <span class='company'>${e.company}</span>
+                        ${e.playStore ? `<a href='${e.playStore}' style='font-size: 8pt; color: #004f90; margin-left: 4pt;'>[Play Store]</a>` : ""}
+                        ${e.appStore ? `<a href='${e.appStore}' style='font-size: 8pt; color: #004f90; margin-left: 4pt;'>[App Store]</a>` : ""}
+                    </h3>
                     <div class='clear'></div>
                     <ul>
                         ${e.highlights.map(h => `<li>${h.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}
@@ -234,7 +255,10 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
             <h2>KEY TECHNICAL PROJECTS</h2>
             ${current.projects.map(p => `
                 <div style="margin-bottom: 5pt;">
-                    <h3>${p.name}</h3>
+                    <h3>
+                        ${p.name}
+                        ${p.repo ? `<a href='${p.repo}' style='font-size: 8pt; color: #004f90; margin-left: 4pt;'>[GitHub Repo]</a>` : ""}
+                    </h3>
                     <ul>
                         ${p.highlights.map(h => `<li>${h.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}
                     </ul>
@@ -271,7 +295,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
             ['Header', 'Specialization Track', current.title],
             ['Header', 'LinkedIn Profile', 'https://www.linkedin.com/in/manpreet-singh001'],
             ['Header', 'GitHub Profile', 'https://github.com/I-am-Manu-Singh'],
-            ['Header', 'LeetCode Profile', 'https://leetcode.com/u/manu_singh (250+ Solved)'],
+            ['Header', 'LeetCode Profile', 'https://leetcode.com/u/manu_singh'],
             ['Summary', 'Professional Summary', `"${current.summary.replace(/"/g, '""').replace(/\*\*/g, '')}"`],
         ];
 
@@ -560,7 +584,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                             </a>
                                             <span>•</span>
                                             <a href="https://leetcode.com/u/manu_singh" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
-                                                LeetCode (250+)
+                                                LeetCode
                                             </a>
                                         </div>
                                     </div>

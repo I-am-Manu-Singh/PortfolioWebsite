@@ -37,7 +37,7 @@ const Projects: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_professional.png`}
                             alt="Professional Caricature"
-                            className="w-56 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border border-white/10 shadow-lg bg-white/10 backdrop-blur-sm opacity-80"
+                            className="w-56 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border border-dark shadow-lg bg-white/10 backdrop-blur-sm opacity-80"
                             animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
                             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
                             drag
@@ -69,10 +69,10 @@ const Projects: React.FC = () => {
                                     visible: { opacity: 1, y: 0 }
                                 }}
                                 whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                                className="glass-card overflow-hidden group flex flex-col h-full border border-white/5 hover:border-primary/40 transition-all duration-300 shadow-md hover:shadow-primary/10 rounded-2xl bg-dark-card"
+                                className="glass-card overflow-hidden group flex flex-col h-full border border-dark hover:border-primary/40 transition-all duration-300 shadow-md hover:shadow-primary/10 rounded-2xl bg-dark-card"
                             >
                                 {/* Header Media / Logo Banner */}
-                                <div className="relative overflow-hidden h-44 bg-gradient-to-br from-white/[0.07] via-white/[0.02] to-transparent p-5 flex items-center justify-center border-b border-white/5">
+                                <div className="relative overflow-hidden h-44 bg-gradient-to-br from-white/[0.07] via-white/[0.02] to-transparent p-5 flex items-center justify-center border-b border-dark">
                                     <div className="absolute inset-0 bg-gradient-to-t from-dark-card via-transparent to-transparent opacity-80 z-10 pointer-events-none" />
 
                                     {/* App Logo Display with Glow */}
@@ -83,7 +83,7 @@ const Projects: React.FC = () => {
                                                 <img
                                                     src={logoSrc}
                                                     alt={`${project.name} Logo`}
-                                                    className={`w-20 h-20 object-contain rounded-2xl shadow-xl relative z-10 border border-white/20 bg-dark-bg/80 p-1.5 ${project.name.toLowerCase().includes("hostel shop") && theme === "light" ? "filter invert contrast-200 brightness-0" : ""}`}
+                                                    className={`w-20 h-20 object-contain rounded-2xl shadow-xl relative z-10 border border-dark bg-dark-bg/80 p-1.5 ${project.name.toLowerCase().includes("hostel shop") && theme === "light" ? "filter invert contrast-200 brightness-0" : ""}`}
                                                     onError={(e) => {
                                                         (e.target as HTMLElement).style.display = 'none';
                                                     }}
@@ -112,7 +112,7 @@ const Projects: React.FC = () => {
                                                 href={link.url}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="p-2 bg-dark-card/90 backdrop-blur-md rounded-xl text-text/80 hover:text-primary transition-all duration-200 border border-white/10 hover:border-primary/40 shadow-sm"
+                                                className="p-2 bg-dark-card/90 backdrop-blur-md rounded-xl text-text/80 hover:text-primary transition-all duration-200 border border-dark hover:border-primary/40 shadow-sm"
                                                 title={link.label}
                                             >
                                                 {link.label.toLowerCase().includes('github') ? (
@@ -137,12 +137,12 @@ const Projects: React.FC = () => {
                                     </p>
 
                                     {/* Tags / Skills Chips */}
-                                    <div className="mt-auto pt-3 border-t border-white/5 flex flex-col gap-3">
+                                    <div className="mt-auto pt-3 border-t border-dark flex flex-col gap-3">
                                         <div className="flex flex-wrap gap-1.5">
                                             {project.tags.map((tag, i) => (
                                                 <span
                                                     key={i}
-                                                    className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-white/[0.04] text-secondary-light border border-white/10 hover:border-primary/30 transition-colors"
+                                                    className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-white/[0.04] text-secondary-light border border-dark hover:border-primary/30 transition-colors"
                                                 >
                                                     {tag}
                                                 </span>
@@ -150,7 +150,7 @@ const Projects: React.FC = () => {
                                         </div>
 
                                         {project.links && project.links.length > 0 && (
-                                            <div className="pt-2 border-t border-white/5 flex items-center justify-between">
+                                            <div className="pt-2 border-t border-dark flex items-center justify-between">
                                                 {project.links.map((link, i) => (
                                                     <a
                                                         key={i}

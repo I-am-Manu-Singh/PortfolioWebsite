@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, Calendar, ChevronRight, Layers, ExternalLink } from 'lucide-react';
+import { Briefcase, Calendar, ChevronRight, ExternalLink } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import { resumesList } from '../data/resumesData';
 import SectionBackground from './SectionBackground';
@@ -47,12 +47,12 @@ const ExperienceItem: React.FC<{
             className="relative pl-8 md:pl-10"
         >
             {/* Timeline Line (Left Side) */}
-            <div className={`absolute left-0 top-0 w-0.5 h-full bg-white/10 ${index === total - 1 ? 'h-0' : ''}`}></div>
+            <div className={`absolute left-0 top-0 w-0.5 h-full bg-dark ${index === total - 1 ? 'h-0' : ''}`}></div>
 
             {/* Timeline Dot */}
             <div className="absolute left-[-5px] top-0 w-3 h-3 bg-primary rounded-full z-10 mt-6 ring-4 ring-dark"></div>
 
-            <div className="glass-card p-5 hover:bg-white/5 transition-colors group relative overflow-hidden">
+            <div className="glass-card p-5 hover:bg-dark-card/90 transition-colors group relative overflow-hidden">
                 {/* Gradient Shine Effect */}
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine pointer-events-none" />
 
@@ -128,7 +128,7 @@ const ExperienceItem: React.FC<{
 };
 
 const Experience: React.FC = () => {
-    const [selectedTrack, setSelectedTrack] = useState<string>('all');
+    const selectedTrack = 'all';
 
     // Build complete unified experience list combining base resume with domain resumes
     const baseExperiences: UnifiedJob[] = resumeData.experience.map(exp => {
@@ -196,33 +196,7 @@ const Experience: React.FC = () => {
                         Proven production contributions across Enterprise Messaging, Edge DSP, and Cross-Platform Architectures.
                     </p>
 
-                    {/* Track Switcher Filter */}
-                    <div className="flex flex-wrap items-center justify-center gap-1.5 p-1.5 bg-white/5 border border-white/10 rounded-2xl max-w-3xl">
-                        <button
-                            onClick={() => setSelectedTrack('all')}
-                            className={`px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
-                                selectedTrack === 'all'
-                                    ? 'bg-primary text-white shadow-md shadow-primary/30 font-semibold'
-                                    : 'text-text-muted hover:text-white hover:bg-white/5'
-                            }`}
-                        >
-                            <Layers size={13} />
-                            <span>Full History ({baseExperiences.length})</span>
-                        </button>
-                        {resumesList.map(r => (
-                            <button
-                                key={r.id}
-                                onClick={() => setSelectedTrack(r.id)}
-                                className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer ${
-                                    selectedTrack === r.id
-                                        ? 'bg-primary text-white shadow-md shadow-primary/30 font-semibold'
-                                        : 'text-text-muted hover:text-white hover:bg-white/5'
-                                }`}
-                            >
-                                {r.title.split(' ')[0]}
-                            </button>
-                        ))}
-                    </div>
+
 
                     {/* Professional Caricature with Glow */}
                     <div className="absolute right-0 top-0 lg:right-10 lg:-top-16 z-0 hidden lg:block opacity-90 pointer-events-none">
@@ -233,11 +207,11 @@ const Experience: React.FC = () => {
                             transition={{ duration: 0.8 }}
                             className="relative"
                         >
-                            <div className="absolute inset-0 bg-white/10 blur-[80px] rounded-full transform scale-75" />
+                            <div className="absolute inset-0 bg-dark blur-[80px] rounded-full transform scale-75" />
                             <motion.img
                                 src={`${import.meta.env.BASE_URL}caricature_professional.png`}
                                 alt="Professional Manpreet"
-                                className="w-48 md:w-64 object-contain drop-shadow-2xl relative z-10 rounded-3xl border border-white/10 shadow-lg bg-white/10 backdrop-blur-sm opacity-80 cursor-grab active:cursor-grabbing"
+                                className="w-48 md:w-64 object-contain drop-shadow-2xl relative z-10 rounded-3xl border border-white/10 shadow-lg bg-dark backdrop-blur-sm opacity-80 cursor-grab active:cursor-grabbing"
                                 animate={{ y: [0, -15, 0], rotate: [0, 2, 0] }}
                                 whileHover={{ scale: 1.05 }}
                                 drag

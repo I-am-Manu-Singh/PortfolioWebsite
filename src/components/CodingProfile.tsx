@@ -30,7 +30,7 @@ const CodingProfile: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_coding_profile.png`}
                             alt="Coding"
-                            className="w-40 md:w-56 object-contain drop-shadow-xl relative z-0 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm"
+                            className="w-40 md:w-56 object-contain drop-shadow-xl relative z-0 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border border-dark bg-white/5 backdrop-blur-sm"
                             animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
                             drag
                             dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
@@ -50,7 +50,7 @@ const CodingProfile: React.FC = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="p-6 md:p-8 rounded-2xl border border-white/5 bg-transparent flex flex-col items-center relative z-10"
+                        className="p-6 md:p-8 rounded-2xl border border-dark bg-transparent flex flex-col items-center relative z-10"
                     >
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-text font-outfit">
                             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" className="w-6 h-6 bg-white rounded-full p-0.5" alt="GitHub" />
@@ -69,7 +69,7 @@ const CodingProfile: React.FC = () => {
                             href={resumeData.basics.profiles[1].url} 
                             target="_blank" 
                             rel="noreferrer"
-                            className="mt-6 px-6 py-2.5 bg-dark-card hover:bg-dark border border-white/10 text-text rounded-full text-xs font-mono font-bold transition-all flex items-center gap-2 shadow-sm"
+                            className="mt-6 px-6 py-2.5 bg-dark-card hover:bg-dark border border-dark text-text rounded-full text-xs font-mono font-bold transition-all flex items-center gap-2 shadow-sm"
                         >
                             View GitHub Profile
                         </a>
@@ -81,11 +81,15 @@ const CodingProfile: React.FC = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="p-6 md:p-8 rounded-2xl border border-white/5 bg-transparent flex flex-col items-center relative z-10"
+                        className="p-6 md:p-8 rounded-2xl border border-dark bg-transparent flex flex-col items-center relative z-10"
                     >
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-[#FFA116] font-outfit">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/LeetCode_Logo_1.png" alt="LeetCode" className="w-6 h-6 object-contain" />
-                            LeetCode Stats (250+ Solved)
+                            <span className="p-1 rounded-lg bg-primary/10 text-primary border border-dark flex items-center justify-center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-current">
+    <path d="M16 8l-5.5 5.5a3.5 3.5 0 0 1-5 0l0 0a3.5 3.5 0 0 1 0-5L11 3" />
+    <path d="M8 16l4 4" />
+    <path d="M12 12l8 0" />
+</svg></span>
+                            LeetCode Stats
                         </h3>
                         <div className="w-full flex justify-center py-2">
                             <a href={resumeData.basics.profiles[2].url} target="_blank" rel="noreferrer" className="w-full max-w-[420px]">

@@ -34,7 +34,7 @@ const Certifications: React.FC = () => {
                             <motion.img
                                 src={`${import.meta.env.BASE_URL}caricature_licenses.png`}
                                 alt="Licenses & Certifications"
-                                className="w-36 h-36 lg:w-44 lg:h-44 object-contain drop-shadow-xl relative z-10 pointer-events-auto rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm"
+                                className="w-36 h-36 lg:w-44 lg:h-44 object-contain drop-shadow-xl relative z-10 pointer-events-auto rounded-3xl border border-dark bg-white/5 backdrop-blur-sm"
                                 animate={{ y: [0, -8, 0], rotate: [-2, 2, -2] }}
                                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                             />
@@ -50,7 +50,7 @@ const Certifications: React.FC = () => {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.4, delay: index * 0.08 }}
-                            className="bg-dark-card p-6 rounded-2xl border border-white/5 hover:border-primary/40 transition-all flex flex-col justify-between shadow-lg group"
+                            className="bg-dark-card p-6 rounded-2xl border border-dark hover:border-primary/40 transition-all flex flex-col justify-between shadow-lg group"
                         >
                             <div>
                                 <div className="flex items-start justify-between mb-2">
@@ -62,7 +62,7 @@ const Certifications: React.FC = () => {
                                 <p className="text-text-muted mb-4 text-xs font-mono font-medium">{cert.issuer}</p>
                             </div>
 
-                            <div className="mt-auto pt-4 border-t border-white/5 space-y-3">
+                            <div className="mt-auto pt-4 border-t border-dark space-y-3">
                                 <div className="flex items-center justify-between text-xs font-mono">
                                     <span className="flex items-center gap-1.5 text-text-muted">
                                         <Calendar size={13} className="text-primary" />
@@ -83,7 +83,7 @@ const Certifications: React.FC = () => {
 
                                 <div className="flex flex-wrap gap-1.5 pt-1">
                                     {cert.skills.map((skill: string, i: number) => (
-                                        <span key={i} className="text-[10px] py-0.5 px-2 rounded-md bg-dark text-text-muted border border-white/5 font-mono">
+                                        <span key={i} className="text-[10px] py-0.5 px-2 rounded-md bg-dark text-text-muted border border-dark font-mono">
                                             {skill}
                                         </span>
                                     ))}

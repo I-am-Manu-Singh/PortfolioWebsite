@@ -86,7 +86,7 @@ const Interests: React.FC = () => {
                     </p>
 
                     {/* Dynamic Instrument Caricature based on selected tab */}
-                    <div className="absolute right-0 -top-10 lg:right-6 lg:-top-16 z-0 hidden lg:block pointer-events-none">
+                    <div className="mt-4 lg:mt-0 lg:absolute lg:right-6 lg:-top-16 z-20 flex justify-center pointer-events-none">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={activeDiscipline.caricature}
@@ -94,13 +94,13 @@ const Interests: React.FC = () => {
                                 animate={{ scale: 1, opacity: 1 }}
                                 exit={{ scale: 0.8, opacity: 0 }}
                                 transition={{ duration: 0.3 }}
-                                className="relative"
+                                className="relative pointer-events-auto"
                             >
-                                <div className="absolute inset-0 bg-primary/20 blur-[50px] rounded-full transform scale-75" />
+                                <div className="absolute inset-0 bg-primary/20 blur-[40px] rounded-full transform scale-75" />
                                 <motion.img
                                     src={`${import.meta.env.BASE_URL}${activeDiscipline.caricature}`}
                                     alt={activeDiscipline.title}
-                                    className="w-36 h-36 lg:w-44 lg:h-44 object-contain drop-shadow-xl relative z-10 pointer-events-auto rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm"
+                                    className="w-32 h-32 md:w-36 md:h-36 lg:w-44 lg:h-44 object-contain drop-shadow-xl relative z-10 rounded-3xl border border-dark bg-dark-card/60 backdrop-blur-sm cursor-grab active:cursor-grabbing hover:scale-105 transition-transform"
                                     animate={{ y: [0, -8, 0], rotate: [2, 0, 2] }}
                                     transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                                 />

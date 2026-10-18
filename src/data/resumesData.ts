@@ -31,7 +31,7 @@ export const resumesList: ResumeData[] = [
   {
     "id": "sde",
     "title": "Software Development Engineer",
-    "summary": "Software Development Engineer specializing in distributed application architecture, low-latency streaming pipelines, and algorithmic problem-solving (**250+ LeetCode problems solved**). Experienced in designing enterprise client-server sync systems, cryptographic streaming protocols, and high-performance native C++/JNI hardware abstractions across cross-platform mobile, desktop, and cloud services.",
+    "summary": "Software Development Engineer specializing in distributed application architecture, low-latency streaming pipelines, and algorithmic problem-solving. Experienced in designing enterprise client-server sync systems, cryptographic streaming protocols, and high-performance native C++/JNI hardware abstractions across cross-platform mobile, desktop, and cloud services.",
     "skills": [
       {
         "category": "Languages",
@@ -331,7 +331,7 @@ export const resumesList: ResumeData[] = [
   {
     "id": "backend",
     "title": "Backend & Distributed Systems Engineer",
-    "summary": "Backend Engineer specializing in distributed systems, real-time communication architectures, database design, and high-throughput server backends. Experienced designing fault-tolerant microservices, asynchronous job queues, cryptographic file ingestion pipelines on AWS, and PostgreSQL Row-Level Security (RLS) schemas with algorithmic optimization (**250+ LeetCode solved**).",
+    "summary": "Backend Engineer specializing in distributed systems, real-time communication architectures, database design, and high-throughput server backends. Experienced designing fault-tolerant microservices, asynchronous job queues, cryptographic file ingestion pipelines on AWS, and PostgreSQL Row-Level Security (RLS) schemas with algorithmic optimization.",
     "skills": [
       {
         "category": "Languages & Runtimes",
@@ -433,7 +433,7 @@ export const resumesList: ResumeData[] = [
   {
     "id": "aiml",
     "title": "AI & Machine Learning Engineer",
-    "summary": "AI/ML Systems Engineer specializing in on-device neural edge computing, computer vision pipelines, local LLM quantization, and real-time DSP audio intelligence. Expert in deploying MediaPipe, ONNX, and ML Kit across mobile and desktop environments, with strong algorithmic depth in graph search and mathematical modeling (**250+ LeetCode solved**).",
+    "summary": "AI/ML Systems Engineer specializing in on-device neural edge computing, computer vision pipelines, local LLM quantization, and real-time DSP audio intelligence. Expert in deploying MediaPipe, ONNX, and ML Kit across mobile and desktop environments, with strong algorithmic depth in graph search and mathematical modeling.",
     "skills": [
       {
         "category": "On-Device AI & Edge Inference",
@@ -634,7 +634,7 @@ export const resumesList: ResumeData[] = [
   {
     "id": "androidnative",
     "title": "Android Native Developer",
-    "summary": "Senior Android Native Developer specializing in modern **Kotlin**, **Jetpack Compose**, **Kotlin Multiplatform (KMP)**, and clean reactive architectures (MVI/MVVM). Proven track record developing production apps on the Google Play Console (closed testing to release), low-latency audio DSP (AudioTrack, Media3), USB-OTG/MIDI hardware communications, and C++/JNI native performance optimizations.",
+    "summary": "Senior Android Native Developer specializing in modern **Kotlin**, **Jetpack Compose**, **Kotlin Multiplatform (KMP)**, and clean reactive architectures (MVI/MVVM). Proven track record developing production apps on the Google Play (closed testing to release), low-latency audio DSP (AudioTrack, Media3), USB-OTG/MIDI hardware communications, and C++/JNI native performance optimizations.",
     "skills": [
       {
         "category": "Core Android & UI",
@@ -714,11 +714,11 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "name": "Bani: Nitnem & Steek Companion \u2014 Google Play Production Flagship",
+        "name": "Bani: Nitnem & Steek Companion \u2014 Google Play",
         "repo": "https://github.com/I-am-Manu-Singh/NitnemGutkaSahib",
         "highlights": [
-          "Developed a sacred devotional learning companion currently in **14-day closed testing on Google Play Console** built with **Compose Multiplatform**.",
-          "Implemented line-by-line Steek translation, phonetic first-letter search (Shabad Khoj), offline SQLite GurbaniDB caching, synchronized studio audio recitation with **Media3**, and daily habit tracking."
+          "Developed a sacred devotional learning companion currently in **14-day closed testing on Google Play** built with **Compose Multiplatform**.",
+          "Implemented line-by-line Steek translation, Shabad Khoj, offline SQLite LocalDB caching, synchronized studio audio recitation with **Media3**, and daily habit tracking."
         ]
       },
       {
