@@ -157,24 +157,25 @@ const Socials: React.FC<SocialsProps> = () => {
                 ))}
 
                 {/* Instagram Section */}
-                <div className="pt-10 border-t border-white/10">
-                    <div className="flex items-center justify-between mb-8">
-                        <h3 className="text-2xl font-bold flex items-center gap-2 text-white">
-                            <Instagram className="text-pink-500" /> Instagram Feed
-                        </h3>
-                    </div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {[
-                            { link: 'https://www.instagram.com/manu.singh_001/p/DTSDRz8kuYm/', img: 'https://images.unsplash.com/photo-1607799275518-d58726b1e670?w=400&q=80' },
-                            { link: 'https://www.instagram.com/manu.singh_001/p/DTYWAtNkq7T/', img: 'https://images.unsplash.com/photo-1552422535-c45813c61732?w=400&q=80' },
-                            { link: 'https://www.instagram.com/manu.singh_001/p/DT0RPOzknGX/', img: 'https://images.unsplash.com/photo-1525609004556-c3f538e3bd33?w=400&q=80' },
-                            { link: 'https://www.instagram.com/manu.singh_001/', img: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80' }
-                        ].map((item, i) => (
-                            <a key={i} href={item.link} target="_blank" className="aspect-square bg-white/5 rounded-xl overflow-hidden relative group">
-                                <img src={item.img} className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500" />
-                            </a>
-                        ))}
+                <div className="pt-10 border-t border-border-card">
+                    <div className="p-6 md:p-8 rounded-2xl bg-surface-card border border-border-card flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex items-center gap-4">
+                            <div className="p-3 bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 rounded-2xl text-white shadow-lg">
+                                <Instagram size={28} />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-bold text-text">Follow on Instagram</h3>
+                                <p className="text-xs text-text-muted font-mono">Real-time developer stories, music rehearsals, and tech updates.</p>
+                            </div>
+                        </div>
+                        <a
+                            href="https://www.instagram.com/manu.singh_001/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-mono text-xs font-semibold hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-pink-500/20"
+                        >
+                            @manu.singh_001
+                        </a>
                     </div>
                 </div>
             </div>

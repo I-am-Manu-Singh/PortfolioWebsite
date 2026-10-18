@@ -77,7 +77,7 @@ export const resumesList: ResumeData[] = [
       },
       {
         "role": "Software Engineer Intern",
-        "company": "",
+        "company": "FreeMemory",
         "period": "Oct 2024 \u2013 Dec 2024",
         "playStore": null,
         "appStore": null,
@@ -87,8 +87,8 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "role": "Teaching Assistant \u2014 Data Structures \\& Algorithms",
-        "company": "",
+        "role": "Teaching Assistant \u2014 Data Structures \& Algorithms",
+        "company": "Pepcoding",
         "period": "Nov 2021 \u2013 Mar 2022",
         "playStore": null,
         "appStore": null,
@@ -177,7 +177,7 @@ export const resumesList: ResumeData[] = [
       },
       {
         "role": "Mobile Developer Intern",
-        "company": "",
+        "company": "FreeMemory",
         "period": "Oct 2024 \u2013 Dec 2024",
         "playStore": null,
         "appStore": null,
@@ -187,8 +187,8 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "role": "Teaching Assistant \u2014 Algorithms \\& Core Programming",
-        "company": "",
+        "role": "Teaching Assistant \u2014 Algorithms \& Core Programming",
+        "company": "Pepcoding",
         "period": "Nov 2021 \u2013 Mar 2022",
         "playStore": null,
         "appStore": null,
@@ -280,7 +280,7 @@ export const resumesList: ResumeData[] = [
       },
       {
         "role": "Mobile Developer Intern",
-        "company": "",
+        "company": "FreeMemory",
         "period": "Oct 2024 \u2013 Dec 2024",
         "playStore": null,
         "appStore": null,
@@ -290,8 +290,8 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "role": "Teaching Assistant \u2014 Core Programming \\& Algorithms",
-        "company": "",
+        "role": "Teaching Assistant \u2014 Core Programming \& Algorithms",
+        "company": "Pepcoding",
         "period": "Nov 2021 \u2013 Mar 2022",
         "playStore": null,
         "appStore": null,
@@ -382,7 +382,7 @@ export const resumesList: ResumeData[] = [
       },
       {
         "role": "Systems Software Intern",
-        "company": "",
+        "company": "FreeMemory",
         "period": "Oct 2024 \u2013 Dec 2024",
         "playStore": null,
         "appStore": null,
@@ -392,8 +392,8 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "role": "Teaching Assistant \u2014 Computer Science \\& Algorithms",
-        "company": "",
+        "role": "Teaching Assistant \u2014 Computer Science \& Algorithms",
+        "company": "Pepcoding",
         "period": "Nov 2021 \u2013 Mar 2022",
         "playStore": null,
         "appStore": null,
@@ -482,7 +482,7 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "role": "Machine Learning \\& Compression Intern",
+        "role": "Machine Learning \& Compression Intern",
         "company": "",
         "period": "Oct 2024 \u2013 Dec 2024",
         "playStore": null,
@@ -493,8 +493,8 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "role": "Teaching Assistant \u2014 Algorithms \\& Optimization",
-        "company": "",
+        "role": "Teaching Assistant \u2014 Algorithms \& Optimization",
+        "company": "Pepcoding",
         "period": "Nov 2021 \u2013 Mar 2022",
         "playStore": null,
         "appStore": null,
@@ -585,7 +585,7 @@ export const resumesList: ResumeData[] = [
       },
       {
         "role": "Software Developer Intern",
-        "company": "",
+        "company": "FreeMemory",
         "period": "Oct 2024 \u2013 Dec 2024",
         "playStore": null,
         "appStore": null,
@@ -595,8 +595,8 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "role": "Teaching Assistant \u2014 Web Concepts \\& Algorithms",
-        "company": "",
+        "role": "Teaching Assistant \u2014 Web Concepts \& Algorithms",
+        "company": "Pepcoding",
         "period": "Nov 2021 \u2013 Mar 2022",
         "playStore": null,
         "appStore": null,
@@ -684,7 +684,7 @@ export const resumesList: ResumeData[] = [
       },
       {
         "role": "Junior Android Developer",
-        "company": "",
+        "company": "FreeMemory",
         "period": "Oct 2024 \u2013 Dec 2024",
         "playStore": null,
         "appStore": null,
@@ -694,8 +694,8 @@ export const resumesList: ResumeData[] = [
         ]
       },
       {
-        "role": "Teaching Assistant \u2014 Core Java \\& Algorithms",
-        "company": "",
+        "role": "Teaching Assistant \u2014 Core Java \& Algorithms",
+        "company": "Pepcoding",
         "period": "Nov 2021 \u2013 Mar 2022",
         "playStore": null,
         "appStore": null,

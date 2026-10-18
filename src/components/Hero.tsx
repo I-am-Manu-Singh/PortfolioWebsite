@@ -401,7 +401,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             href={RESUME_DRIVE_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-6 py-3 bg-white/10 hover:bg-white/15 text-white border border-white/20 rounded-full font-mono transition-all flex items-center gap-2"
+                            className="px-6 py-3 bg-surface-card hover:bg-surface-elevated text-text border border-border-card rounded-full font-mono transition-all flex items-center gap-2 shadow-sm"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >

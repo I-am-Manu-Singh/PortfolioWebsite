@@ -21,6 +21,21 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
     const activeResume: ResumeData = resumesList.find(r => r.id === selectedResumeId) || resumesList[0];
     const drivePdfUrl = RESUME_DRIVE_URL;
 
+    // Helper to format text with **bold** into safe JSX
+    const renderFormattedText = (text: string) => {
+        const parts = text.split(/(\*\*.*?\*\*)/g);
+        return parts.map((part, index) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+                return (
+                    <strong key={index} className="font-bold text-text dark:text-white">
+                        {part.slice(2, -2)}
+                    </strong>
+                );
+            }
+            return <span key={index}>{part}</span>;
+        });
+    };
+
     // Export Handlers
     const exportAsPDF = () => {
         window.print();
@@ -49,7 +64,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
             </div>
             <h2>SUMMARY</h2>
             <p>${activeResume.summary.replace(/\*\*/g, '')}</p>
-            <h2>SKILLS & TECHNOLOGIES</h2>
+            <h2>TECHNICAL SKILLS</h2>
             <ul>
                 ${activeResume.skills.map(s => `<li><b>${s.category}:</b> ${s.items.replace(/\*\*/g, '')}</li>`).join('')}
             </ul>
@@ -57,7 +72,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
             ${activeResume.experiences.map(e => `
                 <div>
                     <span class='period'>${e.period}</span>
-                    <h3>${e.role} <span class='company'>(${e.company})</span></h3>
+                    <h3>${e.role} — <span class='company'>${e.company}</span></h3>
                     <div class='clear'></div>
                     <ul>
                         ${e.highlights.map(h => `<li>${h.replace(/\*\*/g, '')}</li>`).join('')}
@@ -74,8 +89,8 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                 </div>
             `).join('')}
             <h2>EDUCATION</h2>
-            <p><b>Master of Computer Applications (MCA)</b> - Shri Khushal Das University (CGPA: 8.1)<br>
-            <b>Bachelor of Computer Applications (BCA)</b> - Kalinga University (CGPA: 7.5)</p>
+            <p><b>MCA</b> — Shri Khushal Das University (CGPA: 8.1)</p>
+            <p><b>BCA</b> — Kalinga University (CGPA: 7.5)</p>
             <h2>LANGUAGES</h2>
             <p>English (Fluent), Hindi (Native), Punjabi (Native)</p>
             </body></html>
@@ -94,62 +109,48 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
     const exportAsCSV = () => {
         const rows: string[][] = [
-            ["Section", "Role / Title", "Organization / Category", "Timeline", "Details"],
-            ["Header", "MANPREET SINGH", "Contact Information", "Current", "manpreetsinghkainth25@gmail.com | +91 7340007125 | LinkedIn: manpreet-singh001 | GitHub: I-am-Manu-Singh"],
-            ["Summary", activeResume.title, "Specialization", "", activeResume.summary.replace(/"/g, '""').replace(/\*\*/g, '')],
+            ['Section', 'Category / Role', 'Detail / Highlights'],
+            ['Basics', 'Name', 'Manpreet Singh'],
+            ['Basics', 'Email', 'manpreetsinghkainth25@gmail.com'],
+            ['Basics', 'Phone', '+91 7340007125'],
+            ['Basics', 'Profile Track', activeResume.title],
+            ['Summary', 'Overview', `"${activeResume.summary.replace(/"/g, '""').replace(/\*\*/g, '')}"`],
         ];
 
         activeResume.skills.forEach(s => {
-            rows.push(["Skills", s.category, "", "", s.items.replace(/"/g, '""').replace(/\*\*/g, '')]);
+            rows.push(['Skills', s.category, `"${s.items.replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
         });
 
         activeResume.experiences.forEach(e => {
-            rows.push([
-                "Experience",
-                e.role,
-                e.company,
-                e.period,
-                e.highlights.map(h => h.replace(/"/g, '""').replace(/\*\*/g, '')).join(" | ")
-            ]);
+            rows.push(['Experience', `${e.role} at ${e.company} (${e.period})`, `"${e.highlights.join(' | ').replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
         });
 
         activeResume.projects.forEach(p => {
-            rows.push([
-                "Project",
-                p.name,
-                p.repo || "",
-                "",
-                p.highlights.map(h => h.replace(/"/g, '""').replace(/\*\*/g, '')).join(" | ")
-            ]);
+            rows.push(['Project', p.name, `"${p.highlights.join(' | ').replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
         });
 
-        rows.push(["Education", "Master of Computer Applications (MCA)", "Shri Khushal Das University", "CGPA 8.1", ""]);
-        rows.push(["Education", "Bachelor of Computer Applications (BCA)", "Kalinga University", "CGPA 7.5", ""]);
-        rows.push(["Languages", "English (Fluent), Hindi (Native), Punjabi (Native)", "", "", ""]);
+        rows.push(['Education', 'MCA', 'Shri Khushal Das University (CGPA: 8.1)']);
+        rows.push(['Education', 'BCA', 'Kalinga University (CGPA: 7.5)']);
 
-        const csvContent = rows.map(r => r.map(c => `"${c}"`).join(",")).join("\n");
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `Manpreet_Singh_${activeResume.id.toUpperCase()}_Resume.csv`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(r => r.join(',')).join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', `Manpreet_Singh_${activeResume.id}_Resume.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     const exportAsJSON = () => {
-        const jsonContent = JSON.stringify(activeResume, null, 2);
-        const blob = new Blob([jsonContent], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
+        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(activeResume, null, 2));
         const a = document.createElement('a');
-        a.href = url;
-        a.download = `Manpreet_Singh_${activeResume.id.toUpperCase()}_Resume.json`;
+        a.href = dataStr;
+        a.download = `Manpreet_Singh_${activeResume.id}_Resume.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        URL.revokeObjectURL(dataStr);
     };
 
     return (
@@ -162,28 +163,28 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/85 backdrop-blur-md z-[80] print:hidden"
+                        className="fixed inset-0 bg-black/85 backdrop-blur-md z-[120] print:hidden"
                     />
 
                     {/* Modal Dialog */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                        initial={{ opacity: 0, scale: 0.96, y: 15 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 15 }}
-                        className="fixed inset-2 md:inset-6 lg:inset-10 bg-dark-bg border border-white/15 rounded-3xl shadow-2xl z-[90] flex flex-col overflow-hidden print:static print:inset-0 print:border-0 print:bg-white print:text-black"
+                        exit={{ opacity: 0, scale: 0.96, y: 15 }}
+                        className="fixed inset-2 md:inset-6 lg:inset-8 bg-surface-base border border-border-card rounded-2xl shadow-2xl z-[130] flex flex-col overflow-hidden text-text print:static print:inset-0 print:border-0 print:bg-white print:text-black"
                     >
                         {/* Header Bar */}
-                        <div className="flex flex-wrap items-center justify-between p-4 md:px-6 border-b border-white/10 bg-dark-card/90 backdrop-blur-xl gap-3 print:hidden">
+                        <div className="flex flex-wrap items-center justify-between p-4 md:px-6 border-b border-border-card bg-surface-card gap-3 print:hidden">
                             <div className="flex items-center gap-3">
-                                <div className="p-2.5 rounded-xl bg-primary/20 text-primary-light border border-primary/30">
+                                <div className="p-2.5 rounded-xl bg-primary/20 text-primary border border-primary/30">
                                     <FileText size={20} />
                                 </div>
                                 <div>
                                     <div className="flex items-center gap-2">
-                                        <h2 className="text-lg md:text-xl font-bold text-white font-outfit">
+                                        <h2 className="text-lg md:text-xl font-bold text-text font-outfit">
                                             Interactive ATS Resumes
                                         </h2>
-                                        <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                        <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
                                             7 Domain Profiles
                                         </span>
                                     </div>
@@ -195,16 +196,24 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
                             {/* View Switcher & Export Menu */}
                             <div className="flex items-center gap-2">
-                                <div className="flex rounded-lg bg-black/40 border border-white/10 p-0.5 text-xs font-mono">
+                                <div className="flex rounded-lg bg-surface-base border border-border-card p-0.5 text-xs font-mono">
                                     <button
                                         onClick={() => setViewMode('interactive')}
-                                        className={`px-3 py-1.5 rounded-md transition-all ${viewMode === 'interactive' ? 'bg-primary text-white shadow' : 'text-text-muted hover:text-white'}`}
+                                        className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
+                                            viewMode === 'interactive' 
+                                                ? 'bg-primary text-white shadow' 
+                                                : 'text-text-muted hover:text-text'
+                                        }`}
                                     >
                                         Live Interactive
                                     </button>
                                     <button
                                         onClick={() => setViewMode('pdf')}
-                                        className={`px-3 py-1.5 rounded-md transition-all ${viewMode === 'pdf' ? 'bg-primary text-white shadow' : 'text-text-muted hover:text-white'}`}
+                                        className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
+                                            viewMode === 'pdf' 
+                                                ? 'bg-primary text-white shadow' 
+                                                : 'text-text-muted hover:text-text'
+                                        }`}
                                     >
                                         PDF View
                                     </button>
@@ -214,7 +223,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                 <div className="relative">
                                     <button
                                         onClick={() => setIsExportMenuOpen(!isExportMenuOpen)}
-                                        className="flex items-center gap-1.5 px-3.5 py-1.5 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors text-xs font-mono font-medium shadow-md shadow-primary/20"
+                                        className="flex items-center gap-1.5 px-3.5 py-1.5 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors text-xs font-mono font-medium shadow-md shadow-primary/20 cursor-pointer"
                                     >
                                         <Download size={14} />
                                         <span>Save / Export</span>
@@ -222,44 +231,45 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                     </button>
 
                                     {isExportMenuOpen && (
-                                        <div className="absolute right-0 mt-2 w-52 bg-dark-card border border-white/15 rounded-xl shadow-2xl py-1.5 z-50 backdrop-blur-xl">
+                                        <div className="absolute right-0 mt-2 w-52 bg-surface-card border border-border-card rounded-xl shadow-2xl py-1.5 z-50">
                                             <button
                                                 onClick={() => { exportAsPDF(); setIsExportMenuOpen(false); }}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
-                                                <Printer size={14} className="text-primary-light" />
-                                                <span>Save as PDF (Print)</span>
+                                                <Printer size={14} className="text-primary" />
+                                                <span>Print / Save as PDF</span>
                                             </button>
                                             <button
                                                 onClick={() => { exportAsWord(); setIsExportMenuOpen(false); }}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
-                                                <FileText size={14} className="text-blue-400" />
+                                                <FileText size={14} className="text-blue-500" />
                                                 <span>Save as Word (.doc)</span>
                                             </button>
                                             <button
                                                 onClick={() => { exportAsCSV(); setIsExportMenuOpen(false); }}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
-                                                <FileSpreadsheet size={14} className="text-emerald-400" />
-                                                <span>Export as CSV / Excel</span>
+                                                <FileSpreadsheet size={14} className="text-emerald-500" />
+                                                <span>Export as CSV</span>
                                             </button>
                                             <button
                                                 onClick={() => { exportAsJSON(); setIsExportMenuOpen(false); }}
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
-                                                <FileCode size={14} className="text-amber-400" />
+                                                <FileCode size={14} className="text-amber-500" />
                                                 <span>Export as JSON</span>
                                             </button>
-                                            <div className="border-t border-white/10 my-1"></div>
+                                            <div className="my-1 border-t border-border-card" />
                                             <a
                                                 href={drivePdfUrl}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                                onClick={() => setIsExportMenuOpen(false)}
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-surface-elevated flex items-center gap-2.5 transition-colors"
                                             >
-                                                <ExternalLink size={14} className="text-purple-400" />
-                                                <span>Official Google Drive PDF</span>
+                                                <ExternalLink size={14} className="text-secondary" />
+                                                <span>Open Google Drive PDF</span>
                                             </a>
                                         </div>
                                     )}
@@ -267,104 +277,113 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
                                 <button
                                     onClick={onClose}
-                                    className="p-2 hover:bg-white/10 rounded-lg text-text-muted hover:text-white transition-colors"
-                                    aria-label="Close modal"
+                                    className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-surface-elevated transition-colors cursor-pointer"
+                                    aria-label="Close Preview"
                                 >
                                     <X size={20} />
                                 </button>
                             </div>
                         </div>
 
-                        {/* Domain Tabs Navigation */}
-                        <div className="flex items-center gap-2 px-4 md:px-6 py-2.5 bg-dark-card/50 border-b border-white/10 overflow-x-auto no-scrollbar print:hidden">
-                            <span className="text-xs font-mono text-text-muted uppercase tracking-wider mr-2 flex-shrink-0">
-                                Select Track:
-                            </span>
+                        {/* Domain Tracks Tab Bar */}
+                        <div className="flex items-center gap-1.5 px-4 py-2.5 bg-surface-base border-b border-border-card overflow-x-auto no-scrollbar print:hidden">
                             {resumesList.map((res) => {
                                 const isSelected = res.id === selectedResumeId;
                                 return (
                                     <button
                                         key={res.id}
-                                        onClick={() => { setSelectedResumeId(res.id); setIsExportMenuOpen(false); }}
-                                        className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex-shrink-0 flex items-center gap-1.5 border ${
+                                        onClick={() => setSelectedResumeId(res.id)}
+                                        className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
                                             isSelected
-                                                ? 'bg-primary text-white border-primary-light shadow-md shadow-primary/25 font-bold'
-                                                : 'bg-white/5 text-text-muted hover:text-white hover:bg-white/10 border-white/10'
+                                                ? 'bg-primary text-white shadow-md shadow-primary/25 font-semibold'
+                                                : 'text-text-muted hover:text-text hover:bg-surface-elevated'
                                         }`}
                                     >
-                                        {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
-                                        {res.title}
+                                        {isSelected && <CheckCircle2 size={12} />}
+                                        <span>{res.title}</span>
                                     </button>
                                 );
                             })}
                         </div>
 
-                        {/* Body Container */}
-                        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-dark/40 print:p-0 print:bg-white">
+                        {/* Modal Body / Viewer */}
+                        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-surface-base custom-scrollbar print:p-0 print:overflow-visible">
                             {viewMode === 'pdf' ? (
-                                <div className="w-full h-full min-h-[550px] rounded-2xl overflow-hidden border border-white/10 bg-black/60 shadow-inner">
+                                <div className="w-full h-full min-h-[600px] rounded-2xl overflow-hidden border border-border-card bg-surface-card flex flex-col">
+                                    <div className="p-3 bg-surface-elevated border-b border-border-card flex items-center justify-between text-xs font-mono text-text-muted">
+                                        <span>Google Drive PDF Viewer: {activeResume.title}</span>
+                                        <a
+                                            href={drivePdfUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="text-primary hover:underline flex items-center gap-1"
+                                        >
+                                            <span>Open in New Tab</span>
+                                            <ExternalLink size={12} />
+                                        </a>
+                                    </div>
                                     <iframe
-                                        src={drivePdfUrl}
-                                        className="w-full h-full border-0 min-h-[600px]"
-                                        title="Resume PDF Preview"
+                                        src={drivePdfUrl.replace('/view?usp=sharing', '/preview').replace('/view?usp=drive_link', '/preview')}
+                                        title={`${activeResume.title} PDF`}
+                                        className="w-full flex-1 border-0"
                                         allow="autoplay"
                                     />
                                 </div>
                             ) : (
-                                <div className="max-w-4xl mx-auto bg-dark-card/90 border border-white/15 rounded-3xl p-6 md:p-10 shadow-2xl backdrop-blur-xl space-y-8 print:border-0 print:shadow-none print:p-0 print:text-black print:bg-white">
+                                <div className="max-w-4xl mx-auto bg-surface-card border border-border-card rounded-2xl p-6 md:p-10 shadow-xl space-y-8 print:border-0 print:shadow-none print:p-0 print:text-black print:bg-white">
                                     {/* Resume Header */}
-                                    <div className="text-center pb-6 border-b border-white/10 space-y-2 print:border-black">
-                                        <h1 className="text-3xl md:text-4xl font-extrabold text-white font-outfit tracking-wide print:text-black">
+                                    <div className="text-center pb-6 border-b border-border-card space-y-2 print:border-black">
+                                        <h1 className="text-3xl md:text-4xl font-extrabold text-text font-outfit tracking-wide print:text-black">
                                             MANPREET SINGH
                                         </h1>
-                                        <p className="text-primary-light font-mono text-xs md:text-sm font-semibold tracking-wider uppercase print:text-primary">
-                                            // {activeResume.title.toUpperCase()} SPECIALIZATION TRACK
+                                        <p className="text-primary font-mono text-xs md:text-sm font-semibold tracking-wider uppercase">
+                                            {activeResume.title.toUpperCase()}
                                         </p>
                                         <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1.5 text-xs font-mono text-text-muted pt-1 print:text-black">
-                                            <a href="mailto:manpreetsinghkainth25@gmail.com" className="hover:text-primary-light transition-colors">
+                                            <a href="mailto:manpreetsinghkainth25@gmail.com" className="hover:text-primary transition-colors">
                                                 manpreetsinghkainth25@gmail.com
                                             </a>
                                             <span>•</span>
                                             <span>+91 7340007125</span>
                                             <span>•</span>
-                                            <a href="https://www.linkedin.com/in/manpreet-singh001" target="_blank" rel="noreferrer" className="hover:text-primary-light transition-colors">
+                                            <a href="https://www.linkedin.com/in/manpreet-singh001" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
                                                 LinkedIn
                                             </a>
                                             <span>•</span>
-                                            <a href="https://github.com/I-am-Manu-Singh" target="_blank" rel="noreferrer" className="hover:text-primary-light transition-colors">
+                                            <a href="https://github.com/I-am-Manu-Singh" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
                                                 GitHub
                                             </a>
                                             <span>•</span>
-                                            <a href="https://leetcode.com/u/manu_singh" target="_blank" rel="noreferrer" className="hover:text-primary-light transition-colors">
-                                                LeetCode
+                                            <a href="https://leetcode.com/u/manu_singh" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
+                                                LeetCode (250+)
                                             </a>
                                         </div>
                                     </div>
 
                                     {/* Summary */}
-                                    <div className="space-y-2">
-                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary-light flex items-center gap-2 print:text-primary">
-                                            <CheckCircle2 size={16} /> Summary
+                                    <div className="space-y-2.5">
+                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+                                            <Code2 size={16} /> Professional Summary
                                         </h3>
-                                        <p className="text-sm md:text-base text-gray-200 leading-relaxed bg-white/[0.02] p-4 rounded-xl border border-white/5 print:border-0 print:p-0 print:text-black">
-                                            {activeResume.summary}
+                                        <p className="text-xs md:text-sm text-text-muted leading-relaxed print:text-black">
+                                            {renderFormattedText(activeResume.summary)}
                                         </p>
                                     </div>
 
-                                    {/* Skills & Technologies */}
+                                    {/* Skills Matrix */}
                                     <div className="space-y-3">
-                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary-light flex items-center gap-2 print:text-primary">
-                                            <Code2 size={16} /> Skills & Technologies
+                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+                                            <Code2 size={16} /> Technical Skills Matrix
                                         </h3>
-                                        <div className="grid grid-cols-1 gap-2.5">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {activeResume.skills.map((s, idx) => (
-                                                <div key={idx} className="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col md:flex-row md:items-baseline gap-1.5 md:gap-3 print:border-0 print:p-0 print:text-black">
-                                                    <span className="text-xs font-mono font-bold text-white min-w-[170px] uppercase tracking-wide print:text-black">
-                                                        {s.category}:
-                                                    </span>
-                                                    <span className="text-xs md:text-sm text-text-muted leading-relaxed print:text-gray-800">
-                                                        {s.items}
-                                                    </span>
+                                                <div key={idx} className="p-3.5 rounded-xl bg-surface-base border border-border-card space-y-1 print:border-0 print:p-0">
+                                                    <div className="text-xs font-mono font-bold text-text">
+                                                        {s.category}
+                                                    </div>
+                                                    <div className="text-xs text-text-muted leading-relaxed font-mono">
+                                                        {renderFormattedText(s.items)}
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
@@ -372,33 +391,35 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
                                     {/* Experience */}
                                     <div className="space-y-4">
-                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary-light flex items-center gap-2 print:text-primary">
+                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary flex items-center gap-2">
                                             <Briefcase size={16} /> Professional Experience
                                         </h3>
-                                        <div className="space-y-4">
+                                        <div className="space-y-5">
                                             {activeResume.experiences.map((exp, idx) => (
-                                                <div key={idx} className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/40 transition-colors space-y-3 print:border-0 print:p-0">
-                                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                                                <div key={idx} className="p-5 rounded-2xl bg-surface-base border border-border-card hover:border-primary/40 transition-colors space-y-3 print:border-0 print:p-0">
+                                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                                                         <div>
-                                                            <h4 className="text-base font-bold text-white flex flex-wrap items-center gap-2 print:text-black">
-                                                                <span>{exp.role}</span>
-                                                                <span className="text-primary-light font-normal print:text-primary">({exp.company})</span>
+                                                            <h4 className="text-base font-bold text-text font-outfit print:text-black">
+                                                                {exp.role}
                                                             </h4>
+                                                            <div className="text-xs font-mono text-secondary font-medium">
+                                                                {exp.company}
+                                                            </div>
                                                         </div>
-                                                        <span className="text-xs font-mono text-text-muted bg-white/5 px-2.5 py-1 rounded-md border border-white/10 self-start sm:self-auto print:border-0 print:text-black">
+                                                        <span className="text-xs font-mono text-text-muted bg-surface-elevated px-2.5 py-1 rounded-md self-start sm:self-auto print:bg-transparent print:p-0">
                                                             {exp.period}
                                                         </span>
                                                     </div>
 
-                                                    {/* Verified Store Links */}
+                                                    {/* App Store Links */}
                                                     {(exp.playStore || exp.appStore) && (
-                                                        <div className="flex flex-wrap items-center gap-2.5 pt-1 print:hidden">
+                                                        <div className="flex flex-wrap items-center gap-2 pt-1 print:hidden">
                                                             {exp.playStore && (
                                                                 <a
                                                                     href={exp.playStore}
                                                                     target="_blank"
                                                                     rel="noreferrer"
-                                                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono hover:bg-emerald-500/25 transition-colors"
+                                                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 text-xs font-mono hover:bg-emerald-500/25 transition-colors"
                                                                 >
                                                                     <ExternalLink size={12} /> Play Store App
                                                                 </a>
@@ -408,7 +429,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                                                     href={exp.appStore}
                                                                     target="_blank"
                                                                     rel="noreferrer"
-                                                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-500/15 border border-blue-500/30 text-blue-300 text-xs font-mono hover:bg-blue-500/25 transition-colors"
+                                                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-500/15 border border-blue-500/30 text-blue-600 dark:text-blue-300 text-xs font-mono hover:bg-blue-500/25 transition-colors"
                                                                 >
                                                                     <ExternalLink size={12} /> iOS App Store
                                                                 </a>
@@ -419,7 +440,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                                     <ul className="space-y-1.5 text-xs md:text-sm text-text-muted list-disc list-inside print:text-black">
                                                         {exp.highlights.map((hl, hIdx) => (
                                                             <li key={hIdx} className="leading-relaxed">
-                                                                {hl.replace(/\*\*/g, '')}
+                                                                {renderFormattedText(hl)}
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -430,14 +451,14 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
                                     {/* Domain Projects */}
                                     <div className="space-y-4">
-                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary-light flex items-center gap-2 print:text-primary">
+                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary flex items-center gap-2">
                                             <FolderGit2 size={16} /> Key Technical Projects
                                         </h3>
                                         <div className="space-y-4">
                                             {activeResume.projects.map((proj, idx) => (
-                                                <div key={idx} className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/40 transition-colors space-y-2.5 print:border-0 print:p-0">
+                                                <div key={idx} className="p-5 rounded-2xl bg-surface-base border border-border-card hover:border-primary/40 transition-colors space-y-2.5 print:border-0 print:p-0">
                                                     <div className="flex items-center justify-between gap-3">
-                                                        <h4 className="text-base font-bold text-white font-outfit print:text-black">
+                                                        <h4 className="text-base font-bold text-text font-outfit print:text-black">
                                                             {proj.name}
                                                         </h4>
                                                         {proj.repo && (
@@ -445,7 +466,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                                                 href={proj.repo}
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                className="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-white/5 border border-white/15 text-primary-light hover:text-white hover:bg-primary text-xs font-mono transition-colors print:hidden"
+                                                                className="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-surface-elevated border border-border-card text-primary hover:text-white hover:bg-primary text-xs font-mono transition-colors print:hidden"
                                                             >
                                                                 <span>Repository</span>
                                                                 <ExternalLink size={12} />
@@ -455,7 +476,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                                     <ul className="space-y-1 text-xs md:text-sm text-text-muted list-disc list-inside print:text-black">
                                                         {proj.highlights.map((ph, pIdx) => (
                                                             <li key={pIdx} className="leading-relaxed">
-                                                                {ph.replace(/\*\*/g, '')}
+                                                                {renderFormattedText(ph)}
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -465,23 +486,23 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                     </div>
 
                                     {/* Education & Languages */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/10 print:border-black">
-                                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-2 print:border-0 print:p-0">
-                                            <h4 className="text-xs font-mono font-bold text-primary-light uppercase tracking-wider flex items-center gap-2 print:text-primary">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-border-card print:border-black">
+                                        <div className="p-4 rounded-xl bg-surface-base border border-border-card space-y-2 print:border-0 print:p-0">
+                                            <h4 className="text-xs font-mono font-bold text-primary uppercase tracking-wider flex items-center gap-2">
                                                 <GraduationCap size={15} /> Education
                                             </h4>
-                                            <div className="text-xs space-y-1 text-gray-300 print:text-black">
-                                                <p className="font-semibold text-white print:text-black">MCA — Shri Khushal Das University (CGPA: 8.1)</p>
-                                                <p className="font-semibold text-white print:text-black">BCA — Kalinga University (CGPA: 7.5)</p>
+                                            <div className="text-xs space-y-1 text-text-muted print:text-black">
+                                                <p className="font-semibold text-text print:text-black">MCA — Shri Khushal Das University (CGPA: 8.1)</p>
+                                                <p className="font-semibold text-text print:text-black">BCA — Kalinga University (CGPA: 7.5)</p>
                                             </div>
                                         </div>
 
-                                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-2 print:border-0 print:p-0">
-                                            <h4 className="text-xs font-mono font-bold text-primary-light uppercase tracking-wider flex items-center gap-2 print:text-primary">
+                                        <div className="p-4 rounded-xl bg-surface-base border border-border-card space-y-2 print:border-0 print:p-0">
+                                            <h4 className="text-xs font-mono font-bold text-primary uppercase tracking-wider flex items-center gap-2">
                                                 <Globe2 size={15} /> Languages
                                             </h4>
-                                            <p className="text-xs text-gray-300 print:text-black">
-                                                <strong className="text-white print:text-black">English</strong> (Fluent), <strong className="text-white print:text-black">Hindi</strong> (Native), <strong className="text-white print:text-black">Punjabi</strong> (Native)
+                                            <p className="text-xs text-text-muted print:text-black">
+                                                <strong className="text-text print:text-black">English</strong> (Fluent), <strong className="text-text print:text-black">Hindi</strong> (Native), <strong className="text-text print:text-black">Punjabi</strong> (Native)
                                             </p>
                                         </div>
                                     </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Instagram } from 'lucide-react';
-
+import { Instagram, ExternalLink } from 'lucide-react';
 import SectionBackground from './SectionBackground';
 
 const Interests: React.FC = () => {
@@ -27,67 +26,35 @@ const Interests: React.FC = () => {
 
                 <div className="mb-12 text-center max-w-2xl mx-auto">
                     <p className="text-text-muted text-lg leading-relaxed">
-                        Music is my escape and my fuel. whether it's jamming on the guitar or finding the perfect melody on the piano, I love the creative freedom it provides.
+                        Music and creative arts are my fuel. Whether it's improvising on the piano, fingerpicking on the guitar, or vocal sessions, creativity inspires better software engineering.
                     </p>
                 </div>
 
-
                 <div className="space-y-12">
-                    {/* SPOTIFY PLAYER SECTION */}
-                    {/* SPOTIFY PLAYER MOVED TO SOCIALS */}
-
-
-                    {/* Spacer to visually separate YouTube/Music from Instagram */}
-                    <div className="h-12"></div>
-
-                    {/* Instagram Section */}
-                    <div className="pt-16 border-t border-white/10 relative">
-                        <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-4">
-                            <h3 className="text-3xl font-bold flex items-center gap-3 text-white">
-                                <span className="p-2 bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 rounded-xl text-white shadow-lg"><Instagram /></span>
-                                Life in Frames
+                    {/* Instagram Official Profile Link */}
+                    <div className="pt-12 border-t border-border-card relative">
+                        <div className="max-w-xl mx-auto p-6 md:p-8 rounded-2xl bg-surface-card border border-border-card text-center space-y-4 shadow-xl">
+                            <div className="inline-flex p-3 bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 rounded-2xl text-white shadow-lg">
+                                <Instagram size={32} />
+                            </div>
+                            <h3 className="text-2xl font-bold text-text">
+                                Connect on Instagram
                             </h3>
-                            <a
-                                href="https://www.instagram.com/manu.singh_001/"
-                                target="_blank"
-                                className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all flex items-center gap-2 font-medium"
-                            >
-                                <Instagram size={18} /> @manu.singh_001
-                            </a>
-                        </div>
-
-                        {/* Instagram Grid Mockup - made more visible */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {[
-                                { link: 'https://www.instagram.com/manu.singh_001/p/DT0RPOzknGX/', img: 'https://images.unsplash.com/photo-1607799275518-d58726b1e670?w=400&q=80', caption: 'Code Life' }, // Android/Code
-                                { link: 'https://www.instagram.com/manu.singh_001/p/DTSDRz8kuYm/', img: 'https://images.unsplash.com/photo-1552422535-c45813c61732?w=400&q=80', caption: 'Music Vibes' }, // Piano/Music
-                                { link: 'https://www.instagram.com/manu.singh_001/', img: 'https://images.unsplash.com/photo-1525609004556-c3f538e3bd33?w=400&q=80', caption: 'Travel' }, // Car/Travel
-                                { link: 'https://www.instagram.com/manu.singh_001/', img: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80', caption: 'Lifestyle' }  // Lifestyle
-                            ].map((item, i) => (
-                                <motion.a
-                                    key={i}
-                                    href={item.link}
+                            <p className="text-sm text-text-muted font-mono">
+                                Follow my daily tech insights, music clips, and behind-the-scenes build updates on my official account.
+                            </p>
+                            <div className="pt-2">
+                                <a
+                                    href="https://www.instagram.com/manu.singh_001/"
                                     target="_blank"
-                                    className="aspect-square bg-dark-card rounded-2xl overflow-hidden relative group border border-white/10 shadow-lg"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    whileHover={{ y: -5 }}
+                                    rel="noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-mono text-xs font-semibold hover:opacity-90 shadow-md shadow-pink-500/25 transition-all hover:scale-105"
                                 >
-                                    <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                                        <div className="text-center">
-                                            <Instagram className="text-white mx-auto mb-2" size={32} />
-                                            <span className="text-white font-bold text-sm">View Post</span>
-                                        </div>
-                                    </div>
-                                    <img
-                                        src={item.img}
-                                        alt={item.caption}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                    />
-                                </motion.a>
-                            ))}
+                                    <Instagram size={16} />
+                                    <span>@manu.singh_001</span>
+                                    <ExternalLink size={13} />
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
