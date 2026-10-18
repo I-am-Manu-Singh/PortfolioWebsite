@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
-    Briefcase, Linkedin, BookOpen, ExternalLink, ArrowUpRight, 
-    Sparkles
+    Linkedin, BookOpen, ExternalLink, ArrowUpRight
 } from 'lucide-react';
 import DynamicMedium from './DynamicMedium';
+import MediumIcon from './MediumIcon';
 import SectionBackground from './SectionBackground';
 
 const FeaturedContent: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<'articles' | 'dynamic' | 'linkedin'>('articles');
-
+    const [activeTab, setActiveTab] = useState<'dynamic' | 'linkedin'>('dynamic');
 
     return (
         <section className="section bg-dark relative overflow-hidden" id="featured">
@@ -60,95 +59,92 @@ const FeaturedContent: React.FC = () => {
                     <div className="flex items-center gap-1.5 p-1.5 bg-dark-card border border-dark rounded-2xl mt-6 shadow-sm">
                         <button
                             onClick={() => setActiveTab('dynamic')}
-                            className={`px-4 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+                            className={`px-4 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center gap-2 cursor-pointer ${
                                 activeTab === 'dynamic'
                                     ? 'bg-primary text-white shadow font-semibold'
                                     : 'text-text-muted hover:text-text hover:bg-dark'
                             }`}
                         >
-                            <Sparkles size={13} />
-                            <span>Live Medium Feed</span>
+                            <MediumIcon size={15} />
+                            <span>Medium Articles</span>
                         </button>
                         <button
                             onClick={() => setActiveTab('linkedin')}
-                            className={`px-4 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+                            className={`px-4 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center gap-2 cursor-pointer ${
                                 activeTab === 'linkedin'
                                     ? 'bg-primary text-white shadow font-semibold'
                                     : 'text-text-muted hover:text-text hover:bg-dark'
                             }`}
                         >
-                            <Briefcase size={13} />
+                            <Linkedin size={15} />
                             <span>LinkedIn Connect</span>
                         </button>
                     </div>
                 </div>
 
-               
-
                 {/* Tab 1: Live Medium RSS Integration */}
                 {activeTab === 'dynamic' && (
-                    <div className="max-w-3xl mx-auto space-y-6">
+                    <div className="max-w-5xl mx-auto space-y-6">
                         <DynamicMedium username="@manu-singh" />
-                        <div className="text-center pt-4">
+                        <div className="text-center pt-2">
                             <a
                                 href="https://medium.com/@manu-singh"
                                 target="_blank"
                                 rel="noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-dark-card border border-dark text-text hover:bg-dark font-mono text-xs font-semibold transition-all shadow-sm"
+                                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-dark-card border border-dark text-text hover:bg-dark font-mono text-xs font-semibold transition-all shadow-sm hover:border-primary/40"
                             >
-                                <BookOpen size={14} className="text-primary" />
+                                <MediumIcon size={16} />
                                 <span>Browse All Medium Articles (@manu-singh)</span>
                                 <ExternalLink size={12} />
                             </a>
                         </div>
                     </div>
                 )}
-{/* Tab 2: Verified LinkedIn Milestones */}
-{activeTab === 'linkedin' && (
-  <div className="max-w-md mx-auto">
-    <div className="p-6 rounded-2xl bg-dark-card border border-dark shadow-xl space-y-6 flex flex-col justify-between">
-      
-      {/* Icon and Header */}
-      <div className="flex items-center gap-4">
-        <span className="p-3 bg-[#0077b5] text-white rounded-xl shadow-md">
-          <Linkedin size={24} />
-        </span>
-        <div>
-          <h4 className="text-lg font-bold text-text font-outfit">
-            Connect on LinkedIn
-          </h4>
-          <p className="text-xs font-mono text-text-muted">
-            @manpreet-singh001
-          </p>
-        </div>
-      </div>
 
-      {/* Action Buttons */}
-      <div className="grid grid-cols-2 gap-3">
-        <a 
-          href="https://www.linkedin.com/in/manpreet-singh001/recent-activity/all/" 
-          target="_blank" 
-          rel="noreferrer" 
-          className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono font-bold text-text-muted bg-white/5 border border-dark rounded-xl hover:bg-white/10 transition-colors"
-        >
-          <span>See Post</span>
-          <ArrowUpRight size={14} />
-        </a>
-        
-        <a 
-          href="https://www.linkedin.com/in/manpreet-singh001/" 
-          target="_blank" 
-          rel="noreferrer" 
-          className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono font-bold text-white bg-[#0077b5] border border-[#0077b5]/20 rounded-xl hover:bg-[#006297] transition-colors shadow-md shadow-[#0077b5]/10"
-        >
-          <span>Connect</span>
-          <ArrowUpRight size={14} />
-        </a>
-      </div>
+                {/* Tab 2: Verified LinkedIn Milestones */}
+                {activeTab === 'linkedin' && (
+                    <div className="max-w-md mx-auto">
+                        <div className="p-6 rounded-2xl bg-dark-card border border-dark shadow-xl space-y-6 flex flex-col justify-between">
+                            {/* Icon and Header */}
+                            <div className="flex items-center gap-4">
+                                <span className="p-3 bg-[#0077b5] text-white rounded-xl shadow-md">
+                                    <Linkedin size={24} />
+                                </span>
+                                <div>
+                                    <h4 className="text-lg font-bold text-text font-outfit">
+                                        Connect on LinkedIn
+                                    </h4>
+                                    <p className="text-xs font-mono text-text-muted">
+                                        @manpreet-singh001
+                                    </p>
+                                </div>
+                            </div>
 
-    </div>
-  </div>
-)}
+                            {/* Action Buttons */}
+                            <div className="grid grid-cols-2 gap-3">
+                                <a 
+                                    href="https://www.linkedin.com/in/manpreet-singh001/recent-activity/all/" 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono font-bold text-text-muted bg-white/5 border border-dark rounded-xl hover:bg-white/10 transition-colors"
+                                >
+                                    <span>See Post</span>
+                                    <ArrowUpRight size={14} />
+                                </a>
+                                
+                                <a 
+                                    href="https://www.linkedin.com/in/manpreet-singh001/" 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono font-bold text-white bg-[#0077b5] border border-[#0077b5]/20 rounded-xl hover:bg-[#006297] transition-colors shadow-md shadow-[#0077b5]/10"
+                                >
+                                    <span>Connect</span>
+                                    <ArrowUpRight size={14} />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );

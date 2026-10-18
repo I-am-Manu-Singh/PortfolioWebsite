@@ -2,6 +2,7 @@ import { RESUME_DRIVE_URL } from '../config/links';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import LeetCodeIcon from './LeetCodeIcon';
 import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock, FileText, ExternalLink } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
@@ -431,11 +432,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             >
                                 {profile.network === 'GitHub' && <Github size={24} />}
                                 {profile.network === 'LinkedIn' && <Linkedin size={24} />}
-                                {profile.network === 'LeetCode' && (
-                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" className="text-current">
-    <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 4.818 3.821c.287.034.576.053.864.055.228 0 .456-.011.683-.033.432-.04.86-.132 1.272-.273a5.88 5.88 0 0 0 1.936-1.196l3.86-4.135 5.405-5.787a1.379 1.379 0 0 0-1.009-2.321 1.373 1.373 0 0 0-.962.438l-4.444 4.757a3.07 3.07 0 0 1-2.146.974 3.064 3.064 0 0 1-2.146-.974l-4.44-4.756a1.378 1.378 0 0 0-1.971 0 1.374 1.374 0 0 0 0 1.971l4.44 4.756a5.814 5.814 0 0 0 4.117 1.867 5.82 5.82 0 0 0 4.117-1.867l4.444-4.757A1.373 1.373 0 0 0 13.483 0zm-2.88 18.118a1.375 1.375 0 0 0-.962.438l-4.44 4.756a1.378 1.378 0 0 0 0 1.971 1.374 1.374 0 0 0 1.971 0l4.44-4.756a1.379 1.379 0 0 0-1.009-2.409z" />
-</svg>
-                                )}
+                                {profile.network === 'LeetCode' && <LeetCodeIcon size={24} className="text-current" />}
                             </motion.a>
                         ))}
                     </div>

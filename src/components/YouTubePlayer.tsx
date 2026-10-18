@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Maximize2, Minimize2, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Play, Pause, SkipForward, SkipBack, Maximize2, Minimize2, Volume2, VolumeX, X } from 'lucide-react';
 
 declare global {
     interface Window {
-        YT: any;
         onYouTubeIframeAPIReady: () => void;
+        YT: any;
     }
 }
 
@@ -22,21 +23,23 @@ interface YouTubePlayerProps {
     totalCount?: number;
 }
 
-export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
+const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     videoId,
     title,
     subtitle,
-    badge = "Now Playing",
+    badge = "Video",
     badgeColor = "text-primary bg-primary/10 border-primary/20",
     onPrev,
     onNext,
-    hasPrev = true,
-    hasNext = true,
+    hasPrev = false,
+    hasNext = false,
     currentIndex = 1,
     totalCount = 1
 }) => {
-    const iframeIdRef = useRef<string>(`yt-player-${Math.random().toString(36).substring(2, 9)}`);
     const playerRef = useRef<any>(null);
+    const iframeIdRef = useRef<string>(`yt-player-instance-${Math.random().toString(36).substring(2, 9)}`);
+    const playerContainerRef = useRef<HTMLDivElement>(null);
+    const inlinePlaceholderRef = useRef<HTMLDivElement>(null);
 
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState<number>(0);
@@ -49,18 +52,35 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     const [isCropped, setIsCropped] = useState<boolean>(true);
     const cropTimeoutRef = useRef<any>(null);
 
-    // Lock webpage background scrolling while theater dialog is open
+    // Reparent the player DOM node into a direct child of document.body during theater mode!
+    // This breaks free of any parent stacking context, motion.div transform, or overflow constraints
+    // while keeping the exact same iframe alive with 0 interruptions or reloading!
     useEffect(() => {
+        const playerElem = playerContainerRef.current;
+        const placeholderElem = inlinePlaceholderRef.current;
+        if (!playerElem || !placeholderElem) return;
+
         if (isFullscreenModal) {
+            // Move into body directly
+            document.body.appendChild(playerElem);
             const originalOverflow = document.body.style.overflow;
             document.body.style.overflow = 'hidden';
+
             return () => {
                 document.body.style.overflow = originalOverflow;
+                if (placeholderElem && playerElem) {
+                    placeholderElem.appendChild(playerElem);
+                }
             };
+        } else {
+            // Restore back to inline placeholder
+            if (playerElem.parentElement !== placeholderElem) {
+                placeholderElem.appendChild(playerElem);
+            }
         }
     }, [isFullscreenModal]);
 
-    // Handle auto-uncropping after YouTube controls overlay times out (~3s)
+    // Handle auto-uncropping after YouTube controls overlay times out (~3.2s)
     useEffect(() => {
         if (isPlaying) {
             cropTimeoutRef.current = setTimeout(() => {
@@ -232,209 +252,212 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
     return (
         <>
-            {/* When in Theater Mode: Dark Blurred Backdrop that covers the website completely */}
-            {isFullscreenModal && (
+            {/* When in Theater Mode: Dark Backdrop portal to body covering the entire screen at highest z-index */}
+            {isFullscreenModal && typeof document !== 'undefined' && createPortal(
                 <div 
                     onClick={closeTheaterModal}
-                    className="fixed inset-0 z-[999998] bg-black/80 backdrop-blur-xl transition-opacity animate-fade-in"
-                />
+                    className="fixed inset-0 z-[99999990] bg-black/90 backdrop-blur-2xl transition-opacity animate-fade-in"
+                />,
+                document.body
             )}
 
-            {/* UNIFIED CONTAINER:
-                Normal mode: sits in page grid.
-                Theater mode: jumps to fixed viewport overlay at z-[999999] ABOVE navbar and caricatures.
-                The iframe is NEVER removed or recreated, so the video never goes blank! */}
-            <div className={`transition-all duration-300 ${
-                isFullscreenModal
-                    ? 'fixed inset-2 sm:inset-4 md:inset-6 z-[999999] max-w-6xl max-h-[92vh] mx-auto my-auto flex flex-col rounded-2xl bg-dark-card border border-dark shadow-2xl overflow-hidden'
-                    : 'flex flex-col h-full justify-between relative z-10'
-            }`}>
-                {/* Theater Header (only visible in fullscreen mode) */}
-                {isFullscreenModal && (
-                    <div className="flex items-center justify-between px-5 py-3 border-b border-dark bg-dark shrink-0">
-                        <div className="flex items-center gap-3 truncate pr-4">
-                            <span className={`text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full border ${badgeColor}`}>
-                                {badge}
-                            </span>
-                            <h3 className="text-sm md:text-base font-bold text-text truncate">
-                                {title}
-                            </h3>
+            {/* Inline placeholder anchor: holds the player element when embedded */}
+            <div ref={inlinePlaceholderRef} className="w-full h-full flex flex-col justify-between">
+                {/* UNIFIED CONTAINER:
+                    Reparented to body during fullscreen mode at z-[99999999] so NOTHING on the website
+                    can render over it, while preserving the exact same active iframe instance! */}
+                <div
+                    ref={playerContainerRef}
+                    className={`transition-all duration-300 ${
+                        isFullscreenModal
+                            ? 'fixed inset-3 sm:inset-6 md:inset-8 z-[99999999] max-w-6xl max-h-[92vh] mx-auto my-auto flex flex-col rounded-2xl bg-dark-card border border-dark shadow-2xl overflow-hidden'
+                            : 'flex flex-col h-full justify-between relative z-10'
+                    }`}
+                >
+                    {/* Header bar in fullscreen modal mode */}
+                    {isFullscreenModal && (
+                        <div className="flex items-center justify-between px-5 py-3.5 bg-dark border-b border-dark shrink-0">
+                            <div className="flex items-center gap-3 truncate pr-4">
+                                <span className={`text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full border ${badgeColor}`}>
+                                    {badge}
+                                </span>
+                                <h3 className="text-sm md:text-base font-bold text-text truncate font-outfit" title={title}>
+                                    {title}
+                                </h3>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={closeTheaterModal}
+                                className="p-2 rounded-xl text-text-muted hover:text-white hover:bg-dark-card transition-colors cursor-pointer shrink-0"
+                                title="Close Fullscreen Theater"
+                            >
+                                <X size={20} />
+                            </button>
                         </div>
-                        <button
-                            type="button"
-                            onClick={closeTheaterModal}
-                            className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-dark-card border border-transparent hover:border-dark transition-colors cursor-pointer shrink-0"
-                            title="Close Theater"
-                        >
-                            <X size={20} />
-                        </button>
-                    </div>
-                )}
+                    )}
 
-                {/* Permanent Single Video Viewport: Stays continuous in both modes */}
-                <div className={`relative w-full bg-black overflow-hidden flex items-center justify-center ${
-                    isFullscreenModal 
-                        ? 'flex-1 h-full' 
-                        : 'aspect-video rounded-xl shadow-xl mb-4 border border-dark group select-none'
-                }`}>
-                    <div className="absolute inset-0 overflow-hidden flex items-center justify-center pointer-events-none">
-                        <div 
-                            id={iframeIdRef.current} 
-                            className={`transition-all duration-700 ease-out pointer-events-auto ${
-                                isCropped 
-                                    ? 'w-[110%] h-[130%] -mt-[6%]' 
-                                    : 'w-full h-full -mt-0'
-                            }`}
-                        />
-                    </div>
+                    {/* Video Screen Area */}
+                    <div className={`relative w-full overflow-hidden bg-black flex items-center justify-center group ${
+                        isFullscreenModal 
+                            ? 'flex-1 min-h-[300px]' 
+                            : 'aspect-video rounded-xl border border-dark'
+                    }`}>
+                        {/* Dynamic frame crop: initially crops top/bottom overlays, uncrops back to 100% full view upon timeout */}
+                        <div className={`w-full h-full relative overflow-hidden flex items-center justify-center transition-all duration-700 ease-out ${
+                            isCropped ? 'scale-[1.12]' : 'scale-100'
+                        }`}>
+                            <div
+                                id={iframeIdRef.current}
+                                className="w-full h-full object-cover pointer-events-none"
+                            />
+                        </div>
 
-                    {/* Click Mask in embedded mode to toggle play/pause */}
-                    {!isFullscreenModal && (
-                        <div 
+                        {/* Transparent Interceptor: Captures clicks to toggle play/pause locally instead of triggering YouTube links */}
+                        <div
                             onClick={togglePlay}
-                            className="absolute inset-0 z-10 cursor-pointer flex items-center justify-center bg-black/10 hover:bg-black/25 transition-colors"
+                            className="absolute inset-0 z-10 cursor-pointer flex items-center justify-center bg-black/0 hover:bg-black/10 transition-colors"
                             title={isPlaying ? "Click to Pause" : "Click to Play"}
                         >
                             {!isPlaying && (
-                                <div className="w-14 h-14 rounded-full bg-primary/90 text-white flex items-center justify-center shadow-2xl backdrop-blur-md transform group-hover:scale-110 transition-transform">
+                                <div className="w-16 h-16 rounded-full bg-primary/90 text-white flex items-center justify-center shadow-2xl transition-transform hover:scale-110 pointer-events-none">
                                     <Play size={24} fill="white" className="ml-1" />
                                 </div>
                             )}
                         </div>
-                    )}
 
-                    {/* Expand button in embedded mode */}
-                    {!isFullscreenModal && (
-                        <button
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                openTheaterModal();
-                            }}
-                            className="absolute top-2.5 right-2.5 p-2 rounded-lg bg-dark/90 backdrop-blur-md text-text hover:text-white border border-dark hover:border-primary/50 shadow-xl opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-20 flex items-center gap-1.5 text-xs font-mono"
-                            title="Open Full In-Dialog Theater Mode"
-                        >
-                            <Maximize2 size={13} />
-                            <span>Theater</span>
-                        </button>
-                    )}
-                </div>
-
-                {/* Player Controls & Seekbar Tray: Shown in both embedded mode and bottom of fullscreen modal */}
-                <div className={`space-y-2 ${
-                    isFullscreenModal 
-                        ? 'p-4 bg-dark border-t border-dark shrink-0' 
-                        : 'space-y-3'
-                }`}>
-                    <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 truncate">
-                            <span className={`text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full border ${badgeColor}`}>
-                                {badge}
-                            </span>
-                            <h2 className="text-sm md:text-base font-bold text-text truncate" title={title}>
-                                {title}
-                            </h2>
-                        </div>
-                        <span className="text-[11px] font-mono text-text-muted shrink-0">
-                            Track {currentIndex} of {totalCount}
-                        </span>
-                    </div>
-
-                    {subtitle && (
-                        <p className="text-xs text-text-muted font-mono truncate">
-                            {subtitle}
-                        </p>
-                    )}
-
-                    {/* Interactive Seekbar with Color-filled Progress Track */}
-                    <div className="space-y-1 pt-1">
-                        <div className="relative w-full flex items-center group py-1">
-                            <div className="absolute inset-x-0 h-1.5 group-hover:h-2 bg-dark-card rounded-lg border border-dark overflow-hidden pointer-events-none transition-all">
-                                <div
-                                    className="h-full bg-gradient-to-r from-primary to-primary-light rounded-l-lg transition-all"
-                                    style={{ width: `${progressPercent}%` }}
-                                />
-                            </div>
-                            <input
-                                type="range"
-                                min={0}
-                                max={duration || 100}
-                                step={0.1}
-                                value={currentTime}
-                                onChange={handleSeek}
-                                onMouseDown={() => setIsDragging(true)}
-                                onMouseUp={() => setIsDragging(false)}
-                                onTouchStart={() => setIsDragging(true)}
-                                touch-action="none"
-                                onTouchEnd={() => setIsDragging(false)}
-                                className="relative z-10 w-full h-1.5 appearance-none cursor-pointer bg-transparent accent-primary group-hover:h-2 transition-all focus:outline-none"
-                                aria-label="Seek Video"
-                            />
-                        </div>
-                        <div className="flex justify-between text-[11px] text-text-muted font-mono">
-                            <span>{formatTime(currentTime)}</span>
-                            <span>{formatTime(duration)}</span>
-                        </div>
-                    </div>
-
-                    {/* Bottom Row Controls: Mute, Prev, Play/Pause Toggle, Next, Exit / Theater */}
-                    <div className="flex items-center justify-between pt-1">
-                        <button
-                            onClick={toggleMute}
-                            className="p-2 rounded-full text-text-muted hover:text-text hover:bg-dark-card transition-colors cursor-pointer"
-                            title={isMuted ? "Unmute" : "Mute"}
-                        >
-                            {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-                        </button>
-
-                        <div className="flex items-center gap-4 sm:gap-5">
-                            <button
-                                onClick={onPrev}
-                                disabled={!hasPrev}
-                                className="text-text-muted hover:text-text disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors p-1"
-                                title="Previous Video"
-                            >
-                                <SkipBack size={20} />
-                            </button>
-
-                            <button
-                                onClick={togglePlay}
-                                className="p-3 bg-primary hover:bg-primary-light text-white rounded-full transition-all hover:scale-105 shadow-md shadow-primary/25 cursor-pointer flex items-center justify-center"
-                                title={isPlaying ? "Pause" : "Play"}
-                            >
-                                {isPlaying ? <Pause size={20} fill="white" /> : <Play size={20} fill="white" className="ml-0.5" />}
-                            </button>
-
-                            <button
-                                onClick={onNext}
-                                disabled={!hasNext}
-                                className="text-text-muted hover:text-text disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors p-1"
-                                title="Next Video"
-                            >
-                                <SkipForward size={20} />
-                            </button>
-                        </div>
-
-                        {isFullscreenModal ? (
+                        {/* Expand button in embedded mode */}
+                        {!isFullscreenModal && (
                             <button
                                 type="button"
-                                onClick={closeTheaterModal}
-                                className="px-3.5 py-1.5 rounded-lg bg-primary hover:bg-primary-light text-white text-xs font-mono font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-md shadow-primary/20"
-                                title="Exit Theater"
-                            >
-                                <Minimize2 size={14} />
-                                <span>Exit</span>
-                            </button>
-                        ) : (
-                            <button
-                                type="button"
-                                onClick={openTheaterModal}
-                                className="p-2 rounded-full text-text-muted hover:text-text hover:bg-dark-card transition-colors cursor-pointer"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    openTheaterModal();
+                                }}
+                                className="absolute top-2.5 right-2.5 p-2 rounded-lg bg-dark/90 backdrop-blur-md text-text hover:text-white border border-dark hover:border-primary/50 shadow-xl opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-20 flex items-center gap-1.5 text-xs font-mono"
                                 title="Open Full In-Dialog Theater Mode"
                             >
-                                <Maximize2 size={16} />
+                                <Maximize2 size={13} />
+                                <span>Theater</span>
                             </button>
                         )}
+                    </div>
+
+                    {/* Player Controls & Seekbar Tray */}
+                    <div className={`space-y-2 ${
+                        isFullscreenModal 
+                            ? 'p-4 bg-dark border-t border-dark shrink-0' 
+                            : 'space-y-3 pt-3'
+                    }`}>
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2 truncate">
+                                <span className={`text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full border ${badgeColor}`}>
+                                    {badge}
+                                </span>
+                                <h2 className="text-sm md:text-base font-bold text-text truncate" title={title}>
+                                    {title}
+                                </h2>
+                            </div>
+                            <span className="text-[11px] font-mono text-text-muted shrink-0">
+                                Track {currentIndex} of {totalCount}
+                            </span>
+                        </div>
+
+                        {subtitle && (
+                            <p className="text-xs text-text-muted font-mono truncate">
+                                {subtitle}
+                            </p>
+                        )}
+
+                        {/* Interactive Seekbar with Color-filled Progress Track */}
+                        <div className="space-y-1 pt-1">
+                            <div className="relative w-full flex items-center group py-1">
+                                <div className="absolute inset-x-0 h-1.5 group-hover:h-2 bg-dark-card rounded-lg border border-dark overflow-hidden pointer-events-none transition-all">
+                                    <div
+                                        className="h-full bg-gradient-to-r from-primary to-primary-light rounded-l-lg transition-all"
+                                        style={{ width: `${progressPercent}%` }}
+                                    />
+                                </div>
+                                <input
+                                    type="range"
+                                    min={0}
+                                    max={duration || 100}
+                                    step={0.1}
+                                    value={currentTime}
+                                    onChange={handleSeek}
+                                    onMouseDown={() => setIsDragging(true)}
+                                    onMouseUp={() => setIsDragging(false)}
+                                    onTouchStart={() => setIsDragging(true)}
+                                    touch-action="none"
+                                    onTouchEnd={() => setIsDragging(false)}
+                                    className="relative z-10 w-full h-1.5 appearance-none cursor-pointer bg-transparent accent-primary group-hover:h-2 transition-all focus:outline-none"
+                                    aria-label="Seek Video"
+                                />
+                            </div>
+                            <div className="flex justify-between text-[11px] text-text-muted font-mono">
+                                <span>{formatTime(currentTime)}</span>
+                                <span>{formatTime(duration)}</span>
+                            </div>
+                        </div>
+
+                        {/* Bottom Row Controls: Mute, Prev, Play/Pause Toggle, Next, Exit / Theater */}
+                        <div className="flex items-center justify-between pt-1">
+                            <button
+                                onClick={toggleMute}
+                                className="p-2 rounded-full text-text-muted hover:text-text hover:bg-dark-card transition-colors cursor-pointer"
+                                title={isMuted ? "Unmute" : "Mute"}
+                            >
+                                {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                            </button>
+
+                            <div className="flex items-center gap-4 sm:gap-5">
+                                <button
+                                    onClick={onPrev}
+                                    disabled={!hasPrev}
+                                    className="text-text-muted hover:text-text disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors p-1"
+                                    title="Previous Video"
+                                >
+                                    <SkipBack size={20} />
+                                </button>
+
+                                <button
+                                    onClick={togglePlay}
+                                    className="p-3 bg-primary hover:bg-primary-light text-white rounded-full transition-all hover:scale-105 shadow-md shadow-primary/25 cursor-pointer flex items-center justify-center"
+                                    title={isPlaying ? "Pause" : "Play"}
+                                >
+                                    {isPlaying ? <Pause size={20} fill="white" /> : <Play size={20} fill="white" className="ml-0.5" />}
+                                </button>
+
+                                <button
+                                    onClick={onNext}
+                                    disabled={!hasNext}
+                                    className="text-text-muted hover:text-text disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors p-1"
+                                    title="Next Video"
+                                >
+                                    <SkipForward size={20} />
+                                </button>
+                            </div>
+
+                            {isFullscreenModal ? (
+                                <button
+                                    type="button"
+                                    onClick={closeTheaterModal}
+                                    className="px-3.5 py-1.5 rounded-lg bg-primary hover:bg-primary-light text-white text-xs font-mono font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-md shadow-primary/20"
+                                    title="Exit Theater"
+                                >
+                                    <Minimize2 size={14} />
+                                    <span>Exit</span>
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={openTheaterModal}
+                                    className="p-2 rounded-full text-text-muted hover:text-text hover:bg-dark-card transition-colors cursor-pointer"
+                                    title="Open Full In-Dialog Theater Mode"
+                                >
+                                    <Maximize2 size={16} />
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
