@@ -20,6 +20,19 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
     // Find the currently selected resume dynamically
     const activeResume: ResumeData = resumesList.find(r => r.id === selectedResumeId) || resumesList[0];
+
+    React.useEffect(() => {
+        const nav = document.querySelector("nav");
+        if (isOpen) {
+            if (nav) nav.style.display = "none";
+        } else {
+            if (nav) nav.style.display = "";
+        }
+        return () => {
+            if (nav) nav.style.display = "";
+        };
+    }, [isOpen]);
+
     const drivePdfUrl = RESUME_DRIVE_URL;
 
     // Helper to format text with **bold** into safe JSX

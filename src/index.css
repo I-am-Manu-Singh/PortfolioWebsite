@@ -20,6 +20,7 @@
   --font-mono: 'Space Grotesk', monospace;
   --transition: all 0.3s ease;
   --glass-bg: rgba(15, 16, 32, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.04);
   /* Tinted glass */
   /* Gradient Backgrounds */
   --bg-gradient: linear-gradient(180deg, #050510 0%, #0b0d24 45%, #050510 100%);

@@ -37,7 +37,7 @@ const Projects: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_professional.png`}
                             alt="Professional Caricature"
-                            className="w-56 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border-4 border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm opacity-80"
+                            className="w-56 object-contain drop-shadow-2xl pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border border-white/10 shadow-lg bg-white/10 backdrop-blur-sm opacity-80"
                             animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
                             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
                             drag
@@ -48,7 +48,7 @@ const Projects: React.FC = () => {
                 </div>
 
                 <motion.div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
@@ -69,7 +69,7 @@ const Projects: React.FC = () => {
                                     visible: { opacity: 1, y: 0 }
                                 }}
                                 whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                                className="glass-card overflow-hidden group flex flex-col h-full border border-white/10 hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-primary/10 rounded-2xl bg-dark-card/60 backdrop-blur-md"
+                                className="glass-card overflow-hidden group flex flex-col h-full border border-white/5 hover:border-primary/40 transition-all duration-300 shadow-md hover:shadow-primary/10 rounded-2xl bg-dark-card"
                             >
                                 {/* Header Media / Logo Banner */}
                                 <div className="relative overflow-hidden h-44 bg-gradient-to-br from-white/[0.07] via-white/[0.02] to-transparent p-5 flex items-center justify-center border-b border-white/5">

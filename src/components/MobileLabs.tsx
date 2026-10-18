@@ -1,113 +1,31 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { 
-    Play, Rocket, Github, CheckCircle2, Sparkles,  
-    Smartphone, ShieldCheck, Terminal, Cpu, Database, Radio, 
-    Activity, Layers, ArrowUpRight
+    Play, Rocket, Github, CheckCircle2, Sparkles, 
+    Smartphone,   Cpu, Database, Radio, 
+    Activity, Layers, ArrowUpRight, Clock
 } from 'lucide-react';
 import SectionBackground from './SectionBackground';
 
-interface LabApp {
-    id: string;
-    name: string;
-    tagline: string;
-    description: string;
-    architectureOverview: string;
-    telemetry: {
-        track: string;
-        targetSdk: string;
-        pipeline: string;
-        offlineStorage: string;
-        testingStatus: string;
-    };
-    tech: string[];
-    logo: string;
-    github: string;
-    previewUrl?: string;
-    gradient: string;
-    status: string;
-    statusColor: 'emerald' | 'amber' | 'blue';
-    platform: string;
-}
-
-const LAB_APPS: LabApp[] = [
-    {
-        id: 'nitnem',
-        name: 'Bani: Nitnem & Steek Companion',
-        tagline: 'Production Track · 14-Day Closed Testing on Google Play Console',
-        description: 'Sacred Gurbani reading & devotional learning companion engineered with Compose Multiplatform. Features authentic line-by-line Steek (meanings), first-letter phonetic search (Shabad Khoj), synchronized background audio recitation, customizable Gurmukhi typography, and offline habit tracking.',
-        architectureOverview: 'Offline-first SQLite SQLiteDelight cache with GurbaniDB indexation, Media3 ExoPlayer foreground media service with lock-screen notification media session controls, and adaptive Material 3 UI.',
-        telemetry: {
-            track: 'Closed Testing (20 Testers)',
-            targetSdk: 'Android 15 (API 35)',
-            pipeline: 'CMP Shared UI (Android/iOS)',
-            offlineStorage: 'SQLite + Room FTS',
-            testingStatus: 'Active Verification'
-        },
-        tech: ['Compose Multiplatform', 'Offline SQLite', 'GurbaniDB', 'Media3 Audio', 'Habit Streaks', 'Material 3 Expressive'],
-        logo: `${import.meta.env.BASE_URL}logos/nitnem.png`,
-        github: 'https://github.com/I-am-Manu-Singh/NitnemGutkaSahib',
-        gradient: 'from-amber-500/20 via-orange-500/20 to-yellow-500/20',
-        status: 'Closed Testing (Google Play)',
-        statusColor: 'amber',
-        platform: 'Android & iOS (CMP)'
-    },
-    {
-        id: 'peq-learn',
-        name: 'pEQ-Learn: Interactive Music DAW & Ear Trainer',
-        tagline: 'Professional Audio Architecture · MIDI & Score Lab',
-        description: 'Advanced music theory workstation and micro-ear trainer supporting real-time polyphonic MIDI visualization, multi-octave virtual keyboards, Indian classical Radel tanpura/tabla drone synthesis, and parametric audio analysis.',
-        architectureOverview: 'Real-time USB-OTG MIDI host input stream parsing, low-latency audio engine utilizing Android NDK AudioTrack with FFT spectrum analysis, and dynamic vector notation rendering.',
-        telemetry: {
-            track: 'Internal Production Release',
-            targetSdk: 'Android 15 (API 35)',
-            pipeline: 'CMP + Native C++ AudioTrack',
-            offlineStorage: 'Local Score State Machine',
-            testingStatus: 'Hardware Calibrated'
-        },
-        tech: ['Compose Multiplatform', 'MIDI SysEx DSP', 'NDK AudioTrack', 'FFT Analyzer', 'Vector Notation', 'Indian Raga Engine'],
-        logo: `${import.meta.env.BASE_URL}profile.jpg`,
-        github: 'https://github.com/I-am-Manu-Singh/pEQ-Learn-App',
-        gradient: 'from-blue-500/20 via-cyan-500/20 to-indigo-500/20',
-        status: 'Alpha Internal Release',
-        statusColor: 'blue',
-        platform: 'Android & Multiplatform'
-    },
-    {
-        id: 'quicktone',
-        name: 'QuickTone: Guitar Lab & MIDI Studio',
-        tagline: 'High-Fidelity Tablature & Microtonal Synthesizer',
-        description: 'Real-time guitar fretboard mapper, interactive tablature visualizer, and custom chord dictionary with integrated tuner DSP and MIDI sequencing for practicing instrumentalists.',
-        architectureOverview: 'Real-time pitch detection via YIN/FFT algorithmic pipeline, gesture-driven Compose Canvas fretboard with microsecond touch dispatching, and chord voicing lookup trees.',
-        telemetry: {
-            track: 'Prototype Candidate',
-            targetSdk: 'Android 14+ (API 34)',
-            pipeline: 'Pure Jetpack Compose Canvas',
-            offlineStorage: 'Binary Voicing Blobs',
-            testingStatus: 'Benchmarked 60FPS'
-        },
-        tech: ['Jetpack Compose', 'Canvas Rendering', 'YIN Pitch DSP', 'MIDI Sequencer', 'Custom Audio Nodes'],
-        logo: `${import.meta.env.BASE_URL}profile.jpg`,
-        github: 'https://github.com/I-am-Manu-Singh/QuickToneGuitarLab',
-        gradient: 'from-emerald-500/20 via-teal-500/20 to-green-500/20',
-        status: 'Lab Candidate',
-        statusColor: 'emerald',
-        platform: 'Android Native'
-    }
-];
+// Play Store SVG Badge Icon
+const PlayStoreIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3.609 1.814L13.793 12 3.61 22.186a1.503 1.503 0 0 1-.22-.796V2.61c0-.294.079-.569.219-.796z" fill="#00C1A6"/>
+        <path d="M17.556 8.243l-3.763 3.757 3.763 3.757 4.28-2.47c.74-.427.74-1.616 0-2.044l-4.28-2.5z" fill="#FFBA00"/>
+        <path d="M3.609 1.814c.257-.197.58-.314.933-.314.475 0 .937.211 1.258.397l11.756 6.346-3.763 3.757L3.609 1.814z" fill="#00E676"/>
+        <path d="M13.793 12l3.763 3.757-11.756 6.346a1.988 1.988 0 0 1-1.258.397c-.353 0-.676-.117-.933-.314L13.793 12z" fill="#FF3D00"/>
+    </svg>
+);
 
 const MobileLabs: React.FC = () => {
     const bannerSrc = `${import.meta.env.BASE_URL}creativebliss_console_banner.png`;
-    const [selectedAppId, setSelectedAppId] = useState<string>(LAB_APPS[0].id);
-
-    const activeApp = LAB_APPS.find(a => a.id === selectedAppId) || LAB_APPS[0];
 
     return (
-        <section className="section bg-surface-base relative overflow-hidden" id="mobile-labs">
+        <section className="section bg-dark relative overflow-hidden" id="mobile-labs">
             <SectionBackground variant="projects" />
 
             <div className="container relative z-10">
-                {/* Section Header */}
+                {/* Header */}
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -119,14 +37,14 @@ const MobileLabs: React.FC = () => {
                                 <Smartphone size={18} />
                             </span>
                             <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary">
-                                Production Mobile Engineering
+                                Production Mobile Labs
                             </span>
                         </div>
                         <h2 className="section-title text-left mb-2">
                             Mobile <span className="text-primary-light">Labs</span>
                         </h2>
                         <p className="text-text-muted font-mono text-xs md:text-sm tracking-wide">
-                            Google Play Console production tracks, release verification pipelines, and hardware audio engineering.
+                            Google Play Console production tracks & active multiplatform release candidates.
                         </p>
                     </motion.div>
 
@@ -136,216 +54,171 @@ const MobileLabs: React.FC = () => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                     >
-                        <div className="flex items-center gap-2 px-3.5 py-2 bg-surface-card border border-border-card rounded-2xl text-xs font-mono text-text shadow-sm">
+                        <div className="flex items-center gap-2 px-3.5 py-2 bg-dark-card border border-white/5 rounded-2xl text-xs font-mono text-text shadow-sm">
                             <Rocket size={14} className="text-primary animate-bounce" />
-                            <span>Creative Bliss Labs · Ecosystem</span>
+                            <span>Creative Bliss Labs · Android</span>
                         </div>
-                        <div className="flex items-center gap-2 px-3.5 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-xs font-mono text-emerald-600 dark:text-emerald-400">
-                            <ShieldCheck size={14} />
-                            <span>Play Console Compliant</span>
+                        <div className="flex items-center gap-2 px-3.5 py-2 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-xs font-mono text-amber-500">
+                            <Clock size={14} />
+                            <span>14-Day Closed Testing</span>
                         </div>
                     </motion.div>
                 </div>
 
-                {/* Google Play Console Ecosystem Banner */}
+                {/* Google Play Console Full-Width Aspect-Ratio Banner (No Cropping) */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mb-8 group relative rounded-2xl overflow-hidden border border-border-card shadow-xl bg-surface-card"
+                    className="mb-10 rounded-2xl overflow-hidden border border-white/5 shadow-xl bg-dark-card"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 pointer-events-none" />
-                    <img
-                        src={bannerSrc}
-                        alt="Creative Bliss Labs - Google Play Console Banner"
-                        className="w-full h-auto max-h-56 object-cover object-center group-hover:scale-[1.01] transition-transform duration-500"
-                    />
-                    <div className="absolute bottom-3 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3">
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/70 backdrop-blur-md border border-white/20 text-white text-xs font-mono">
-                            <Sparkles size={14} className="text-primary-light" />
+                    <div className="w-full bg-[#0a0a14] flex items-center justify-center p-1 sm:p-2">
+                        <img
+                            src={bannerSrc}
+                            alt="Creative Bliss Labs - Google Play Console Banner"
+                            className="w-full h-auto max-h-[380px] object-contain mx-auto"
+                        />
+                    </div>
+                    <div className="p-3 bg-dark-card border-t border-white/5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-text-muted">
+                        <div className="flex items-center gap-2">
+                            <Sparkles size={14} className="text-primary" />
                             <span>Creative Bliss Labs · Active Production Roster</span>
                         </div>
-                        <span className="text-xs font-mono text-white/90 bg-black/60 px-3 py-1 rounded-xl backdrop-blur-md border border-white/10 hidden sm:inline-block">
-                            Ideas · Products · A Better Everyday
-                        </span>
+                        <span>Google Play Console · Target: Android 15 (API 35)</span>
                     </div>
                 </motion.div>
 
-                {/* Interactive Project Switcher & Telemetry Cockpit */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* Left Rail: App Selection Tabs */}
-                    <div className="lg:col-span-4 flex flex-col gap-3">
-                        <div className="text-xs font-mono font-bold uppercase tracking-wider text-text-muted px-1">
-                            Select Lab Candidate ({LAB_APPS.length})
+                {/* Sole Featured Production Flagship: Bani: Nitnem & Steek Companion */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="max-w-4xl mx-auto bg-dark-card border border-white/5 rounded-2xl p-6 md:p-10 shadow-xl space-y-6"
+                >
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/5 pb-6">
+                        <div className="flex items-center gap-4">
+                            <div className="w-16 h-16 rounded-2xl bg-dark border border-white/10 p-1.5 shadow-md shrink-0 flex items-center justify-center">
+                                <img 
+                                    src={`${import.meta.env.BASE_URL}logos/nitnem.png`} 
+                                    alt="Bani Logo" 
+                                    className="w-full h-full object-contain rounded-xl"
+                                />
+                            </div>
+                            <div>
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <h3 className="text-xl md:text-2xl font-bold text-text font-outfit">
+                                        Bani: Nitnem & Steek Companion
+                                    </h3>
+                                    <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/30 font-semibold flex items-center gap-1">
+                                        <Activity size={12} className="animate-pulse" />
+                                        <span>14-Day Closed Testing Active</span>
+                                    </span>
+                                </div>
+                                <p className="text-xs font-mono text-primary flex items-center gap-1.5 mt-1">
+                                    <CheckCircle2 size={13} />
+                                    <span>Google Play Console Production Release Candidate · Coming Soon to Public</span>
+                                </p>
+                            </div>
                         </div>
-                        {LAB_APPS.map((app) => {
-                            const isSelected = app.id === selectedAppId;
-                            return (
-                                <button
-                                    key={app.id}
-                                    onClick={() => setSelectedAppId(app.id)}
-                                    className={`w-full text-left p-4 rounded-2xl border transition-all cursor-pointer flex items-center gap-3.5 ${
-                                        isSelected
-                                            ? 'bg-surface-elevated border-primary/50 shadow-md ring-1 ring-primary/30'
-                                            : 'bg-surface-card border-border-card hover:bg-surface-elevated/60 text-text-muted hover:text-text'
-                                    }`}
-                                >
-                                    <div className="w-12 h-12 rounded-xl overflow-hidden border border-border-card bg-surface-base p-1 shrink-0 flex items-center justify-center shadow-inner">
-                                        <img src={app.logo} alt={app.name} className="w-full h-full object-contain rounded-lg" />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center justify-between gap-1 mb-1">
-                                            <h4 className={`text-sm font-bold truncate ${isSelected ? 'text-primary' : 'text-text'}`}>
-                                                {app.name.split(':')[0]}
-                                            </h4>
-                                            <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                                                app.statusColor === 'amber' ? 'bg-amber-500/15 text-amber-500 border border-amber-500/30' :
-                                                app.statusColor === 'emerald' ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30' :
-                                                'bg-blue-500/15 text-blue-500 border border-blue-500/30'
-                                            }`}>
-                                                {app.status.split(' ')[0]}
-                                            </span>
-                                        </div>
-                                        <p className="text-[11px] text-text-muted truncate font-mono">
-                                            {app.platform}
-                                        </p>
-                                    </div>
-                                </button>
-                            );
-                        })}
                     </div>
 
-                    {/* Right Rail: High-Detail Architectural Blueprint */}
-                    <div className="lg:col-span-8">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={activeApp.id}
-                                initial={{ opacity: 0, y: 15 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -15 }}
-                                transition={{ duration: 0.25 }}
-                                className="bg-surface-card border border-border-card rounded-2xl p-6 md:p-8 shadow-xl flex flex-col justify-between space-y-6"
+                    {/* Description */}
+                    <p className="text-text-muted text-sm md:text-base leading-relaxed">
+                        Sacred Gurbani reading & devotional learning companion engineered with Compose Multiplatform. Features authentic line-by-line Steek (meanings), first-letter phonetic search (Shabad Khoj), synchronized background audio recitation, customizable Gurmukhi typography, and offline habit tracking.
+                    </p>
+
+                    {/* Architectural Core Callout */}
+                    <div className="p-4 rounded-xl bg-dark border border-white/5 space-y-1.5">
+                        <div className="flex items-center gap-2 text-xs font-mono font-bold text-text uppercase tracking-wide">
+                            <Layers size={14} className="text-primary" />
+                            <span>System & Hardware Architecture</span>
+                        </div>
+                        <p className="text-xs text-text-muted font-mono leading-relaxed">
+                            Offline-first SQLite SQLiteDelight cache with GurbaniDB indexation, Media3 ExoPlayer foreground media service with lock-screen notification media session controls, and adaptive Material 3 UI.
+                        </p>
+                    </div>
+
+                    {/* Telemetry Matrix */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div className="p-3 rounded-xl bg-dark border border-white/5">
+                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
+                                <Radio size={12} className="text-primary" /> Track
+                            </div>
+                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
+                                Closed (20 Testers)
+                            </div>
+                        </div>
+                        <div className="p-3 rounded-xl bg-dark border border-white/5">
+                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
+                                <Smartphone size={12} className="text-secondary" /> Target SDK
+                            </div>
+                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
+                                Android 15 (API 35)
+                            </div>
+                        </div>
+                        <div className="p-3 rounded-xl bg-dark border border-white/5">
+                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
+                                <Cpu size={12} className="text-emerald-500" /> Pipeline
+                            </div>
+                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
+                                CMP Shared UI
+                            </div>
+                        </div>
+                        <div className="p-3 rounded-xl bg-dark border border-white/5">
+                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
+                                <Database size={12} className="text-amber-500" /> Storage
+                            </div>
+                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
+                                SQLite + GurbaniDB
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Tech Pills */}
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                        {['Compose Multiplatform', 'Offline SQLite', 'GurbaniDB', 'Media3 Audio', 'Habit Streaks', 'Material 3 Expressive'].map(t => (
+                            <span 
+                                key={t} 
+                                className="text-[11px] px-3 py-1 rounded-lg bg-dark text-text font-mono border border-white/5"
                             >
-                                {/* Top Meta */}
-                                <div>
-                                    <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-12 h-12 rounded-xl bg-surface-base border border-border-card p-1 shadow-sm shrink-0">
-                                                <img src={activeApp.logo} alt={activeApp.name} className="w-full h-full object-contain rounded-lg" />
-                                            </div>
-                                            <div>
-                                                <h3 className="text-xl md:text-2xl font-bold text-text font-outfit">
-                                                    {activeApp.name}
-                                                </h3>
-                                                <p className="text-xs font-mono text-primary flex items-center gap-1.5 mt-0.5">
-                                                    <CheckCircle2 size={13} />
-                                                    <span>{activeApp.tagline}</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-mono font-bold">
-                                            <Activity size={13} className="animate-pulse" />
-                                            <span>{activeApp.status}</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Description */}
-                                    <p className="text-text-muted text-sm md:text-base leading-relaxed mb-4">
-                                        {activeApp.description}
-                                    </p>
-
-                                    {/* Architectural Core Callout */}
-                                    <div className="p-4 rounded-xl bg-surface-base border border-border-card space-y-1.5 mb-6">
-                                        <div className="flex items-center gap-2 text-xs font-mono font-bold text-text uppercase tracking-wide">
-                                            <Layers size={14} className="text-primary" />
-                                            <span>System & Hardware Architecture</span>
-                                        </div>
-                                        <p className="text-xs text-text-muted font-mono leading-relaxed">
-                                            {activeApp.architectureOverview}
-                                        </p>
-                                    </div>
-
-                                    {/* Engineering Telemetry Matrix */}
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                                        <div className="p-3 rounded-xl bg-surface-base border border-border-card">
-                                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
-                                                <Radio size={12} className="text-primary" /> Track
-                                            </div>
-                                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
-                                                {activeApp.telemetry.track}
-                                            </div>
-                                        </div>
-                                        <div className="p-3 rounded-xl bg-surface-base border border-border-card">
-                                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
-                                                <Smartphone size={12} className="text-secondary" /> Target SDK
-                                            </div>
-                                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
-                                                {activeApp.telemetry.targetSdk}
-                                            </div>
-                                        </div>
-                                        <div className="p-3 rounded-xl bg-surface-base border border-border-card">
-                                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
-                                                <Cpu size={12} className="text-emerald-500" /> Pipeline
-                                            </div>
-                                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
-                                                {activeApp.telemetry.pipeline}
-                                            </div>
-                                        </div>
-                                        <div className="p-3 rounded-xl bg-surface-base border border-border-card">
-                                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
-                                                <Database size={12} className="text-amber-500" /> Persistence
-                                            </div>
-                                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
-                                                {activeApp.telemetry.offlineStorage}
-                                            </div>
-                                        </div>
-                                        <div className="p-3 rounded-xl bg-surface-base border border-border-card col-span-2 sm:col-span-2">
-                                            <div className="text-[10px] font-mono uppercase text-text-muted flex items-center gap-1">
-                                                <Terminal size={12} className="text-sky-500" /> Compliance Status
-                                            </div>
-                                            <div className="text-xs font-mono font-bold text-text mt-1 truncate">
-                                                {activeApp.telemetry.testingStatus}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Tech Pills */}
-                                    <div className="flex flex-wrap gap-1.5">
-                                        {activeApp.tech.map(t => (
-                                            <span 
-                                                key={t} 
-                                                className="text-[11px] px-3 py-1 rounded-lg bg-surface-elevated text-text font-mono border border-border-card"
-                                            >
-                                                {t}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Footer CTA Actions */}
-                                <div className="flex flex-wrap items-center justify-between gap-4 pt-5 border-t border-border-card">
-                                    <div className="flex items-center gap-2 text-xs font-mono text-text-muted">
-                                        <Play size={14} className="text-primary" />
-                                        <span>Target Platform: {activeApp.platform}</span>
-                                    </div>
-
-                                    <div className="flex items-center gap-3">
-                                        <a
-                                            href={activeApp.github}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-light text-white font-bold font-mono text-xs transition-all shadow-md shadow-primary/25 hover:scale-105 cursor-pointer"
-                                        >
-                                            <Github size={15} />
-                                            <span>Inspect Source Code</span>
-                                            <ArrowUpRight size={13} />
-                                        </a>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </AnimatePresence>
+                                {t}
+                            </span>
+                        ))}
                     </div>
-                </div>
+
+                    {/* CTA Actions with Play Store Closed Testing Button */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-white/5">
+                        <div className="flex items-center gap-2 text-xs font-mono text-text-muted">
+                            <Play size={14} className="text-primary" />
+                            <span>Target Platform: Android (Google Play) & iOS</span>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-3">
+                            {/* Play Store Link with 14-day testing badge */}
+                            <a
+                                href="https://play.google.com/apps/testing/com.creativeblisslabs.nitnem"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-bold font-mono text-xs transition-all hover:scale-105"
+                            >
+                                <PlayStoreIcon />
+                                <span>Google Play Store (14-Day Testing)</span>
+                                <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-500 border border-amber-500/30 font-normal">Coming Soon</span>
+                            </a>
+
+                            <a
+                                href="https://github.com/I-am-Manu-Singh/NitnemGutkaSahib"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-light text-white font-bold font-mono text-xs transition-all shadow-md shadow-primary/25 hover:scale-105"
+                            >
+                                <Github size={15} />
+                                <span>Inspect Source Code</span>
+                                <ArrowUpRight size={13} />
+                            </a>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );

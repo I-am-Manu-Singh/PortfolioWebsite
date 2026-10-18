@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    Music, Instagram, Youtube,  Headphones, 
-    Piano,  Disc, Radio,  ArrowUpRight
+    Music, Instagram, Youtube, Headphones, 
+    Piano, Disc, Radio, ArrowUpRight
 } from 'lucide-react';
 import SectionBackground from './SectionBackground';
 import { resumeData } from '../data/resume';
@@ -15,7 +15,7 @@ interface AudioDiscipline {
     icon: any;
     playlistId: string;
     highlights: string[];
-    bgAccent: string;
+    caricature: string;
 }
 
 const DISCIPLINES: AudioDiscipline[] = [
@@ -27,7 +27,7 @@ const DISCIPLINES: AudioDiscipline[] = [
         icon: Piano,
         playlistId: 'PL3gkgbVoJUE0gLQLM8q4hJefXhrrrre9g',
         highlights: ['Western Hollywood OSTs', 'Bollywood Ballads', 'Harmonic Counterpoint'],
-        bgAccent: 'from-blue-500/10 via-cyan-500/5 to-transparent'
+        caricature: 'caricature_piano.png'
     },
     {
         id: 'guitar',
@@ -37,7 +37,7 @@ const DISCIPLINES: AudioDiscipline[] = [
         icon: Headphones,
         playlistId: 'PL3gkgbVoJUE05gqKg2WhscZdE5DkrTL3-',
         highlights: ['Bollywood Lead Soloing', 'Punjabi Acoustic Folk', 'DSP Microtonal Tuning'],
-        bgAccent: 'from-purple-500/10 via-pink-500/5 to-transparent'
+        caricature: 'caricature_guitar.png'
     },
     {
         id: 'vocals',
@@ -47,7 +47,7 @@ const DISCIPLINES: AudioDiscipline[] = [
         icon: Radio,
         playlistId: 'PL3gkgbVoJUE1EYUoXKCS7lx5-o3Go2rx9',
         highlights: ['Classical Ragas', 'Sufi Poetry', 'Live Unplugged Sessions'],
-        bgAccent: 'from-amber-500/10 via-orange-500/5 to-transparent'
+        caricature: 'caricature_singing.png'
     }
 ];
 
@@ -56,15 +56,15 @@ const Interests: React.FC = () => {
     const activeDiscipline = DISCIPLINES.find(d => d.id === selectedDisciplineId) || DISCIPLINES[0];
 
     return (
-        <section className="section bg-dark relative overflow-hidden" id="interests">
-            {/* Split subtle background accents */}
+        <section className="section bg-dark relative overflow-hidden pt-32 pb-24" id="interests">
+            {/* Subtle background accents */}
             <div className="absolute inset-x-0 top-0 h-1/2 overflow-hidden pointer-events-none opacity-40">
                 <SectionBackground variant="music" className="h-full" />
             </div>
 
             <div className="container relative z-10">
-                {/* Header */}
-                <div className="flex flex-col items-center mb-12 text-center">
+                {/* Header with Dynamic Caricature (Piano / Singing / Guitar) */}
+                <div className="flex flex-col items-center mb-12 text-center relative">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="p-1.5 rounded-lg bg-primary/10 text-primary border border-primary/20">
                             <Music size={18} />
@@ -84,6 +84,29 @@ const Interests: React.FC = () => {
                     <p className="text-text-muted max-w-xl text-xs md:text-sm font-mono">
                         Music, acoustics, and vocal disciplines inspire how I design high-performance architectures, low-latency DSP systems, and intuitive user experiences.
                     </p>
+
+                    {/* Dynamic Instrument Caricature based on selected tab */}
+                    <div className="absolute right-0 -top-10 lg:right-6 lg:-top-16 z-0 hidden lg:block pointer-events-none">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeDiscipline.caricature}
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.8, opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="relative"
+                            >
+                                <div className="absolute inset-0 bg-primary/20 blur-[50px] rounded-full transform scale-75" />
+                                <motion.img
+                                    src={`${import.meta.env.BASE_URL}${activeDiscipline.caricature}`}
+                                    alt={activeDiscipline.title}
+                                    className="w-36 h-36 lg:w-44 lg:h-44 object-contain drop-shadow-xl relative z-10 pointer-events-auto rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm"
+                                    animate={{ y: [0, -8, 0], rotate: [2, 0, 2] }}
+                                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                />
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
                 </div>
 
                 {/* Main Interactive Studio Cockpit */}
