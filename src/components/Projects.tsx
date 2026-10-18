@@ -135,7 +135,7 @@ const Projects: React.FC = () => {
                                     </p>
 
                                     {/* Tags / Skills Chips */}
-                                    <div className="mt-auto pt-3 border-t border-white/5">
+                                    <div className="mt-auto pt-3 border-t border-white/5 flex flex-col gap-3">
                                         <div className="flex flex-wrap gap-1.5">
                                             {project.tags.map((tag, i) => (
                                                 <span
@@ -146,6 +146,23 @@ const Projects: React.FC = () => {
                                                 </span>
                                             ))}
                                         </div>
+
+                                        {project.links && project.links.length > 0 && (
+                                            <div className="pt-2 border-t border-white/5 flex items-center justify-between">
+                                                {project.links.map((link, i) => (
+                                                    <a
+                                                        key={i}
+                                                        href={link.url}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-primary-light hover:text-white px-3 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 border border-primary/20 transition-all"
+                                                    >
+                                                        <Github size={14} />
+                                                        <span>{link.label}</span>
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </motion.div>

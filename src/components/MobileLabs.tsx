@@ -1,24 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Apple, Play, Rocket } from 'lucide-react';
+import { Play, Rocket, Github, CheckCircle2 } from 'lucide-react';
 import SectionBackground from './SectionBackground';
 
 const apps = [
     {
-        id: 'moonlight',
-        name: 'MoonlightWebcam',
-        description: 'Cross-platform KMP remote webcam system with <60ms low-latency video/audio streaming. Features device discovery, manual camera controls, screen-casting, and desktop client.',
-        tech: ["KMP", "Ktor", "CameraX", "AVFoundation", "MediaProjection"],
-        logo: `${import.meta.env.BASE_URL}app_logo_moonlight_webcam.png`,
-        gradient: 'from-blue-500/20 to-purple-500/20'
-    },
-    {
-        id: 'videoeditor',
-        name: 'VideoEditor App',
-        description: 'Engineered a robust media processing pipeline using FFmpeg and Media3 for background video composition, supporting complex overlay templates and multi-stream export optimization featuring a custom non-linear timeline engine with real-time canvas rendering.',
-        tech: ['Kotlin', 'Android SDK', 'FFmpeg', 'Media3', 'Material 3', 'Canvas API', 'Foreground Services', 'Lottie', 'Gson'],
-        logo: `${import.meta.env.BASE_URL}app_logo_video_editor.png`,
-        gradient: 'from-pink-500/20 to-orange-500/20'
+        id: 'nitnem',
+        name: 'Bani: Nitnem & Steek Companion',
+        tagline: '14-Day Closed Testing on Google Play Console',
+        description: 'Sacred Gurbani reading & devotional learning companion built with Compose Multiplatform. Features authentic line-by-line Steek (meanings), first-letter phonetic search (Shabad Khoj), synchronized audio recitation, customizable Gurmukhi typography, and daily Nitnem habit streaks.',
+        tech: ['Compose Multiplatform', 'Offline SQLite', 'GurbaniDB', 'Media3 Audio', 'Habit Streaks', 'Material 3 Expressive'],
+        logo: `${import.meta.env.BASE_URL}logos/nitnem.png`,
+        github: 'https://github.com/I-am-Manu-Singh/NitnemGutkaSahib',
+        gradient: 'from-amber-500/20 via-orange-500/20 to-yellow-500/20',
+        status: 'Active 14-Day Testing',
+        platform: 'Android & iOS'
     }
 ];
 
@@ -38,7 +34,7 @@ const MobileLabs: React.FC = () => {
                             Mobile <span className="gradient-text-animated">Labs</span>
                         </h2>
                         <p className="text-text-muted font-mono text-sm tracking-widest">
-                            // UPCOMING RELEASES
+                            // ACTIVE TESTING & PRODUCTION CANDIDATES
                         </p>
                     </motion.div>
 
@@ -48,14 +44,14 @@ const MobileLabs: React.FC = () => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                     >
-                        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-mono text-text-muted">
+                        <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-xs font-mono text-primary-light">
                             <Rocket size={14} className="animate-bounce" />
-                            Launching Soon
+                            Google Play Testing Active
                         </div>
                     </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="max-w-4xl mx-auto">
                     {apps.map((app, index) => (
                         <motion.div
                             key={app.id}
@@ -65,48 +61,64 @@ const MobileLabs: React.FC = () => {
                             transition={{ delay: index * 0.2 }}
                             className="group relative"
                         >
-                            <div className={`absolute inset-0 bg-gradient-to-br ${app.gradient} blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 rounded-3xl`} />
+                            <div className={`absolute inset-0 bg-gradient-to-br ${app.gradient} blur-3xl opacity-30 group-hover:opacity-70 transition-opacity duration-500 rounded-3xl`} />
 
-                            <div className="glass-card p-8 relative flex flex-col md:flex-row gap-8 h-full border-white/5 hover:border-primary/30 transition-colors">
-                                <div className="flex-shrink-0 flex items-center justify-center w-24 h-24 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-primary/20 transition-all duration-500 group-hover:scale-110 overflow-hidden">
-                                    <img src={app.logo} alt={app.name} className="w-full h-full object-contain p-2" />
+                            <div className="glass-card p-8 md:p-10 relative flex flex-col md:flex-row gap-8 items-center border border-white/10 hover:border-primary/40 transition-all rounded-3xl bg-dark-card/80 backdrop-blur-xl shadow-2xl">
+                                <div className="flex-shrink-0 flex items-center justify-center w-28 h-28 md:w-36 md:h-36 rounded-3xl bg-white/5 border border-white/15 group-hover:border-primary/50 group-hover:scale-105 transition-all duration-500 overflow-hidden shadow-2xl relative p-2">
+                                    <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+                                    <img 
+                                        src={app.logo} 
+                                        alt={app.name} 
+                                        className="w-full h-full object-contain rounded-2xl relative z-10" 
+                                    />
                                 </div>
 
-                                <div className="flex-grow flex flex-col justify-between">
+                                <div className="flex-grow flex flex-col justify-between w-full">
                                     <div>
-                                        <div className="flex items-center gap-3 mb-3">
-                                            <h3 className="text-2xl font-bold text-white font-outfit">{app.name}</h3>
-                                            <div className="px-2 py-0.5 rounded bg-primary/20 text-primary-light text-[10px] font-bold uppercase tracking-wider">Beta</div>
+                                        <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
+                                            <h3 className="text-2xl md:text-3xl font-bold text-white font-outfit">{app.name}</h3>
+                                            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold">
+                                                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                                                {app.status}
+                                            </div>
                                         </div>
 
-                                        <p className="text-text-muted text-sm leading-relaxed mb-6">
+                                        <p className="text-primary-light font-mono text-xs mb-4 flex items-center gap-1.5">
+                                            <CheckCircle2 size={13} />
+                                            {app.tagline}
+                                        </p>
+
+                                        <p className="text-text-muted text-sm md:text-base leading-relaxed mb-6">
                                             {app.description}
                                         </p>
 
                                         <div className="flex flex-wrap gap-2 mb-6">
                                             {app.tech.map(t => (
-                                                <span key={t} className="text-[10px] px-2 py-1 rounded bg-dark/50 text-white/40 font-mono border border-white/5">
+                                                <span key={t} className="text-xs px-3 py-1 rounded-xl bg-white/5 text-white/80 font-mono border border-white/10 hover:border-primary/40 transition-colors">
                                                     {t}
                                                 </span>
                                             ))}
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center justify-between mt-4 pt-6 border-t border-white/5">
-                                        <div className="flex gap-4">
-                                            <div className="flex items-center gap-2 text-white/50 group-hover:text-primary-light transition-colors">
-                                                <Play size={18} />
-                                                <span className="text-xs font-bold text-glow-hover">Play Store</span>
+                                    <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-white/10">
+                                        <div className="flex items-center gap-4">
+                                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-white/70">
+                                                <Play size={16} className="text-primary-light" />
+                                                <span className="text-xs font-bold font-mono">14-Day Closed Track</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-white/50 group-hover:text-primary-light transition-colors">
-                                                <Apple size={18} />
-                                                <span className="text-xs font-bold text-glow-hover">App Store</span>
-                                            </div>
+                                            <span className="text-xs font-mono text-text-muted">Target: {app.platform}</span>
                                         </div>
 
-                                        <div className="text-[10px] font-mono text-primary font-bold animate-pulse">
-                                            PUBLISHING...
-                                        </div>
+                                        <a
+                                            href={app.github}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-black font-bold font-mono text-xs hover:bg-primary-light transition-all shadow-lg shadow-primary/20 hover:scale-105"
+                                        >
+                                            <Github size={16} />
+                                            View Source Code
+                                        </a>
                                     </div>
                                 </div>
                             </div>

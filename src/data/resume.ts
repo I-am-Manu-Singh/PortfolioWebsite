@@ -118,7 +118,7 @@ export const resumeData = {
             ]
         }
     ],
-        projects: [
+            projects: [
         {
             name: "pEQ Learn (Universal DAW & Academy)",
             description: "Compose Multiplatform digital audio workstation and interactive music academy. Features an 88-key synthesia waterfall piano with 3D shaders, real-time 6-stem neural AI isolation (ONNX), Radel digital Tanpura & Tabla machine, microtonal tuning, and multi-track MusicXML/MIDI scoring engine.",
@@ -127,6 +127,42 @@ export const resumeData = {
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/pEQ-Learn-App" }
             ],
             tags: ["Compose Multiplatform", "AndroidX Media3", "ONNX Runtime", "FluidSynth KMP", "Ktor Client", "Kotlin 2.2"]
+        },
+        {
+            name: "OmniMind (AI Cognitive Workspace)",
+            description: "AI-assisted mind mapping, thought visualization & knowledge synthesis engine built with Compose Multiplatform. Features dynamic infinite canvas node clustering, on-device MediaPipe GenAI summarization, Gemini REST API reasoning, and Room KMP encrypted offline storage.",
+            logo: "/logos/omnimind.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/OmniMind" }
+            ],
+            tags: ["Compose Multiplatform", "MediaPipe GenAI", "Gemini API", "Room KMP", "Koin DI", "Infinite Canvas"]
+        },
+        {
+            name: "OmniChess Reader",
+            description: "Instant AI chessboard scanner and Stockfish analysis engine. Recognizes physical 2D/3D boards and book diagrams via computer vision, digitizes positions into interactive FEN/PGN, and delivers live multi-threaded Stockfish evaluation with opening book explorer.",
+            logo: "/logos/omnichess.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/OmniChessReader" }
+            ],
+            tags: ["Compose Multiplatform", "Stockfish NNUE", "Neural Vision", "CameraX", "Room KMP", "PGN Analyzer"]
+        },
+        {
+            name: "Tiffin Management (Logistics Suite)",
+            description: "Enterprise meal subscription and cloud kitchen dispatch ERP built with Compose Multiplatform for Android, iOS, Web & Desktop. Features automated meal calendars, delivery route optimization, kitchen batch forecasting, doorstep drop-proof verification, and Supabase ledger billing.",
+            logo: "/logos/tiffinmanagement.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/TiffinManagement" }
+            ],
+            tags: ["Compose Multiplatform", "Supabase PostgreSQL", "Dispatch Logistics", "UPI Ledger", "Kotlin 2.3"]
+        },
+        {
+            name: "QuickTone Guitar Lab (NUX MG-101)",
+            description: "Real-time hardware controller, USB-OTG/BLE patch editor and IR cabinet loader for the NUX MG-101 multi-effects processor. Features interactive 9-block FX signal chain routing, custom MIDI SysEx communication, 24-bit IR impulse loading, and chromatic strobe tuner.",
+            logo: "/logos/nuxquicktone.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/nux-mg-101-quick-tone" }
+            ],
+            tags: ["Jetpack Compose", "USB-OTG Host", "MIDI SysEx", "Room Database", "Audio Modeling", "Hardware I/O"]
         },
         {
             name: "pEQ Neural Workstation",
@@ -138,15 +174,6 @@ export const resumeData = {
             tags: ["Kotlin Multiplatform", "DSP Equalizer", "ExoPlayer", "VLC Pipeline", "Google Cast", "FFT Analyzer"]
         },
         {
-            name: "Moonlight Webcam",
-            description: "High-performance camera & wireless streaming studio converting Android/iOS devices into 4K 60fps webcams. Integrates CameraX manual optical controls (ISO, AE/AF lock, exposure), embedded Ktor HTTP/WebSocket micro-server, and low-latency RTSP/MJPEG feeds for OBS & Zoom.",
-            logo: "/logos/moonlight.png",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/MoonlightWebcam" }
-            ],
-            tags: ["KMP", "CameraX", "Ktor Server", "RTSP / MJPEG", "Foreground Service", "OBS Studio"]
-        },
-        {
             name: "Nitnem Gutka Steek",
             description: "Sacred Gurbani reading and devotional learning companion built with Compose Multiplatform. Features authentic line-by-line Steek (meanings), first-letter phonetic search (Shabad Khoj), synchronized audio recitation, customizable Gurmukhi typography, and daily Nitnem streak tracking.",
             logo: "/logos/nitnem.png",
@@ -154,15 +181,6 @@ export const resumeData = {
                 { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/NitnemGutkaSahib" }
             ],
             tags: ["Compose Multiplatform", "Offline SQLite", "GurbaniDB", "Habit Streaks", "Audio Sync"]
-        },
-        {
-            name: "Studio V4 (Video Editor)",
-            description: "GPU-accelerated mobile non-linear video editing suite with multi-track magnetic timeline. Powered by FFmpeg Kit, AndroidX Media3, and custom OpenGL ES shaders for 4K 60fps export, color grading LUTs, kinetic typography, smart audio ducking, and chroma key compositing.",
-            logo: "/logos/studiov4.png",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/VideoEditorApp" }
-            ],
-            tags: ["Jetpack Compose", "FFmpeg Kit", "OpenGL ES", "MediaCodec NDK", "Non-Linear Timeline"]
         },
         {
             name: "ReconcAILe Hub (TallyPrime Automation)",
@@ -201,32 +219,25 @@ export const resumeData = {
             tags: ["Flutter", "Supabase PostgreSQL", "Inventory Logistics", "Provider State", "QR Engine"]
         },
         {
-            name: "SudhahUtpadah App",
-            description: "Grocery logistics & provisioning application with dual User & Admin interfaces. Provides real-time catalogue management, inventory tracking, offline Room DB caching, and secure Firebase synchronization.",
+            name: "Moonlight Webcam",
+            description: "High-performance camera & wireless streaming studio converting Android/iOS devices into 4K 60fps webcams. Integrates CameraX manual optical controls (ISO, AE/AF lock, exposure), embedded Ktor HTTP/WebSocket micro-server, and low-latency RTSP/MJPEG feeds for OBS & Zoom.",
+            logo: "/logos/moonlight.png",
             links: [
-                { label: "Admin Repo", url: "https://github.com/I-am-Manu-Singh/SuddahUtpadahAdmin" },
-                { label: "User Repo", url: "https://github.com/I-am-Manu-Singh/SuddahUtpadahUser" }
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/MoonlightWebcam" }
             ],
-            tags: ["Android", "Room DB", "Jetpack Compose", "Firebase"]
+            tags: ["KMP", "CameraX", "Ktor Server", "RTSP / MJPEG", "Foreground Service", "OBS Studio"]
         },
         {
-            name: "FreeMemory Compression Engine",
-            description: "Lossless image and binary file compression suite implementing Huffman coding, Deflate, and LZW from scratch. Features high-throughput native C/C++ acceleration via Java Native Interface (JNI).",
+            name: "Studio V4 (Video Editor)",
+            description: "GPU-accelerated mobile non-linear video editing suite with multi-track magnetic timeline. Powered by FFmpeg Kit, AndroidX Media3, and custom OpenGL ES shaders for 4K 60fps export, color grading LUTs, kinetic typography, smart audio ducking, and chroma key compositing.",
+            logo: "/logos/studiov4.png",
             links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting" }
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/VideoEditorApp" }
             ],
-            tags: ["JNI / NDK", "C/C++", "Huffman", "LZW", "Data Compression"]
-        },
-        {
-            name: "AnimeDekho",
-            description: "Anime discovery and media tracking application powered by Jikan REST API. Features real-time search filtering, lazy-loaded pagination, memory-optimized image caching, and fluid Jetpack Compose transitions.",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/AnimeDekho" }
-            ],
-            tags: ["Android", "Retrofit", "REST API", "Image Caching", "MVVM"]
+            tags: ["Jetpack Compose", "FFmpeg Kit", "OpenGL ES", "MediaCodec NDK", "Non-Linear Timeline"]
         }
     ],
-    certifications: [
+        certifications: [
         {
             name: "4 Month JC & KMP Industrial Training",
             issuer: "NeatRoots",

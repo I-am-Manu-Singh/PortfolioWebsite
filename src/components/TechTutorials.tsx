@@ -73,15 +73,8 @@ const TechTutorials: React.FC = () => {
                         </motion.div>
                     ))}
                 </div>
-
-                <div className="flex justify-center mt-10">
-                    <a href="https://www.youtube.com/channel/UCyC9lIwchCmfVTHbPsruOBA?sub_confirmation=1" target="_blank" className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full transition-all flex items-center gap-2 shadow-lg hover:shadow-red-600/40 transform hover:-translate-y-1">
-                        <Youtube size={20} fill="white" /> Subscribe for more
-                    </a>
-                </div>
             </div>
         </section>
     );
 };
-
 export default TechTutorials;

@@ -10,7 +10,6 @@ import Testimonials from './components/Testimonials';
 import FeaturedContent from './components/FeaturedContent';
 import MobileLabs from './components/MobileLabs';
 import Socials from './components/Socials';
-import Analytics from './components/Analytics';
 import ChatBot from './components/ChatBot';
 import FloatingParticles from './components/FloatingParticles';
 import Navbar from './components/Navbar';
@@ -72,8 +71,7 @@ function App() {
             <FeaturedContent />
             <TechTutorials />
             <Testimonials />
-            <Analytics />
-          </motion.div>
+                      </motion.div>
 
           {/* Personal Content Layer - Fades in slowly underneath */}
           <motion.div
