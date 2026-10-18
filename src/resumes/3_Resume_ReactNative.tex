@@ -1,0 +1,260 @@
+\documentclass[10pt, a4paper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot,
+    top=0.75 cm,
+    bottom=0.3 cm,
+    left=0.5 cm,
+    right=0.5 cm,
+    footskip=0.4 cm
+]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 79, 144}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{amsmath}
+\usepackage[
+    pdftitle={Manpreet's CV - React Native},
+    pdfauthor={Manpreet Singh},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
+\usepackage{bookmark}
+\usepackage{lastpage}
+\usepackage{changepage}
+\usepackage{paracol}
+\usepackage{ifthen}
+\usepackage{needspace}
+\usepackage{iftex}
+
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt}
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\topskip}{0pt}
+\setlength{\columnsep}{0cm}
+\makeatletter
+\let\ps@customFooterStyle\ps@plain
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Manpreet Singh - Page \thepage{} of \pageref*{LastPage}}
+}{}{}
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing{\section}{-1pt}{0.22 cm}{0.12 cm}
+
+\renewcommand\labelitemi{$\circ$}
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.06 cm,
+        parsep=0.05 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+}
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{0.2 cm + 0.00001 cm}{0.2 cm + 0.00001 cm}
+}{
+    \end{adjustwidth}
+}
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.35}
+}{
+    \par\kern\topsep
+}
+
+\let\hrefWithoutArrow\href
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+\begin{document}
+    \newcommand{\AND}{\unskip\cleaders\copy\ANDbox\hskip\wd\ANDbox\ignorespaces}
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+    
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont MANPREET SINGH}
+        
+        \vspace{0.25 cm}
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:manpreetsinghkainth25@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}manpreetsinghkainth25@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+917340007125}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}+917340007125}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/manpreet-singh001}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Linkedin}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/I-am-Manu-Singh}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}Github}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://leetcode.com/u/manu_singh}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}Leetcode}}%
+    \end{header}
+
+\section{Summary}
+\begin{onecolentry}
+React Native Developer with expertise in building scalable, production-ready mobile applications for iOS and Android using **React Native CLI**, **Expo (SDK 51+)**, and **TypeScript**. Proven background architecting offline-first enterprise collaboration platforms, end-to-end encrypted messaging, complex 60fps animations with Reanimated 3, and native bridge modules.
+\end{onecolentry}
+
+\section{Skills \& Technologies}
+\begin{onecolentry}
+\textbf{React Native Ecosystem:} React Native CLI, Expo (SDK 51+), Expo Router v3, TypeScript, JavaScript (ES6+), JSX, Native Modules
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{UI \& Animations:} React Native Reanimated 3, Gesture Handler, TailwindCSS / NativeWind, Glassmorphism, FlashList, Safe Area Context
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{State Management \& Networking:} Redux Toolkit (RTK Query), Context API, Zustand, Axios, REST APIs, WebSockets, Socket.io
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Backend \& Cloud Services:} Firebase (Auth, Cloud Firestore, FCM, Crashlytics), Supabase (PostgreSQL, Realtime, RLS), AsyncStorage, SQLite
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{DevOps \& Tools:} Git, GitHub, Metro Bundler, Xcode, Android Studio, Flipper, Postman, EAS (Expo Application Services)
+\end{onecolentry}
+
+\section{Experience}
+\begin{twocolentry}{\textbf{Dec 2025 – Apr 2026}}
+    \textbf{App Developer}
+    \textit{(\textbf{Signyn})} | \href{https://play.google.com/store/apps/details?id=com.signyards&hl=en_IN}{\textbf{\underline{Play Store}}} | \href{https://apps.apple.com/us/app/signyn-messenger/id6754750370}{\textbf{\underline{App Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Architected and shipped a B2B enterprise collaboration and field coordination app using \textbf{React Native CLI}, \textbf{TypeScript}, and \textbf{Redux Toolkit}.
+    \item Implemented encrypted chunked media upload pipelines using \textbf{AES-256-GCM} with automatic pause/resume for large files to \textbf{AWS S3}.
+    \item Engineered an offline-first local cache utilizing \textbf{SQLite} and bi-directional \textbf{Socket.io} real-time sync, cutting screen reload times by \textbf{45\%}.
+    \item Optimized thread performance using \textbf{Reanimated 3} and \textbf{Gesture Handler}, ensuring zero frame drop animations on low-end devices.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Mar 2025 – Aug 2025}}
+    \textbf{App Developer}
+    \textit{(\textbf{Pyngyn / Vimovi Global Tech})} | \href{https://play.google.com/store/apps/details?id=com.pyngyn.io&pcampaignid=web_share}{\textbf{\underline{Play Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Engineered a SaaS team platform with 1-on-1 chats, squad channels, and workspaces using \textbf{React Native} with end-to-end encryption.
+    \item Implemented real-time multi-user synchronization with \textbf{Firebase Firestore} and \textbf{FCM} for tasks, calendar reminders, and chats.
+    \item Integrated native calendar APIs and background tasks, delivering seamless event scheduling across iOS and Android.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Oct 2024 – Dec 2024}}
+    \textbf{Mobile Developer Intern}
+    \textit{(\textbf{FreeMemory}) | \href{https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting}{\textbf{\underline{Repo}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Implemented client-side memory optimizations and image cache compression, reducing memory footprint by \textbf{30\%}.
+    \item Tracked performance metrics and crash telemetry via \textbf{Firebase Crashlytics} and \textbf{Sentry}, reducing crash rates by \textbf{25\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Nov 2021 – Mar 2022}}
+    \textbf{Teaching Assistant — Core Programming \& Algorithms}
+    \textit{(\textbf{Pepcoding}) | \href{https://drive.google.com/file/d/1qHHruIn6jvwxYQePMhbm7gVEAp3OlGjT/view?usp=drive_link}{\textbf{\underline{Certificate}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Conducted technical problem-solving sessions and code reviews on data structures and modular architecture for \textbf{120+ students}.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Projects}
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/SevaStack-App}{\underline{Repo}}}}
+    \textbf{SevaStack — Campus Commerce \& Merchant POS Ecosystem}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built a high-fidelity campus logistics and store discovery application in \textbf{React Native} using \textbf{Expo SDK 51} and \textbf{TypeScript}.
+    \item Designed dynamic multi-role architecture (\textbf{Student}, \textbf{Merchant POS}, \textbf{Admin}) with instant role-switching, real-time cart checkout, live order tracking, and inventory management.
+    \item Integrated \textbf{Supabase} backend with PostgreSQL Row-Level Security (RLS) policies and real-time subscription channels for zero-latency order dispatching.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/reconcAIle-Hub}{\underline{Repo}}}}
+    \textbf{ReconcAILe Hub — Desktop \& Cross-Platform Automation Suite}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built a financial automation platform using \textbf{TypeScript}, \textbf{Electron}, and \textbf{Next.js}, connecting desktop frontends with TallyPrime via bi-directional XML synchronization.
+    \item Integrated AI OCR invoice data extraction and automated bank reconciliation algorithms, processing financial records with zero manual intervention.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/Signy-App}{\underline{Repo}}}}
+    \textbf{Signy Tactical Application — Real-Time Surveillance \& Field Coordination}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Developed a tactical cross-platform communication app supporting peer-to-peer \textbf{WebRTC} video/audio streams, low-latency \textbf{RTSP} camera feeds, and real-time location telemetry.
+    \item Implemented encrypted offline messaging channels with \textbf{Supabase} and local SQLite caching for alpine and remote low-connectivity operations.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Education}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 8.1}}
+    \textbf{Master of Computer Applications (MCA)} \text{ - Shri Khushal Das University}        
+\end{twocolentry}
+\vspace{0.04 cm}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 7.5}}
+    \textbf{Bachelor of Computer Applications (BCA)} \text{ - Kalinga University} 
+\end{twocolentry}
+
+\section{Languages}
+\begin{onecolentry}
+\textbf{English} (Fluent), \textbf{Hindi} (Native), \textbf{Punjabi} (Native)
+\end{onecolentry}
+
+\end{document}

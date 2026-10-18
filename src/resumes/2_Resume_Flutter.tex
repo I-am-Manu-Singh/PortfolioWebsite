@@ -1,0 +1,260 @@
+\documentclass[10pt, a4paper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot,
+    top=0.75 cm,
+    bottom=0.3 cm,
+    left=0.5 cm,
+    right=0.5 cm,
+    footskip=0.4 cm
+]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 79, 144}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{amsmath}
+\usepackage[
+    pdftitle={Manpreet's CV - Flutter},
+    pdfauthor={Manpreet Singh},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
+\usepackage{bookmark}
+\usepackage{lastpage}
+\usepackage{changepage}
+\usepackage{paracol}
+\usepackage{ifthen}
+\usepackage{needspace}
+\usepackage{iftex}
+
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt}
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\topskip}{0pt}
+\setlength{\columnsep}{0cm}
+\makeatletter
+\let\ps@customFooterStyle\ps@plain
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Manpreet Singh - Page \thepage{} of \pageref*{LastPage}}
+}{}{}
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing{\section}{-1pt}{0.22 cm}{0.12 cm}
+
+\renewcommand\labelitemi{$\circ$}
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.06 cm,
+        parsep=0.05 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+}
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{0.2 cm + 0.00001 cm}{0.2 cm + 0.00001 cm}
+}{
+    \end{adjustwidth}
+}
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.35}
+}{
+    \par\kern\topsep
+}
+
+\let\hrefWithoutArrow\href
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+\begin{document}
+    \newcommand{\AND}{\unskip\cleaders\copy\ANDbox\hskip\wd\ANDbox\ignorespaces}
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+    
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont MANPREET SINGH}
+        
+        \vspace{0.25 cm}
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:manpreetsinghkainth25@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}manpreetsinghkainth25@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+917340007125}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}+917340007125}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/manpreet-singh001}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Linkedin}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/I-am-Manu-Singh}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}Github}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://leetcode.com/u/manu_singh}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}Leetcode}}%
+    \end{header}
+
+\section{Summary}
+\begin{onecolentry}
+Flutter Developer specializing in building high-fidelity cross-platform applications across iOS, Android, and Desktop. Expert in reactive state management (Bloc, Provider), Supabase real-time architectures, custom animation frameworks, offline-first local databases, and hardware barcode/biometric sensor integrations with fluid 60fps UI rendering.
+\end{onecolentry}
+
+\section{Skills \& Technologies}
+\begin{onecolentry}
+\textbf{Core Flutter:} Dart, Flutter Framework (Android, iOS, Web, macOS), Widget Lifecycle, Custom Painters, Skia/Impeller
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{State Management \& Architecture:} Bloc/Cubit, Provider, Riverpod, Clean Architecture, Repository Pattern, Dependency Injection
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Backend \& Data Layer:} Supabase (Auth, Realtime, Storage, RLS Policies), PostgreSQL RPCs, RESTful APIs, WebSockets, SQLite / Hive / Isar, Dio, Retrofit
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Hardware \& Platform Features:} Barcode / QR Scanning, CameraX / ML Kit Biometrics, Google Maps SDK, Push Notifications (FCM), Native MethodChannels
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Tooling \& Testing:} Git, GitHub, Android Studio, VS Code, Postman, Xcode, Flutter DevTools, CI/CD Fastlane
+\end{onecolentry}
+
+\section{Experience}
+\begin{twocolentry}{\textbf{Dec 2025 – Apr 2026}}
+    \textbf{App Developer}
+    \textit{(\textbf{Signyn})} | \href{https://play.google.com/store/apps/details?id=com.signyards&hl=en_IN}{\textbf{\underline{Play Store}}} | \href{https://apps.apple.com/us/app/signyn-messenger/id6754750370}{\textbf{\underline{App Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built high-performance multi-platform collaboration clients supporting real-time team communication and contractor field tracking.
+    \item Implemented encrypted streaming file upload architectures using \textbf{AES-256-GCM} chunking with automatic retry algorithms for multi-gigabyte media uploads to \textbf{AWS S3}.
+    \item Designed an offline-first transactional caching layer with reactive delta synchronizers, cutting UI latency by \textbf{45\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Mar 2025 – Aug 2025}}
+    \textbf{App Developer}
+    \textit{(\textbf{Pyngyn / Vimovi Global Tech})} | \href{https://play.google.com/store/apps/details?id=com.pyngyn.io&pcampaignid=web_share}{\textbf{\underline{Play Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Developed full-featured enterprise chat and workspace applications with end-to-end encryption, group squad channels, and event scheduling.
+    \item Integrated automated real-time state synchronization using \textbf{Firebase} and \textbf{Firestore} for collaborative task management and reminders.
+    \item Optimized list view virtualization and dynamic rendering pipelines, achieving consistent 60fps scroll performance.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Oct 2024 – Dec 2024}}
+    \textbf{Mobile Developer Intern}
+    \textit{(\textbf{FreeMemory}) | \href{https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting}{\textbf{\underline{Repo}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Implemented lossless compression routines reducing on-device storage overhead by \textbf{30\%} for high-resolution photo caches.
+    \item Integrated \textbf{Firebase Crashlytics} and \textbf{Sentry} monitoring, diagnosing state leakages and reducing crash frequencies by \textbf{25\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Nov 2021 – Mar 2022}}
+    \textbf{Teaching Assistant — Algorithms \& Core Programming}
+    \textit{(\textbf{Pepcoding}) | \href{https://drive.google.com/file/d/1qHHruIn6jvwxYQePMhbm7gVEAp3OlGjT/view?usp=drive_link}{\textbf{\underline{Certificate}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Mentored \textbf{120+ students} in data structures, object-oriented principles, and modular application design patterns.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Projects}
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/TrekIndiaApp}{\underline{Repo}}}}
+    \textbf{Trek India — Expedition Command HQ \& Tactical Logistics}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Engineered a mission-critical expedition logistics platform in \textbf{Flutter} and \textbf{Supabase} featuring 3 role-tailored terminals: Explorer, Battalion (Staff), and HQ Commander.
+    \item Built the custom \textbf{GlassShimmer Framework} for skeleton loading and integrated real-time altitude telemetry, offline gear verification checklists, and automated PDF invoice generation.
+    \item Designed an offline-first \textbf{PostgreSQL} cache architecture with Row-Level Security (RLS) guaranteeing synchronization under low-bandwidth alpine environments.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/HostelShopManagementApp}{\underline{Repo}}}}
+    \textbf{Hostel Shop Management — Campus Retail POS \& Inventory Suite}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Developed a campus POS and retail management application in \textbf{Flutter} supporting real-time barcode camera scanning, automated credit ledger (Khata) tracking, and multi-category inventory.
+    \item Built high-performance sales analytics dashboards, daily profit/loss settlement calculators, and customer notification dispatchers.
+    \item Implemented dual-theme dynamic styling with custom contrast filters, ensuring seamless operation in harsh retail lighting.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/MoonlightWebcam}{\underline{Repo}}}}
+    \textbf{MoonlightWebcam — Low-Latency Remote Device Controller}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built a cross-platform remote webcam system delivering \textbf{60ms low-latency} video streaming via asynchronous socket channels and real-time camera parameter controls.
+    \item Architected multi-device discovery protocols and background processing capabilities for continuous hardware capture.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Education}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 8.1}}
+    \textbf{Master of Computer Applications (MCA)} \text{ - Shri Khushal Das University}        
+\end{twocolentry}
+\vspace{0.04 cm}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 7.5}}
+    \textbf{Bachelor of Computer Applications (BCA)} \text{ - Kalinga University} 
+\end{twocolentry}
+
+\section{Languages}
+\begin{onecolentry}
+\textbf{English} (Fluent), \textbf{Hindi} (Native), \textbf{Punjabi} (Native)
+\end{onecolentry}
+
+\end{document}

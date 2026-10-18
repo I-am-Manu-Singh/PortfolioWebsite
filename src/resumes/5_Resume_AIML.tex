@@ -1,0 +1,260 @@
+\documentclass[10pt, a4paper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot,
+    top=0.75 cm,
+    bottom=0.3 cm,
+    left=0.5 cm,
+    right=0.5 cm,
+    footskip=0.4 cm
+]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 79, 144}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{amsmath}
+\usepackage[
+    pdftitle={Manpreet's CV - AI/ML Systems},
+    pdfauthor={Manpreet Singh},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
+\usepackage{bookmark}
+\usepackage{lastpage}
+\usepackage{changepage}
+\usepackage{paracol}
+\usepackage{ifthen}
+\usepackage{needspace}
+\usepackage{iftex}
+
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt}
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\topskip}{0pt}
+\setlength{\columnsep}{0cm}
+\makeatletter
+\let\ps@customFooterStyle\ps@plain
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Manpreet Singh - Page \thepage{} of \pageref*{LastPage}}
+}{}{}
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing{\section}{-1pt}{0.22 cm}{0.12 cm}
+
+\renewcommand\labelitemi{$\circ$}
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.06 cm,
+        parsep=0.05 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+}
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{0.2 cm + 0.00001 cm}{0.2 cm + 0.00001 cm}
+}{
+    \end{adjustwidth}
+}
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.35}
+}{
+    \par\kern\topsep
+}
+
+\let\hrefWithoutArrow\href
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+\begin{document}
+    \newcommand{\AND}{\unskip\cleaders\copy\ANDbox\hskip\wd\ANDbox\ignorespaces}
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+    
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont MANPREET SINGH}
+        
+        \vspace{0.25 cm}
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:manpreetsinghkainth25@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}manpreetsinghkainth25@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+917340007125}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}+917340007125}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/manpreet-singh001}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Linkedin}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/I-am-Manu-Singh}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}Github}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://leetcode.com/u/manu_singh}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}Leetcode}}%
+    \end{header}
+
+\section{Summary}
+\begin{onecolentry}
+AI/ML Systems Engineer specializing in on-device neural edge computing, computer vision pipelines, local LLM quantization, and real-time DSP audio intelligence. Expert in deploying MediaPipe, ONNX, and ML Kit across mobile and desktop environments, with strong algorithmic depth in graph search and mathematical modeling (\textbf{250+ LeetCode solved}).
+\end{onecolentry}
+
+\section{Skills \& Technologies}
+\begin{onecolentry}
+\textbf{On-Device AI \& Edge Inference:} MediaPipe LLM Inference API, ONNX Runtime, TensorFlow Lite, ML Kit, Quantization (INT4/INT8), Stockfish NNUE, Hardware Acceleration (GPU/NPU Delegates)
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Computer Vision \& Audio DSP:} CameraX Perspective Rectification, OpenCV, Piece Classification, FFT Spectrum Analysis, Stem Separation Pipelines, Optical Character Recognition (OCR)
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Languages \& Frameworks:} Python, Kotlin, Java, TypeScript, C++, Kotlin Multiplatform (KMP), Jetpack Compose
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Vector Search \& Data Systems:} On-Device RAG, Vector Embeddings, SQLite FTS5, Supabase pgvector, Room KMP, PostgreSQL
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Tools \& Platforms:} Git, Android Studio, VS Code, Postman, Hugging Face Hub, Firebase ML
+\end{onecolentry}
+
+\section{Experience}
+\begin{twocolentry}{\textbf{Dec 2025 – Apr 2026}}
+    \textbf{App Developer}
+    \textit{(\textbf{Signyn})} | \href{https://play.google.com/store/apps/details?id=com.signyards&hl=en_IN}{\textbf{\underline{Play Store}}} | \href{https://apps.apple.com/us/app/signyn-messenger/id6754750370}{\textbf{\underline{App Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built secure, low-latency collaboration pipelines featuring automated metadata extraction and real-time field telemetry synchronization.
+    \item Implemented encrypted media transmission with \textbf{AES-256-GCM} chunking for streaming high-resolution visual blueprints to \textbf{AWS S3}.
+    \item Optimized local client persistence using \textbf{SQLite} and delta synchronization, cutting state hydration latency by \textbf{45\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Mar 2025 – Aug 2025}}
+    \textbf{App Developer}
+    \textit{(\textbf{Pyngyn / Vimovi Global Tech})} | \href{https://play.google.com/store/apps/details?id=com.pyngyn.io&pcampaignid=web_share}{\textbf{\underline{Play Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Developed intelligent event coordination and real-time team collaboration platforms with end-to-end encrypted messaging.
+    \item Integrated real-time cloud data pipelines with \textbf{Firebase Firestore} and smart notification delivery via \textbf{FCM}.
+    \item Streamlined data serialization pipelines, improving execution speed by \textbf{30\%} for collaborative workspaces.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Oct 2024 – Dec 2024}}
+    \textbf{Machine Learning \& Compression Intern}
+    \textit{(\textbf{FreeMemory}) | \href{https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting}{\textbf{\underline{Repo}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Implemented lossless data compression algorithms (\textbf{Huffman}, \textbf{Deflate}, \textbf{LZW}) in \textbf{C++ and JNI}, reducing data ingestion footprints by \textbf{30\%}.
+    \item Optimized tensor memory allocation and mitigated native thread memory leaks using \textbf{Sentry} telemetry, reducing crash rates by \textbf{25\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Nov 2021 – Mar 2022}}
+    \textbf{Teaching Assistant — Algorithms \& Optimization}
+    \textit{(\textbf{Pepcoding}) | \href{https://drive.google.com/file/d/1qHHruIn6jvwxYQePMhbm7gVEAp3OlGjT/view?usp=drive_link}{\textbf{\underline{Certificate}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Mentored \textbf{120+ students} in algorithmic optimization, graph search, and mathematical problem-solving in Java and Python.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Projects}
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/OmniMind}{\underline{Repo}}}}
+    \textbf{OmniMind — 100\% Offline On-Device Neural LLM Workstation}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Engineered an edge-accelerated cognitive workstation in \textbf{Kotlin Multiplatform} running quantized local LLMs (\textbf{Gemma-2B}, \textbf{SmolLM2}) via \textbf{MediaPipe} GPU backends.
+    \item Implemented on-device Retrieval-Augmented Generation (RAG) using local vector embeddings and SQLite FTS5 for zero-network document analysis.
+    \item Designed an intelligent model-pack downloader with automatic checkpoint resumption and dynamic GPU delegate selection.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/OmniChessReader}{\underline{Repo}}}}
+    \textbf{OmniChess Reader — Computer Vision Board Scanner \& Stockfish NNUE Engine}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built a real-time computer vision system that scans physical chessboards via camera, detects corners, and applies perspective rectification.
+    \item Deployed a neural classification pipeline mapping squares to standard FEN notation with 98.4\% accuracy.
+    \item Integrated native \textbf{Stockfish NNUE} engine via JNI to deliver real-time tactical evaluation and optimal move analysis locally.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/reconcAIle-Hub}{\underline{Repo}}}}
+    \textbf{ReconcAILe Hub — AI-Powered Invoice OCR \& Financial Matching}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built an enterprise accounting bridge with automated OCR extraction for unstructured invoices and receipts in \textbf{TypeScript} and \textbf{Electron}.
+    \item Developed fuzzy algorithmic reconciliation models matching bank transactions against TallyPrime ledgers with zero human intervention.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Education}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 8.1}}
+    \textbf{Master of Computer Applications (MCA)} \text{ - Shri Khushal Das University}        
+\end{twocolentry}
+\vspace{0.04 cm}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 7.5}}
+    \textbf{Bachelor of Computer Applications (BCA)} \text{ - Kalinga University} 
+\end{twocolentry}
+
+\section{Languages}
+\begin{onecolentry}
+\textbf{English} (Fluent), \textbf{Hindi} (Native), \textbf{Punjabi} (Native)
+\end{onecolentry}
+
+\end{document}

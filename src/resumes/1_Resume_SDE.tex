@@ -1,0 +1,254 @@
+\documentclass[10pt, a4paper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot,
+    top=0.75 cm,
+    bottom=0.3 cm,
+    left=0.5 cm,
+    right=0.5 cm,
+    footskip=0.4 cm
+]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 79, 144}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{amsmath}
+\usepackage[
+    pdftitle={Manpreet's CV - SDE},
+    pdfauthor={Manpreet Singh},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
+\usepackage{bookmark}
+\usepackage{lastpage}
+\usepackage{changepage}
+\usepackage{paracol}
+\usepackage{ifthen}
+\usepackage{needspace}
+\usepackage{iftex}
+
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt}
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\topskip}{0pt}
+\setlength{\columnsep}{0cm}
+\makeatletter
+\let\ps@customFooterStyle\ps@plain
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Manpreet Singh - Page \thepage{} of \pageref*{LastPage}}
+}{}{}
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing{\section}{-1pt}{0.22 cm}{0.12 cm}
+
+\renewcommand\labelitemi{$\circ$}
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.06 cm,
+        parsep=0.05 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+}
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{0.2 cm + 0.00001 cm}{0.2 cm + 0.00001 cm}
+}{
+    \end{adjustwidth}
+}
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.35}
+}{
+    \par\kern\topsep
+}
+
+\let\hrefWithoutArrow\href
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+\begin{document}
+    \newcommand{\AND}{\unskip\cleaders\copy\ANDbox\hskip\wd\ANDbox\ignorespaces}
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+    
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont MANPREET SINGH}
+        
+        \vspace{0.25 cm}
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:manpreetsinghkainth25@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}manpreetsinghkainth25@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+917340007125}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}+917340007125}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/manpreet-singh001}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Linkedin}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/I-am-Manu-Singh}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}Github}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://leetcode.com/u/manu_singh}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}Leetcode}}%
+    \end{header}
+
+\section{Summary}
+\begin{onecolentry}
+Software Development Engineer specializing in distributed application architecture, low-latency streaming pipelines, and algorithmic problem-solving (\textbf{250+ LeetCode problems solved}). Experienced in designing enterprise client-server sync systems, cryptographic streaming protocols, and high-performance native C++/JNI hardware abstractions across cross-platform mobile, desktop, and cloud services.
+\end{onecolentry}
+
+\section{Skills \& Technologies}
+\begin{onecolentry}
+\textbf{Languages:} Java, Kotlin, TypeScript, JavaScript, Dart, C/C++, SQL, XML
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Core CS \& Systems:} Data Structures \& Algorithms, Object-Oriented Design (OOD), Clean Architecture, Multi-Threading, Concurrency, JNI/NDK, Distributed Data Synchronization, Low-Latency Networking, Design Patterns
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Frameworks \& Architecture:} Kotlin Multiplatform (KMP), React Native, Node.js, Electron, Jetpack Compose, Ktor, RESTful APIs, WebSockets, WebRTC, Redux Toolkit, Room, SQLite, PostgreSQL
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Tools \& Cloud Platforms:} Git, Docker, Supabase, Firebase, AWS (S3, EC2), Postman, Linux/Unix, Gradle, CI/CD Actions
+\end{onecolentry}
+
+\section{Experience}
+\begin{twocolentry}{\textbf{Dec 2025 – Apr 2026}}
+    \textbf{App Developer}
+    \textit{(\textbf{Signyn})} | \href{https://play.google.com/store/apps/details?id=com.signyards&hl=en_IN}{\textbf{\underline{Play Store}}} | \href{https://apps.apple.com/us/app/signyn-messenger/id6754750370}{\textbf{\underline{App Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Architected high-throughput, fault-tolerant B2B communication infrastructure utilizing \textbf{React Native}, \textbf{TypeScript}, and \textbf{Node.js} on \textbf{AWS}, supporting enterprise-scale multi-tenant workspaces.
+    \item Designed an end-to-end cryptographic pipeline implementing \textbf{AES-256-GCM} chunked file streaming for reliable multi-gigabyte media ingestion into \textbf{AWS S3} under variable network conditions.
+    \item Engineered an offline-first transactional caching layer with \textbf{SQLite} and bi-directional \textbf{Socket.io} delta sync, mitigating thread contention and cutting state reconciliation latency by \textbf{45\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Mar 2025 – Aug 2025}}
+    \textbf{App Developer}
+    \textit{(\textbf{Pyngyn / Vimovi Global Tech})} | \href{https://play.google.com/store/apps/details?id=com.pyngyn.io&pcampaignid=web_share}{\textbf{\underline{Play Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Developed full-stack real-time collaboration engines supporting end-to-end encrypted messaging, automated workspace channels, and concurrent task pipelines.
+    \item Designed deterministic scheduling and state machine workflows for distributed calendar events and notification delivery utilizing \textbf{Firebase Cloud Messaging (FCM)} and atomic \textbf{Firestore} batch transactions.
+    \item Streamlined client-server state hydration, reducing UI frame drops by \textbf{30\%} through selective memoization and asynchronous job queues.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Oct 2024 – Dec 2024}}
+    \textbf{Software Engineer Intern}
+    \textit{(\textbf{FreeMemory}) | \href{https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting}{\textbf{\underline{Repo}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Implemented lossless compression algorithms (\textbf{Huffman}, \textbf{Deflate}, \textbf{LZW}) utilizing \textbf{C++ and JNI}, achieving a \textbf{30\%} reduction in disk footprints with sub-millisecond execution overhead.
+    \item Integrated automated crash diagnostics via \textbf{Firebase Crashlytics} and \textbf{Sentry}, identifying native memory leaks and reducing crash rates by \textbf{25\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Nov 2021 – Mar 2022}}
+    \textbf{Teaching Assistant — Data Structures \& Algorithms}
+    \textit{(\textbf{Pepcoding}) | \href{https://drive.google.com/file/d/1qHHruIn6jvwxYQePMhbm7gVEAp3OlGjT/view?usp=drive_link}{\textbf{\underline{Certificate}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Mentored \textbf{120+ students} in advanced Java, asymptotic time complexity analysis, dynamic programming, and graph algorithms through technical code reviews and debugging sessions.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Projects}
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/reconcAIle-Hub}{\underline{Repo}}}}
+    \textbf{ReconcAILe Hub — Enterprise TallyPrime Sync \& Financial Bridge}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built an enterprise financial synchronization bridge in \textbf{TypeScript}, \textbf{Next.js}, and \textbf{Electron}, orchestrating bi-directional XML RPC communication with \textbf{TallyPrime} accounting databases.
+    \item Engineered an automated Bank Reconciliation Statement (BRS) engine and multi-format invoice parser, processing complex ledgers with 99.8\% parsing accuracy and zero data loss.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/OmniMind}{\underline{Repo}}}}
+    \textbf{OmniMind — On-Device Neural Edge Inference Workstation}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Built an offline, edge-accelerated cognitive workstation in \textbf{Kotlin Multiplatform} running quantized LLMs (Gemma-2B, SmolLM2) locally via \textbf{MediaPipe} and GPU delegate backends.
+    \item Implemented on-device Retrieval-Augmented Generation (RAG) using vector embeddings and SQLite FTS5, achieving sub-second token generation without cloud API dependencies.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/MoonlightWebcam}{\underline{Repo}}}}
+    \textbf{MoonlightWebcam — Low-Latency Network Streaming Engine}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Developed a cross-platform remote video streaming system in \textbf{KMP} and \textbf{Ktor}, achieving \textbf{60ms glass-to-glass latency} over local LAN via socket optimization and H.264/AAC hardware codecs.
+    \item Engineered asynchronous peer discovery protocols and remote HID input dispatchers via native OS accessibility hooks.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Education}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 8.1}}
+    \textbf{Master of Computer Applications (MCA)} \text{ - Shri Khushal Das University}        
+\end{twocolentry}
+\vspace{0.04 cm}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 7.5}}
+    \textbf{Bachelor of Computer Applications (BCA)} \text{ - Kalinga University} 
+\end{twocolentry}
+
+\section{Languages}
+\begin{onecolentry}
+\textbf{English} (Fluent), \textbf{Hindi} (Native), \textbf{Punjabi} (Native)
+\end{onecolentry}
+
+\end{document}

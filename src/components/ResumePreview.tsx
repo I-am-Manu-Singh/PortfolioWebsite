@@ -1,7 +1,11 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download } from 'lucide-react';
+import { 
+    X, Download, ExternalLink, Briefcase, Code2, FolderGit2, 
+    GraduationCap, Globe2, FileText, CheckCircle2, ChevronDown, 
+    Printer, FileSpreadsheet, FileCode
+} from 'lucide-react';
+import { resumesList, type ResumeData } from '../data/resumesData';
 
 interface ResumePreviewProps {
     isOpen: boolean;
@@ -9,56 +13,479 @@ interface ResumePreviewProps {
 }
 
 const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
-    // Google Drive Preview Link
-    const resumeUrl = "https://drive.google.com/file/d/1IlMIoxqCKINQq44ONK8rVXVBesvckNpM/preview";
+    const [selectedResumeId, setSelectedResumeId] = useState<string>('sde');
+    const [viewMode, setViewMode] = useState<'interactive' | 'pdf'>('interactive');
+    const [isExportMenuOpen, setIsExportMenuOpen] = useState<boolean>(false);
+
+    const activeResume: ResumeData = resumesList.find(r => r.id === selectedResumeId) || resumesList[0];
+    const drivePdfUrl = "https://drive.google.com/file/d/17-nGvDHYbfJ7AWoBJKcEbikvQr1JXUv6/view?usp=sharing";
+
+    // Export Handlers
+    const exportAsPDF = () => {
+        window.print();
+    };
+
+    const exportAsWord = () => {
+        const headerHtml = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head><meta charset='utf-8'><title>${activeResume.title} - Manpreet Singh Resume</title>
+            <style>
+                body { font-family: 'Calibri', 'Arial', sans-serif; line-height: 1.4; color: #222; }
+                h1 { font-size: 20pt; text-align: center; color: #004f90; margin-bottom: 2pt; }
+                .subtitle { text-align: center; font-size: 10pt; color: #555; margin-bottom: 15pt; }
+                h2 { font-size: 13pt; border-bottom: 1.5pt solid #004f90; color: #004f90; margin-top: 14pt; margin-bottom: 6pt; }
+                h3 { font-size: 11pt; margin-bottom: 2pt; color: #111; }
+                p, li { font-size: 10pt; }
+                ul { margin-top: 4pt; margin-bottom: 8pt; padding-left: 20pt; }
+                .company { color: #555; font-style: italic; }
+                .period { float: right; font-weight: bold; }
+                .clear { clear: both; }
+            </style>
+            </head><body>
+            <h1>MANPREET SINGH</h1>
+            <div class='subtitle'>
+                manpreetsinghkainth25@gmail.com | +91 7340007125 | linkedin.com/in/manpreet-singh001 | github.com/I-am-Manu-Singh | leetcode.com/u/manu_singh
+            </div>
+            <h2>SUMMARY</h2>
+            <p>${activeResume.summary.replace(/\*\*/g, '')}</p>
+            <h2>SKILLS & TECHNOLOGIES</h2>
+            <ul>
+                ${activeResume.skills.map(s => `<li><b>${s.category}:</b> ${s.items.replace(/\*\*/g, '')}</li>`).join('')}
+            </ul>
+            <h2>PROFESSIONAL EXPERIENCE</h2>
+            ${activeResume.experiences.map(e => `
+                <div>
+                    <span class='period'>${e.period}</span>
+                    <h3>${e.role} <span class='company'>(${e.company})</span></h3>
+                    <div class='clear'></div>
+                    <ul>
+                        ${e.highlights.map(h => `<li>${h.replace(/\*\*/g, '')}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('')}
+            <h2>KEY TECHNICAL PROJECTS</h2>
+            ${activeResume.projects.map(p => `
+                <div>
+                    <h3>${p.name}</h3>
+                    <ul>
+                        ${p.highlights.map(h => `<li>${h.replace(/\*\*/g, '')}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('')}
+            <h2>EDUCATION</h2>
+            <p><b>Master of Computer Applications (MCA)</b> - Shri Khushal Das University (CGPA: 8.1)<br>
+            <b>Bachelor of Computer Applications (BCA)</b> - Kalinga University (CGPA: 7.5)</p>
+            <h2>LANGUAGES</h2>
+            <p>English (Fluent), Hindi (Native), Punjabi (Native)</p>
+            </body></html>
+        `;
+
+        const blob = new Blob(['\ufeff', headerHtml], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Manpreet_Singh_${activeResume.id.toUpperCase()}_Resume.doc`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    const exportAsCSV = () => {
+        const rows: string[][] = [
+            ["Section", "Role / Title", "Organization / Category", "Timeline", "Details"],
+            ["Header", "MANPREET SINGH", "Contact Information", "Current", "manpreetsinghkainth25@gmail.com | +91 7340007125 | LinkedIn: manpreet-singh001 | GitHub: I-am-Manu-Singh"],
+            ["Summary", activeResume.title, "Specialization", "", activeResume.summary.replace(/"/g, '""').replace(/\*\*/g, '')],
+        ];
+
+        activeResume.skills.forEach(s => {
+            rows.push(["Skills", s.category, "", "", s.items.replace(/"/g, '""').replace(/\*\*/g, '')]);
+        });
+
+        activeResume.experiences.forEach(e => {
+            rows.push([
+                "Experience",
+                e.role,
+                e.company,
+                e.period,
+                e.highlights.map(h => h.replace(/"/g, '""').replace(/\*\*/g, '')).join(" | ")
+            ]);
+        });
+
+        activeResume.projects.forEach(p => {
+            rows.push([
+                "Project",
+                p.name,
+                p.repo || "",
+                "",
+                p.highlights.map(h => h.replace(/"/g, '""').replace(/\*\*/g, '')).join(" | ")
+            ]);
+        });
+
+        rows.push(["Education", "Master of Computer Applications (MCA)", "Shri Khushal Das University", "CGPA 8.1", ""]);
+        rows.push(["Education", "Bachelor of Computer Applications (BCA)", "Kalinga University", "CGPA 7.5", ""]);
+        rows.push(["Languages", "English (Fluent), Hindi (Native), Punjabi (Native)", "", "", ""]);
+
+        const csvContent = rows.map(r => r.map(c => `"${c}"`).join(",")).join("\n");
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Manpreet_Singh_${activeResume.id.toUpperCase()}_Resume.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    const exportAsJSON = () => {
+        const jsonContent = JSON.stringify(activeResume, null, 2);
+        const blob = new Blob([jsonContent], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Manpreet_Singh_${activeResume.id.toUpperCase()}_Resume.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
 
     return (
         <AnimatePresence>
             {isOpen && (
                 <>
+                    {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[80]"
+                        className="fixed inset-0 bg-black/85 backdrop-blur-md z-[80] print:hidden"
                     />
+
+                    {/* Modal Dialog */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        initial={{ opacity: 0, scale: 0.95, y: 15 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="fixed inset-4 md:inset-10 bg-dark-card border border-white/10 rounded-2xl shadow-2xl z-[90] flex flex-col overflow-hidden"
+                        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                        className="fixed inset-2 md:inset-6 lg:inset-10 bg-dark-bg border border-white/15 rounded-3xl shadow-2xl z-[90] flex flex-col overflow-hidden print:static print:inset-0 print:border-0 print:bg-white print:text-black"
                     >
-                        {/* Header */}
-                        <div className="flex items-center justify-between p-4 border-b border-white/10 bg-dark/50">
-                            <h2 className="text-xl font-bold text-white">Resume Preview</h2>
-                            <div className="flex gap-2">
-                                <a
-                                    href="https://drive.google.com/file/d/1IlMIoxqCKINQq44ONK8rVXVBesvckNpM/view?usp=sharing"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors text-sm font-medium"
-                                >
-                                    <Download size={16} />
-                                    Download PDF
-                                </a>
+                        {/* Header Bar */}
+                        <div className="flex flex-wrap items-center justify-between p-4 md:px-6 border-b border-white/10 bg-dark-card/90 backdrop-blur-xl gap-3 print:hidden">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2.5 rounded-xl bg-primary/20 text-primary-light border border-primary/30">
+                                    <FileText size={20} />
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <h2 className="text-lg md:text-xl font-bold text-white font-outfit">
+                                            Interactive ATS Resumes
+                                        </h2>
+                                        <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                            7 Domain Profiles
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-text-muted font-mono hidden sm:block">
+                                        Tailored specifically for SDE, Mobile, Full-Stack, Backend, & AI/ML
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* View Switcher & Export Menu */}
+                            <div className="flex items-center gap-2">
+                                <div className="flex rounded-lg bg-black/40 border border-white/10 p-0.5 text-xs font-mono">
+                                    <button
+                                        onClick={() => setViewMode('interactive')}
+                                        className={`px-3 py-1.5 rounded-md transition-all ${viewMode === 'interactive' ? 'bg-primary text-white shadow' : 'text-text-muted hover:text-white'}`}
+                                    >
+                                        Live Interactive
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode('pdf')}
+                                        className={`px-3 py-1.5 rounded-md transition-all ${viewMode === 'pdf' ? 'bg-primary text-white shadow' : 'text-text-muted hover:text-white'}`}
+                                    >
+                                        PDF View
+                                    </button>
+                                </div>
+
+                                {/* Save / Export Dropdown */}
+                                <div className="relative">
+                                    <button
+                                        onClick={() => setIsExportMenuOpen(!isExportMenuOpen)}
+                                        className="flex items-center gap-1.5 px-3.5 py-1.5 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors text-xs font-mono font-medium shadow-md shadow-primary/20"
+                                    >
+                                        <Download size={14} />
+                                        <span>Save / Export</span>
+                                        <ChevronDown size={14} className={`transition-transform ${isExportMenuOpen ? 'rotate-180' : ''}`} />
+                                    </button>
+
+                                    {isExportMenuOpen && (
+                                        <div className="absolute right-0 mt-2 w-52 bg-dark-card border border-white/15 rounded-xl shadow-2xl py-1.5 z-50 backdrop-blur-xl">
+                                            <button
+                                                onClick={() => { exportAsPDF(); setIsExportMenuOpen(false); }}
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                            >
+                                                <Printer size={14} className="text-primary-light" />
+                                                <span>Save as PDF (Print)</span>
+                                            </button>
+                                            <button
+                                                onClick={() => { exportAsWord(); setIsExportMenuOpen(false); }}
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                            >
+                                                <FileText size={14} className="text-blue-400" />
+                                                <span>Save as Word (.doc)</span>
+                                            </button>
+                                            <button
+                                                onClick={() => { exportAsCSV(); setIsExportMenuOpen(false); }}
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                            >
+                                                <FileSpreadsheet size={14} className="text-emerald-400" />
+                                                <span>Export as CSV / Excel</span>
+                                            </button>
+                                            <button
+                                                onClick={() => { exportAsJSON(); setIsExportMenuOpen(false); }}
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                            >
+                                                <FileCode size={14} className="text-amber-400" />
+                                                <span>Export as JSON</span>
+                                            </button>
+                                            <div className="border-t border-white/10 my-1"></div>
+                                            <a
+                                                href={drivePdfUrl}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="w-full px-3.5 py-2 text-left text-xs font-mono text-gray-200 hover:bg-primary hover:text-white flex items-center gap-2.5 transition-colors"
+                                            >
+                                                <ExternalLink size={14} className="text-purple-400" />
+                                                <span>Official Google Drive PDF</span>
+                                            </a>
+                                        </div>
+                                    )}
+                                </div>
+
                                 <button
                                     onClick={onClose}
                                     className="p-2 hover:bg-white/10 rounded-lg text-text-muted hover:text-white transition-colors"
+                                    aria-label="Close modal"
                                 >
                                     <X size={20} />
                                 </button>
                             </div>
                         </div>
 
-                        {/* Iframe Content */}
-                        <div className="flex-1 w-full h-full bg-gray-900">
-                            <iframe
-                                src={resumeUrl}
-                                className="w-full h-full border-0"
-                                title="Resume Preview"
-                                allow="autoplay"
-                            ></iframe>
+                        {/* Domain Tabs Navigation */}
+                        <div className="flex items-center gap-2 px-4 md:px-6 py-2.5 bg-dark-card/50 border-b border-white/10 overflow-x-auto no-scrollbar print:hidden">
+                            <span className="text-xs font-mono text-text-muted uppercase tracking-wider mr-2 flex-shrink-0">
+                                Select Track:
+                            </span>
+                            {resumesList.map((res) => {
+                                const isSelected = res.id === selectedResumeId;
+                                return (
+                                    <button
+                                        key={res.id}
+                                        onClick={() => { setSelectedResumeId(res.id); setIsExportMenuOpen(false); }}
+                                        className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex-shrink-0 flex items-center gap-1.5 border ${
+                                            isSelected
+                                                ? 'bg-primary text-white border-primary-light shadow-md shadow-primary/25 font-bold'
+                                                : 'bg-white/5 text-text-muted hover:text-white hover:bg-white/10 border-white/10'
+                                        }`}
+                                    >
+                                        {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                                        {res.title}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Body Container */}
+                        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-dark/40 print:p-0 print:bg-white">
+                            {viewMode === 'pdf' ? (
+                                <div className="w-full h-full min-h-[550px] rounded-2xl overflow-hidden border border-white/10 bg-black/60 shadow-inner">
+                                    <iframe
+                                        src={drivePdfUrl}
+                                        className="w-full h-full border-0 min-h-[600px]"
+                                        title="Resume PDF Preview"
+                                        allow="autoplay"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="max-w-4xl mx-auto bg-dark-card/90 border border-white/15 rounded-3xl p-6 md:p-10 shadow-2xl backdrop-blur-xl space-y-8 print:border-0 print:shadow-none print:p-0 print:text-black print:bg-white">
+                                    {/* Resume Header */}
+                                    <div className="text-center pb-6 border-b border-white/10 space-y-2 print:border-black">
+                                        <h1 className="text-3xl md:text-4xl font-extrabold text-white font-outfit tracking-wide print:text-black">
+                                            MANPREET SINGH
+                                        </h1>
+                                        <p className="text-primary-light font-mono text-xs md:text-sm font-semibold tracking-wider uppercase print:text-primary">
+                                            // {activeResume.title.toUpperCase()} SPECIALIZATION TRACK
+                                        </p>
+                                        <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1.5 text-xs font-mono text-text-muted pt-1 print:text-black">
+                                            <a href="mailto:manpreetsinghkainth25@gmail.com" className="hover:text-primary-light transition-colors">
+                                                manpreetsinghkainth25@gmail.com
+                                            </a>
+                                            <span>•</span>
+                                            <span>+91 7340007125</span>
+                                            <span>•</span>
+                                            <a href="https://www.linkedin.com/in/manpreet-singh001" target="_blank" rel="noreferrer" className="hover:text-primary-light transition-colors">
+                                                LinkedIn
+                                            </a>
+                                            <span>•</span>
+                                            <a href="https://github.com/I-am-Manu-Singh" target="_blank" rel="noreferrer" className="hover:text-primary-light transition-colors">
+                                                GitHub
+                                            </a>
+                                            <span>•</span>
+                                            <a href="https://leetcode.com/u/manu_singh" target="_blank" rel="noreferrer" className="hover:text-primary-light transition-colors">
+                                                LeetCode
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    {/* Summary */}
+                                    <div className="space-y-2">
+                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary-light flex items-center gap-2 print:text-primary">
+                                            <CheckCircle2 size={16} /> Summary
+                                        </h3>
+                                        <p className="text-sm md:text-base text-gray-200 leading-relaxed bg-white/[0.02] p-4 rounded-xl border border-white/5 print:border-0 print:p-0 print:text-black">
+                                            {activeResume.summary}
+                                        </p>
+                                    </div>
+
+                                    {/* Skills & Technologies */}
+                                    <div className="space-y-3">
+                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary-light flex items-center gap-2 print:text-primary">
+                                            <Code2 size={16} /> Skills & Technologies
+                                        </h3>
+                                        <div className="grid grid-cols-1 gap-2.5">
+                                            {activeResume.skills.map((s, idx) => (
+                                                <div key={idx} className="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col md:flex-row md:items-baseline gap-1.5 md:gap-3 print:border-0 print:p-0 print:text-black">
+                                                    <span className="text-xs font-mono font-bold text-white min-w-[170px] uppercase tracking-wide print:text-black">
+                                                        {s.category}:
+                                                    </span>
+                                                    <span className="text-xs md:text-sm text-text-muted leading-relaxed print:text-gray-800">
+                                                        {s.items}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Experience */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary-light flex items-center gap-2 print:text-primary">
+                                            <Briefcase size={16} /> Professional Experience
+                                        </h3>
+                                        <div className="space-y-4">
+                                            {activeResume.experiences.map((exp, idx) => (
+                                                <div key={idx} className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/40 transition-colors space-y-3 print:border-0 print:p-0">
+                                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                                                        <div>
+                                                            <h4 className="text-base font-bold text-white flex flex-wrap items-center gap-2 print:text-black">
+                                                                <span>{exp.role}</span>
+                                                                <span className="text-primary-light font-normal print:text-primary">({exp.company})</span>
+                                                            </h4>
+                                                        </div>
+                                                        <span className="text-xs font-mono text-text-muted bg-white/5 px-2.5 py-1 rounded-md border border-white/10 self-start sm:self-auto print:border-0 print:text-black">
+                                                            {exp.period}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Verified Store Links */}
+                                                    {(exp.playStore || exp.appStore) && (
+                                                        <div className="flex flex-wrap items-center gap-2.5 pt-1 print:hidden">
+                                                            {exp.playStore && (
+                                                                <a
+                                                                    href={exp.playStore}
+                                                                    target="_blank"
+                                                                    rel="noreferrer"
+                                                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono hover:bg-emerald-500/25 transition-colors"
+                                                                >
+                                                                    <ExternalLink size={12} /> Play Store App
+                                                                </a>
+                                                            )}
+                                                            {exp.appStore && (
+                                                                <a
+                                                                    href={exp.appStore}
+                                                                    target="_blank"
+                                                                    rel="noreferrer"
+                                                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-500/15 border border-blue-500/30 text-blue-300 text-xs font-mono hover:bg-blue-500/25 transition-colors"
+                                                                >
+                                                                    <ExternalLink size={12} /> iOS App Store
+                                                                </a>
+                                                            )}
+                                                        </div>
+                                                    )}
+
+                                                    <ul className="space-y-1.5 text-xs md:text-sm text-text-muted list-disc list-inside print:text-black">
+                                                        {exp.highlights.map((hl, hIdx) => (
+                                                            <li key={hIdx} className="leading-relaxed">
+                                                                {hl.replace(/\*\*/g, '')}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Domain Projects */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-primary-light flex items-center gap-2 print:text-primary">
+                                            <FolderGit2 size={16} /> Key Technical Projects
+                                        </h3>
+                                        <div className="space-y-4">
+                                            {activeResume.projects.map((proj, idx) => (
+                                                <div key={idx} className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/40 transition-colors space-y-2.5 print:border-0 print:p-0">
+                                                    <div className="flex items-center justify-between gap-3">
+                                                        <h4 className="text-base font-bold text-white font-outfit print:text-black">
+                                                            {proj.name}
+                                                        </h4>
+                                                        {proj.repo && (
+                                                            <a
+                                                                href={proj.repo}
+                                                                target="_blank"
+                                                                rel="noreferrer"
+                                                                className="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-white/5 border border-white/15 text-primary-light hover:text-white hover:bg-primary text-xs font-mono transition-colors print:hidden"
+                                                            >
+                                                                <span>Repository</span>
+                                                                <ExternalLink size={12} />
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                    <ul className="space-y-1 text-xs md:text-sm text-text-muted list-disc list-inside print:text-black">
+                                                        {proj.highlights.map((ph, pIdx) => (
+                                                            <li key={pIdx} className="leading-relaxed">
+                                                                {ph.replace(/\*\*/g, '')}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Education & Languages */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/10 print:border-black">
+                                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-2 print:border-0 print:p-0">
+                                            <h4 className="text-xs font-mono font-bold text-primary-light uppercase tracking-wider flex items-center gap-2 print:text-primary">
+                                                <GraduationCap size={15} /> Education
+                                            </h4>
+                                            <div className="text-xs space-y-1 text-gray-300 print:text-black">
+                                                <p className="font-semibold text-white print:text-black">MCA — Shri Khushal Das University (CGPA: 8.1)</p>
+                                                <p className="font-semibold text-white print:text-black">BCA — Kalinga University (CGPA: 7.5)</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-2 print:border-0 print:p-0">
+                                            <h4 className="text-xs font-mono font-bold text-primary-light uppercase tracking-wider flex items-center gap-2 print:text-primary">
+                                                <Globe2 size={15} /> Languages
+                                            </h4>
+                                            <p className="text-xs text-gray-300 print:text-black">
+                                                <strong className="text-white print:text-black">English</strong> (Fluent), <strong className="text-white print:text-black">Hindi</strong> (Native), <strong className="text-white print:text-black">Punjabi</strong> (Native)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 </>

@@ -1,0 +1,260 @@
+\documentclass[10pt, a4paper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot,
+    top=0.75 cm,
+    bottom=0.3 cm,
+    left=0.5 cm,
+    right=0.5 cm,
+    footskip=0.4 cm
+]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 79, 144}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{amsmath}
+\usepackage[
+    pdftitle={Manpreet's CV - Backend},
+    pdfauthor={Manpreet Singh},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
+\usepackage{bookmark}
+\usepackage{lastpage}
+\usepackage{changepage}
+\usepackage{paracol}
+\usepackage{ifthen}
+\usepackage{needspace}
+\usepackage{iftex}
+
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt}
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\topskip}{0pt}
+\setlength{\columnsep}{0cm}
+\makeatletter
+\let\ps@customFooterStyle\ps@plain
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Manpreet Singh - Page \thepage{} of \pageref*{LastPage}}
+}{}{}
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing{\section}{-1pt}{0.22 cm}{0.12 cm}
+
+\renewcommand\labelitemi{$\circ$}
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.06 cm,
+        parsep=0.05 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+}
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{0.2 cm + 0.00001 cm}{0.2 cm + 0.00001 cm}
+}{
+    \end{adjustwidth}
+}
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.35}
+}{
+    \par\kern\topsep
+}
+
+\let\hrefWithoutArrow\href
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+\begin{document}
+    \newcommand{\AND}{\unskip\cleaders\copy\ANDbox\hskip\wd\ANDbox\ignorespaces}
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+    
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont MANPREET SINGH}
+        
+        \vspace{0.25 cm}
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:manpreetsinghkainth25@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}manpreetsinghkainth25@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{tel:+917340007125}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}+917340007125}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/manpreet-singh001}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Linkedin}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/I-am-Manu-Singh}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}Github}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://leetcode.com/u/manu_singh}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}Leetcode}}%
+    \end{header}
+
+\section{Summary}
+\begin{onecolentry}
+Backend Engineer specializing in distributed systems, real-time communication architectures, database design, and high-throughput server backends. Experienced designing fault-tolerant microservices, asynchronous job queues, cryptographic file ingestion pipelines on AWS, and PostgreSQL Row-Level Security (RLS) schemas with algorithmic optimization (\textbf{250+ LeetCode solved}).
+\end{onecolentry}
+
+\section{Skills \& Technologies}
+\begin{onecolentry}
+\textbf{Languages \& Runtimes:} Node.js, TypeScript, Kotlin, Java, Python, SQL, C++, Go (Basics)
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Backend Frameworks \& Protocols:} Express, Ktor Server, NestJS, RESTful APIs, GraphQL, WebSockets, Socket.io, WebRTC Signaling, XML-RPC, HTTP/2
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Databases \& Storage:} PostgreSQL, Supabase, MySQL, SQLite, Redis, Cloud Firestore, Room Database, Database Indexing \& Query Optimization
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Cloud \& Infrastructure:} AWS (S3, EC2, IAM), Firebase Backend Services, Docker, Linux/Unix Shell, Git, NGINX, CI/CD Actions
+\end{onecolentry}
+\vspace{0.10 cm}
+\begin{onecolentry}
+\textbf{Security \& Architecture:} AES-256-GCM Encryption, JWT Authentication, OAuth 2.0, RLS Policies, Distributed Systems, Event-Driven Architecture
+\end{onecolentry}
+
+\section{Experience}
+\begin{twocolentry}{\textbf{Dec 2025 – Apr 2026}}
+    \textbf{App Developer}
+    \textit{(\textbf{Signyn})} | \href{https://play.google.com/store/apps/details?id=com.signyards&hl=en_IN}{\textbf{\underline{Play Store}}} | \href{https://apps.apple.com/us/app/signyn-messenger/id6754750370}{\textbf{\underline{App Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Architected and deployed scalable backend services using \textbf{Node.js} and \textbf{AWS EC2}, powering multi-tenant contractor collaboration workspaces.
+    \item Engineered an enterprise media ingestion service using \textbf{AES-256-GCM} chunked encryption, guaranteeing zero-data-loss streaming to \textbf{AWS S3} under flaky network conditions.
+    \item Built an event-driven delta sync engine over \textbf{Socket.io} with transactional \textbf{SQLite} reconciliation, reducing client-server payload overhead by \textbf{45\%}.
+    \item Implemented token-based authentication and secure session lifecycle management adhering to enterprise security baselines.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Mar 2025 – Aug 2025}}
+    \textbf{App Developer}
+    \textit{(\textbf{Pyngyn / Vimovi Global Tech})} | \href{https://play.google.com/store/apps/details?id=com.pyngyn.io&pcampaignid=web_share}{\textbf{\underline{Play Store}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Designed and managed database schemas and security rules in \textbf{Cloud Firestore} and \textbf{Firebase}, supporting real-time collaborative workspaces.
+    \item Developed asynchronous scheduling pipelines for calendar event reminders and alerts via \textbf{Firebase Cloud Messaging (FCM)}.
+    \item Optimized complex query indices and batch write operations, reducing database document reads and query latencies by \textbf{35\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Oct 2024 – Dec 2024}}
+    \textbf{Systems Software Intern}
+    \textit{(\textbf{FreeMemory}) | \href{https://github.com/I-am-Manu-Singh/FreeMemoryImageCompTesting}{\textbf{\underline{Repo}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Engineered high-throughput compression pipelines utilizing \textbf{C/C++} and \textbf{JNI}, cutting file transmission sizes across network bridges by \textbf{30\%}.
+    \item Set up real-time telemetry pipelines via \textbf{Sentry} and \textbf{Crashlytics}, isolating native memory leaks and reducing error rates by \textbf{25\%}.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textbf{Nov 2021 – Mar 2022}}
+    \textbf{Teaching Assistant — Computer Science \& Algorithms}
+    \textit{(\textbf{Pepcoding}) | \href{https://drive.google.com/file/d/1qHHruIn6jvwxYQePMhbm7gVEAp3OlGjT/view?usp=drive_link}{\textbf{\underline{Certificate}}}}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Instructed \textbf{120+ students} in asymptotic complexity, graph algorithms, dynamic programming, and scalable backend design principles.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Projects}
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/reconcAIle-Hub}{\underline{Repo}}}}
+    \textbf{ReconcAILe Hub — Enterprise TallyPrime Backend Synchronization Bridge}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Engineered a bi-directional synchronization daemon in \textbf{TypeScript} and \textbf{Node.js}, communicating with \textbf{TallyPrime} through automated XML-over-HTTP requests.
+    \item Built an automated bank reconciliation engine that normalizes heterogeneous financial statements and performs automated fuzzy transaction matching.
+    \item Implemented atomic ledger validation algorithms guaranteeing ACID consistency across distributed offline desktop instances and cloud backups.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/MoonlightWebcam}{\underline{Repo}}}}
+    \textbf{MoonlightWebcam — Custom High-Throughput Ktor Streaming Server}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Architected a dedicated high-performance HTTP/WebSocket media server in \textbf{Kotlin} using \textbf{Ktor}, serving real-time video/audio frames at \textbf{60ms latency}.
+    \item Implemented custom network socket throttling, dynamic bitrate adjustment, and concurrent client connection pooling for low-bandwidth LANs.
+    \end{highlights}
+\end{onecolentry}
+\vspace{0.14 cm}
+
+\begin{twocolentry}{\textit{\href{https://github.com/I-am-Manu-Singh/SevaStack-App}{\underline{Repo}}}}
+    \textbf{SevaStack — PostgreSQL RLS \& Realtime Commerce Backend}
+\end{twocolentry}
+\vspace{0.06 cm}
+\begin{onecolentry}
+    \begin{highlights}
+    \item Designed a relational database in \textbf{Supabase (PostgreSQL)} supporting 3 distinct authorization roles (Customers, Merchants, Administrators) via comprehensive Row-Level Security (RLS) policies.
+    \item Developed stored procedures (PL/pgSQL) for atomic checkout transactions, stock deduction locks, and real-time order status webhooks.
+    \end{highlights}
+\end{onecolentry}
+
+\section{Education}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 8.1}}
+    \textbf{Master of Computer Applications (MCA)} \text{ - Shri Khushal Das University}        
+\end{twocolentry}
+\vspace{0.04 cm}
+\begin{twocolentry}{\textit{\textbf{CGPA}: 7.5}}
+    \textbf{Bachelor of Computer Applications (BCA)} \text{ - Kalinga University} 
+\end{twocolentry}
+
+\section{Languages}
+\begin{onecolentry}
+\textbf{English} (Fluent), \textbf{Hindi} (Native), \textbf{Punjabi} (Native)
+\end{onecolentry}
+
+\end{document}
