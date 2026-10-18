@@ -29,7 +29,7 @@ const MobileLabs: React.FC = () => {
                         viewport={{ once: true }}
                     >
                         <h2 className="section-title text-left mb-2">
-                            Mobile <span className="text-primary-light">Labs</span>
+                            Creative Bliss <span className="text-primary-light">Labs</span>
                         </h2>
                       
                     </motion.div>

@@ -171,3 +171,29 @@ html[data-theme='light'] img[src*="hostelshop"] {
   filter: invert(1) brightness(0) !important;
   background-color: transparent !important;
 }
+
+/* Hide scrollbar for Chrome, Safari, Opera and modern browsers while maintaining touch/mouse scrollability */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+
+/* Slim scrollbar for horizontal chip bars */
+.slim-scrollbar::-webkit-scrollbar {
+  height: 4px !important;
+}
+
+.slim-scrollbar::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.slim-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-primary) !important;
+  border-radius: 2px !important;
+}

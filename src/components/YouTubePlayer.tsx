@@ -76,6 +76,10 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
                             autoplay: 1,
                             playsinline: 1,
                             rel: 0,
+                            controls: 0,
+                            disablekb: 0,
+                            fs: 1,
+                            iv_load_policy: 3,
                             modestbranding: 1
                         },
                         events: {
@@ -174,6 +178,8 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     };
 
 
+    const progressPercent = duration > 0 ? Math.min(100, Math.max(0, (currentTime / duration) * 100)) : 0;
+
     return (
         <div ref={containerRef} className="flex flex-col h-full justify-between relative z-10">
             {/* Embedded Responsive Player */}
@@ -205,7 +211,14 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
                 {/* Interactive Seekbar */}
                 <div className="space-y-1 pt-1">
-                    <div className="relative w-full flex items-center group">
+                    <div className="relative w-full flex items-center group py-1">
+                        {/* Background Track with Fill */}
+                        <div className="absolute inset-x-0 h-1.5 group-hover:h-2 bg-dark-card rounded-lg border border-dark overflow-hidden pointer-events-none transition-all">
+                            <div
+                                className="h-full bg-gradient-to-r from-primary to-primary-light rounded-l-lg transition-all"
+                                style={{ width: `${progressPercent}%` }}
+                            />
+                        </div>
                         <input
                             type="range"
                             min={0}
@@ -217,7 +230,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
                             onMouseUp={() => setIsDragging(false)}
                             onTouchStart={() => setIsDragging(true)}
                             onTouchEnd={() => setIsDragging(false)}
-                            className="w-full h-1.5 bg-dark-card rounded-lg appearance-none cursor-pointer accent-primary border border-dark group-hover:h-2 transition-all"
+                            className="relative z-10 w-full h-1.5 appearance-none cursor-pointer bg-transparent accent-primary group-hover:h-2 transition-all focus:outline-none"
                             aria-label="Seek Video"
                         />
                     </div>
