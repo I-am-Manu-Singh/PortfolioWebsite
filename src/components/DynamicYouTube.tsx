@@ -66,10 +66,10 @@ const DynamicYouTube: React.FC<{ channelId?: string; playlistId?: string; title:
                 <div className="relative overflow-hidden rounded-lg mb-3 aspect-video">
                     <img src={latestVideo.thumbnail} alt={latestVideo.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ExternalLink className="text-white" size={32} />
+                        <ExternalLink className="text-text" size={32} />
                     </div>
                 </div>
-                <h5 className="text-white font-medium line-clamp-2 text-sm group-hover:text-primary transition-colors">{latestVideo.title}</h5>
+                <h5 className="text-text font-medium line-clamp-2 text-sm group-hover:text-primary transition-colors">{latestVideo.title}</h5>
                 <p className="text-xs text-text-muted mt-1">{latestVideo.pubDate}</p>
             </a>
         </motion.div>

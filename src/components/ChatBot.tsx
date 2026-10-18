@@ -99,16 +99,16 @@ const ChatBot: React.FC = () => {
                         <div className="p-4 bg-primary/20 border-b border-white/10 flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                                    <Bot size={18} className="text-white" />
+                                    <Bot size={18} className="text-text" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-white">Assistant</h3>
+                                    <h3 className="font-bold text-text">Assistant</h3>
                                     <p className="text-xs text-green-400 flex items-center gap-1">
                                         <span className="w-2 h-2 rounded-full bg-green-400"></span> Online
                                     </p>
                                 </div>
                             </div>
-                            <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white">
+                            <button onClick={() => setIsOpen(false)} className="text-text/70 hover:text-white">
                                 <X size={20} />
                             </button>
                         </div>
@@ -125,8 +125,8 @@ const ChatBot: React.FC = () => {
                             {isTyping && (
                                 <div className="flex justify-start">
                                     <div className="bg-white/10 p-3 rounded-2xl rounded-tl-none flex items-center gap-2">
-                                        <Loader2 size={16} className="animate-spin text-white/50" />
-                                        <span className="text-xs text-white/50">Assistant is thinking...</span>
+                                        <Loader2 size={16} className="animate-spin text-text/50" />
+                                        <span className="text-xs text-text/50">Assistant is thinking...</span>
                                     </div>
                                 </div>
                             )}
@@ -141,7 +141,7 @@ const ChatBot: React.FC = () => {
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={handleKeyPress}
                                 placeholder="Ask skills, projects..."
-                                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-primary/50 text-sm"
+                                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-text placeholder-white/40 focus:outline-none focus:border-primary/50 text-sm"
                             />
                             <button
                                 onClick={handleSend}

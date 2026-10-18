@@ -51,7 +51,7 @@ const Contact: React.FC = () => {
                                     href={profile.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-text-muted hover:text-white transition-colors p-2"
+                                    className="text-text-muted hover:text-text transition-colors p-2"
                                     whileHover={{ y: -3 }}
                                 >
                                     {profile.network === 'GitHub' && <Github size={24} />}

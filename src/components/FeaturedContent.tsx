@@ -289,7 +289,7 @@ const FeaturedContent: React.FC = () => {
                         <div className="p-6 md:p-8 rounded-2xl bg-dark-card border border-white/5 shadow-xl space-y-4 flex flex-col justify-between">
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <span className="p-2.5 bg-[#0077b5] text-white rounded-xl shadow-md">
+                                    <span className="p-2.5 bg-[#0077b5] text-text rounded-xl shadow-md">
                                         <Briefcase size={20} />
                                     </span>
                                     <span className="text-xs font-mono text-emerald-500 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">

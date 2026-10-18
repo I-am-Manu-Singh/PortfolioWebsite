@@ -476,7 +476,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                         animate={{ opacity: 1, scale: 1 }}
                                         className="text-center"
                                     >
-                                        <div className="text-white flex flex-col items-center gap-2">
+                                        <div className="text-text flex flex-col items-center gap-2">
                                             <Unlock size={48} className="animate-bounce" />
                                             <span className="font-mono text-sm tracking-widest">PERSONAL DATA UNLOCKED</span>
                                         </div>

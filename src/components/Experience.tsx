@@ -58,7 +58,7 @@ const ExperienceItem: React.FC<{
 
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
                     <div>
-                        <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{job.position}</h3>
+                        <h3 className="text-xl font-bold text-text group-hover:text-primary transition-colors">{job.position}</h3>
                         <div className="text-lg text-text-muted flex items-center gap-2 font-medium">
                             <Briefcase size={16} className="text-secondary" />
                             <span>{job.company}</span>

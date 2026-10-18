@@ -172,7 +172,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         {[...Array(5)].map((_, i) => (
                             <motion.div
                                 key={`icon-${i}`}
-                                className="absolute text-white/10"
+                                className="absolute text-text/10"
                                 style={{
                                     left: `${Math.random() * 80 + 10}%`,
                                     top: '110%'
@@ -346,7 +346,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         <motion.div
                             animate={{ rotate: 360 }}
                             transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                            className="absolute top-[10%] right-[5%] opacity-10 text-white"
+                            className="absolute top-[10%] right-[5%] opacity-10 text-text"
                         >
                             <GitBranch size={200} />
                         </motion.div>
@@ -431,7 +431,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                         <motion.div
                             animate={{ rotate: 360 }}
                             transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-                            className="absolute top-[20%] right-[10%] opacity-20 text-white"
+                            className="absolute top-[20%] right-[10%] opacity-20 text-text"
                         >
                             <Globe size={300} strokeWidth={1} />
                         </motion.div>
@@ -485,7 +485,7 @@ const SectionBackground: React.FC<SectionBackgroundProps> = ({ variant = 'defaul
                                 }}
                                 transition={{ duration: 5 + Math.random() * 5, repeat: Infinity }}
                             >
-                                {i % 3 === 0 ? <Users size={16} className="text-white/50" /> : <MessageCircle size={16} className="text-primary/50" />}
+                                {i % 3 === 0 ? <Users size={16} className="text-text/50" /> : <MessageCircle size={16} className="text-primary/50" />}
                             </motion.div>
                         ))}
                     </>

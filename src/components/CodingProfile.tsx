@@ -1,14 +1,11 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { resumeData } from '../data/resume';
-
 import SectionBackground from './SectionBackground';
-// import CaricatureCoding from '../assets/caricature_coding_profile.png';
 
 const CodingProfile: React.FC = () => {
     return (
-        <section className="section relative overflow-hidden" id="coding-profile">
+        <section className="section bg-dark relative overflow-hidden" id="coding-profile">
             <SectionBackground variant="coding" />
             <div className="container relative z-10">
                 <div className="flex justify-center items-center mb-12 relative z-10">
@@ -33,35 +30,33 @@ const CodingProfile: React.FC = () => {
                         <motion.img
                             src={`${import.meta.env.BASE_URL}caricature_coding_profile.png`}
                             alt="Coding"
-                            className="w-40 md:w-56 object-contain drop-shadow-2xl relative z-0 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border border-white/10 shadow-lg bg-white/10 backdrop-blur-sm opacity-80"
+                            className="w-40 md:w-56 object-contain drop-shadow-xl relative z-0 pointer-events-auto cursor-grab active:cursor-grabbing hover:scale-110 transition-transform rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm"
                             animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
                             drag
                             dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
                             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                             onError={(e) => {
-                                (e.target as HTMLImageElement).src = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg'; // Fallback to GitHub icon
+                                (e.target as HTMLImageElement).src = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg';
                                 (e.target as HTMLImageElement).classList.add('p-8', 'bg-white/10');
                             }}
                         />
                     </motion.div>
-
-
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* GitHub Stats */}
+                    {/* GitHub Stats - Transparent Container */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="glass-card p-6 flex flex-col items-center relative z-10"
+                        className="p-6 md:p-8 rounded-2xl border border-white/5 bg-transparent flex flex-col items-center relative z-10"
                     >
-                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" className="w-6 h-6 bg-white rounded-full" alt="GitHub" />
+                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-text font-outfit">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" className="w-6 h-6 bg-white rounded-full p-0.5" alt="GitHub" />
                             GitHub Contributions
                         </h3>
-                        <div className="w-full overflow-x-auto flex justify-center">
+                        <div className="w-full overflow-x-auto flex justify-center py-2">
                             <a href={resumeData.basics.profiles[1].url} target="_blank" rel="noreferrer">
                                 <img
                                     src={`https://ghchart.rshah.org/4dabf5/${resumeData.basics.profiles[1].username}`}
@@ -70,25 +65,30 @@ const CodingProfile: React.FC = () => {
                                 />
                             </a>
                         </div>
-                        <a href={resumeData.basics.profiles[1].url} target="_blank" className="mt-4 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm font-bold transition-all flex items-center gap-2">
+                        <a 
+                            href={resumeData.basics.profiles[1].url} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="mt-6 px-6 py-2.5 bg-dark-card hover:bg-dark border border-white/10 text-text rounded-full text-xs font-mono font-bold transition-all flex items-center gap-2 shadow-sm"
+                        >
                             View GitHub Profile
                         </a>
                     </motion.div>
 
-                    {/* LeetCode Stats */}
+                    {/* LeetCode Stats - Transparent Container */}
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="glass-card p-6 flex flex-col items-center relative z-10"
+                        className="p-6 md:p-8 rounded-2xl border border-white/5 bg-transparent flex flex-col items-center relative z-10"
                     >
-                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-[#FFA116]">
+                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-[#FFA116] font-outfit">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/LeetCode_Logo_1.png" alt="LeetCode" className="w-6 h-6 object-contain" />
-                            LeetCode Stats
+                            LeetCode Stats (250+ Solved)
                         </h3>
-                        <div className="w-full flex justify-center">
-                            <a href={resumeData.basics.profiles[2].url} target="_blank" rel="noreferrer" className="w-full max-w-[400px]">
+                        <div className="w-full flex justify-center py-2">
+                            <a href={resumeData.basics.profiles[2].url} target="_blank" rel="noreferrer" className="w-full max-w-[420px]">
                                 <img
                                     src={`https://leetcard.jacoblin.cool/${resumeData.basics.profiles[2].username}?theme=dark&font=Space%20Grotesk&ext=heatmap`}
                                     alt="LeetCode Stats"
@@ -96,15 +96,18 @@ const CodingProfile: React.FC = () => {
                                 />
                             </a>
                         </div>
-                        <a href={resumeData.basics.profiles[2].url} target="_blank" className="mt-4 px-6 py-2 bg-[#FFA116]/10 hover:bg-[#FFA116]/20 text-[#FFA116] rounded-full text-sm font-bold transition-all flex items-center gap-2 border border-[#FFA116]/30">
+                        <a 
+                            href={resumeData.basics.profiles[2].url} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="mt-6 px-6 py-2.5 bg-[#FFA116]/10 hover:bg-[#FFA116]/20 text-[#FFA116] rounded-full text-xs font-mono font-bold transition-all flex items-center gap-2 border border-[#FFA116]/30 shadow-sm"
+                        >
                             View LeetCode Profile
                         </a>
                     </motion.div>
                 </div>
-
-
-            </div >
-        </section >
+            </div>
+        </section>
     );
 };
 

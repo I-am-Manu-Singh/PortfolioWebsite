@@ -47,7 +47,7 @@ const DynamicMedium: React.FC<{ username: string }> = ({ username }) => {
         fetchArticles();
     }, [username]);
 
-    if (loading) return <div className="p-4 flex justify-center"><Loader className="animate-spin text-white/50" /></div>;
+    if (loading) return <div className="p-4 flex justify-center"><Loader className="animate-spin text-text/50" /></div>;
     if (!latestArticle) return null;
 
     return (
@@ -57,7 +57,7 @@ const DynamicMedium: React.FC<{ username: string }> = ({ username }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
         >
-            <div className="flex items-center gap-2 mb-4 text-white">
+            <div className="flex items-center gap-2 mb-4 text-text">
                 <BookOpen size={24} />
                 <h3 className="font-bold text-xl">Latest Publication</h3>
             </div>
@@ -65,11 +65,11 @@ const DynamicMedium: React.FC<{ username: string }> = ({ username }) => {
                 <div className="md:w-1/3 relative overflow-hidden rounded-lg aspect-video md:aspect-auto">
                     <img src={latestArticle.thumbnail} alt={latestArticle.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ExternalLink className="text-white" size={32} />
+                        <ExternalLink className="text-text" size={32} />
                     </div>
                 </div>
                 <div className="md:w-2/3 flex flex-col justify-center">
-                    <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors mb-2">{latestArticle.title}</h4>
+                    <h4 className="text-xl font-bold text-text group-hover:text-primary transition-colors mb-2">{latestArticle.title}</h4>
                     <p className="text-text-muted text-sm mb-4">Read my latest thoughts and technical breakdowns on Medium.</p>
                     <div className="text-xs text-text-muted/60 font-mono flex items-center gap-2">
                         <span>{latestArticle.pubDate}</span>

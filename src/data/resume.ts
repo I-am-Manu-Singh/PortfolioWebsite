@@ -245,25 +245,43 @@ export const resumeData = {
             name: "4 Month JC & KMP Industrial Training",
             issuer: "NeatRoots",
             date: "Dec 2024",
-            skills: ["Jetpack Compose", "Kotlin Multiplatform (KMP)", "Android Development"]
+            skills: ["Jetpack Compose", "Kotlin Multiplatform (KMP)", "Android Development"],
+            certificateUrl: "https://drive.google.com/file/d/1nG8HlUfQ4bUif67gHU6zx_ugfCyXQxKR/view?usp=drive_link"
         },
         {
-            name: "7 Day Devops Workshop",
+            name: "1-Year Industrial Training & Learning",
+            issuer: "Pepcoding",
+            date: "Aug 2022",
+            skills: ["DSA", "Java", "OOP", "DBMS", "OS", "System Design"],
+            certificateUrl: "https://drive.google.com/file/d/1xdElTkd4-41cioXNuSrjKJUM5bd0ofkh/view?usp=drive_link"
+        },
+        {
+            name: "Teaching Assistant Internship",
+            issuer: "Pepcoding",
+            date: "Mar 2022",
+            skills: ["Mentorship", "DSA", "Problem Solving", "Code Review"],
+            certificateUrl: "https://drive.google.com/file/d/1qHHruIn6jvwxYQePMhbm7gVEAp3OlGjT/view?usp=drive_link"
+        },
+        {
+            name: "7 Day DevOps Workshop",
             issuer: "LinuxWorld Informatics Pvt Ltd",
             date: "Jan 2024",
-            skills: ["AWS", "Docker", "Kubernetes", "Git", "Jenkins"]
+            skills: ["AWS", "Docker", "Kubernetes", "Git", "Jenkins"],
+            certificateUrl: "https://drive.google.com/file/d/1gFutvp1dT1qjHyHEAJRrqErnEMy90Hdw/view?usp=drive_link"
         },
         {
-            name: "Crash Course on Python",
+            name: "Crash Course on Python by Google",
             issuer: "Coursera",
             date: "Aug 2020",
-            skills: ["Python"]
+            skills: ["Python", "Scripting", "OOP"],
+            certificateUrl: "https://www.coursera.org/account/accomplishments/verify/VWYEGH8DTA9E"
         },
         {
-            name: "Data Science Orientation",
-            issuer: "Coursera",
+            name: "IBM Data Science Orientation",
+            issuer: "IBM / Credly",
             date: "Aug 2020",
-            skills: ["Data Science"]
+            skills: ["Data Science", "Methodology", "Cloud"],
+            certificateUrl: "https://www.credly.com/badges/2df69c2e-c409-47b0-95e0-60472019ffa5?source=linked_in_profile"
         }
     ],
     education: [

@@ -112,7 +112,7 @@ const Projects: React.FC = () => {
                                                 href={link.url}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="p-2 bg-dark-card/90 backdrop-blur-md rounded-xl text-white/80 hover:text-primary transition-all duration-200 border border-white/10 hover:border-primary/40 shadow-sm"
+                                                className="p-2 bg-dark-card/90 backdrop-blur-md rounded-xl text-text/80 hover:text-primary transition-all duration-200 border border-white/10 hover:border-primary/40 shadow-sm"
                                                 title={link.label}
                                             >
                                                 {link.label.toLowerCase().includes('github') ? (
@@ -129,7 +129,7 @@ const Projects: React.FC = () => {
 
                                 {/* Body Information */}
                                 <div className="p-5 flex flex-col flex-grow">
-                                    <h3 className="text-lg font-bold text-white mb-2.5 group-hover:text-primary-light transition-colors duration-200 leading-snug">
+                                    <h3 className="text-lg font-bold text-text mb-2.5 group-hover:text-primary-light transition-colors duration-200 leading-snug">
                                         {project.name}
                                     </h3>
                                     <p className="text-text-muted text-xs sm:text-sm mb-5 line-clamp-4 leading-relaxed font-normal">

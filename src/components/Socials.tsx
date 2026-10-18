@@ -30,10 +30,10 @@ const Socials: React.FC<SocialsProps> = () => {
                             >
                                 Vibing 🎧
                             </motion.div>
-                            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-2">
+                            <h2 className="text-4xl md:text-6xl font-black text-text tracking-tight mb-2">
                                 Socials <span className="text-primary-light">& Interests</span>
                             </h2>
-                            <p className="text-xl text-white/60 max-w-lg leading-relaxed">
+                            <p className="text-xl text-text/60 max-w-lg leading-relaxed">
                                 Beyond the code, I'm a musician, an introvert , and a tech enthusiast.
                                 Exploring the world one beat at a time.
                             </p>
@@ -46,18 +46,18 @@ const Socials: React.FC<SocialsProps> = () => {
                                     <Youtube size={20} />
                                 </div>
                                 <div className="text-center">
-                                    <div className="text-xl font-bold text-white group-hover:text-red-400">Subscribe</div>
-                                    <div className="text-xs text-white/50">My YouTube Channel</div>
+                                    <div className="text-xl font-bold text-text group-hover:text-red-400">Subscribe</div>
+                                    <div className="text-xs text-text/50">My YouTube Channel</div>
                                 </div>
                             </a>
 
                             <a href="https://www.instagram.com/manu.singh_001/" target="_blank" className="flex-1 min-w-[140px] bg-pink-600/10 border border-pink-500/30 hover:bg-pink-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
-                                <div className="p-2 bg-pink-600 text-white rounded-full group-hover:scale-110 transition-transform">
+                                <div className="p-2 bg-pink-600 text-text rounded-full group-hover:scale-110 transition-transform">
                                     <Instagram size={20} />
                                 </div>
                                 <div className="text-center">
-                                    <div className="text-xl font-bold text-white group-hover:text-pink-400">Follow</div>
-                                    <div className="text-xs text-white/50">On Instagram</div>
+                                    <div className="text-xl font-bold text-text group-hover:text-pink-400">Follow</div>
+                                    <div className="text-xs text-text/50">On Instagram</div>
                                 </div>
                             </a>
                         </div>

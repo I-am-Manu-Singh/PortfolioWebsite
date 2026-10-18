@@ -20,7 +20,9 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
 
     // Find the currently selected resume dynamically
     const activeResume: ResumeData = resumesList.find(r => r.id === selectedResumeId) || resumesList[0];
+    const drivePdfUrl = RESUME_DRIVE_URL;
 
+    // Completely hide main navbar when resume modal is open to eliminate any overlap
     React.useEffect(() => {
         const nav = document.querySelector("nav");
         if (isOpen) {
@@ -32,8 +34,6 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
             if (nav) nav.style.display = "";
         };
     }, [isOpen]);
-
-    const drivePdfUrl = RESUME_DRIVE_URL;
 
     // Helper to format text with **bold** into safe JSX
     const renderFormattedText = (text: string) => {
@@ -50,69 +50,204 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         });
     };
 
-    // 1. Export as PDF (Native window print with print styles)
-    const exportAsPDF = () => {
-        window.print();
+    // Full standalone HTML builder guarantees EVERY section is included:
+    // 1. Header (Name, Phone, Email, Profiles, Specialization Track)
+    // 2. Summary
+    // 3. Technical Skills Matrix
+    // 4. Professional Experience with Highlights
+    // 5. Technical Projects with Highlights
+    // 6. Education
+    // 7. Languages
+    const buildFullResumeHtml = (current: ResumeData) => {
+        return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Manpreet_Singh_${current.id.toUpperCase()}_Resume</title>
+    <style>
+        @page { size: A4; margin: 10mm 12mm; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Calibri', 'Helvetica Neue', Arial, sans-serif; color: #111111; line-height: 1.35; font-size: 9.5pt; margin: 0; padding: 12pt; background: #ffffff; }
+        .resume-header { text-align: center; border-bottom: 2pt solid #004f90; padding-bottom: 6pt; margin-bottom: 8pt; }
+        .candidate-name { font-size: 22pt; text-align: center; color: #004f90; font-weight: bold; letter-spacing: 0.5pt; margin: 0 0 3pt 0; text-transform: uppercase; }
+        .contact-details { text-align: center; font-size: 8.5pt; color: #222222; margin: 0 0 4pt 0; font-family: monospace; }
+        .track-title { text-align: center; font-size: 10pt; font-weight: bold; color: #004f90; text-transform: uppercase; letter-spacing: 1.5pt; margin: 2pt 0 0 0; }
+        .section-header { font-size: 10.5pt; border-bottom: 1.2pt solid #004f90; color: #004f90; margin: 9pt 0 4pt 0; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5pt; }
+        .item-role { font-size: 9.5pt; margin: 0; color: #000000; font-weight: bold; }
+        .item-company { color: #333333; font-weight: 600; font-style: italic; }
+        .item-date { float: right; font-weight: bold; font-size: 8.5pt; color: #333333; }
+        .clear { clear: both; }
+        p { margin: 2pt 0 5pt 0; text-align: justify; }
+        ul { margin: 2pt 0 5pt 0; padding-left: 15pt; }
+        li { margin-bottom: 2pt; text-align: justify; }
+        strong { color: #000000; font-weight: bold; }
+        .skills-table { width: 100%; border-collapse: collapse; margin-top: 3pt; font-size: 9pt; }
+        .skills-table td { padding: 2pt 0; vertical-align: top; }
+        .skills-category { font-weight: bold; width: 26%; color: #000000; }
+        .footer-table { width: 100%; border-collapse: collapse; margin-top: 3pt; }
+        .footer-table td { width: 50%; vertical-align: top; font-size: 9.5pt; }
+    </style>
+</head>
+<body>
+    <div class="resume-header">
+        <div class="candidate-name">MANPREET SINGH</div>
+        <div class="contact-details">
+            manpreetsinghkainth25@gmail.com &nbsp;|&nbsp; +91 7340007125 &nbsp;|&nbsp; linkedin.com/in/manpreet-singh001 &nbsp;|&nbsp; github.com/I-am-Manu-Singh &nbsp;|&nbsp; leetcode.com/u/manu_singh
+        </div>
+        <div class="track-title">${current.title.toUpperCase()} SPECIALIZATION TRACK</div>
+    </div>
+
+    <div class="section-header">PROFESSIONAL SUMMARY</div>
+    <p>${current.summary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+
+    <div class="section-header">TECHNICAL SKILLS MATRIX</div>
+    <table class="skills-table">
+        ${current.skills.map(s => `
+            <tr>
+                <td class="skills-category">${s.category}:</td>
+                <td>${s.items.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</td>
+            </tr>
+        `).join('')}
+    </table>
+
+    <div class="section-header">PROFESSIONAL EXPERIENCE</div>
+    ${current.experiences.map(e => `
+        <div style="margin-bottom: 5.5pt;">
+            <span class="item-date">${e.period}</span>
+            <div class="item-role">${e.role} — <span class="item-company">${e.company}</span></div>
+            <div class="clear"></div>
+            <ul>
+                ${e.highlights.map(h => `<li>${h.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('')}
+
+    <div class="section-header">KEY TECHNICAL PROJECTS</div>
+    ${current.projects.map(p => `
+        <div style="margin-bottom: 5pt;">
+            <div class="item-role">${p.name}</div>
+            <ul>
+                ${p.highlights.map(h => `<li>${h.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('')}
+
+    <div class="section-header">EDUCATION & LANGUAGES</div>
+    <table class="footer-table">
+        <tr>
+            <td><strong>MCA:</strong> Shri Khushal Das University (CGPA: 8.1)<br><strong>BCA:</strong> Kalinga University (CGPA: 7.5)</td>
+            <td><strong>Languages:</strong> English (Fluent), Hindi (Native), Punjabi (Native)</td>
+        </tr>
+    </table>
+</body>
+</html>`;
     };
 
-    // 2. Export as Word (.doc) for the CURRENTLY SELECTED RESUME
+    // 1. Export as PDF (Clean 1-Page / 2-Page dedicated print window with full Header & Footer)
+    const exportAsPDF = () => {
+        const current = activeResume;
+        const html = buildFullResumeHtml(current) + `
+        <script>
+            window.onload = function() {
+                setTimeout(function() {
+                    window.focus();
+                    window.print();
+                }, 300);
+            };
+        </script>`;
+
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+            printWindow.document.open();
+            printWindow.document.write(html);
+            printWindow.document.close();
+        } else {
+            // Fallback: save as HTML printable file directly
+            const blob = new Blob([html], { type: 'text/html;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Manpreet_Singh_${current.id.toUpperCase()}_Resume.html`;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 150);
+        }
+    };
+
+    // 2. Export as Word (.doc) with complete Header, Contact, Summary, Skills, Experience, Projects, Education, Languages
     const exportAsWord = () => {
         const current = activeResume;
-        const headerHtml = `
+        const wordHtml = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
             <head><meta charset='utf-8'><title>${current.title} - Manpreet Singh Resume</title>
             <style>
-                body { font-family: 'Calibri', 'Arial', sans-serif; line-height: 1.4; color: #111; }
-                h1 { font-size: 20pt; text-align: center; color: #0056b3; margin-bottom: 2pt; }
-                .subtitle { text-align: center; font-size: 10pt; color: #555; margin-bottom: 15pt; }
-                h2 { font-size: 13pt; border-bottom: 1.5pt solid #0056b3; color: #0056b3; margin-top: 14pt; margin-bottom: 6pt; }
-                h3 { font-size: 11pt; margin-bottom: 2pt; color: #111; }
-                p, li { font-size: 10pt; }
-                ul { margin-top: 4pt; margin-bottom: 8pt; padding-left: 20pt; }
-                .company { color: #555; font-style: italic; }
-                .period { float: right; font-weight: bold; }
+                body { font-family: 'Calibri', 'Arial', sans-serif; line-height: 1.35; color: #111; font-size: 10pt; }
+                h1 { font-size: 22pt; text-align: center; color: #004f90; margin-bottom: 3pt; text-transform: uppercase; font-weight: bold; }
+                .subtitle { text-align: center; font-size: 9pt; color: #444; margin-bottom: 4pt; font-family: monospace; }
+                .track { text-align: center; font-size: 10.5pt; color: #004f90; font-weight: bold; margin-bottom: 12pt; text-transform: uppercase; letter-spacing: 1.5pt; }
+                h2 { font-size: 11pt; border-bottom: 1.5pt solid #004f90; color: #004f90; margin-top: 10pt; margin-bottom: 4pt; text-transform: uppercase; font-weight: bold; }
+                h3 { font-size: 10pt; margin-bottom: 2pt; color: #111; font-weight: bold; }
+                p, li { font-size: 9.5pt; text-align: justify; }
+                ul { margin-top: 2pt; margin-bottom: 5pt; padding-left: 18pt; }
+                .company { color: #444; font-style: italic; font-weight: bold; }
+                .period { float: right; font-weight: bold; color: #333; }
                 .clear { clear: both; }
+                table { width: 100%; border-collapse: collapse; margin-top: 2pt; }
+                td { padding: 2.5pt 0; vertical-align: top; font-size: 9.5pt; }
+                .cat { font-weight: bold; width: 26%; }
             </style>
             </head><body>
             <h1>MANPREET SINGH</h1>
             <div class='subtitle'>
                 manpreetsinghkainth25@gmail.com | +91 7340007125 | linkedin.com/in/manpreet-singh001 | github.com/I-am-Manu-Singh | leetcode.com/u/manu_singh
             </div>
-            <h2>SUMMARY</h2>
-            <p>${current.summary.replace(/\*\*/g, '')}</p>
-            <h2>TECHNICAL SKILLS</h2>
-            <ul>
-                ${current.skills.map(s => `<li><b>${s.category}:</b> ${s.items.replace(/\*\*/g, '')}</li>`).join('')}
-            </ul>
+            <div class='track'>${current.title.toUpperCase()} SPECIALIZATION TRACK</div>
+
+            <h2>PROFESSIONAL SUMMARY</h2>
+            <p>${current.summary.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</p>
+
+            <h2>TECHNICAL SKILLS MATRIX</h2>
+            <table>
+                ${current.skills.map(s => `
+                    <tr>
+                        <td class='cat'><b>${s.category}:</b></td>
+                        <td>${s.items.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</td>
+                    </tr>
+                `).join('')}
+            </table>
+
             <h2>PROFESSIONAL EXPERIENCE</h2>
             ${current.experiences.map(e => `
-                <div>
+                <div style="margin-bottom: 6pt;">
                     <span class='period'>${e.period}</span>
                     <h3>${e.role} — <span class='company'>${e.company}</span></h3>
                     <div class='clear'></div>
                     <ul>
-                        ${e.highlights.map(h => `<li>${h.replace(/\*\*/g, '')}</li>`).join('')}
+                        ${e.highlights.map(h => `<li>${h.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}
                     </ul>
                 </div>
             `).join('')}
+
             <h2>KEY TECHNICAL PROJECTS</h2>
             ${current.projects.map(p => `
-                <div>
+                <div style="margin-bottom: 5pt;">
                     <h3>${p.name}</h3>
                     <ul>
-                        ${p.highlights.map(h => `<li>${h.replace(/\*\*/g, '')}</li>`).join('')}
+                        ${p.highlights.map(h => `<li>${h.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}</li>`).join('')}
                     </ul>
                 </div>
             `).join('')}
-            <h2>EDUCATION</h2>
-            <p><b>MCA</b> — Shri Khushal Das University (CGPA: 8.1)</p>
-            <p><b>BCA</b> — Kalinga University (CGPA: 7.5)</p>
-            <h2>LANGUAGES</h2>
-            <p>English (Fluent), Hindi (Native), Punjabi (Native)</p>
+
+            <h2>EDUCATION & LANGUAGES</h2>
+            <p><b>MCA:</b> Shri Khushal Das University (CGPA: 8.1) &nbsp;|&nbsp; <b>BCA:</b> Kalinga University (CGPA: 7.5)</p>
+            <p><b>Languages:</b> English (Fluent), Hindi (Native), Punjabi (Native)</p>
             </body></html>
         `;
 
-        const blob = new Blob(['\ufeff', headerHtml], { type: 'application/msword' });
+        const blob = new Blob(['\ufeff', wordHtml], { type: 'application/msword' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -122,23 +257,26 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         setTimeout(() => {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        }, 100);
+        }, 150);
     };
 
-    // 3. Export as CSV for the CURRENTLY SELECTED RESUME
+    // 3. Export as CSV with Header, Summary, Skills, Experience, Projects, Education, and Languages
     const exportAsCSV = () => {
         const current = activeResume;
         const rows: string[][] = [
-            ['Section', 'Category / Role', 'Detail / Highlights'],
-            ['Basics', 'Name', 'Manpreet Singh'],
-            ['Basics', 'Email', 'manpreetsinghkainth25@gmail.com'],
-            ['Basics', 'Phone', '+91 7340007125'],
-            ['Basics', 'Profile Track', current.title],
-            ['Summary', 'Overview', `"${current.summary.replace(/"/g, '""').replace(/\*\*/g, '')}"`],
+            ['Section', 'Category / Role / Entity', 'Details / Content'],
+            ['Header', 'Full Name', 'Manpreet Singh'],
+            ['Header', 'Email Address', 'manpreetsinghkainth25@gmail.com'],
+            ['Header', 'Phone Number', '+91 7340007125'],
+            ['Header', 'Specialization Track', current.title],
+            ['Header', 'LinkedIn Profile', 'https://www.linkedin.com/in/manpreet-singh001'],
+            ['Header', 'GitHub Profile', 'https://github.com/I-am-Manu-Singh'],
+            ['Header', 'LeetCode Profile', 'https://leetcode.com/u/manu_singh (250+ Solved)'],
+            ['Summary', 'Professional Summary', `"${current.summary.replace(/"/g, '""').replace(/\*\*/g, '')}"`],
         ];
 
         current.skills.forEach(s => {
-            rows.push(['Skills', s.category, `"${s.items.replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
+            rows.push(['Skills Matrix', s.category, `"${s.items.replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
         });
 
         current.experiences.forEach(e => {
@@ -146,11 +284,12 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         });
 
         current.projects.forEach(p => {
-            rows.push(['Project', p.name, `"${p.highlights.join(' | ').replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
+            rows.push(['Key Projects', p.name, `"${p.highlights.join(' | ').replace(/"/g, '""').replace(/\*\*/g, '')}"`]);
         });
 
-        rows.push(['Education', 'MCA', 'Shri Khushal Das University (CGPA: 8.1)']);
-        rows.push(['Education', 'BCA', 'Kalinga University (CGPA: 7.5)']);
+        rows.push(['Education', 'Master of Computer Applications (MCA)', 'Shri Khushal Das University (CGPA: 8.1)']);
+        rows.push(['Education', 'Bachelor of Computer Applications (BCA)', 'Kalinga University (CGPA: 7.5)']);
+        rows.push(['Languages', 'Fluent / Native Languages', 'English (Fluent), Hindi (Native), Punjabi (Native)']);
 
         const csvContent = rows.map(r => r.join(',')).join('\r\n');
         const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -163,13 +302,47 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         setTimeout(() => {
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
-        }, 100);
+        }, 150);
     };
 
-    // 4. Export as JSON for the CURRENTLY SELECTED RESUME
+    // 4. Export as JSON with Full Schema
     const exportAsJSON = () => {
         const current = activeResume;
-        const blob = new Blob([JSON.stringify(current, null, 2)], { type: 'application/json' });
+        const fullPayload = {
+            header: {
+                name: "Manpreet Singh",
+                email: "manpreetsinghkainth25@gmail.com",
+                phone: "+91 7340007125",
+                track: current.title,
+                profiles: [
+                    { network: "LinkedIn", url: "https://www.linkedin.com/in/manpreet-singh001" },
+                    { network: "GitHub", url: "https://github.com/I-am-Manu-Singh" },
+                    { network: "LeetCode", url: "https://leetcode.com/u/manu_singh" }
+                ]
+            },
+            summary: current.summary.replace(/\*\*/g, ''),
+            skillsMatrix: current.skills.map(s => ({ category: s.category, items: s.items.replace(/\*\*/g, '') })),
+            experience: current.experiences.map(e => ({
+                role: e.role,
+                company: e.company,
+                period: e.period,
+                playStore: e.playStore,
+                appStore: e.appStore,
+                highlights: e.highlights.map(h => h.replace(/\*\*/g, ''))
+            })),
+            projects: current.projects.map(p => ({
+                name: p.name,
+                repo: p.repo,
+                highlights: p.highlights.map(h => h.replace(/\*\*/g, ''))
+            })),
+            education: [
+                { degree: "MCA", institution: "Shri Khushal Das University", cgpa: "8.1" },
+                { degree: "BCA", institution: "Kalinga University", cgpa: "7.5" }
+            ],
+            languages: ["English (Fluent)", "Hindi (Native)", "Punjabi (Native)"]
+        };
+
+        const blob = new Blob([JSON.stringify(fullPayload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -179,7 +352,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
         setTimeout(() => {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        }, 100);
+        }, 150);
     };
 
     return (
@@ -192,7 +365,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99990] print:hidden"
+                        className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[99990] print:hidden"
                     />
 
                     {/* Modal Dialog with z-[99999] so it floats above top navbar */}
@@ -200,7 +373,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                         initial={{ opacity: 0, scale: 0.98, y: 15 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.98, y: 15 }}
-                        className="fixed inset-2 md:inset-6 lg:inset-8 bg-dark-card border border-white/15 rounded-2xl shadow-2xl z-[99999] flex flex-col overflow-hidden text-text print:static print:inset-0 print:border-0 print:bg-white print:text-black"
+                        className="fixed inset-2 md:inset-6 lg:inset-8 bg-dark-card border border-white/10 rounded-2xl shadow-2xl z-[99999] flex flex-col overflow-hidden text-text print:static print:inset-0 print:border-0 print:bg-white print:text-black"
                     >
                         {/* Header Bar */}
                         <div className="flex flex-wrap items-center justify-between p-4 md:px-6 border-b border-dark bg-dark-card gap-3 print:hidden">
@@ -260,7 +433,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                     </button>
 
                                     {isExportMenuOpen && (
-                                        <div className="absolute right-0 mt-2 w-56 bg-dark-card border border-white/20 rounded-xl shadow-2xl py-2 z-[100000] ring-1 ring-black/10">
+                                        <div className="absolute right-0 mt-2 w-64 bg-dark-card border border-white/20 rounded-xl shadow-2xl py-2 z-[100000] ring-1 ring-black/10">
                                             <div className="px-3.5 py-1 text-[10px] font-mono uppercase text-text-muted border-b border-dark mb-1">
                                                 Export: {activeResume.title}
                                             </div>
@@ -269,7 +442,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                                 className="w-full px-3.5 py-2 text-left text-xs font-mono text-text hover:bg-dark flex items-center gap-2.5 transition-colors cursor-pointer"
                                             >
                                                 <Printer size={14} className="text-primary" />
-                                                <span>Print / Save as PDF</span>
+                                                <span>Print / Save as PDF (All Sections)</span>
                                             </button>
                                             <button
                                                 onClick={() => { exportAsWord(); setIsExportMenuOpen(false); }}
