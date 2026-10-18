@@ -293,20 +293,38 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
         }
     }, []);
 
-    // 20x20 Grid (400 Shards) for evenness and perfect percentage-based coverage
-    const gridSize = 20;
-    const totalShards = gridSize * gridSize;
+    // Card-proportional Matrix Shards (3 Columns x 4 Rows = 12 card-sized shards) with dynamic 3D shuffling
+    const gridCols = 3;
+    const gridRows = 4;
+    const totalShards = gridCols * gridRows;
 
-    const shards = useMemo(() => Array.from({ length: totalShards }, (_, i) => ({
-        id: i,
-        row: Math.floor(i / gridSize),
-        col: i % gridSize,
-        char: String.fromCharCode(0x30A0 + Math.random() * 96),
-        // Random "Chaos" Initial Position
-        chaosX: (Math.random() - 0.5) * 1500,
-        chaosY: (Math.random() - 0.5) * 1000,
-        chaosZ: (Math.random() - 0.5) * 800
-    })), [gridSize, totalShards]);
+    const shards = useMemo(() => {
+        // Create an array of target slots for shuffling
+        const slots = Array.from({ length: totalShards }, (_, i) => i);
+        // Shuffle target positions so card pieces swap locations during matrix break
+        const shuffledSlots = [...slots].sort(() => Math.random() - 0.5);
+
+        return Array.from({ length: totalShards }, (_, i) => {
+            const targetSlot = shuffledSlots[i];
+            const targetRow = Math.floor(targetSlot / gridCols);
+            const targetCol = targetSlot % gridCols;
+
+            return {
+                id: i,
+                row: Math.floor(i / gridCols),
+                col: i % gridCols,
+                targetRow,
+                targetCol,
+                char: String.fromCharCode(0x30A0 + Math.random() * 96),
+                // 3D Matrix Chaos & Shuffle offsets
+                chaosX: (targetCol - (i % gridCols)) * 130 + (Math.random() - 0.5) * 350,
+                chaosY: (targetRow - Math.floor(i / gridCols)) * 160 + (Math.random() - 0.5) * 350,
+                chaosZ: (Math.random() - 0.5) * 500,
+                rotateZ: (Math.random() - 0.5) * 30,
+                rotateX: (Math.random() - 0.5) * 45
+            };
+        });
+    }, [totalShards]);
 
     return (
         <section
@@ -474,10 +492,10 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                         if (!containerRect) return null;
 
                                         // Local Grid Position (relative to this container)
-                                        const shardWidth = "5%";
-                                        const shardHeight = "5%";
-                                        const targetX = shard.col * (containerRect.width / gridSize);
-                                        const targetY = shard.row * (containerRect.height / gridSize);
+                                        const shardWidth = `${100 / gridCols}%`;
+                                        const shardHeight = `${100 / gridRows}%`;
+                                        const targetX = shard.col * (containerRect.width / gridCols);
+                                        const targetY = shard.row * (containerRect.height / gridRows);
                                         const bgX = targetX;
                                         const bgY = targetY;
 
@@ -495,13 +513,13 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                         return (
                                             <motion.div
                                                 key={shard.id}
-                                                className="absolute bg-no-repeat backface-hidden"
+                                                className="absolute bg-no-repeat backface-hidden rounded-xl overflow-hidden shadow-2xl border border-white/20"
                                                 style={{
                                                     width: shardWidth,
                                                     height: shardHeight,
                                                     transformStyle: 'preserve-3d',
-                                                    top: `${shard.row * 5}%`,
-                                                    left: `${shard.col * 5}%`
+                                                    top: `${(shard.row / gridRows) * 100}%`,
+                                                    left: `${(shard.col / gridCols) * 100}%`
                                                 }}
                                                 initial={{ x: 0, y: 0, z: 0, rotateY: 0, opacity: 1 }}
                                                 animate={(() => {
@@ -511,9 +529,11 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                                                         case 'breaking-disperse':
                                                         case 'shattered':
                                                             return {
-                                                                x: isPressing ? [currentX, currentX + Math.sin(shard.id) * 20, currentX] : currentX,
-                                                                y: isPressing ? [currentY, currentY + Math.cos(shard.id) * 20, currentY] : currentY,
+                                                                x: isPressing ? [currentX, currentX + Math.sin(shard.id) * 35, currentX] : currentX,
+                                                                y: isPressing ? [currentY, currentY + Math.cos(shard.id) * 35, currentY] : currentY,
                                                                 z: currentZ,
+                                                                rotateX: isPressing ? [shard.rotateX, 0, shard.rotateX] : shard.rotateX,
+                                                                rotateZ: isPressing ? [shard.rotateZ, shard.rotateZ * 1.5, shard.rotateZ] : shard.rotateZ,
                                                                 rotateY: isPressing ? [180, 0, 180] : 180, // TUMBLE while pressing
                                                                 opacity: 1,
                                                                 scale: isPressing ? 1.1 : 1.2

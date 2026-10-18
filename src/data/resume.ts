@@ -37,10 +37,12 @@ export const resumeData = {
             company: "Signyn",
             position: "Mobile Application Developer",
             startDate: "Dec 2025",
-            endDate: "Present",
+            endDate: "Apr 2026",
             highlights: [
-                "Working on a Chat App made for contractors for their work and progress updates.",
-                "Tech Stack: React Native"
+                "Architected and engineered high-performance enterprise real-time messaging and tactical collaboration application for contractors and field engineers.",
+                "Implemented secure end-to-end encrypted messaging, media synchronization pipelines, and offline-first state persistence.",
+                "Optimized app startup performance and reduced thread latency using native bridges and reactive streams.",
+                "Tech Stack: React Native, TypeScript, WebRTC, Redux Toolkit, Reanimated, Firebase"
             ]
         },
         {

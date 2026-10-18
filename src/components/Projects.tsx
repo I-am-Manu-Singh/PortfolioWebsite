@@ -2,9 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, Code, Smartphone } from 'lucide-react';
 import { resumeData } from '../data/resume';
+import { useTheme } from '../context/ThemeContext';
 import SectionBackground from './SectionBackground';
 
 const Projects: React.FC = () => {
+    const { theme } = useTheme();
     return (
         <section className="section bg-dark-card/30 perspective-1000 relative overflow-hidden" id="projects">
             <SectionBackground variant="projects" />
@@ -81,7 +83,7 @@ const Projects: React.FC = () => {
                                                 <img
                                                     src={logoSrc}
                                                     alt={`${project.name} Logo`}
-                                                    className="w-20 h-20 object-contain rounded-2xl shadow-xl relative z-10 border border-white/20 bg-dark-bg/80 p-1.5"
+                                                    className={`w-20 h-20 object-contain rounded-2xl shadow-xl relative z-10 border border-white/20 bg-dark-bg/80 p-1.5 ${project.name.toLowerCase().includes("hostel shop") && theme === "light" ? "filter invert contrast-200 brightness-0" : ""}`}
                                                     onError={(e) => {
                                                         (e.target as HTMLElement).style.display = 'none';
                                                     }}
