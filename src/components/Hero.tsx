@@ -1,7 +1,8 @@
+import { RESUME_DRIVE_URL } from '../config/links';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Eye, Unlock, FileText, ExternalLink } from 'lucide-react';
 import { resumeData } from '../data/resume';
 const ProfileImage = `${import.meta.env.BASE_URL}profile.jpg`;
 const ProfileImagePersonal = `${import.meta.env.BASE_URL}profile_person.png`;
@@ -388,15 +389,23 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             <span className="absolute inset-0 w-full h-full bg-primary/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
                             <Mail size={18} className="relative z-10" /> <span className="relative z-10">Contact Me</span>
                         </motion.a>
-                        <motion.a
-                            href="https://drive.google.com/file/d/1fOB1uf98-bUVBf24-ro_oLZYKddj-gKq/view?usp=sharing"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-8 py-3 bg-primary text-white rounded-full font-mono hover:bg-primary-light transition-all shadow-lg shadow-primary/25 flex items-center gap-2"
+                        <motion.button
+                            onClick={() => setIsPreviewOpen(true)}
+                            className="px-6 py-3 bg-primary text-white rounded-full font-mono hover:bg-primary-light transition-all shadow-lg shadow-primary/25 flex items-center gap-2 cursor-pointer"
                             whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0,79,144,0.5)" }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            Preview Resume <Eye size={18} />
+                            <FileText size={18} /> Preview Resumes (7 Tracks)
+                        </motion.button>
+                        <motion.a
+                            href={RESUME_DRIVE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-6 py-3 bg-white/10 hover:bg-white/15 text-white border border-white/20 rounded-full font-mono transition-all flex items-center gap-2"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
+                            <span>Google Drive Resume</span> <ExternalLink size={16} />
                         </motion.a>
                         {visitCount && (
                             <motion.div

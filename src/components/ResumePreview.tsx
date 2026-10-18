@@ -1,3 +1,4 @@
+import { RESUME_DRIVE_URL } from '../config/links';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -18,7 +19,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
     const [isExportMenuOpen, setIsExportMenuOpen] = useState<boolean>(false);
 
     const activeResume: ResumeData = resumesList.find(r => r.id === selectedResumeId) || resumesList[0];
-    const drivePdfUrl = "https://drive.google.com/file/d/17-nGvDHYbfJ7AWoBJKcEbikvQr1JXUv6/view?usp=sharing";
+    const drivePdfUrl = RESUME_DRIVE_URL;
 
     // Export Handlers
     const exportAsPDF = () => {
