@@ -395,8 +395,8 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0,79,144,0.5)" }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            <FileText size={18} /> Preview Resumes (7 Tracks)
-                        </motion.button>
+                            <FileText size={18} /> Preview Resumes
+                               </motion.button>
                         <motion.a
                             href={RESUME_DRIVE_URL}
                             target="_blank"
@@ -405,7 +405,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveTab, isUnlocked, setIsUnlocked }) 
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            <span>Google Drive Resume</span> <ExternalLink size={16} />
+                            <span>Download Resume</span> <ExternalLink size={16} />
                         </motion.a>
                         {visitCount && (
                             <motion.div

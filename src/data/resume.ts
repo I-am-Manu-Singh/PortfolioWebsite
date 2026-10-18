@@ -6,7 +6,7 @@ export const resumeData = {
         email: "manpreetsinghkainth25@gmail.com",
         phone: "+917340007125",
         updatedAt: "January 2026",
-        summary: "Passionate Android & Web Developer building seamless mobile experiences with KMP & React Native. Transforming complex problems into elegant, structured solutions.",
+        summary: "Passionate App Developer building seamless mobile experiences with KMP, React Native & Flutter. Transforming complex problems into elegant, structured solutions.",
         profiles: [
             {
                 network: "LinkedIn",

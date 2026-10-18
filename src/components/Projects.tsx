@@ -21,7 +21,7 @@ const Projects: React.FC = () => {
                         Featured <span className="gradient-text-animated">Engineering Projects</span>
                     </h2>
                     <p className="text-text-muted text-sm sm:text-base">
-                        Production-grade mobile applications, cross-platform audio DAWs, real-time multimedia streaming suites, and enterprise automation hubs built across Kotlin Multiplatform, Flutter, and React Native.
+                        Production-grade cross-platform apps and websites built across Kotlin Multiplatform, Flutter, and React Native.
                     </p>
                 </motion.div>
 

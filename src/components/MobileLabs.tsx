@@ -22,7 +22,7 @@ const MobileLabs: React.FC = () => {
 
             <div className="container relative z-10">
                 {/* Header */}
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+                <div className="flex justify-center items-center mb-12 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}

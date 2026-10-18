@@ -126,7 +126,7 @@ const FeaturedContent: React.FC = () => {
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-3">
         <a 
-          href="https://linkedin.com" 
+          href="https://www.linkedin.com/in/manpreet-singh001/recent-activity/all/" 
           target="_blank" 
           rel="noreferrer" 
           className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono font-bold text-text-muted bg-white/5 border border-dark rounded-xl hover:bg-white/10 transition-colors"
@@ -136,7 +136,7 @@ const FeaturedContent: React.FC = () => {
         </a>
         
         <a 
-          href="https://linkedin.com" 
+          href="https://www.linkedin.com/in/manpreet-singh001/" 
           target="_blank" 
           rel="noreferrer" 
           className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono font-bold text-white bg-[#0077b5] border border-[#0077b5]/20 rounded-xl hover:bg-[#006297] transition-colors shadow-md shadow-[#0077b5]/10"

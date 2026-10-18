@@ -192,9 +192,7 @@ const Experience: React.FC = () => {
                     >
                         Work <span className="text-primary-light">Experience</span>
                     </motion.h2>
-                    <p className="text-text-muted text-center max-w-xl text-sm mb-6 font-mono">
-                        Proven production contributions across Enterprise Messaging, Edge DSP, and Cross-Platform Architectures.
-                    </p>
+                  
 
 
 

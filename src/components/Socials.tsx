@@ -1,7 +1,7 @@
 import Interests from './Interests';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Youtube, Instagram } from 'lucide-react';
+import { Youtube, Instagram,ArrowUpRight } from 'lucide-react';
 import { resumeData } from '../data/resume';
 
 
@@ -43,23 +43,39 @@ const Socials: React.FC<SocialsProps> = () => {
                         {/* Social Stats Buttons */}
                         <div className="flex flex-wrap gap-4 w-full">
                             <a href={resumeData.youtube.channel} target="_blank" className="flex-1 min-w-[140px] bg-red-600/10 border border-red-500/30 hover:bg-red-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
-                                <div className="p-2 bg-red-600 text-white rounded-full group-hover:scale-110 transition-transform">
-                                    <Youtube size={20} />
-                                </div>
+                               
                                 <div className="text-center">
                                     <div className="text-xl font-bold text-text group-hover:text-red-400">Subscribe</div>
                                     <div className="text-xs text-text/50">My YouTube Channel</div>
                                 </div>
+                                   <a
+                        href="https://www.youtube.com/@manu-singh/playlists/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-mono text-xs font-semibold hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-pink-500/20"
+                    >
+                        <Youtube size={15} />
+                        <span>@manu-singh</span>
+                        <ArrowUpRight size={13} />
+                    </a>
                             </a>
 
                             <a href="https://www.instagram.com/manu.singh_001/" target="_blank" className="flex-1 min-w-[140px] bg-pink-600/10 border border-pink-500/30 hover:bg-pink-600/20 p-4 rounded-xl flex flex-col items-center gap-2 group transition-all">
-                                <div className="p-2 bg-pink-600 text-text rounded-full group-hover:scale-110 transition-transform">
-                                    <Instagram size={20} />
-                                </div>
+                               
                                 <div className="text-center">
                                     <div className="text-xl font-bold text-text group-hover:text-pink-400">Follow</div>
                                     <div className="text-xs text-text/50">On Instagram</div>
                                 </div>
+                                   <a
+                        href="https://www.instagram.com/manu.singh_001/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-mono text-xs font-semibold hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-pink-500/20"
+                    >
+                        <Instagram size={15} />
+                        <span>@manu.singh_001</span>
+                        <ArrowUpRight size={13} />
+                    </a>
                             </a>
                         </div>
 

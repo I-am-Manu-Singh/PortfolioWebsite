@@ -46,6 +46,17 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const [isFullscreenModal, setIsFullscreenModal] = useState<boolean>(false);
 
+    // Prevent background scrolling when theater modal is open
+    useEffect(() => {
+        if (isFullscreenModal) {
+            const originalOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = originalOverflow;
+            };
+        }
+    }, [isFullscreenModal]);
+
     // Load YouTube IFrame API if not present
     useEffect(() => {
         if (!window.YT) {
@@ -65,7 +76,6 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             if (window.YT && window.YT.Player) {
                 if (playerRef.current) {
                     try {
-                        // Cue video without auto-starting playback
                         if (typeof playerRef.current.cueVideoById === 'function') {
                             playerRef.current.cueVideoById(videoId);
                         } else {
@@ -91,7 +101,6 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
                         },
                         events: {
                             onReady: (event: any) => {
-                                // Do NOT playVideo() automatically on load!
                                 setIsPlaying(false);
                                 setDuration(event.target.getDuration() || 0);
                             },
@@ -139,10 +148,32 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         return () => clearInterval(timer);
     }, [isDragging, duration]);
 
+    const openTheaterModal = () => {
+        if (playerRef.current && typeof playerRef.current.pauseVideo === "function") {
+            try {
+                playerRef.current.pauseVideo();
+                setIsPlaying(false);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        setIsFullscreenModal(true);
+    };
+
+    const closeTheaterModal = () => {
+        setIsFullscreenModal(false);
+    };
+
+    // Robust Toggle Play/Pause using direct player state check
     const togglePlay = () => {
         if (!playerRef.current) return;
         try {
-            if (isPlaying) {
+            const state = typeof playerRef.current.getPlayerState === 'function' 
+                ? playerRef.current.getPlayerState() 
+                : (isPlaying ? 1 : 2);
+            
+            // 1: PLAYING, 3: BUFFERING
+            if (state === 1 || state === 3) {
                 playerRef.current.pauseVideo();
                 setIsPlaying(false);
             } else {
@@ -184,18 +215,16 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         return `${m}:${s < 10 ? '0' : ''}${s}`;
     };
 
-
     const progressPercent = duration > 0 ? Math.min(100, Math.max(0, (currentTime / duration) * 100)) : 0;
 
     return (
         <div ref={containerRef} className="flex flex-col h-full justify-between relative z-10">
-            {/* Embedded Responsive Player */}
+            {/* Embedded Responsive Player with Proper Fit (Preserving aspect ratio without cut-off) */}
             <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-xl mb-4 bg-black border border-dark group select-none">
-                {/* Scaled iframe with top/bottom crop to completely conceal YouTube channel info & share overlays */}
                 <div className="absolute inset-0 overflow-hidden flex items-center justify-center pointer-events-none">
                     <div 
                         id={iframeIdRef.current} 
-                        className="w-[108%] h-[126%] -mt-[4%] pointer-events-none" 
+                        className="w-full h-full pointer-events-none" 
                     />
                 </div>
 
@@ -217,7 +246,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
                     type="button"
                     onClick={(e) => {
                         e.stopPropagation();
-                        setIsFullscreenModal(true);
+                        openTheaterModal();
                     }}
                     className="absolute top-2.5 right-2.5 p-2 rounded-lg bg-dark/90 backdrop-blur-md text-text hover:text-white border border-dark hover:border-primary/50 shadow-xl opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-20 flex items-center gap-1.5 text-xs font-mono"
                     title="Open In-Dialog Theater Mode"
@@ -320,7 +349,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
                     <button
                         type="button"
-                        onClick={() => setIsFullscreenModal(true)}
+                        onClick={openTheaterModal}
                         className="p-2 rounded-full text-text-muted hover:text-text hover:bg-dark transition-colors cursor-pointer"
                         title="Open Theater Dialog"
                     >
@@ -329,13 +358,13 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
                 </div>
             </div>
 
-            {/* Responsive Fullscreen Theater Dialog with Native-Clipped Player & Controls */}
+            {/* Responsive Fullscreen Theater Dialog with Fixed Viewport & Background Scroll Lock */}
             {isFullscreenModal && (
-                <div className="fixed inset-0 z-[999999] bg-black/90 backdrop-blur-xl flex items-center justify-center p-3 sm:p-6 md:p-8 animate-fade-in">
-                    <div className="relative w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl bg-dark-card border border-dark shadow-2xl overflow-hidden">
-                        {/* Header */}
-                        <div className="flex items-center justify-between px-5 py-3.5 border-b border-dark bg-dark">
-                            <div className="flex items-center gap-2.5 truncate pr-4">
+                <div className="fixed inset-0 z-[999999] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-2 sm:p-4 md:p-6 animate-fade-in overflow-hidden">
+                    <div className="relative w-full max-w-6xl h-[92vh] max-h-[900px] flex flex-col rounded-2xl bg-dark-card border border-dark shadow-2xl overflow-hidden">
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between px-5 py-3 border-b border-dark bg-dark shrink-0">
+                            <div className="flex items-center gap-3 truncate pr-4">
                                 <span className={`text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full border ${badgeColor}`}>
                                     {badge}
                                 </span>
@@ -345,7 +374,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
                             </div>
                             <button
                                 type="button"
-                                onClick={() => setIsFullscreenModal(false)}
+                                onClick={closeTheaterModal}
                                 className="p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-dark-card border border-transparent hover:border-dark transition-colors cursor-pointer shrink-0"
                                 title="Close Theater"
                             >
@@ -353,50 +382,62 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
                             </button>
                         </div>
 
-                        {/* Video Viewport (Responsive & Orientation-adaptive with Native Edge Clipping) */}
-                        <div className="relative w-full aspect-video bg-black overflow-hidden flex items-center justify-center">
+                        {/* Video Viewport: Clean 100% responsive fit matching orientation without cutting off content */}
+                        <div className="relative flex-1 w-full bg-black overflow-hidden flex items-center justify-center">
                             <iframe
                                 src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1`}
                                 title={title}
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                                className="w-[105%] h-[122%] -mt-[3%] border-0 pointer-events-auto"
+                                className="w-full h-full border-0 pointer-events-auto"
                             />
                         </div>
 
-                        {/* Control Bar */}
-                        <div className="p-4 bg-dark border-t border-dark flex items-center justify-between text-xs font-mono text-text-muted">
-                            <div className="truncate pr-4">
-                                <span>{subtitle || title}</span>
-                                <span className="ml-3 text-text">Track {currentIndex} of {totalCount}</span>
+                        {/* Bottom Control Tray with Track Info, Prev/Next & Exit */}
+                        <div className="p-4 bg-dark border-t border-dark shrink-0 space-y-2">
+                            {/* Track Info & Time */}
+                            <div className="flex items-center justify-between text-xs font-mono text-text-muted">
+                                <span className="truncate pr-4 text-text font-medium">{subtitle || title}</span>
+                                <span className="shrink-0">Track {currentIndex} of {totalCount}</span>
                             </div>
-                            <div className="flex items-center gap-2 shrink-0">
-                                <button
-                                    type="button"
-                                    onClick={onPrev}
-                                    disabled={!hasPrev}
-                                    className="p-2 rounded-lg bg-dark-card text-text-muted hover:text-text border border-dark disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                                    title="Previous Track"
-                                >
-                                    <SkipBack size={16} />
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={onNext}
-                                    disabled={!hasNext}
-                                    className="p-2 rounded-lg bg-dark-card text-text-muted hover:text-text border border-dark disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                                    title="Next Track"
-                                >
-                                    <SkipForward size={16} />
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsFullscreenModal(false)}
-                                    className="px-3 py-1.5 rounded-lg bg-primary hover:bg-primary-light text-white font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
-                                >
-                                    <Minimize2 size={13} />
-                                    <span>Exit</span>
-                                </button>
+
+                            {/* Controls and Actions */}
+                            <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={onPrev}
+                                        disabled={!hasPrev}
+                                        className="p-2 rounded-lg bg-dark-card text-text-muted hover:text-text border border-dark disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                                        title="Previous Track"
+                                    >
+                                        <SkipBack size={18} />
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={onNext}
+                                        disabled={!hasNext}
+                                        className="p-2 rounded-lg bg-dark-card text-text-muted hover:text-text border border-dark disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                                        title="Next Track"
+                                    >
+                                        <SkipForward size={18} />
+                                    </button>
+                                </div>
+
+                                <div className="flex items-center gap-3">
+                                    <span className="text-[11px] font-mono text-text-muted">
+                                        Fullscreen Theater
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={closeTheaterModal}
+                                        className="px-4 py-2 rounded-lg bg-primary hover:bg-primary-light text-white text-xs font-mono font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-md shadow-primary/20"
+                                    >
+                                        <Minimize2 size={14} />
+                                        <span>Exit Theater</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

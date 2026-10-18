@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Music, Instagram, ArrowUpRight, Play, Layers, Compass } from "lucide-react";
+import { Music, Play, Layers, Compass } from "lucide-react";
 import SectionBackground from "./SectionBackground";
 import YouTubePlayer from "./YouTubePlayer";
 
@@ -366,9 +366,7 @@ const Interests: React.FC = () => {
                     >
                         Life <span className="text-primary-light">Beyond Code</span>
                     </motion.h2>
-                    <p className="text-text-muted max-w-xl text-xs md:text-sm font-mono">
-                        Music, acoustics, and vocal disciplines inspire how I design high-performance architectures, low-latency DSP systems, and intuitive user experiences.
-                    </p>
+                  
 
                     {/* Dynamic Instrument Caricature */}
                     <div className="mt-4 lg:mt-0 lg:absolute lg:right-6 lg:-top-16 z-20 flex justify-center pointer-events-none">
@@ -522,32 +520,7 @@ const Interests: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Bottom Instagram Verified Connector */}
-                <div className="p-6 md:p-8 rounded-2xl bg-dark-card border border-dark shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3.5 bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 rounded-2xl text-white shadow-md shrink-0">
-                            <Instagram size={28} />
-                        </div>
-                        <div>
-                            <h3 className="text-lg md:text-xl font-bold text-text">
-                                Connect on Instagram
-                            </h3>
-                            <p className="text-xs text-text-muted font-mono mt-0.5">
-                                Follow developer stories, live music rehearsals, and creative explorations.
-                            </p>
-                        </div>
-                    </div>
-                    <a
-                        href="https://www.instagram.com/manu.singh_001/"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-mono text-xs font-semibold hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-pink-500/20"
-                    >
-                        <Instagram size={15} />
-                        <span>@manu.singh_001</span>
-                        <ArrowUpRight size={13} />
-                    </a>
-                </div>
+                
             </div>
         </section>
     );
