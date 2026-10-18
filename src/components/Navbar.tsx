@@ -42,7 +42,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab = "work", onBackToWork }) => 
     return (
         <>
             <motion.nav
-                className="fixed top-0 left-0 right-0 z-50 px-4 py-2.5 bg-dark/85 backdrop-blur-md border-b border-dark shadow-sm"
+                className="fixed top-0 left-0 right-0 z-50 px-4 py-2.5 bg-dark/85 backdrop-blur-md border-b border-white/5 shadow-sm"
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -51,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab = "work", onBackToWork }) => 
                     {/* Logo & Name */}
                     <div className="flex items-center gap-2.5 shrink-0">
                         <a href="#hero" className="flex items-center gap-2.5 group cursor-pointer">
-                            <div className="relative w-9 h-9 rounded-full overflow-hidden border border-primary/50 group-hover:border-primary transition-colors">
+                            <div className="relative w-9 h-9 rounded-full overflow-hidden border border-dark group-hover:border-primary transition-colors">
                                 <img src={ProfileImage} alt="Manpreet Singh" className="w-full h-full object-cover object-top" />
                             </div>
                             <span className="hidden sm:inline font-bold text-sm tracking-tight text-text group-hover:text-primary transition-colors">

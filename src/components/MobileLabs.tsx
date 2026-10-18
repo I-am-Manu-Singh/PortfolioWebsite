@@ -35,21 +35,22 @@ const MobileLabs: React.FC = () => {
                     </motion.div>
                 </div>
 
-                {/* Google Play Full-Width Aspect-Ratio Banner (No Cropping) */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-10 rounded-2xl overflow-hidden border border-dark shadow-xl bg-dark-card"
-                >
-                    <div className="w-full bg-[#0a0a14] flex items-center justify-center p-1 sm:p-2">
-                        <img
-                            src={bannerSrc}
-                            alt="Creative Bliss Labs - Google Play Banner"
-                            className="w-full h-auto max-h-[380px] object-contain mx-auto"
-                        />
-                    </div>
-                </motion.div>
+            {/* Google Play Full-Width Aspect-Ratio Banner (No Cropping) */}
+<motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    className="mb-10 rounded-2xl overflow-hidden border border-dark shadow-xl bg-dark-card"
+>
+    {/* Added rounded-2xl here so the inner background snaps to the border */}
+    <div className="w-full bg-[#0a0a14] flex items-center justify-center p-1 sm:p-2 rounded-2xl">
+        <img
+            src={bannerSrc}
+            alt="Creative Bliss Labs - Google Play Banner"
+            className="w-full h-auto max-h-[380px] object-contain mx-auto rounded-xl"
+        />
+    </div>
+</motion.div>
 
                 {/* Sole Featured Production Flagship: Bani: Nitnem & Steek Companion */}
                 <motion.div

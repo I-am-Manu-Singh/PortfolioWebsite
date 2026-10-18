@@ -1,8 +1,9 @@
+import { useTheme } from '../context/ThemeContext';
 import { RESUME_DRIVE_URL } from '../config/links';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    X, Download, ExternalLink, Briefcase, Code2, FolderGit2, 
+    X, Download, ExternalLink, Briefcase, Code2, Sun, Moon, FolderGit2, 
     GraduationCap, Globe2, FileText, CheckCircle2, ChevronDown, 
     Printer, FileSpreadsheet, FileCode
 } from 'lucide-react';
@@ -14,6 +15,7 @@ interface ResumePreviewProps {
 }
 
 const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
+    const { theme, toggleTheme } = useTheme();
     const [selectedResumeId, setSelectedResumeId] = useState<string>('sde');
     const [viewMode, setViewMode] = useState<'interactive' | 'pdf'>('interactive');
     const [isExportMenuOpen, setIsExportMenuOpen] = useState<boolean>(false);
@@ -503,6 +505,15 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ isOpen, onClose }) => {
                                         </div>
                                     )}
                                 </div>
+
+                                <button
+                                    onClick={toggleTheme}
+                                    className="p-2 rounded-lg text-text-muted hover:text-text hover:bg-dark transition-colors border border-transparent hover:border-dark cursor-pointer"
+                                    aria-label="Toggle Theme"
+                                    title="Toggle Light / Dark Theme"
+                                >
+                                    {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+                                </button>
 
                                 <button
                                     onClick={onClose}

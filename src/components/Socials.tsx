@@ -1,3 +1,4 @@
+import Interests from './Interests';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Youtube, Instagram } from 'lucide-react';
@@ -106,76 +107,8 @@ const Socials: React.FC<SocialsProps> = () => {
                 </div>
             </section>
 
-            {/* SECTION 2: Sub-content (Interests & Playlists) */}
-            <div className="container max-w-6xl mx-auto px-4 md:px-6 relative z-20 pb-24 space-y-24">
-                {/* Music Categories */}
-                {/* @ts-ignore */}
-                {resumeData.interests.music.categories.map((category: any, idx: number) => (
-                    <div key={idx} className="relative mb-16">
-                        <div className="flex items-center justify-between mb-8 relative">
-                            <h3 className="text-3xl font-bold text-white border-l-8 border-primary pl-6 py-2 bg-gradient-to-r from-primary/10 to-transparent rounded-r-xl w-full max-w-2xl">
-                                {category.title}
-                            </h3>
-
-                            {/* Caricatures */}
-                            {category.title.toLowerCase().includes('guitar') && (
-                                <motion.img
-                                    src={`${import.meta.env.BASE_URL}caricature_guitar.png`}
-                                    alt="Guitarist"
-                                    className="absolute right-0 -top-10 w-24 md:w-32 object-contain z-10 border border-white/10 rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)] bg-white/10 backdrop-blur-sm"
-                                    animate={{ rotate: [0, 5, 0], y: [0, -10, 0] }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
-                                />
-                            )}
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-20">
-                            {category.playlists.map((playlist: any, pIdx: number) => (
-                                <motion.div
-                                    key={pIdx}
-                                    className="glass-card overflow-hidden group"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: pIdx * 0.1 }}
-                                >
-                                    <div className="relative w-full aspect-video">
-                                        <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/videoseries?list=${playlist.id}`} title={playlist.title} frameBorder="0" allowFullScreen className="absolute inset-0"></iframe>
-                                    </div>
-                                    <div className="p-4 bg-white/5 flex justify-between items-center">
-                                        <h4 className="font-bold text-text group-hover:text-primary transition-colors text-sm line-clamp-2">{playlist.title}</h4>
-                                        <Youtube size={16} className="text-red-500" />
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-
-                {/* Instagram Section */}
-                <div className="pt-10 border-t border-border-card">
-                    <div className="p-6 md:p-8 rounded-2xl bg-surface-card border border-border-card flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div className="flex items-center gap-4">
-                            <div className="p-3 bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 rounded-2xl text-white shadow-lg">
-                                <Instagram size={28} />
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-bold text-text">Follow on Instagram</h3>
-                                <p className="text-xs text-text-muted font-mono">Real-time developer stories, music rehearsals, and tech updates.</p>
-                            </div>
-                        </div>
-                        <a
-                            href="https://www.instagram.com/manu.singh_001/"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-mono text-xs font-semibold hover:opacity-90 transition-all hover:scale-105 shadow-md shadow-pink-500/20"
-                        >
-                            @manu.singh_001
-                        </a>
-                    </div>
-                </div>
-            </div>
+                        {/* SECTION 2: Rich Media Player & Full Playlists */}
+            <Interests />
         </div>
     );
 };
