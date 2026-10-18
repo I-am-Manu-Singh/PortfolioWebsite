@@ -173,15 +173,7 @@ export const resumeData = {
             ],
             tags: ["Kotlin Multiplatform", "DSP Equalizer", "ExoPlayer", "VLC Pipeline", "Google Cast", "FFT Analyzer"]
         },
-        {
-            name: "Nitnem Gutka Steek",
-            description: "Sacred Gurbani reading and devotional learning companion built with Compose Multiplatform. Features authentic line-by-line Steek (meanings), first-letter phonetic search (Shabad Khoj), synchronized audio recitation, customizable Gurmukhi typography, and daily Nitnem streak tracking.",
-            logo: "/logos/nitnem.png",
-            links: [
-                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/NitnemGutkaSahib" }
-            ],
-            tags: ["Compose Multiplatform", "Offline SQLite", "GurbaniDB", "Habit Streaks", "Audio Sync"]
-        },
+
         {
             name: "ReconcAILe Hub (TallyPrime Automation)",
             description: "Enterprise accounting automation and desktop bridge synchronization platform for TallyPrime. Incorporates AI-powered invoice OCR extraction, automated bank reconciliation (BRS), XML ledger bi-directional syncing, and multi-entity financial analytics.",

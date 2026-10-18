@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, Rocket, Github, CheckCircle2 } from 'lucide-react';
+import { Play, Rocket, Github, CheckCircle2, Sparkles } from 'lucide-react';
 import SectionBackground from './SectionBackground';
 
 const apps = [
@@ -19,12 +19,14 @@ const apps = [
 ];
 
 const MobileLabs: React.FC = () => {
+    const bannerSrc = `${import.meta.env.BASE_URL}creativebliss_console_banner.png`;
+
     return (
         <section className="section bg-dark-card/20 relative overflow-hidden" id="mobile-labs">
             <SectionBackground variant="projects" />
 
             <div className="container relative z-10">
-                <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
+                <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -34,7 +36,7 @@ const MobileLabs: React.FC = () => {
                             Mobile <span className="gradient-text-animated">Labs</span>
                         </h2>
                         <p className="text-text-muted font-mono text-sm tracking-widest">
-                            // ACTIVE TESTING & PRODUCTION CANDIDATES
+                            // GOOGLE PLAY CONSOLE & ACTIVE PRODUCTION CANDIDATES
                         </p>
                     </motion.div>
 
@@ -46,10 +48,34 @@ const MobileLabs: React.FC = () => {
                     >
                         <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-xs font-mono text-primary-light">
                             <Rocket size={14} className="animate-bounce" />
-                            Google Play Testing Active
+                            Creative Bliss Labs · Active Track
                         </div>
                     </motion.div>
                 </div>
+
+                {/* Play Store Console Feature Banner */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mb-10 group relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black/40"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/90 via-transparent to-transparent z-10 pointer-events-none" />
+                    <img
+                        src={bannerSrc}
+                        alt="Creative Bliss Labs - Google Play Console Banner"
+                        className="w-full h-auto max-h-72 object-cover object-center group-hover:scale-[1.02] transition-transform duration-500"
+                    />
+                    <div className="absolute bottom-4 left-6 right-6 z-20 flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white text-xs font-mono">
+                            <Sparkles size={14} className="text-primary-light" />
+                            <span>Creative Bliss Labs · Android Ecosystem</span>
+                        </div>
+                        <span className="text-xs font-mono text-white/80 bg-black/60 px-3 py-1 rounded-full backdrop-blur-md border border-white/10 hidden sm:inline-block">
+                            Ideas · Products · A Better Everyday
+                        </span>
+                    </div>
+                </motion.div>
 
                 <div className="max-w-4xl mx-auto">
                     {apps.map((app, index) => (
