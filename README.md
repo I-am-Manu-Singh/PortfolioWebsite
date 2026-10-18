@@ -1,5 +1,10 @@
 # 🌐 Manpreet Singh — Interactive 3D Portfolio & Developer Showcase
 
+<p align="center">
+  <img src="public/creativebliss_console_banner.png" alt="Portfolio Website Logo" width="128" height="128" style="border-radius: 20%;" />
+</p>
+
+
 [![Live Demo](https://img.shields.io/badge/Live_Site-i--am--manu--singh.github.io-00E5FF.svg?logo=githubpages)](https://i-am-manu-singh.github.io/PortfolioWebsite/)
 [![React](https://img.shields.io/badge/React-19.2+-61DAFB.svg?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-3178C6.svg?logo=typescript)](https://www.typescriptlang.org/)
@@ -126,3 +131,49 @@ npm run build
 ## 👤 Author
 **Manpreet Singh** ([@I-am-Manu-Singh](https://github.com/I-am-Manu-Singh))  
 *Software Development Engineer & Mobile Specialist*
+
+
+---
+
+## 📱 App Screenshots
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center" width="25%">
+        <img src="screenshots/screenshot_1.png" alt="Screenshot 1" width="100%" /><br />
+        <b>1. Main Screen</b>
+      </td>
+      <td align="center" width="25%">
+        <img src="screenshots/screenshot_2.png" alt="Screenshot 2" width="100%" /><br />
+        <b>2. Core Experience</b>
+      </td>
+      <td align="center" width="25%">
+        <img src="screenshots/screenshot_3.png" alt="Screenshot 3" width="100%" /><br />
+        <b>3. Interactive Mode</b>
+      </td>
+      <td align="center" width="25%">
+        <img src="screenshots/screenshot_4.png" alt="Screenshot 4" width="100%" /><br />
+        <b>4. Advanced Features</b>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" width="25%">
+        <img src="screenshots/screenshot_5.png" alt="Screenshot 5" width="100%" /><br />
+        <b>5. Workflow / Details</b>
+      </td>
+      <td align="center" width="25%">
+        <img src="screenshots/screenshot_6.png" alt="Screenshot 6" width="100%" /><br />
+        <b>6. Studio Console</b>
+      </td>
+      <td align="center" width="25%">
+        <img src="screenshots/screenshot_7.png" alt="Screenshot 7" width="100%" /><br />
+        <b>7. Settings & Config</b>
+      </td>
+      <td align="center" width="25%">
+        <img src="screenshots/screenshot_8.png" alt="Screenshot 8" width="100%" /><br />
+        <b>8. Dark & Light Theme</b>
+      </td>
+    </tr>
+  </table>
+</p>
