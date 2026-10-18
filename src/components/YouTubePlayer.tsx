@@ -39,7 +39,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     const iframeIdRef = useRef<string>(`yt-player-${Math.random().toString(36).substring(2, 9)}`);
     const playerRef = useRef<any>(null);
 
-    const [isPlaying, setIsPlaying] = useState<boolean>(true);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [duration, setDuration] = useState<number>(0);
     const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -65,8 +65,13 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             if (window.YT && window.YT.Player) {
                 if (playerRef.current) {
                     try {
-                        playerRef.current.loadVideoById(videoId);
-                        setIsPlaying(true);
+                        // Cue video without auto-starting playback
+                        if (typeof playerRef.current.cueVideoById === 'function') {
+                            playerRef.current.cueVideoById(videoId);
+                        } else {
+                            playerRef.current.loadVideoById(videoId);
+                        }
+                        setIsPlaying(false);
                     } catch (e) {
                         console.error("YT load error:", e);
                     }
@@ -74,19 +79,20 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
                     playerRef.current = new window.YT.Player(iframeIdRef.current, {
                         videoId: videoId,
                         playerVars: {
-                            autoplay: 1,
+                            autoplay: 0,
                             playsinline: 1,
                             rel: 0,
                             controls: 0,
-                            disablekb: 0,
-                            fs: 1,
+                            disablekb: 1,
+                            fs: 0,
                             iv_load_policy: 3,
-                            modestbranding: 1
+                            modestbranding: 1,
+                            origin: window.location.origin
                         },
                         events: {
                             onReady: (event: any) => {
-                                event.target.playVideo();
-                                setIsPlaying(true);
+                                // Do NOT playVideo() automatically on load!
+                                setIsPlaying(false);
                                 setDuration(event.target.getDuration() || 0);
                             },
                             onStateChange: (event: any) => {
@@ -184,14 +190,41 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     return (
         <div ref={containerRef} className="flex flex-col h-full justify-between relative z-10">
             {/* Embedded Responsive Player */}
-            <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-xl mb-4 bg-black border border-dark">
-                {/* Scaled iframe with top/bottom crop to hide YouTube channel info & share/more buttons */}
-                <div className="absolute inset-0 overflow-hidden flex items-center justify-center">
+            <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-xl mb-4 bg-black border border-dark group select-none">
+                {/* Scaled iframe with top/bottom crop to completely conceal YouTube channel info & share overlays */}
+                <div className="absolute inset-0 overflow-hidden flex items-center justify-center pointer-events-none">
                     <div 
                         id={iframeIdRef.current} 
-                        className="w-[105%] h-[122%] -mt-[3%] pointer-events-auto" 
+                        className="w-[108%] h-[126%] -mt-[4%] pointer-events-none" 
                     />
                 </div>
+
+                {/* Transparent Interactive Click Mask: Intercepts all clicks so YouTube NEVER navigates away */}
+                <div 
+                    onClick={togglePlay}
+                    className="absolute inset-0 z-10 cursor-pointer flex items-center justify-center bg-black/10 hover:bg-black/25 transition-colors"
+                    title={isPlaying ? "Click to Pause" : "Click to Play"}
+                >
+                    {!isPlaying && (
+                        <div className="w-14 h-14 rounded-full bg-primary/90 text-white flex items-center justify-center shadow-2xl backdrop-blur-md transform group-hover:scale-110 transition-transform">
+                            <Play size={24} fill="white" className="ml-1" />
+                        </div>
+                    )}
+                </div>
+
+                {/* Expand to Theater Modal Dialog Button */}
+                <button
+                    type="button"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setIsFullscreenModal(true);
+                    }}
+                    className="absolute top-2.5 right-2.5 p-2 rounded-lg bg-dark/90 backdrop-blur-md text-text hover:text-white border border-dark hover:border-primary/50 shadow-xl opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-20 flex items-center gap-1.5 text-xs font-mono"
+                    title="Open In-Dialog Theater Mode"
+                >
+                    <Maximize2 size={13} />
+                    <span>Theater</span>
+                </button>
             </div>
 
             {/* Now Playing Info */}

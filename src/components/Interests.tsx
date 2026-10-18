@@ -497,14 +497,9 @@ const Interests: React.FC = () => {
 
                             <div className="p-3 rounded-xl bg-dark-card border border-dark mt-4 flex items-center justify-between text-xs font-mono text-text-muted">
                                 <span>{activeSubPlaylist.name}</span>
-                                <a
-                                    href={`https://www.youtube.com/playlist?list=${activeSubPlaylist.playlistId}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-primary hover:underline font-bold"
-                                >
-                                    Open Full Playlist →
-                                </a>
+                                <span className="text-primary font-bold">
+                                    {activeSubPlaylist.videos.length} Videos Available
+                                </span>
                             </div>
                         </div>
 
