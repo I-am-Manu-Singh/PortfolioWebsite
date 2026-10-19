@@ -62,59 +62,82 @@ export const VideoTheaterProvider: React.FC<{ children: React.ReactNode }> = ({ 
         }
     }, []);
 
+    // Clean up player on close or unmount
+    const destroyPlayer = () => {
+        if (playerRef.current) {
+            try {
+                if (typeof playerRef.current.destroy === 'function') {
+                    playerRef.current.destroy();
+                }
+            } catch (e) {
+                console.error("YT destroy error:", e);
+            }
+            playerRef.current = null;
+        }
+    };
+
     // Create or update player whenever container or video changes
     const initOrLoadPlayer = (videoId: string) => {
         if (!containerNodeRef.current) return;
 
         if (window.YT && window.YT.Player) {
-            if (playerRef.current) {
+            // If player already exists and is connected
+            if (playerRef.current && typeof playerRef.current.loadVideoById === 'function') {
                 try {
                     playerRef.current.loadVideoById(videoId);
                     setIsPlaying(true);
+                    return;
                 } catch (e) {
-                    console.error("YT load error:", e);
+                    console.error("YT load error, recreating:", e);
+                    destroyPlayer();
                 }
-            } else {
-                // Ensure unique mount target
-                let mountDiv = containerNodeRef.current.querySelector('#yt-theater-iframe');
-                if (!mountDiv) {
-                    mountDiv = document.createElement('div');
-                    mountDiv.id = 'yt-theater-iframe';
-                    mountDiv.className = 'w-full h-full object-cover';
-                    containerNodeRef.current.appendChild(mountDiv);
-                }
+            }
 
-                playerRef.current = new window.YT.Player('yt-theater-iframe', {
-                    videoId: videoId,
-                    playerVars: {
-                        autoplay: 1,
-                        playsinline: 1,
-                        rel: 0,
-                        controls: 0,
-                        disablekb: 1,
-                        fs: 0,
-                        iv_load_policy: 3,
-                        modestbranding: 1,
-                        origin: window.location.origin
-                    },
-                    events: {
-                        onReady: (event: any) => {
-                            event.target.playVideo();
-                            setIsPlaying(true);
-                            setDuration(event.target.getDuration() || 0);
+            // Clean container
+            if (containerNodeRef.current) {
+                containerNodeRef.current.innerHTML = '';
+                const mountDiv = document.createElement('div');
+                mountDiv.id = 'yt-theater-iframe';
+                mountDiv.className = 'w-full h-full';
+                containerNodeRef.current.appendChild(mountDiv);
+
+                try {
+                    playerRef.current = new window.YT.Player('yt-theater-iframe', {
+                        videoId: videoId,
+                        playerVars: {
+                            autoplay: 1,
+                            playsinline: 1,
+                            rel: 0,
+                            controls: 0,
+                            disablekb: 1,
+                            fs: 0,
+                            iv_load_policy: 3,
+                            modestbranding: 1,
+                            origin: window.location.origin
                         },
-                        onStateChange: (event: any) => {
-                            if (event.data === 1) {
+                        events: {
+                            onReady: (event: any) => {
+                                try {
+                                    event.target.playVideo();
+                                } catch {}
                                 setIsPlaying(true);
-                            } else if (event.data === 2) {
-                                setIsPlaying(false);
-                            } else if (event.data === 0) {
-                                setIsPlaying(false);
-                                nextVideo();
+                                setDuration(event.target.getDuration() || 0);
+                            },
+                            onStateChange: (event: any) => {
+                                if (event.data === 1) {
+                                    setIsPlaying(true);
+                                } else if (event.data === 2) {
+                                    setIsPlaying(false);
+                                } else if (event.data === 0) {
+                                    setIsPlaying(false);
+                                    nextVideo();
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                } catch (err) {
+                    console.error("Error creating YT Player:", err);
+                }
             }
         } else {
             setTimeout(() => initOrLoadPlayer(videoId), 200);
@@ -149,19 +172,15 @@ export const VideoTheaterProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
         setTimeout(() => {
             initOrLoadPlayer(video.id);
-        }, 100);
+        }, 150);
     };
 
     const closeTheater = () => {
-        if (playerRef.current && typeof playerRef.current.pauseVideo === 'function') {
-            try {
-                playerRef.current.pauseVideo();
-            } catch (e) {
-                console.error(e);
-            }
-        }
+        destroyPlayer();
         setIsPlaying(false);
         setIsOpen(false);
+        setCurrentTime(0);
+        setDuration(0);
         document.body.style.overflow = '';
     };
 
@@ -223,6 +242,9 @@ export const VideoTheaterProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     const containerRef = (node: HTMLDivElement | null) => {
         containerNodeRef.current = node;
+        if (node && currentVideo) {
+            initOrLoadPlayer(currentVideo.id);
+        }
     };
 
     return (

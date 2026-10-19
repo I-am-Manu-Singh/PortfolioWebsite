@@ -84,11 +84,11 @@ const VideoTheaterModal: React.FC = () => {
                 {/* Video Container Area */}
                 <div className="relative flex-1 min-h-[320px] bg-black flex items-center justify-center overflow-hidden group">
                     <div className={`w-full h-full relative overflow-hidden flex items-center justify-center transition-all duration-700 ease-out ${
-                        isCropped ? 'scale-[1.12]' : 'scale-100'
+                        isCropped ? 'scale-[1.08]' : 'scale-100'
                     }`}>
                         <div
                             ref={containerRef}
-                            className="w-full h-full flex items-center justify-center pointer-events-none"
+                            className="w-full h-full flex items-center justify-center [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0 pointer-events-none"
                         />
                     </div>
 
