@@ -22,24 +22,6 @@ const VideoTheaterModal: React.FC = () => {
         containerRef
     } = useVideoTheater();
 
-    const [isCropped, setIsCropped] = useState(true);
-    const cropTimeoutRef = useRef<any>(null);
-
-    // Dynamic uncrop
-    useEffect(() => {
-        if (isPlaying) {
-            cropTimeoutRef.current = setTimeout(() => {
-                setIsCropped(false);
-            }, 3000);
-        } else {
-            if (cropTimeoutRef.current) clearTimeout(cropTimeoutRef.current);
-            setIsCropped(true);
-        }
-        return () => {
-            if (cropTimeoutRef.current) clearTimeout(cropTimeoutRef.current);
-        };
-    }, [isPlaying, currentVideo?.id]);
-
     if (!isOpen || !currentVideo) return null;
 
     const formatTime = (secs: number) => {
@@ -82,15 +64,11 @@ const VideoTheaterModal: React.FC = () => {
                 </div>
 
                 {/* Video Container Area */}
-                <div className="relative flex-1 min-h-[320px] bg-black flex items-center justify-center overflow-hidden group">
-                    <div className={`w-full h-full relative overflow-hidden flex items-center justify-center transition-all duration-700 ease-out ${
-                        isCropped ? 'scale-[1.08]' : 'scale-100'
-                    }`}>
-                        <div
-                            ref={containerRef}
-                            className="w-full h-full flex items-center justify-center [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0 pointer-events-none"
-                        />
-                    </div>
+                <div className="relative flex-1 min-h-[320px] bg-black flex items-center justify-center overflow-hidden">
+                    <div
+                        ref={containerRef}
+                        className="w-full h-full flex items-center justify-center [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0 pointer-events-none"
+                    />
 
                     {/* Click Interceptor to Toggle Play/Pause */}
                     <div

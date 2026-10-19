@@ -169,10 +169,6 @@ export const VideoTheaterProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setCurrentIndex(idx >= 0 ? idx : 0);
         setIsOpen(true);
         document.body.style.overflow = 'hidden';
-
-        setTimeout(() => {
-            initOrLoadPlayer(video.id);
-        }, 150);
     };
 
     const closeTheater = () => {
