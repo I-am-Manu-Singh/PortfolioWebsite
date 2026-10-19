@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { useVideoTheater } from '../context/VideoTheaterContext';
 import { Play, Pause, SkipForward, SkipBack, Minimize2, Volume2, VolumeX, X } from 'lucide-react';
 
