@@ -122,6 +122,35 @@ export const resumeData = {
     ],
             projects: [
         {
+            name: "Staff & Tab Notation Viewer (KMP)",
+            description: "Production-grade Kotlin Multiplatform Compose component for musical staff (treble/bass grand staff) and guitar/bass tablature notation. Features real-time active MIDI playback cursor, sounding pitch glow, MusicXML/MIDI parsers, and complete guitar articulation semantics.",
+            logo: "/logos/peq-learn.png",
+            links: [
+                { label: "Maven Central", url: "https://central.sonatype.com/artifact/io.github.i-am-manu-singh/staff-tab-notation/overview" },
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/staff-tab-notation" }
+            ],
+            tags: ["Kotlin Multiplatform", "Compose Multiplatform", "Maven Central", "MusicXML Parser", "MIDI Parser", "Audio Notation"]
+        },
+        {
+            name: "WearFlex (Wear OS Toolkit)",
+            description: "Lightweight, high-performance Wear OS developer library designed for wearable fitness trackers, smartwatch micro-interactions, rotary crown scrolling, ambient power saving, and biometric sensors.",
+            logo: "/logos/omnimind.png",
+            links: [
+                { label: "JitPack", url: "https://jitpack.io/#I-am-Manu-Singh/wearflex/1.1.0" },
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/wearflex" }
+            ],
+            tags: ["Wear OS", "Jetpack Compose", "Horology", "Biometrics", "Rotary Input", "JitPack"]
+        },
+        {
+            name: "WearProductivity (Smartwatch Suite)",
+            description: "Modern productivity ecosystem tailored for Wear OS smartwatches featuring custom curved Glance tiles, watch face complications, interval micro-timers, task scheduling, and ultra-low power haptic feedback loops.",
+            logo: "/logos/reconcaile.png",
+            links: [
+                { label: "GitHub Repo", url: "https://github.com/I-am-Manu-Singh/WearProductivity" }
+            ],
+            tags: ["Wear OS", "Glance Tiles", "Complications", "Micro-Timers", "Haptics", "Kotlin"]
+        },
+        {
             name: "pEQ Learn (Universal DAW & Academy)",
             description: "Compose Multiplatform digital audio workstation and interactive music academy. Features an 88-key synthesia waterfall piano with 3D shaders, real-time 6-stem neural AI isolation (ONNX), Radel digital Tanpura & Tabla machine, microtonal tuning, and multi-track MusicXML/MIDI scoring engine.",
             logo: "/logos/peq-learn.png",
