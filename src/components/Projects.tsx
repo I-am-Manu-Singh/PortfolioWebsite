@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Code, Smartphone } from 'lucide-react';
+import { Github, ExternalLink, Code, Smartphone, Package } from 'lucide-react';
 import { resumeData } from '../data/resume';
 import { useTheme } from '../context/ThemeContext';
 import SectionBackground from './SectionBackground';
@@ -171,6 +171,92 @@ const Projects: React.FC = () => {
                         );
                     })}
                 </motion.div>
+
+                {/* Minimal Open Source Contributions & Published Libraries Section */}
+                {resumeData.openSource && resumeData.openSource.length > 0 && (
+                    <div className="mt-20 pt-12 border-t border-dark/60">
+                        <div className="text-center max-w-2xl mx-auto mb-10">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono text-primary-light mb-3">
+                                <Package size={14} />
+                                <span>Published Packages & Toolkits</span>
+                            </div>
+                            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-text">
+                                Open Source <span className="gradient-text-animated">Contributions</span>
+                            </h3>
+                            <p className="text-text-muted text-xs sm:text-sm mt-2">
+                                Lightweight, production-grade developer libraries published on Maven Central & JitPack.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                            {resumeData.openSource.map((lib, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 15 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: idx * 0.1 }}
+                                    className="p-6 rounded-2xl bg-dark/40 border border-dark hover:border-primary/40 hover:bg-dark/70 transition-all duration-300 flex flex-col group backdrop-blur-sm"
+                                >
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <div className="w-12 h-12 rounded-xl bg-dark-card/60 p-1.5 border border-dark flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                            <img
+                                                src={`${import.meta.env.BASE_URL}${lib.logo.replace(/^\//, '')}`}
+                                                alt={lib.name}
+                                                className="w-full h-full object-contain rounded-lg"
+                                                onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
+                                            />
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="font-semibold text-base text-text group-hover:text-primary-light transition-colors truncate">
+                                                {lib.name}
+                                            </h4>
+                                            <span className="text-[11px] font-mono text-secondary-light">
+                                                Active Library
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <p className="text-text-muted text-xs sm:text-sm mb-5 leading-relaxed font-normal">
+                                        {lib.description}
+                                    </p>
+
+                                    <div className="mt-auto pt-4 border-t border-dark/60 flex flex-col gap-3">
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {lib.tags.map((tag, tIdx) => (
+                                                <span
+                                                    key={tIdx}
+                                                    className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.03] text-text-muted border border-dark/80"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex items-center gap-2 pt-2">
+                                            {lib.links.map((link, lIdx) => (
+                                                <a
+                                                    key={lIdx}
+                                                    href={link.url}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className={`inline-flex items-center gap-1.5 text-xs font-mono font-medium px-3 py-1.5 rounded-lg border transition-all ${
+                                                        link.label.includes('Maven') || link.label.includes('JitPack')
+                                                            ? 'bg-primary/15 text-primary-light border-primary/30 hover:bg-primary/25'
+                                                            : 'bg-white/5 text-text-muted hover:text-white border-dark hover:border-white/20'
+                                                    }`}
+                                                >
+                                                    {link.label.includes('GitHub') ? <Github size={13} /> : <ExternalLink size={13} />}
+                                                    <span>{link.label}</span>
+                                                </a>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );
