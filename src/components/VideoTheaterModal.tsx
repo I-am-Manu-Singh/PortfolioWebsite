@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useVideoTheater } from '../context/VideoTheaterContext';
 import { Play, Pause, SkipForward, SkipBack, Minimize2, Volume2, VolumeX, X } from 'lucide-react';
 
@@ -22,6 +23,21 @@ const VideoTheaterModal: React.FC = () => {
         containerRef
     } = useVideoTheater();
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!isOpen) return;
+            if (e.key === 'Escape') {
+                closeTheater();
+            } else if (e.key === ' ' || e.code === 'Space') {
+                e.preventDefault();
+                togglePlay();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, togglePlay, closeTheater]);
+
     if (!isOpen || !currentVideo) return null;
 
     const formatTime = (secs: number) => {
@@ -33,16 +49,16 @@ const VideoTheaterModal: React.FC = () => {
 
     const progressPercent = duration > 0 ? Math.min(100, Math.max(0, (currentTime / duration) * 100)) : 0;
 
-    return (
-        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-3 sm:p-6 md:p-10">
+    const modalContent = (
+        <div className="fixed inset-0 z-[2147483647] flex items-center justify-center p-3 sm:p-6 md:p-10 pointer-events-auto select-none">
             {/* Backdrop */}
             <div
                 onClick={closeTheater}
-                className="fixed inset-0 bg-black/85 backdrop-blur-2xl transition-opacity cursor-pointer z-0"
+                className="fixed inset-0 bg-black/90 backdrop-blur-2xl transition-opacity cursor-pointer z-0"
             />
 
             {/* Modal Box */}
-            <div className="relative z-10 w-full max-w-6xl max-h-[92vh] h-full flex flex-col rounded-2xl bg-dark-card border border-dark shadow-2xl overflow-hidden animate-scale-up">
+            <div className="relative z-10 w-full max-w-6xl max-h-[92vh] h-full flex flex-col rounded-2xl bg-dark-card border border-dark shadow-2xl overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between px-5 py-3.5 bg-dark border-b border-dark shrink-0">
                     <div className="flex items-center gap-3 truncate pr-4">
@@ -72,7 +88,10 @@ const VideoTheaterModal: React.FC = () => {
 
                     {/* Click Interceptor to Toggle Play/Pause */}
                     <div
-                        onClick={togglePlay}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            togglePlay();
+                        }}
                         className="absolute inset-0 z-10 cursor-pointer flex items-center justify-center bg-black/0 hover:bg-black/10 transition-colors"
                         title={isPlaying ? "Click to Pause" : "Click to Play"}
                     >
@@ -159,7 +178,10 @@ const VideoTheaterModal: React.FC = () => {
 
                             <button
                                 type="button"
-                                onClick={togglePlay}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    togglePlay();
+                                }}
                                 className="p-3 bg-primary hover:bg-primary-light text-white rounded-full transition-all hover:scale-105 shadow-md shadow-primary/25 cursor-pointer flex items-center justify-center"
                                 title={isPlaying ? "Pause" : "Play"}
                             >
@@ -190,6 +212,8 @@ const VideoTheaterModal: React.FC = () => {
             </div>
         </div>
     );
+
+    return createPortal(modalContent, document.body);
 };
 
 export default VideoTheaterModal;

@@ -169,6 +169,7 @@ export const VideoTheaterProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setCurrentIndex(idx >= 0 ? idx : 0);
         setIsOpen(true);
         document.body.style.overflow = 'hidden';
+        document.body.classList.add('theater-active');
     };
 
     const closeTheater = () => {
@@ -178,6 +179,7 @@ export const VideoTheaterProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setCurrentTime(0);
         setDuration(0);
         document.body.style.overflow = '';
+        document.body.classList.remove('theater-active');
     };
 
     const nextVideo = () => {

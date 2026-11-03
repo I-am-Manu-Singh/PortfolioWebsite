@@ -206,6 +206,15 @@ body.theater-active nav {
 }
 
 body.theater-active .caricature-element,
-body.theater-active section:not(#tech-tutorials) {
+body.theater-active img[src*="caricature"],
+body.theater-active #chatbot-trigger,
+body.theater-active .theme-toggle-btn {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+body.theater-active main,
+body.theater-active section {
   pointer-events: none !important;
 }
